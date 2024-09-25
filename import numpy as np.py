@@ -17,4 +17,6 @@ sns.scatterplot(data=data, x='x', y='y')
 # Display the plot
 plt.show()
 
-# Your code goes here
+# Your actual code goes here
+# For example:
+print("Hello, world!")
