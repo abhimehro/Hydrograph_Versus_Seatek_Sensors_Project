@@ -1,11 +1,11 @@
-import pytest
 import pandas as pd
 import seaborn as sns
 from pandas.testing import assert_frame_equal
-# Remove the import statement if it is not needed
-
 import matplotlib.pyplot as plt
+import pytest
 
+# Remove or modify the import statement for set_color_codes if it is not needed
+# from seaborn.rcmod import set_color_codes
 
 @pytest.fixture
 def sample_data():
@@ -14,38 +14,31 @@ def sample_data():
         'y': [5, 4, 3, 2, 1]
     })
 
-def test_data_loading(sample_data, tmpdir):
-    # Save sample data to a temporary CSV file
-    csv_file = tmpdir.join('data.csv')
-    sample_data.to_csv(csv_file, index=False)
+@pytest.fixture
+def tmp_path(tmpdir):
+    return tmpdir
 
-    # Load the data using the script
-    loaded_data = pd.read_csv(csv_file)
-
-    # Check if the loaded data matches the sample data
-    assert_frame_equal(loaded_data, sample_data)
-
-def test_data_saving(sample_data, tmpdir):
-    # Save sample data to a temporary CSV file
-    csv_file = tmpdir.join('data.csv')
+@pytest.mark.usefixtures("sample_data", "tmp_path")
+def test_data_saving(sample_data, tmp_path):
+    csv_file = tmp_path / 'data.csv'
     sample_data.to_csv(csv_file, index=False)
 
     # Load the data using the script
     loaded_data = pd.read_csv(csv_file)
 
     # Save the loaded data to an Excel file
-    excel_file = tmpdir.join('output.xlsx')
+    excel_file = tmp_path / 'output.xlsx'
     loaded_data.to_excel(excel_file, index=False)
 
     # Load the data back from the Excel file
     saved_data = pd.read_excel(excel_file)
 
     # Check if the saved data matches the loaded data
-    assert_frame_equal(saved_data, loaded_data)
+    assert_frame_equal(loaded_data, saved_data)
 
-def test_plot_generation(sample_data, tmpdir, monkeypatch):
-    # Save sample data to a temporary CSV file
-    csv_file = tmpdir.join('data.csv')
+@pytest.mark.usefixtures("sample_data", "tmp_path", "monkeypatch")
+def test_plot_generation(sample_data, tmp_path, monkeypatch):
+    csv_file = tmp_path / 'data.csv'
     sample_data.to_csv(csv_file, index=False)
 
     # Load the data using the script
@@ -60,9 +53,11 @@ def test_plot_generation(sample_data, tmpdir, monkeypatch):
 
     # Check if the plot was generated (this is a basic check)
     # Save the plot to a temporary file
-    plot_file = tmpdir.join('plot.png')
+    plot_file = tmp_path / 'plot.png'
     plt.savefig(plot_file)
 
     # Check if the plot file was created
-    assert plot_file.check(file=1)
-# No changes needed, just remove the extraneous backticks```
+    assert plot_file.exists()
+
+    # Close the plot
+    plt.close()
