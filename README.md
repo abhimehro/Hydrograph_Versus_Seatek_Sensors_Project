@@ -23,14 +23,14 @@ Hydrograph-Versus-Seatek-Sensors-Project/
  cd Hydrograph-Versus-Seatek-Sensors-Project
  ```
 
-1. Create a virtual environment:
+2. Create a virtual environment:
 
  ```bash
  python -m venv venv
  source venv/bin/activate # On Windows use venv\Scripts\activate.bat
  ```
 
-1. Install required packages:
+3. Install required packages:
 
  ```bash
  pip install -r requirements.txt
@@ -45,7 +45,7 @@ Hydrograph-Versus-Seatek-Sensors-Project/
  python scripts/process_data.py
  ```
 
-1. View generated visualizations in the `visualizations/` directory.
+3. View generated visualizations in the `visualizations/` directory.
 
 ## Contributing
 
