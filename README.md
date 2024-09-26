@@ -17,8 +17,6 @@ Hydrograph-Versus-Seatek-Sensors-Project/
 ## Setup
 
 1. Clone the repository:
-git clone <https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project.git>
-cd Hydrograph-Versus-Seatek-Sensors-Project
 
 2. Create a virtual environment:
 python -m venv venv
