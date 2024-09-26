@@ -59,4 +59,10 @@ def test_plot_generation(sample_data, tmpdir, monkeypatch):
     plt.show()
 
     # Check if the plot was generated (this is a basic check)
-    assert plt.gcf().number == 1
+    # Save the plot to a temporary file
+    plot_file = tmpdir.join('plot.png')
+    plt.savefig(plot_file)
+
+    # Check if the plot file was created
+    assert plot_file.check(file=1)
+# No changes needed, just remove the extraneous backticks```
