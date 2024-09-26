@@ -77,3 +77,9 @@ ENV/
 
 # VSCode settings
 .vscode/
+
+# Project-specific
+data/raw/*.xlsx
+data/processed/*.csv
+charts/*.png
+logs/

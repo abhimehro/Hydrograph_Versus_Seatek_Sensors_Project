@@ -3,5 +3,4 @@ matplotlib==3.4.3
 seaborn==0.11.2
 numpy==1.22.0
 openpyxl==3.0.9
-pytest==6.2.5
-jupyter==1.0.0
+PyYAML==5.4.1
