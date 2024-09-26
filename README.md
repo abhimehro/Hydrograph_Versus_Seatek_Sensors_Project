@@ -1,18 +1,22 @@
 # Hydrograph-Versus-Seatek-Sensors-Project
 
-This project analyzes and visualizes data from Seatek sensors in relation to hydrograph measurements across various River Miles (RMs).
+This project analyzes and visualizes data from Seatek sensors in relation to hydrograph measurements across various River Miles (RMs) along a river system.
+
+## Project Overview
+
+The project processes data for multiple River Miles, each with a varying number of sensors, and generates charts comparing sensor data with hydrograph measurements over a 20-year period.
 
 ## Project Structure
 
 Hydrograph-Versus-Seatek-Sensors-Project/
 ├── data/
-│ ├── raw/ # Original, unmodified CSV files
-│ └── processed/ # Cleaned or transformed data files
+│   ├── raw/ # Original Excel files
+│   └── processed/ # Processed CSV files
 ├── scripts/ # Python scripts for data processing and analysis
-├── analysis/ # Jupyter notebooks or R Markdown files
-├── visualizations/ # Generated plots and charts
-├── docs/ # Project documentation and reports
-└── tests/ # Unit tests for scripts
+├── charts/ # Generated chart images
+├── docs/ # Project documentation
+└── tests/ # Unit tests
+
 
 ## Setup
 
@@ -45,7 +49,11 @@ pip install -r requirements.txt
 python scripts/process_data.py
 ```
 
-3. View generated visualizations in the `visualizations/` directory.
+3. View generated charts in the `charts/` directory.
+
+## Configuration
+
+Edit the `config.yaml` file to adjust settings such as River Miles, sensor configurations, and chart parameters.
 
 ## Contributing
 
