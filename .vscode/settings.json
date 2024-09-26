@@ -9,5 +9,8 @@
     "python.testing.pytestEnabled": false,
     "python.testing.unittestEnabled": true,
     "gitlens.views.repositories.compact": false,
-    "gitlens.views.repositories.files.compact": false
+    "gitlens.views.repositories.files.compact": false,
+    "yaml.schemas": {
+        "https://static.trunk.io/pub/trunk-yaml-schema.json": "file:///Users/abhimehrotra/Hydrograph-Versus-Seatek-Sensors-Project-1/.trunk/trunk.yaml"
+    }
 }
