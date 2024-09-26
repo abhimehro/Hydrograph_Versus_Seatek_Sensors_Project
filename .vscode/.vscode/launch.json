@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "type": "r",
+      "request": "launch",
+      "name": "Launch R Program",
+      "program": "${workspaceFolder}/${input:scriptName}.R"
+    }
+  ],
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "scriptName",
+      "description": "Name of your R script"
+    }
+  ]
+}
