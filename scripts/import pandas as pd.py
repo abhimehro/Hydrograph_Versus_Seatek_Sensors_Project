@@ -1,83 +1,75 @@
-import logging
+import glob
 import os
-from concurrent.futures import ProcessPoolExecutor
 
-import matplotlib.pyplot as plt
 import pandas as pd
-import yaml
 
-# Set up logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def load_config(config_file='config.yaml'):
-    with open(config_file, 'r') as file:
-        return yaml.safe_load(file)
-
-def process_file(file_path, rm):
+def process_rm_file(file_path):
+    # Extract RM from filename
     try:
-        logging.info(f"Processing file: {file_path}")
-        df = pd.read_excel(file_path, sheet_name=None)
+        rm = float(file_path.split("-")[1])
+    except (IndexError, ValueError) as e:
+        print(f"Error extracting RM from filename {file_path}: {e}")
+        return pd.DataFrame()
 
-        processed_data = []
-        for year in range(1, 21):  # Process 20 years
-            sheet_name = f"Year{year}"
-            if sheet_name in df:
-                year_data = df[sheet_name]
-                year_data['Year'] = year
-                year_data['RM'] = rm
-                processed_data.append(year_data)
-            else:
-                logging.warning(f"Sheet {sheet_name} not found in {file_path}")
-
-        return pd.concat(processed_data, ignore_index=True)
+    # Read the Excel file
+    try:
+        df = pd.read_excel(file_path, header=1)
     except Exception as e:
-        logging.error(f"Error processing file {file_path}: {str(e)}")
-        return None
+        print(f"Error reading Excel file {file_path}: {e}")
+        return pd.DataFrame()
 
-def create_chart(data, rm, year, sensor, chart_config):
-    fig, ax1 = plt.subplots(figsize=chart_config['figsize'])
+    # Get list of sensors
+    sensors = [col.split()[1] for col in df.columns if col.startswith("Sensor")]
 
-    ax2 = ax1.twinx()
+    # Process data for each year and sensor
+    processed_data = []
+    for year in range(1, 21):
+        for sensor in sensors:
+            try:
+                year_data = df[
+                    [
+                        "Time (Seconds)",
+                        f"Hydrograph (Lagged) for Y{year:02d}",
+                        f"Sensor {sensor} for Y{year:02d}",
+                    ]
+                ]
+                year_data["Year"] = year
+                year_data["Sensor"] = sensor
+                year_data["RM"] = rm
+                year_data = year_data.rename(
+                    columns={
+                        f"Hydrograph (Lagged) for Y{year:02d}": "Hydrograph",
+                        f"Sensor {sensor} for Y{year:02d}": "Sensor_Value",
+                    }
+                )
+                processed_data.append(year_data)
+            except KeyError as e:
+                print(f"Missing column in file {file_path}: {e}")
+                continue
 
-    year_data = data[(data['RM'] == rm) & (data['Year'] == year)]
+    return (
+        pd.concat(processed_data, ignore_index=True)
+        if processed_data
+        else pd.DataFrame()
+    )
 
-    ax1.plot(year_data['Time (Seconds)'], year_data[f'Hydrograph (Lagged) for Y{year:02d}'],
-             color=chart_config['hydrograph_color'], label='Hydrograph (Lagged)')
-    ax2.plot(year_data['Time (Seconds)'], year_data[f'Sensor {sensor} for Y{year:02d}'],
-             color=chart_config['sensor_color'], label=f'Sensor {sensor}')
 
-    ax1.set_xlabel('Time (in seconds)')
-    ax1.set_ylabel('Hydrograph Flow Rate (GPM)', color=chart_config['hydrograph_color'])
-    ax2.set_ylabel('Sediment Bed Levels (NAVD88)', color=chart_config['sensor_color'])
+# Process all Excel files in the data directory
+data_dir = "/Users/abhimehrotra/Hydrograph-Versus-Seatek-Sensors-Project/data"
+if not os.path.isdir(data_dir):
+    print(f"Data directory {data_dir} does not exist.")
+    exit(1)
 
-    plt.title(f'RM {rm} - Sensor {sensor} vs. Hydrograph - Year {year}')
-    fig.legend(loc='upper right', bbox_to_anchor=(1, 1), bbox_transform=ax1.transAxes)
+all_data = []
 
-    plt.tight_layout()
-    output_file = f'charts/RM_{rm}_Sensor_{sensor}_Year_{year}.png'
-    plt.savefig(output_file, dpi=chart_config['dpi'])
-    plt.close()
-    logging.info(f"Chart saved: {output_file}")
+for file in glob.glob(os.path.join(data_dir, "RM-*.xlsx")):
+    all_data.append(process_rm_file(file))
 
-def process_rm(rm, file_path, config):
-    data = process_file(file_path, rm)
-    if data is not None:
-        for year in range(1, 21):
-            for sensor in config['rm_sensors'][str(rm)]:
-                create_chart(data, rm, year, sensor, config['chart'])
-
-def main():
-    config = load_config()
-    os.makedirs('charts', exist_ok=True)
-
-    with ProcessPoolExecutor() as executor:
-        futures = []
-        for rm, file_name in config['rm_files'].items():
-            file_path = os.path.join(config['data_dir'], file_name)
-            futures.append(executor.submit(process_rm, float(rm), file_path, config))
-
-        for future in futures:
-            future.result()
-
-if __name__ == "__main__":
-    main()
+# Combine all processed data
+if all_data:
+    combined_data = pd.concat(all_data, ignore_index=True)
+    # Save the combined data
+    combined_data.to_csv("all_rm_data.csv", index=False)
+else:
+    print("No data processed.")

@@ -10,12 +10,22 @@ The project processes data for multiple River Miles, each with a varying number 
 
 Hydrograph-Versus-Seatek-Sensors-Project/
 ├── data/
-│   ├── raw/ # Original Excel files
-│   └── processed/ # Processed CSV files
-├── scripts/ # Python scripts for data processing and analysis
-├── charts/ # Generated chart images
-├── docs/ # Project documentation
-└── tests/ # Unit tests
+│ ├── raw/ # Original Excel files
+│ └── processed/ # Processed CSV files
+├── scripts/
+│ ├── main.py
+│ ├── data_loader.py
+│ ├── data_processor.py
+│ └── visualizer.py
+├── output/
+│ └── charts/ # Generated chart images
+├── tests/
+│ └── test_data_processor.py
+├── docs/
+├── .gitignore
+├── README.md
+├── requirements.txt
+└── config.yaml
 
 ## Setup
 
@@ -26,14 +36,14 @@ git clone https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project.
 cd Hydrograph-Versus-Seatek-Sensors-Project
 ```
 
-1. Create a virtual environment:
+2. Create and activate a virtual environment:
 
 ```bash
 python -m venv venv
 source venv/bin/activate # On Windows use venv\Scripts\activate.bat
 ```
 
-1. Install required packages:
+3. Install required packages:
 
 ```bash
 pip install -r requirements.txt
@@ -41,18 +51,23 @@ pip install -r requirements.txt
 
 ## Usage
 
-1. Place raw data files in the `data/raw/` directory.
-2. Run data processing script:
+1. Place raw Excel files in the `data/raw/` directory.
+
+2. Run the main script:
 
 ```bash
-python scripts/process_data.py
+python scripts/main.py
 ```
 
-1. View generated charts in the `charts/` directory.
+3. View processed data in `data/processed/` and generated charts in `output/charts/`.
+
+## Running Tests
+
+To run the unit tests:
 
 ## Configuration
 
-Edit the `config.yaml` file to adjust settings such as River Miles, sensor configurations, and chart parameters.
+Edit the `config.yaml` file to adjust settings such as data directory paths, River Miles, sensor configurations, and chart parameters.
 
 ## Contributing
 

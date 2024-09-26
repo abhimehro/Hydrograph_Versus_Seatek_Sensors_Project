@@ -21,11 +21,13 @@ We welcome contributions to the Hydrograph-Versus-Seatek-Sensors-Project! This d
 
 - Add unit tests for new functionality.
 - Ensure all tests pass before submitting a pull request.
+- Run the test suite using `pytest` in the project root directory.
 
 ## Documentation
 
 - Update the README.md file if you've added new features or changed functionality.
 - Document any new functions or classes using docstrings.
+- Update or add comments in the code where necessary.
 
 ## Pull Request Process
 
@@ -34,8 +36,14 @@ We welcome contributions to the Hydrograph-Versus-Seatek-Sensors-Project! This d
 3. Increase the version numbers in any examples files and the README.md to the new version that this Pull Request would represent.
 4. Your pull request will be reviewed by the maintainers, who may request changes or provide feedback.
 
+## Reporting Issues
+
+- Use the GitHub issue tracker to report bugs or suggest enhancements.
+- Clearly describe the issue, including steps to reproduce for bugs.
+- Include any relevant code snippets or error messages.
+
 ## Code of Conduct
 
-Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
+Please note that this project is released with a Contributor Code of Conduct. By participating in this project, you agree to abide by its terms.
 
 Thank you for contributing to the Hydrograph-Versus-Seatek-Sensors-Project!
