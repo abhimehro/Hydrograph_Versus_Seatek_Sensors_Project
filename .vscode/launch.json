@@ -1,0 +1,18 @@
+{
+  "configurations": [
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch Python Program",
+      "program": "${workspaceFolder}/${input:programPath}",
+      "console": "integratedTerminal"
+    }
+  ],
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "programPath",
+      "description": "Path to your Python program"
+    }
+  ]
+}
