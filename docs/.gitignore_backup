@@ -3,14 +3,14 @@
 .RData
 .Rproj.user/
 
-# Data files (add specific extensions as needed)
+## Data files (add specific extensions as needed)
 *.xlsx
 *.csv
 
-# Output files
+## Output files
 *.png
 *.pdf
 
-# OS-specific files
+## OS-specific files
 .DS_Store
 Thumbs.db
