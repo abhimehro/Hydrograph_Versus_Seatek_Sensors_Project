@@ -6,8 +6,8 @@ This project analyzes and visualizes data from Seatek sensors in relation to hyd
 
 Hydrograph-Versus-Seatek-Sensors-Project/
 ├── data/
-│ ├── raw/ # Original, unmodified CSV files
-│ └── processed/ # Cleaned or transformed data files
+│   ├── raw/ # Original, unmodified CSV files
+│   └── processed/ # Cleaned or transformed data files
 ├── scripts/ # Python scripts for data processing and analysis
 ├── analysis/ # Jupyter notebooks or R Markdown files
 ├── visualizations/ # Generated plots and charts
@@ -18,19 +18,34 @@ Hydrograph-Versus-Seatek-Sensors-Project/
 
 1. Clone the repository:
 
-2. Create a virtual environment:
-python -m venv venv
-source venv/bin/activate # On Windows use venv\Scripts\activate
+ ```bash
+ git clone https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project.git
+ cd Hydrograph-Versus-Seatek-Sensors-Project
+ ```
 
-3. Install required packages:
-pip install -r requirements.txt
+1. Create a virtual environment:
+
+ ```bash
+ python -m venv venv
+ source venv/bin/activate # On Windows use venv\Scripts\activate.bat
+ ```
+
+1. Install required packages:
+
+ ```bash
+ pip install -r requirements.txt
+ ```
 
 ## Usage
 
 1. Place raw data files in the `data/raw/` directory.
 2. Run data processing script:
-python scripts/process_data.py
-3. View generated visualizations in the `visualizations/` directory.
+
+ ```bash
+ python scripts/process_data.py
+ ```
+
+1. View generated visualizations in the `visualizations/` directory.
 
 ## Contributing
 

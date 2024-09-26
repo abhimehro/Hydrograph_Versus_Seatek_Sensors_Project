@@ -1,1 +1,10 @@
-0000000000000000000000000000000000000000 018a762e7c66a4677c57c77a7de693302a165429 Abhi Mehrotra <abhimehrotra@bears.mybrcc.edu> 1727332609 -0500	clone: from https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project.git
+# Project Documentation
+
+This project uses Python and pip for package management.
+
+## Installation
+
+To install the required packages, run:
+
+```bash
+pip install -r requirements.txt
