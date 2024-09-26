@@ -1,0 +1,34 @@
+data_dir: data/raw
+rm_files:
+  "13.0": RM-13.0-Seatek-Versus-Hydrograph.xlsx
+  "15.0": RM-15.0-Seatek-Versus-Hydrograph.xlsx
+  "17.0": RM-17.0-Seatek-Versus-Hydrograph.xlsx
+  "21.5": RM-21.5-Seatek-Versus-Hydrograph.xlsx
+  "23.0": RM-23.0-Seatek-Versus-Hydrograph.xlsx
+  "33.6": RM-33.6-Seatek-Versus-Hydrograph.xlsx
+  "42.1": RM-42.1-Seatek-Versus-Hydrograph.xlsx
+  "46.0": RM-46.0-Seatek-Versus-Hydrograph.xlsx
+  "50.5": RM-50.5-Seatek-Versus-Hydrograph.xlsx
+  "51.9": RM-51.9-Seatek-Versus-Hydrograph.xlsx
+  "53.0": RM-53.0-Seatek-Versus-Hydrograph.xlsx
+  "54.0": RM-54.0-Seatek-Versus-Hydrograph.xlsx
+
+rm_sensors:
+  "13.0": [31, 32]
+  "15.0": [28, 29, 30]
+  "17.0": [25, 26, 27]
+  "21.5": [23, 24]
+  "23.0": [21, 22]
+  "33.6": [17, 18, 19, 20]
+  "42.1": [13, 14, 15, 16]
+  "46.0": [9, 10, 11, 12]
+  "50.5": [7, 8]
+  "51.9": [5, 6]
+  "53.0": [3, 4]
+  "54.0": [1, 2]
+
+chart:
+  figsize: [12, 6]
+  dpi: 300
+  hydrograph_color: blue
+  sensor_color: orange

@@ -17,7 +17,6 @@ Hydrograph-Versus-Seatek-Sensors-Project/
 ├── docs/ # Project documentation
 └── tests/ # Unit tests
 
-
 ## Setup
 
 1. Clone the repository:
@@ -27,14 +26,14 @@ git clone https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project.
 cd Hydrograph-Versus-Seatek-Sensors-Project
 ```
 
-2. Create a virtual environment:
+1. Create a virtual environment:
 
 ```bash
 python -m venv venv
 source venv/bin/activate # On Windows use venv\Scripts\activate.bat
 ```
 
-3. Install required packages:
+1. Install required packages:
 
 ```bash
 pip install -r requirements.txt
@@ -49,7 +48,7 @@ pip install -r requirements.txt
 python scripts/process_data.py
 ```
 
-3. View generated charts in the `charts/` directory.
+1. View generated charts in the `charts/` directory.
 
 ## Configuration
 
