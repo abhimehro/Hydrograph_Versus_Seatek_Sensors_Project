@@ -3,56 +3,147 @@
 This script visualizes sensor data against hydrograph data for different river miles (RM) and years.
 
 Functions:
+    create_chart(data, rm, year):
+        Creates and saves a chart comparing sensor data to hydrograph data for a specific river mile (RM) and year.
     load_data(file_path):
         Loads data from a CSV file into a pandas DataFrame.
-
     process_rm_data(data, rm, year, sensors):
         Processes and plots sensor data against hydrograph data for a specific river mile (RM) and year.
         Saves the plot as a PNG file in the output directory.
-
     main():
         Main function that loads the summary data, iterates through each row, and generates plots for each river mile (RM) and year range specified in the summary.
 
 Usage:
     Run the script directly to generate the charts.
 """
-
-import os
-
 import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
+
+
+def create_chart(data, rm, year):
+    plt.figure(figsize=(12, 6))
+    sns.set_style("whitegrid")
+
+    plt.plot(
+        data["Time (Seconds)"],
+        data["Hydrograph (Lagged)"],
+        "b-o",
+        label="Hydrograph (Lagged)",
+        markersize=2,
+    )
+    plt.plot(
+        data["Time (Seconds)"],
+        data["Sensor 1"],
+        "orange",
+        marker="o",
+        linestyle="-",
+        label="Sensor 1",
+        markersize=2,
+    )
+    plt.plot(
+        data["Time (Seconds)"], data["Sensor 2"], "g-o", label="Sensor 2", markersize=2
+    )
+
+    plt.xlabel("Time (in seconds)")
+    plt.ylabel("Values")
+    plt.title(f"Sensor Seatek Vs. Hydrograph - Year {year}")
+
+    plt.xlim(0, 3500)
+    plt.ylim(0, 12)
+
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(f"output/charts/RM_{rm}_Year_{year}.png", dpi=300)
+    plt.close()
 
 
 def load_data(file_path):
+    """
+    Loads data from a CSV file into a pandas DataFrame.
+    """
     return pd.read_csv(file_path)
 
 
-def process_rm_data(data, rm, year, sensors):
-    year_data = data[data["Year"] == year]
-
+def process_rm_data(data, rm, year, sensors):  # noqa: F811
     plt.figure(figsize=(12, 6))
-    plt.plot(
-        year_data["Time (Seconds)"],
-        year_data["Hydrograph (Lagged)"],
-        label="Hydrograph (Lagged)",
-    )
 
+    # Set style to match the image
+    plt.style.use("seaborn-whitegrid")
+
+    # Plot data
+    plt.plot(
+        data["Time (Seconds)"],
+        data["Hydrograph (Lagged)"],
+        "b-o",
+        label="Hydrograph (Lagged)",
+        markersize=4,
+    )
     for sensor in sensors:
         plt.plot(
-            year_data["Time (Seconds)"],
-            year_data[f"Sensor_{sensor}"],
+            data["Time (Seconds)"],
+            data[f"Sensor {sensor}"],
+            marker="o",
+            linestyle="-",
             label=f"Sensor {sensor}",
+            markersize=4,
         )
 
-    plt.title(f"Sensor Seatek Vs. Hydrograph - RM {rm} Year {year}")
+    # Set labels and title
     plt.xlabel("Time (in seconds)")
     plt.ylabel("Values")
-    plt.legend()
-    plt.grid(True)
+    plt.title(f"Sensor Seatek Vs. Hydrograph - RM {rm} Year {year}")
 
-    output_dir = f"output/charts/RM_{rm}"
-    os.makedirs(output_dir, exist_ok=True)
-    plt.savefig(f"{output_dir}/RM_{rm}_Year_{year}.png")
+    # Set axis limits
+    plt.xlim(0, 3500)
+    plt.ylim(0, 12)
+
+    # Add legend
+    plt.legend()
+
+    # Save the figure
+    plt.savefig(f"output/charts/RM_{rm}_Year_{year}.png", dpi=300, bbox_inches="tight")
+    plt.close()
+
+
+def process_rm_data(data, rm, year, sensors):  # noqa: F811
+    plt.figure(figsize=(12, 6))
+
+    # Set style to match the image
+    plt.style.use("seaborn-whitegrid")
+
+    # Plot data
+    plt.plot(
+        data["Time (Seconds)"],
+        data["Hydrograph (Lagged)"],
+        "b-o",
+        label="Hydrograph (Lagged)",
+        markersize=4,
+    )
+    for sensor in sensors:
+        plt.plot(
+            data["Time (Seconds)"],
+            data[f"Sensor {sensor}"],
+            marker="o",
+            linestyle="-",
+            label=f"Sensor {sensor}",
+            markersize=4,
+        )
+
+    # Set labels and title
+    plt.xlabel("Time (in seconds)")
+    plt.ylabel("Values")
+    plt.title(f"Sensor Seatek Vs. Hydrograph - RM {rm} Year {year}")
+
+    # Set axis limits
+    plt.xlim(0, 3500)
+    plt.ylim(0, 12)
+
+    # Add legend
+    plt.legend()
+
+    # Save the figure
+    plt.savefig(f"output/charts/RM_{rm}_Year_{year}.png", dpi=300, bbox_inches="tight")
     plt.close()
 
 

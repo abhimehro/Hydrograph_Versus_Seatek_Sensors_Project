@@ -33,7 +33,7 @@ def process_data(df):
                 ]
             ]
             year_data["Year"] = year
-            year_data["Sensor"] = sensor
+            year_data["Sensor"] = f"Sensor {sensor}"
             year_data = year_data.rename(
                 columns={
                     f"Hydrograph (Lagged) for Y{year:02d}": "Hydrograph",
