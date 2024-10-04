@@ -1,4 +1,22 @@
 # scripts/main.py
+"""
+Main script for the Hydrograph-Versus-Seatek-Sensors-Project.
+
+This script performs the following tasks:
+1. Defines paths for raw data, processed data, and output charts.
+2. Ensures the necessary directories exist.
+3. Loads raw data using the `load_data` function from `scripts.data_loader`.
+4. Processes the loaded data using the `process_data` function from `scripts.data_processor`.
+5. Saves the processed data to a CSV file in the processed data directory.
+6. Generates charts for each unique RM (River Mile) and for each year from 1 to 20 using the `create_chart` function from `scripts.visualizer`.
+
+Functions:
+    main(): The main function that orchestrates the data loading, processing, saving, and chart generation.
+
+Execution:
+    This script is intended to be executed as a standalone program.
+    If executed directly, it will call the `main` function.
+"""
 
 import sys
 from pathlib import Path

@@ -1,4 +1,19 @@
 # scripts/data_processor.py
+"""
+Processes the input DataFrame by extracting and transforming data for each year and sensor.
+
+The function iterates over a range of years (1 to 20) and extracts relevant columns for each sensor.
+It then renames the columns to a standardized format and appends the processed data to a list.
+Finally, it concatenates all the processed data into a single DataFrame.
+
+Args:
+    df (pd.DataFrame): The input DataFrame containing the raw data with columns in the format
+                       "Time (Seconds)", "Hydrograph (Lagged) for YXX", "Sensor XX for YXX", and "RM".
+
+Returns:
+    pd.DataFrame: A concatenated DataFrame containing the processed data with columns "Time (Seconds)",
+                  "Hydrograph", "Sensor_Value", "RM", "Year", and "Sensor".
+"""
 
 import pandas as pd
 

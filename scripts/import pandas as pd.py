@@ -3,6 +3,29 @@ import os
 
 import pandas as pd
 
+"""
+This script processes Excel files containing hydrograph and sensor data, extracts relevant information,
+and combines the processed data into a single CSV file.
+
+Functions:
+    process_rm_file(file_path: str) -> pd.DataFrame:
+        Processes a single Excel file, extracts RM from the filename, reads the data, and processes it
+        for each year and sensor. Returns a DataFrame with the processed data.
+
+Script Execution:
+    - Checks if the data directory exists.
+    - Processes all Excel files in the data directory matching the pattern "RM-*.xlsx".
+    - Combines all processed data into a single DataFrame.
+    - Saves the combined data to a CSV file named "all_rm_data.csv".
+
+Parameters:
+    file_path (str): The path to the Excel file to be processed.
+
+Returns:
+    pd.DataFrame: A DataFrame containing the processed data for each year and sensor, or an empty DataFrame
+    if an error occurs during processing.
+"""
+
 
 def process_rm_file(file_path):
     # Extract RM from filename
