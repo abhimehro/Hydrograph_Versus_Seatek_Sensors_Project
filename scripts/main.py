@@ -1,30 +1,13 @@
 # scripts/main.py
-"""
-Main script for the Hydrograph-Versus-Seatek-Sensors-Project.
-
-This script performs the following tasks:
-1. Defines paths for raw data, processed data, and output charts.
-2. Ensures the necessary directories exist.
-3. Loads raw data using the `load_data` function from `scripts.data_loader`.
-4. Processes the loaded data using the `process_data` function from `scripts.data_processor`.
-5. Saves the processed data to a CSV file in the processed data directory.
-6. Generates charts for each unique RM (River Mile) and for each year from 1 to 20 using the `create_chart` function from `scripts.visualizer`.
-
-Functions:
-    main(): The main function that orchestrates the data loading, processing, saving, and chart generation.
-
-Execution:
-    This script is intended to be executed as a standalone program.
-    If executed directly, it will call the `main` function.
-"""
 
 import sys
 from pathlib import Path
 
 from scripts.data_loader import load_data
-from scripts.data_processor import process_data
-from scripts.data_processor import process_rm_data  # Add this line to import process_rm_data
-
+from scripts.data_processor import (  # Add this line to import process_rm_data
+    process_data,
+    process_rm_data,
+)
 
 # Add the project root to the Python path
 project_root = Path(__file__).parent.parent
@@ -49,15 +32,16 @@ def main():
     processed_data.to_csv(processed_dir / "all_rm_data.csv", index=False)
 
     # Generate charts
-    for rm in processed_data['RM'].unique():
-        rm_data = processed_data[processed_data['RM'] == rm]
+    for rm in processed_data["RM"].unique():
+        rm_data = processed_data[processed_data["RM"] == rm]
 
         sensors = ["sensor1", "sensor2", "sensor3"]  # Define the sensors list
         for year in range(1, 21):
-            year_data = rm_data[rm_data['Year'] == year]
+            year_data = rm_data[rm_data["Year"] == year]
             if not year_data.empty:
                 process_rm_data(year_data, rm, year, sensors)
             process_rm_data(year_data, rm, year, sensors)
+
 
 if __name__ == "__main__":
     main()
