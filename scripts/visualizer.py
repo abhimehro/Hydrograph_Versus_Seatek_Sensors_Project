@@ -43,6 +43,7 @@ def process_rm_data(data, rm, year, sensors):
             year_data[f"Sensor_{sensor}"],
             label=f"Sensor {sensor}",
         )
+
     plt.title(f"Sensor Seatek Vs. Hydrograph - RM {rm} Year {year}")
     plt.xlabel("Time (in seconds)")
     plt.ylabel("Values")
