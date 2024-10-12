@@ -7,6 +7,7 @@ from scripts.data_loader import load_data
 from scripts.data_processor import (
     process_rm_data,  # Add this line to import process_rm_data
 )
+from scripts.data_processor import process_data
 
 # Add the project root to the Python path
 project_root = Path(__file__).parent.parent
@@ -39,7 +40,6 @@ def main():
             year_data = rm_data[rm_data["Year"] == year]
             if not year_data.empty:
                 process_rm_data(year_data, rm, year, sensors)
-            process_rm_data(year_data, rm, year, sensors)
 
 
 if __name__ == "__main__":

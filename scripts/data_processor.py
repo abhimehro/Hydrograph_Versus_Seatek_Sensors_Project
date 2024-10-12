@@ -19,7 +19,7 @@ import pandas as pd
 
 
 def process_data(df):
-    process_data = []
+    processed_data = []
     for year in range(1, 21):
         for sensor in [
             col.split()[1] for col in df.columns if col.startswith("Sensor")
@@ -41,4 +41,4 @@ def process_data(df):
                 }
             )
             processed_data.append(year_data)
-    return pd.concat(processed_data, ignore_index=True)
+    return pd.concat(process_data, ignore_index=True)
