@@ -19,7 +19,7 @@ import pandas as pd
 
 
 def process_data(df):
-    processed_data = []
+    process_data = []
     for year in range(1, 21):
         for sensor in [
             col.split()[1] for col in df.columns if col.startswith("Sensor")

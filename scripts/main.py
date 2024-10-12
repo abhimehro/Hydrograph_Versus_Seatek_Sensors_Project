@@ -4,9 +4,8 @@ import sys
 from pathlib import Path
 
 from scripts.data_loader import load_data
-from scripts.data_processor import (  # Add this line to import process_rm_data
-    process_data,
-    process_rm_data,
+from scripts.data_processor import (
+    process_rm_data,  # Add this line to import process_rm_data
 )
 
 # Add the project root to the Python path
