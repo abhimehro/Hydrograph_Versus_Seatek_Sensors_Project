@@ -1,10 +1,17 @@
 # Hydrograph-Versus-Seatek-Sensors-Project
 
+[![GitHub issues](https://img.shields.io/github/issues/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project)](https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project/issues)
+
 This project analyzes and visualizes data from Seatek sensors in relation to hydrograph measurements across various River Miles (RMs) along a river system.
 
 ## Project Overview
 
-The project processes data for multiple River Miles, each with a varying number of sensors, and generates charts comparing sensor data with hydrograph measurements over a 20-year period.
+The project consists of three main components:
+
+1. **Data Loader**: Extracts data from Excel files and aggregates it into a single CSV file.
+2. **Data Processor**: Cleans and processes the data to generate meaningful insights.
+3. **Visualizer**: Creates visualizations to compare sensor data with hydrograph measurements.
+   The project processes data for multiple River Miles, each with a varying number of sensors, and generates charts comparing sensor data with hydrograph measurements over a 20-year period.
 
 ## Project Structure
 
@@ -34,20 +41,15 @@ Hydrograph-Versus-Seatek-Sensors-Project/
 ```bash
 git clone https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project.git
 cd Hydrograph-Versus-Seatek-Sensors-Project
-```
 
 2. Create and activate a virtual environment:
 
-```bash
 python -m venv venv
 source venv/bin/activate # On Windows use venv\Scripts\activate.bat
-```
 
 3. Install required packages:
 
-```bash
 pip install -r requirements.txt
-```
 
 ## Usage
 
@@ -55,9 +57,7 @@ pip install -r requirements.txt
 
 2. Run the main script:
 
-```bash
 python scripts/main.py
-```
 
 3. View processed data in `data/processed/` and generated charts in `output/charts/`.
 
@@ -65,7 +65,7 @@ python scripts/main.py
 
 To run the unit tests:
 
-## Configuration
+pytest
 
 Edit the `config.yaml` file to adjust settings such as data directory paths, River Miles, sensor configurations, and chart parameters.
 
@@ -73,6 +73,24 @@ Edit the `config.yaml` file to adjust settings such as data directory paths, Riv
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
+## Roadmap
+
+See the [open issues](https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project/issues) for a list of proposed features (and known issues).
+
+## Authors
+
+Abhi Mehrotra - [abhimehro](https://github.com/abhimehro)
+
+## Acknowledgments
+We welcome contributions to the Hydrograph-Versus-Seatek-Sensors-Project! Please follow these guidelines to help us review and accept your changes.
+
+## How to Contribute
+
+1. **Fork the repository**: Click the "Fork" button at the top right of this repository and clone your fork locally.
+2. **Create a branch**: Create a new branch for your changes.
+   
+   git checkout -b my-feature-branch
+   
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
