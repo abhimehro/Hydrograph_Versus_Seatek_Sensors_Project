@@ -13,11 +13,21 @@ The project consists of one main component:
 
 ## Project Structure:
 
-Hydrograph-Versus-Seatek-Sensors-Project/ ├── data/ │ ├── Hydrograph_Seatek_Data.xlsx │ ├── Data_Summary.csv ├── scripts/ │ ├── visualizer.py │ ├── main.py ├── output/ │ ├── charts/ ├── docs/ │ ├── README.md
+Hydrograph-Versus-Seatek-Sensors-Project/
+
+   ├── data/ │
+       ├── Hydrograph_Seatek_Data.xlsx │ 
+          ├── Data_Summary.csv 
+             ├── scripts/ │ 
+                ├── visualizer.py │ 
+                   ├── main.py 
+                      ├── output/ │ 
+                         ├── docs/ │ 
+                            ├── README.md
 
 ## Data:
 
-The raw data is stored in the `data` folder. The `Data_Summary.csv` file provides a summary of the data, including the river mile, number of sensors, and start and end years.
+The data is stored in the `data` folder. The `Data_Summary.csv` file provides a summary of the data, including the river mile, number of sensors, and start and end years.
 
 ## Scripts:
 
@@ -25,7 +35,7 @@ The `scripts` folder contains the `visualizer.py` script, which is used to gener
 
 ## Output:
 
-The generated charts are saved in the `output/charts` folder.
+The generated charts are saved in the `output` folder.
 
 ## Dynamic Data Handling:
 
@@ -57,7 +67,7 @@ The code also includes checks for missing data and skips chart generation for em
 
 ## Usage:
 
-1. Place raw Excel files in the `data/raw/` directory.
+1. Place Excel files in the `data` directory.
 
 2. Run the main script:
 
@@ -65,7 +75,7 @@ The code also includes checks for missing data and skips chart generation for em
     python scripts/main.py
     ```
 
-3. View processed data in `data/processed/` and generated charts in `output/charts/`.
+3. View generated charts in `output`.
 
 ## Running Tests:
 
