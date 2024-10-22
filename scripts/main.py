@@ -1,46 +1,50 @@
 # scripts/main.py
 
+import os
+import pandas as pd
 import sys
 from pathlib import Path
 
-from scripts.data_loader import load_data
-from scripts.data_processor import (
-    process_rm_data,  # Add this line to import process_rm_data
-)
-from scripts.data_processor import process_data
-
-# Add the project root to the Python path
-project_root = Path(__file__).parent.parent
-sys.path.append(str(project_root))
-
+# Manually set the project root
+project_root = Path("/Users/abhimehrotra/Applications/DataSpell.app/Contents/plugins/python-ce/helpers/pydev")
+sys.path.append(str(project_root / "scripts"))
 
 def main():
-    # Define paths
-    data_dir = project_root / "data" / "raw"
-    processed_dir = project_root / "data" / "processed"
-    output_dir = project_root / "output" / "charts"
+    os.makedirs("output", exist_ok=True)
+    data_summary_path = "data/Data_Summary.csv"
 
-    # Ensure directories exist
-    processed_dir.mkdir(parents=True, exist_ok=True)
-    output_dir.mkdir(parents=True, exist_ok=True)
+    if not os.path.exists(data_summary_path):
+        print(f"File not found: {data_summary_path}")
+        return
 
-    # Load and process data
-    raw_data = load_data(data_dir)
-    processed_data = process_data(raw_data)
+    data_summary = pd.read_csv(data_summary_path)
 
-    # Save processed data
-    processed_data.to_csv(processed_dir / "all_rm_data.csv", index=False)
+    for _, row in data_summary.iterrows():
+        rm = row["River_Mile"]
+        if pd.isna(rm):
+            continue
 
-    # Generate charts
-    for rm in processed_data["RM"].unique():
-        rm_data = processed_data[processed_data["RM"] == rm]
+        print(f"Processing River Mile: {rm}")
+        num_sensors = int(row["Num_Sensors"])
 
-        sensors = ["sensor1", "sensor2", "sensor3"]  # Define the sensors list
-        for year in range(1, 21):
-            year_data = rm_data[rm_data["Year"] == year]
-            if not year_data.empty:
-                process_rm_data(year_data, rm, year, sensors)
+        try:
+            rm_file_path = f"data/RM_{rm}.csv"
+            print(f"Looking for file: {rm_file_path}")
+            rm_data = pd.read_csv(rm_file_path)
+            sensors = [f"Sensor {i+1}" for i in range(1, num_sensors + 1)]
+            available_sensors = [sensor for sensor in sensors if sensor in rm_data.columns]
 
+            if not available_sensors:
+                print(f"No sensor data found for RM {rm}. Skipping.")
+                continue
+
+            for year in range(1, 21):  # Changed loop to iterate over years 1-20
+                year_data = rm_data[rm_data["Year"] == year]
+
+        except FileNotFoundError:
+            print(f"File for RM {rm} not found. Skipping.")
+        except Exception as e:
+            print(f"Error processing RM {rm}: {str(e)}")
 
 if __name__ == "__main__":
     main()

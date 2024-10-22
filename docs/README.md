@@ -2,37 +2,38 @@
 
 [![GitHub issues](https://img.shields.io/github/issues/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project)](https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project/issues)
 
-This project analyzes and visualizes data from Seatek sensors in relation to hydrograph measurements across various River Miles (RMs) along a river system.
+This project aims to visualize and analyze Seatek sensor data against hydrograph data for different river miles and years.
 
 ## Project Overview
 
-The project consists of three main components:
+The project consists of one main component:
 
-1. **Data Loader**: Extracts data from Excel files and aggregates it into a single CSV file.
-2. **Data Processor**: Cleans and processes the data to generate meaningful insights.
-3. **Visualizer**: Creates visualizations to compare sensor data with hydrograph measurements.
+1.**Visualizer**: Creates visualizations to compare sensor data with hydrograph measurements.
    The project processes data for multiple River Miles, each with a varying number of sensors, and generates charts comparing sensor data with hydrograph measurements over a 20-year period.
 
 ## Project Structure
 
 Hydrograph-Versus-Seatek-Sensors-Project/
-├── data/
-│ ├── raw/ # Original Excel files
-│ └── processed/ # Processed CSV files
-├── scripts/
-│ ├── main.py
-│ ├── data_loader.py
-│ ├── data_processor.py
-│ └── visualizer.py
-├── output/
-│ └── charts/ # Generated chart images
-├── tests/
-│ └── test_data_processor.py
-├── docs/
-├── .gitignore
-├── README.md
-├── requirements.txt
-└── config.yaml
+data/
+Hydrograph_Seatek_Data.xlsx
+Data_Summary.csv
+scripts/
+visualizer.py
+output/
+
+## Data
+The raw data is stored in the data folder. The Data_Summary.csv file provides a summary of the data, including the river mile, number of sensors, and start and end years.
+
+## Scripts
+The scripts folder contains the visualizer.py script, which is used to generate the charts.
+
+## Output
+The generated charts are saved in the output folder.
+
+## Dynamic Data Handling
+The code is designed to handle data dynamically. It uses the Data_Summary.csv file to guide the processing of different river miles and their respective sensors. This allows the code to adapt to new data files and sensor configurations as they become available.
+
+The code also includes checks for missing data and skips chart generation for empty datasets.
 
 ## Setup
 
@@ -100,3 +101,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 Abhi Mehrotra - <abhimehrotra@outlook.com>
 
 Project Link: [https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project](https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project)
+
