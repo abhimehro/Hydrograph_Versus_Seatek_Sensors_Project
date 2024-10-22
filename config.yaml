@@ -1,4 +1,4 @@
-data_dir: data/raw
+data_dir: data
 processed_dir: data/processed
 output_dir: output/charts
 
@@ -17,7 +17,14 @@ rm_sensors:
   "54.0": [1, 2]
 
 chart:
-  figsize: [12, 6]
+  figsize: [12, 10]
   dpi: 300
   hydrograph_color: blue
   sensor_color: orange
+  title_fontsize: 20
+  legend_fontsize: 12
+  xlabel_fontsize: 14
+  ylabel_fontsize: 14
+  correlation_fontsize: 12
+
+

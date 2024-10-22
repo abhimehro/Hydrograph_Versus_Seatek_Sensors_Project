@@ -18,49 +18,96 @@ import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+from matplotlib.lines import Line2D
 
-# Function to process and plot data for a specific river mile (RM) and year
-def process_rm_data(rm_data, rm, year, sensors):
+def calculate_percentage_change(data):
+    return data.pct_change().abs()
+
+def process_rm_data(rm_data, rm, year, sensor):
     if rm_data.empty:
-        print(f"No data for RM {rm}, Year {year - 1994}. Skipping chart generation.")
+        print(f"No data for RM {rm}, Year {year}. Skipping chart generation.")
         return
 
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10), sharex=True)
-    time_hours = rm_data["Time (Seconds)"] / 3600
+    # Set seaborn theme for better aesthetics
+    sns.set_theme(style="whitegrid", palette="Set2")
 
-    # Plot Hydrograph
-    ax1.plot(time_hours, rm_data["Hydrograph (Lagged)"], label="Hydrograph (Lagged)", color="blue")
-    ax1.set_ylabel("Hydrograph Flow Rate (GPM)")
-    ax1.legend()
+    fig, ax1 = plt.subplots(figsize=(12, 10))
+    fig.patch.set_facecolor('lightgray')
+    time_hours = rm_data["Time_(Seconds)"] / 3600
+
+    # Plot Hydrograph (Lagged) as scatter points
+    hydrograph_data = rm_data["Hydrograph_(Lagged)"]
+    ax1.scatter(time_hours, hydrograph_data, color='blue', label='Hydrograph (Lagged)', s=50)
+    ax1.set_xlabel('Time (Hours)', fontsize=14)
+    ax1.set_ylabel('Hydrograph Flow Rate (in GPM)', fontsize=14)
+    ax1.grid(True)
+
+    # Create a second axis for the sensor data
+    ax2 = ax1.twinx()
 
     # Plot Sensor data
-    colors = sns.color_palette("husl", len(sensors))
-    for i, sensor in enumerate(sensors):
-        if sensor in rm_data.columns and not rm_data[sensor].isnull().all():
-            ax2.plot(time_hours, rm_data[sensor], label=f"Sensor {i+1}", color=colors[i])
+    sensor_data = rm_data[sensor]
+    sensor_title = sensor.replace('_', ' ')  # Replace underscores with spaces
+    ax2.plot(time_hours, sensor_data, color='orange', label=sensor_title, linewidth=2, linestyle='--')
+    ax2.set_ylabel('Sediment Bed Levels (in NAVD88)', fontsize=14)
+    ax2.grid(False)
 
-    ax2.set_xlabel("Time (Hours)")
-    ax2.set_ylabel("Sediment Height (NAVD88)")
-    ax2.legend()
+    # Calculate significant changes using percentage change
+    hydrograph_pct_change = calculate_percentage_change(hydrograph_data)
+    sensor_pct_change = calculate_percentage_change(sensor_data)
+    threshold = 0.05  # Define a threshold for significant change (5%)
 
-    fig.suptitle(f"River Mile {rm} Seatek Vs. Hydrograph Chart - Year {year}", fontsize=16)
-    plt.tight_layout()
+    significant_changes = (hydrograph_pct_change > threshold) & (sensor_pct_change > threshold)
+    for idx in significant_changes[significant_changes].index:
+        ax1.axvline(x=time_hours[idx], color='purple', linestyle='--', linewidth=1)
+        ax2.axvline(x=time_hours[idx], color='purple', linestyle='--', linewidth=1)
+
+    # Calculate and display correlation coefficient
+    correlation = hydrograph_data.corr(sensor_data)
+    plt.figtext(0.85, 0.02, f'Correlation: {correlation:.2f}', fontsize=12, color='black', bbox=dict(facecolor='white', edgecolor='black'))
+
+    # Plot high and low points for Hydrograph
+    hydrograph_low = hydrograph_data.min()
+    hydrograph_high = hydrograph_data.max()
+    ax1.scatter(time_hours[hydrograph_data.idxmin()], hydrograph_low, color='red', s=70, zorder=5, marker='v', label='Hydrograph Low')
+    ax1.scatter(time_hours[hydrograph_data.idxmax()], hydrograph_high, color='green', s=70, zorder=5, marker='^', label='Hydrograph High')
+
+    # Plot high and low points for Sensor data
+    sensor_low = sensor_data.min()
+    sensor_high = sensor_data.max()
+    ax2.scatter(time_hours[sensor_data.idxmin()], sensor_low, color='red', s=70, zorder=5, marker='x', label='Sensor Low')
+    ax2.scatter(time_hours[sensor_data.idxmax()], sensor_high, color='green', s=70, zorder=5, marker='*', label='Sensor High')
+
+    # Set title and legend
+    actual_year = year  # Use the actual year directly
+    plt.title(f"RM {rm} Seatek Vs. Hydrograph Chart - Year {actual_year} - {sensor_title}", fontsize=20, fontweight='bold')
+
+    # Custom legend with title and colors
+    legend_elements = [
+        Line2D([0], [0], color='blue', linestyle='None', marker='o', label='Hydrograph (Lagged)', markersize=6),
+        Line2D([0], [0], color='orange', linestyle='--', label=sensor_title, linewidth=2),
+        Line2D([0], [0], color='purple', linestyle='--', label='Significant Change', linewidth=1),
+        Line2D([0], [0], color='red', linestyle='None', marker='v', label='Hydrograph Low', markersize=7),
+        Line2D([0], [0], color='green', linestyle='None', marker='^', label='Hydrograph High', markersize=7),
+        Line2D([0], [0], color='red', linestyle='None', marker='x', label='Sensor Low', markersize=7),
+        Line2D([0], [0], color='green', linestyle='None', marker='*', label='Sensor High', markersize=7)
+    ]
+    ax1.legend(handles=legend_elements, loc="upper left", fontsize=12, ncol=1, title="Legend")
 
     output_dir = "output"
     os.makedirs(output_dir, exist_ok=True)
-    plt.savefig(os.path.join(output_dir, f"RM_{rm}_Year_{year}.png"), dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(output_dir, f"RM_{rm}_Year_{actual_year}_{sensor}.png"), dpi=300, bbox_inches="tight")
     plt.close()
 
-# Main function to load data and generate plots
 def main():
     os.makedirs("output", exist_ok=True)
-    data_summary_path = "data/Data_Summary.csv"
+    data_summary_path = 'data/Data_Summary.xlsx'
 
     if not os.path.exists(data_summary_path):
         print(f"File not found: {data_summary_path}")
         return
 
-    data_summary = pd.read_csv(data_summary_path)
+    data_summary = pd.read_excel(data_summary_path)
 
     for _, row in data_summary.iterrows():
         rm = row["River_Mile"]
@@ -73,8 +120,17 @@ def main():
         num_sensors = int(row["Num_Sensors"])
 
         try:
-            rm_data = pd.read_csv(f"data/RM_{rm}.csv")
-            sensors = [f"Sensor {i+1}" for i in range(num_sensors)]
+            rm_file_path = f'data/RM_{rm}.xlsx'
+            print(f"Looking for file: {rm_file_path}")
+            if not os.path.exists(rm_file_path):
+                print(f"File not found: {rm_file_path}")
+                continue
+
+            rm_data = pd.read_excel(rm_file_path)
+            print(f"Loaded data for RM {rm}:")
+            print(rm_data.head())  # Print the first few rows of the data to verify its contents
+
+            sensors = [f"Sensor_{i}" for i in range(1, num_sensors + 1)]
             available_sensors = [sensor for sensor in sensors if sensor in rm_data.columns]
 
             if not available_sensors:
@@ -82,19 +138,20 @@ def main():
                 continue
 
             for year in range(start_year, end_year + 1):
-                year_data = rm_data[rm_data["Year"] == year - 1994]
-                if not year_data.empty:
-                    process_rm_data(year_data, rm, year, available_sensors)
-                    print(f"Successfully processed RM {rm} for Year {year}")
-                else:
-                    print(f"No data found for RM {rm} Year {year}. Skipping.")
+                for sensor in available_sensors:
+                    year_data = rm_data[rm_data["Year"] == year]  # Directly compare with the actual year
+                    if not year_data.empty:
+                        process_rm_data(year_data, rm, year, sensor)
+                    else:
+                        print(f"No data for RM {rm}, Year {year}. Skipping.")
 
         except FileNotFoundError:
             print(f"File for RM {rm} not found. Skipping.")
         except Exception as e:
             print(f"Error processing RM {rm}: {str(e)}")
 
-# Call the main() function to generate the charts
 if __name__ == "__main__":
     main()
+
+
 
