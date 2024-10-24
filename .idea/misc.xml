@@ -3,7 +3,7 @@
   <component name="Black">
     <option name="sdkName" value="Hydrograph-Versus-Seatek-Sensors-Project" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="newConda" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Hydrograph-Versus-Seatek-Sensors-Project" project-jdk-type="Python SDK" />
   <component name="PyCharmDSProjectLayout">
     <option name="id" value="JupyterRightHiddenStructureLayout" />
   </component>
