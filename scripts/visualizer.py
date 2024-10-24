@@ -15,10 +15,12 @@ Usage:
 
 # scripts/visualizer.py
 import os
+
 import matplotlib.pyplot as plt
-import seaborn as sns
 import pandas as pd
+import seaborn as sns
 from matplotlib.lines import Line2D
+
 
 def calculate_percentage_change(data):
     return data.pct_change().abs()
