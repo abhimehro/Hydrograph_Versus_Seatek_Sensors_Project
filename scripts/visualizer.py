@@ -40,8 +40,8 @@ def process_rm_data(rm_data, rm, year, sensor):
     # Plot Hydrograph (Lagged) as scatter points
     hydrograph_data = rm_data["Hydrograph_(Lagged)"]
     ax1.scatter(time_hours, hydrograph_data, color='blue', label='Hydrograph (Lagged)', s=50)
-    ax1.set_xlabel('Time (Hours)', fontsize=14)
-    ax1.set_ylabel('Hydrograph Flow Rate (in GPM)', fontsize=14)
+    ax1.set_xlabel('Time (in Hours)', fontsize=14)
+    ax1.set_ylabel('Hydrograph Discharges [gpm]', fontsize=14)
     ax1.grid(True)
 
     # Create a second axis for the sensor data
@@ -51,7 +51,7 @@ def process_rm_data(rm_data, rm, year, sensor):
     sensor_data = rm_data[sensor]
     sensor_title = sensor.replace('_', ' ')  # Replace underscores with spaces
     ax2.plot(time_hours, sensor_data, color='orange', label=sensor_title, linewidth=2, linestyle='--')
-    ax2.set_ylabel('Sediment Bed Levels (in NAVD88)', fontsize=14)
+    ax2.set_ylabel('Seatek Sensor Readings [cm]', fontsize=14)
     ax2.grid(False)
 
     # Calculate significant changes using percentage change
