@@ -152,6 +152,8 @@ def process_rm_data(rm_data, rm, year, sensor):
 
 def main():
 	os.makedirs("output", exist_ok=True)
+	
+	# Load
 	data_summary_path = 'data/Data_Summary.xlsx'
 	
 	if not os.path.exists(data_summary_path):
