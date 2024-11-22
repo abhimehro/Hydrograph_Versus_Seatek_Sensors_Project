@@ -9,7 +9,7 @@ This project aims to visualize and analyze Seatek sensor data against hydrograph
 The project consists of one main component:
 
 1. **Visualizer**: Creates visualizations to compare sensor data with hydrograph measurements.
-   The project processes data for multiple river miles, each with a varying number of sensors, and generates charts comparing sensor data with hydrograph measurements over a 20-       year period.
+   The project processes data for multiple river miles, each with a varying number of sensors, and generates charts comparing sensor data with     hydrograph measurements over a 20-year period.
 
 ## Project Structure
 
@@ -81,7 +81,9 @@ Edit the `config.yaml` file to adjust settings such as data directory paths, riv
 
 ## Contributing
 
-Please read `CONTRIBUTING.md` for details on our code of conduct and the process for submitting pull requests.
+ ```markdown
+ Please read `CONTRIBUTING.md` for details on our code of conduct and the process for submitting pull requests.
+ ```
 
 ## Roadmap
 
