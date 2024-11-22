@@ -58,6 +58,6 @@ We welcome contributions to the Hydrograph-Versus-Seatek-Sensors-Project! This d
 
 ## Code of Conduct
 
-Please note that this project is released with a Contributor Code of Conduct. By participating in this project, you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of Conduct][https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project/blob/main/CODE_OF_CONDUCT.md]. By participating in this project, you agree to abide by its terms.
 
 Thank you for contributing to the Hydrograph-Versus-Seatek-Sensors-Project!
