@@ -2,7 +2,8 @@
 
 [![GitHub issues](https://img.shields.io/github/issues/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project)](https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project/issues)
 
-This project aims to visualize and analyze Seatek sensor data against hydrograph data for different river miles and years.
+This project aims to visualize and analyze Seatek sensor data against hydrograph data for different river miles and
+years.
 
 ## Project Overview
 
@@ -16,24 +17,25 @@ The project consists of one main element:
 
 Hydrograph-Versus-Seatek-Sensors-Project/
 
-   ├── data/ │
-       ├── Hydrograph_Seatek_Data.xlsx │ 
-          ├── Data_Summary.csv 
-             ├── scripts/ │ 
-                ├── visualizer.py │ 
-                   ├── main.py 
-                      ├── output/ │ 
-                         ├── docs/ │ 
-                            ├── README.md
-
+├── data/ │
+├── Hydrograph_Seatek_Data.xlsx │
+├── Data_Summary.csv
+├── scripts/ │
+├── visualizer.py │
+├── main.py
+├── output/ │
+├── docs/ │
+├── README.md
 
 ## Data
 
-The data is stored in the `data` folder. The `Data_Summary.csv` file provides a summary of the data, including the river mile, number of sensors, and start and end years.
+The data is stored in the `data` folder. The `Data_Summary.csv` file provides a summary of the data, including the river
+mile, number of sensors, and start and end years.
 
 ## Scripts
 
-The `scripts` folder contains the `visualizer.py` script, which is used to generate the charts, and the `main.py` script, which orchestrates the data processing and visualization.
+The `scripts` folder contains the `visualizer.py` script, which is used to generate the charts, and the `main.py`
+script, which orchestrates the data processing and visualization.
 
 ## Output
 
@@ -41,7 +43,9 @@ The generated charts are saved in the `output` folder.
 
 ## Dynamic Data Handling
 
-The code is designed to handle data dynamically. It uses the `Data_Summary.csv` file to guide the processing of different river miles and their respective sensors. This allows the code to adapt to new data configurations. The code also includes checks for missing data and skips chart generation for empty datasets.
+The code is designed to handle data dynamically. It uses the `Data_Summary.csv` file to guide the processing of
+different river miles and their respective sensors. This allows the code to adapt to new data configurations. The code
+also includes checks for missing data and skips chart generation for empty datasets.
 
 ## Setup
 
@@ -74,11 +78,12 @@ The code is designed to handle data dynamically. It uses the `Data_Summary.csv` 
 ## Running Tests
 
 To run the unit tests:
-    ```bash
-    pytest
-    ```
+```bash
+pytest
+```
 
-Edit the `config.yaml` file to adjust settings such as data directory paths, river miles, sensor configurations, and chart parameters.
+Edit the `config.yaml` file to adjust settings such as data directory paths, river miles, sensor configurations, and
+chart parameters.
 
 ## Contributing
 
@@ -96,7 +101,8 @@ See the open issues for a list of proposed features (and known issues).
 
 ## Acknowledgments
 
-We welcome contributions to the Hydrograph-Versus-Seatek-Sensors-Project! Please follow these guidelines to help us review and accept your changes.
+We welcome contributions to the Hydrograph-Versus-Seatek-Sensors-Project! Please follow these guidelines to help us
+review and accept your changes.
 
 ## How to Contribute
 
@@ -120,7 +126,7 @@ Abhi Mehrotra - <abhimhrtr@pm.com>
 
 ## Contact:
 
-Abhi Mehrotra - <abhimhrtr@pm.com>  
+Abhi Mehrotra - <abhimhrtr@pm.com>
 
 ## Project Link:
 

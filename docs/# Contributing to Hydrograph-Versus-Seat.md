@@ -1,6 +1,7 @@
 # Contributing to Hydrograph-Versus-Seatek-Sensors-Project
 
-We welcome contributions to the Hydrograph-Versus-Seatek-Sensors-Project! This document provides guidelines for contributing to the project.
+We welcome contributions to the Hydrograph-Versus-Seatek-Sensors-Project! This document provides guidelines for
+contributing to the project.
 
 ## Getting Started
 
@@ -47,7 +48,8 @@ We welcome contributions to the Hydrograph-Versus-Seatek-Sensors-Project! This d
 
 1. Ensure your code adheres to the style guidelines.
 2. Update the `README.md` with details of changes, if applicable.
-3. Increase the version numbers in any example files and the `README.md` to the new version that this Pull Request would represent.
+3. Increase the version numbers in any example files and the `README.md` to the new version that this Pull Request would
+   represent.
 4. Your pull request will be reviewed by the maintainers, who may request changes or provide feedback.
 
 ## Reporting Issues
@@ -58,6 +60,8 @@ We welcome contributions to the Hydrograph-Versus-Seatek-Sensors-Project! This d
 
 ## Code of Conduct
 
-Please note that this project is released with a [Contributor Code of Conduct][https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project/blob/main/CODE_OF_CONDUCT.md]. By participating in this project, you agree to abide by its terms.
+Please note that this project is released with
+a [Contributor Code of Conduct][https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project/blob/main/CODE_OF_CONDUCT.md].
+By participating in this project, you agree to abide by its terms.
 
 Thank you for contributing to the Hydrograph-Versus-Seatek-Sensors-Project!

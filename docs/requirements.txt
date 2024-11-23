@@ -1,6 +1,4 @@
-
-```
-# Core dependencies
+# List of core dependencies required for the project
 pandas>=1.3.3,<1.4.0
 numpy>=1.22.0,<1.23.0
 
@@ -16,4 +14,3 @@ PyYAML>=5.4.1,<5.5.0
 
 # Testing
 pytest>=6.2.5,<6.3.0
- ```

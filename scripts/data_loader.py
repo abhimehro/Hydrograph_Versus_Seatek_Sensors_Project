@@ -19,6 +19,7 @@ import os
 
 import pandas as pd
 
+
 def load_data(data_dir):
     all_data = []
     for file in glob.glob(os.path.join(data_dir, "RM-*.xlsx")):

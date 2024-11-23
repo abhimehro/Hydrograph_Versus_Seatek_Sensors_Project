@@ -1,9 +1,10 @@
 # scripts/main.py
 
 import os
-import pandas as pd
 import sys
 from pathlib import Path
+
+import pandas as pd
 
 # Manually set the project root
 project_root = Path("/Users/abhimehrotra/Applications/DataSpell.app/Contents/plugins/python-ce/helpers/pydev")
