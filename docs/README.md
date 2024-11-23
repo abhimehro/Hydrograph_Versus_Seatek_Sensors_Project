@@ -6,10 +6,11 @@ This project aims to visualize and analyze Seatek sensor data against hydrograph
 
 ## Project Overview
 
-The project consists of one main component:
+The project consists of one main element:
 
 1. **Visualizer**: Creates visualizations to compare sensor data with hydrograph measurements.
-   The project processes data for multiple river miles, each with a varying number of sensors, and generates charts comparing sensor data with     hydrograph measurements over a 20-year period.
+   The project processes data for multiple river miles, each with a varying number of sensors,
+   and generates charts comparing sensor data with hydrograph measurements over a 20-year period.
 
 ## Project Structure
 
@@ -107,7 +108,7 @@ We welcome contributions to the Hydrograph-Versus-Seatek-Sensors-Project! Please
 
 ## License
 
-This project is licensed under the MIT License - see the `LICENSE.md` file for details.
+This project is licensed under the MIT License—see the `LICENSE.md` file for details.
 
 ## Contact
 
@@ -124,4 +125,3 @@ Abhi Mehrotra - <abhimhrtr@pm.com>
 ## Project Link:
 
 [Hydrograph-Versus-Seatek-Sensors-Project](https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project)
-
