@@ -18,13 +18,22 @@ The project consists of one main element:
 
 Hydrograph-Versus-Seatek-Sensors-Project/
 
-├── data/ │
-├── Hydrograph_Seatek_Data.xlsx │
-├── Data_Summary.csv
-├── scripts/ │
-├── visualizer.py │
-├── main.py
-├── output/ │
+├── data/
+│   ├── Data_Summary.xlsx
+│   ├── RM_13.1.xlsx
+│   ├── RM_15.0.xlsx
+│   └── ... (other RM files)
+├── scripts/
+│   └── updated_visualizer.py
+output/
+RM_54.0/
+RM_54.0_Year_1_Sensor 1.png
+RM_54.0_Year_1_Sensor 2.png
+RM_54.0_Year_2_Sensor 1.png
+...
+RM_53.0/
+...
+└── ... (other directories)
 ├── docs/ │
 ├── README.md
 

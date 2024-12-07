@@ -133,3 +133,4 @@ output/charts/*.png
 # Ignore any log files
 *.log
 .DS_Store
+!/scripts/updated_visualizer.py
