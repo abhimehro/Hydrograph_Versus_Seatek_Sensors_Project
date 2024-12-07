@@ -123,11 +123,3 @@ Abhi Mehrotra - <abhimhrtr@pm.com>
 ## Project Link
 
 [Hydrograph-Versus-Seatek-Sensors-Project](https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project)
-
-## Contact:
-
-Abhi Mehrotra - <abhimhrtr@pm.com>
-
-## Project Link:
-
-[Hydrograph-Versus-Seatek-Sensors-Project](https://github.com/abhimehro/Hydrograph-Versus-Seatek-Sensors-Project)
