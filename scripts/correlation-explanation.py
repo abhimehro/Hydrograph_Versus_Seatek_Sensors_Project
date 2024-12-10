@@ -4,7 +4,7 @@ This implementation demonstrates how Pearson correlation is calculated and appli
 to our hydrograph vs. sensor analysis.
 """
 
-from typing import List , Tuple , Union
+from typing import List, Tuple, Union
 
 import numpy as np
 

@@ -1,34 +1,40 @@
 import sys
 import logging
+import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict , List , Tuple
 
-import matplotlib.lines as mlines
-import matplotlib.patches as mpatches
-import matplotlib.pyplot as plt
-import pandas as pd
-import seaborn as sns
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch
+from matplotlib.pyplot import close, Figure, rcParams, subplots, subplots_adjust, tight_layout
+from seaborn import set_style
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
 
 class DataVisualizationError(Exception):
     """Custom exception for visualization-related errors."""
     pass
 
 def get_project_root() -> Path:
+    """Get the root directory of the project."""
     project_path = Path('/Users/abhimehrotra/DataspellProjects/Hydrograph-Versus-Seatek-Sensors-Project')
     if not project_path.exists():
         raise FileNotFoundError(f"Project directory not found at: {project_path}")
     return project_path
 
 def validate_numeric_data(data: pd.Series) -> pd.Series:
+    """Validate and clean numeric data in a pandas Series."""
     return data[
         (data.notna()) & (data != 0) & (data > 0) &
         (data != float('inf')) & (data != float('-inf'))
     ]
 
 def clean_data(data: pd.DataFrame, required_columns: List[str]) -> pd.DataFrame:
+    """Clean the data by validating and removing invalid entries."""
     try:
         cleaned_data = data.copy()
         for col in required_columns:
@@ -39,10 +45,13 @@ def clean_data(data: pd.DataFrame, required_columns: List[str]) -> pd.DataFrame:
         if len(cleaned_data) < 2:
             raise DataVisualizationError("Insufficient valid data points after cleaning")
         return cleaned_data
-    except Exception as e:
-        raise DataVisualizationError(f"Error during data cleaning: {str(e)}")
+    except KeyError as e1:
+        raise DataVisualizationError(f"Column not found: {str( e1 )}" )
+    except Exception as e1:
+        raise DataVisualizationError(f"Error during data cleaning: {str( e1 )}" )
 
 def setup_plot_style() -> None:
+    """Set up the plot style using seaborn and matplotlib."""
     sns.set_style("whitegrid", {
         'grid.linestyle': '--',
         'grid.alpha': 0.3,
@@ -65,6 +74,7 @@ def setup_plot_style() -> None:
     })
 
 def interpret_correlation(correlation: float) -> str:
+    """Interpret the correlation coefficient and return a descriptive string."""
     abs_corr = abs(correlation)
     direction = "positive" if correlation >= 0 else "negative"
     if abs_corr >= 0.9:
@@ -80,6 +90,7 @@ def interpret_correlation(correlation: float) -> str:
     return f"{strength} {direction} relationship"
 
 def format_sensor_name(sensor: str) -> str:
+    """Format the sensor name by replacing underscores with spaces."""
     return ' '.join(sensor.split('_'))
 
 def create_visualization(
@@ -89,6 +100,7 @@ def create_visualization(
         sensor: str,
         column_mappings: Dict[str, str]
 ) -> Tuple[plt.Figure, float]:
+    """Create a visualization of the hydrograph and sensor data."""
     try:
         fig, ax1 = plt.subplots()
         fig.patch.set_facecolor('white')
@@ -147,21 +159,25 @@ def create_visualization(
         )
         plt.tight_layout()
         return fig, correlation
-    except Exception as e:
-        raise DataVisualizationError(f"Error creating visualization: {str(e)}")
+    except KeyError as e2:
+        raise DataVisualizationError(f"Column not found: {str( e2 )}" )
+    except Exception as e2:
+        raise DataVisualizationError(f"Error creating visualization: {str( e2 )}" )
 
 def save_visualization(
     fig: plt.Figure,
     output_path: Path,
     dpi: int = 300
 ) -> None:
+    """Save the visualization to a file."""
     try:
         fig.savefig(output_path, dpi=dpi, bbox_inches='tight')
         plt.close(fig)
-    except Exception as e:
-        raise DataVisualizationError(f"Error saving visualization: {str(e)}")
+    except Exception as e3:
+        raise DataVisualizationError(f"Error saving visualization: {str( e3 )}" )
 
 def process_rm_data(rm_data: pd.DataFrame, rm: float, sensor: str) -> int:
+    """Process data for a specific river mile and sensor, generating visualizations."""
     try:
         column_mappings = {
             'time': 'Time (Seconds)',
@@ -193,15 +209,16 @@ def process_rm_data(rm_data: pd.DataFrame, rm: float, sensor: str) -> int:
                 save_visualization(fig, output_path)
                 logging.info(f"Generated chart: {output_path} (Correlation: {correlation:.2f})")
                 charts_generated += 1
-            except DataVisualizationError as e:
-                logging.error(f"Error processing Year {year}: {str(e)}")
+            except DataVisualizationError as e4:
+                logging.error(f"Error processing Year {year}: {str( e4 )}" )
                 continue
         return charts_generated
-    except Exception as e:
-        logging.error(f"Error processing RM {rm}, {sensor}: {str(e)}")
+    except Exception as e4:
+        logging.error(f"Error processing RM {rm}, {sensor}: {str( e4 )}" )
         return 0
 
 def main() -> None:
+    """Main function to orchestrate the visualization process."""
     try:
         logging.info(f"Starting visualization process at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         setup_plot_style()
@@ -222,7 +239,8 @@ def main() -> None:
                 logging.warning(f"File not found: {rm_file_path}")
                 continue
             try:
-                rm_data = pd.read_excel(rm_file_path)
+                with pd.ExcelFile(rm_file_path) as xls:
+                    rm_data = pd.read_excel(xls)
                 available_sensors = [col for col in rm_data.columns if col.startswith('Sensor_')]
                 if not available_sensors:
                     logging.warning(f"No sensor columns found in data for RM {rm}")
@@ -231,13 +249,13 @@ def main() -> None:
                 for sensor in available_sensors:
                     charts = process_rm_data(rm_data, rm, sensor)
                     total_charts += charts
-            except Exception as e:
-                logging.error(f"Error processing RM {rm}: {str(e)}")
+            except Exception as e5:
+                logging.error(f"Error processing RM {rm}: {str( e5 )}" )
                 continue
         logging.info(f"Processing complete at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         logging.info(f"Total charts generated: {total_charts}")
-    except Exception as e:
-        logging.critical(f"Critical error in main function: {str(e)}")
+    except Exception as e5:
+        logging.critical(f"Critical error in main function: {str( e5 )}" )
         sys.exit(1)
 
 if __name__ == "__main__":
