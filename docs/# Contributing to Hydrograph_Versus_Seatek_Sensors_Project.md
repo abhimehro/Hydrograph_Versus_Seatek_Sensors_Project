@@ -65,5 +65,3 @@ a [Contributor Code of Conduct](https://github.com/abhimehro/Hydrograph_Versus_S
 By participating in this project, you agree to abide by its terms.
 
 Thank you for contributing to the Hydrograph_Versus_Seatek_Sensors_Project! 🎉
-
-```

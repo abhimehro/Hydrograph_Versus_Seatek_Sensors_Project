@@ -1,5 +1,0 @@
-by_client:
-  - client_type: lsp_proxy
-    notifications:
-      - last_shown: 1727332623
-        notification_id: trunk-upgrade

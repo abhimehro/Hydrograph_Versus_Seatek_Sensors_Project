@@ -9,5 +9,5 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability, please email [abhimhrtr@pm.me]. All security vulnerabilities will be promptly
+If you discover a security vulnerability, please email <abhimhrtr@pm.me>. All security vulnerabilities will be promptly
 addressed.

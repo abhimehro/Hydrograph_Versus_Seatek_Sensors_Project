@@ -115,11 +115,9 @@ charts/*.pdf
 visualizations/
 
 # Ignore Python cache files
-__pycache__/
 *.pyc
 
 # Ignore virtual environment
-venv/
 
 # Ignore all CSV files in the data directory
 data/*.csv
@@ -128,7 +126,6 @@ data/*.csv
 data/*.xlsx
 
 # Ignore all PNG files in the output/charts directory
-output/charts/*.png
 
 # Ignore any log files
 *.log
