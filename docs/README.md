@@ -11,33 +11,33 @@ sensor data with hydrograph measurements over a 20-year period.
 ## Project Structure
 
 Hydrograph_Versus_Seatek_Sensors_Project/
-├── data/
-│   ├── Data_Summary.xlsx
-│   ├── RM_13.1.xlsx
-│   ├── RM_15.0.xlsx
-│   └── ... (other RM files)
-├── scripts/
-│ ├── data_loader.py
-│ ├── updated_visualizer.py
-│ └── ... (other scripts)
-├── output/
-│ ├── RM_54.0/
-│ │ ├── RM_54.0_Year_1_Sensor_1.png
-│ │ ├── RM_54.0_Year_1_Sensor_2.png
-│ │ ├── RM_54.0_Year_2_Sensor_1.png
-│ │ └── ... (other output files)
-│ └── ... (other directories)
-├── docs/
-│ ├── README.md
-│ ├── CONTRIBUTING.md
-│ ├── Hydrograph-Seatek_Correlation_Analysis_Documentation.md
-│ └── ... (other documentation files)
-├── tests/
-│ ├── test_data_loader.py
-│ ├── test_visualizer.py
-│ └── ... (other test files)
-├── requirements.txt
-└── config.yaml
+- data/
+  - Data_Summary.xlsx
+  - RM_13.1.xlsx
+  - RM_15.0.xlsx
+  - ... (other RM files)
+- scripts/
+  - data_loader.py
+  - updated_visualizer.py
+  - ... (other scripts)
+- output/
+  - RM_54.0/
+    - RM_54.0_Year_1_Sensor_1.png
+    - RM_54.0_Year_1_Sensor_2.png
+    - RM_54.0_Year_2_Sensor_1.png
+    - ... (other output files)
+  - ... (other directories)
+- docs/
+  - README.md
+  - CONTRIBUTING.md
+  - Hydrograph-Seatek_Correlation_Analysis_Documentation.md
+  - ... (other documentation files)
+- tests/
+  - test_data_loader.py
+  - test_visualizer.py
+  - ... (other test files)
+- requirements.txt
+- config.yaml
 
 ## Data File Format
 
