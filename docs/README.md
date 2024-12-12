@@ -115,7 +115,7 @@ Edit the `config.yaml` file to adjust settings such as data directory paths, riv
 
 ## Contributing
 
-Please read [`# Contributing to Hydrograph_Versus_Seatek_Sensors_Project.md`](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/%23%20Contributing%20to%20Hydrograph_Versus_Seatek_Sensors_Project.md) for details on our code of conduct and the process for submitting pull requests.
+Please read [# Contributing to Hydrograph_Versus_Seatek_Sensors_Project.md](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/%23%20Contributing%20to%20Hydrograph_Versus_Seatek_Sensors_Project.md) for details on our code of conduct and the process for submitting pull requests.
 
 ## Roadmap
 
