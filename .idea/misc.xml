@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Black">
-    <option name="sdkName" value="Hydrograph-Versus-Seatek-Sensors-Project" />
+    <option name="sdkName" value="$PROJECT_DIR$/../.ai-navigator/micromamba/envs/metal" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="$USER_HOME$/.ai-navigator/micromamba/envs/metal" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="$PROJECT_DIR$/../.ai-navigator/micromamba/envs/metal" project-jdk-type="Python SDK" />
   <component name="PyCharmDSProjectLayout">
     <option name="id" value="JupyterRightHiddenStructureLayout" />
+  </component>
+  <component name="PythonCompatibilityInspectionAdvertiser">
+    <option name="version" value="3" />
   </component>
 </project>

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Hydrograph-Versus-Seatek-Sensors-Project.iml" filepath="$PROJECT_DIR$/.idea/Hydrograph-Versus-Seatek-Sensors-Project.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../dsProject1/.idea/dsProject1.iml" filepath="$PROJECT_DIR$/../dsProject1/.idea/dsProject1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/DataspellProjects.iml" filepath="$PROJECT_DIR$/.idea/DataspellProjects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Hydrograph_Versus_Seatek_Sensors_Project/.idea/Hydrograph-Versus-Seatek-Sensors-Project.iml" filepath="$PROJECT_DIR$/Hydrograph_Versus_Seatek_Sensors_Project/.idea/Hydrograph-Versus-Seatek-Sensors-Project.iml" />
     </modules>
   </component>
 </project>

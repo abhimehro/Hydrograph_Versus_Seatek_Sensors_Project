@@ -41,8 +41,7 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 
 ## Data File Format
 
-The primary data source for this project is an Excel file named `Data_Summary.xlsx`. This file contains a sheet named '
-Data_Summary' that provides an overview of the available data, including river miles, the number of sensors at each
+The primary data source for this project is an Excel file named `Data_Summary.xlsx`. This file contains a sheet named 'Data_Summary' that provides an overview of the available data, including river miles, the number of sensors at each
 river mile, and the corresponding years of data.
 
 # Data Structure
