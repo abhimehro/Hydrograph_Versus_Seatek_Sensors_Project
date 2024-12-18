@@ -2,12 +2,14 @@ import logging
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict , Tuple
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import seaborn as sns
 from matplotlib.figure import Figure
+
 
 def get_project_root() -> Path:
     """Return the root directory of the project."""
