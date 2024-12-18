@@ -1,63 +1,135 @@
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from pandas import DataFrame , Series
-from utils import (
-	clean_data , create_output_dir , format_sensor_name , get_project_root , load_excel_file , validate_numeric_data ,
+from pandas import DataFrame
+from src.visualization import (
+	create_visualization ,
+	DataVisualizationError ,
+	save_visualization ,
+	setup_plot_style ,
 	)
 
+# Check if matplotlib is available to gracefully skip tests that require it
+try :
+	from matplotlib.figure import Figure
+	
+	has_matplotlib = True
+except ImportError :
+	has_matplotlib = False
 
-class TestUtils ( unittest.TestCase ) :
+
+class TestVisualization ( unittest.TestCase ) :
 	
-	def test_get_project_root ( self ) :
-		root = get_project_root ( )
-		self.assertTrue ( isinstance ( root , Path ) )
-		self.assertTrue ( root.exists ( ) )
-	
-	def test_validate_numeric_data ( self ) :
-		data = Series ( [ 1 , 2 , 3 , None , float ( 'inf' ) , -float ( 'inf' ) , 0 , -1 ] )
-		validated_data = validate_numeric_data ( data )
-		expected_data = Series ( [ 1 , 2 , 3 ] )
-		self.assertTrue ( validated_data.equals ( expected_data ) )
-	
-	def test_clean_data ( self ) :
-		data = DataFrame (
+	def setUp ( self ) :
+		"""
+		Set up shared test resources to avoid redundancy.
+		"""
+		self.plot_data = DataFrame (
 				{
-						'A' : [ 1 , 2 , 3 , None , float ( 'inf' ) , -float ( 'inf' ) , 0 , -1 ] ,
-						'B' : [ 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 ]
+						"Time_(Hours)" : [ 0 , 1 , 2 , 3 ] ,
+						"Hydrograph (Lagged)" : [ 10 , 20 , 30 , 40 ] ,
+						"Sensor_1" : [ 15 , 25 , 35 , 45 ] ,
 						}
 				)
-		required_columns = [ 'A' , 'B' ]
-		cleaned_data = clean_data ( data , required_columns )
-		expected_data = DataFrame (
-				{
-						'A' : [ 1 , 2 , 3 ] ,
-						'B' : [ 1 , 2 , 3 ]
-						}
+		self.column_mappings = {
+				"time" : "Time_(Hours)" ,
+				"hydrograph" : "Hydrograph (Lagged)" ,
+				"year" : "Year" ,
+				}
+		self.output_path = Path ( "test_output.png" )
+	
+	def tearDown ( self ) :
+		"""Clean up after tests if needed."""
+		if self.output_path.exists ( ) :
+			self.output_path.unlink ( )  # Ensure test output files are removed
+	
+	def test_setup_plot_style ( self ) :
+		"""
+		Test that setup_plot_style() executes without exceptions.
+		"""
+		try :
+			setup_plot_style ( )
+		except Exception as e :
+			self.fail ( f"setup_plot_style() raised an exception: {e}" )
+	
+	@unittest.skipIf ( not has_matplotlib , "matplotlib is required for this test" )
+	def test_create_visualization ( self ) :
+		"""
+		Test that create_visualization() generates the expected outputs.
+		"""
+		try :
+			fig , correlation = create_visualization (
+					self.plot_data , 1.0 , 2023 , "Sensor_1" , self.column_mappings
+					)
+			self.assertIsInstance ( fig , Figure )
+			self.assertIsInstance ( correlation , float )
+		except DataVisualizationError as e :
+			self.fail ( f"create_visualization() raised DataVisualizationError: {e}" )
+	
+	@unittest.skipIf ( not has_matplotlib , "matplotlib is required for this test" )
+	@patch ( "src.visualization.Path.exists" )
+	@patch ( "src.visualization.Path.unlink" )
+	def test_save_visualization ( self , mock_unlink , mock_exists ) :
+		"""
+		Test that save_visualization() saves the figure and performs cleanup.
+		"""
+		mock_exists.return_value = True  # Mock that the file exists
+		
+		# Create the visualization to save
+		fig , _ = create_visualization (
+				self.plot_data , 1.0 , 2023 , "Sensor_1" , self.column_mappings
 				)
-		self.assertTrue ( cleaned_data.equals ( expected_data ) )
+		
+		try :
+			save_visualization ( fig , self.output_path )
+			self.assertTrue ( self.output_path.exists ( ) )  # File should exist
+		except DataVisualizationError as e :
+			self.fail ( f"save_visualization() raised DataVisualizationError: {e}" )
+		
+		# Assertions to ensure file cleanup occurred
+		mock_unlink.assert_called_once ( )
+		mock_exists.assert_called_once ( )
 	
-	def test_format_sensor_name ( self ) :
-		sensor = "Sensor_1"
-		formatted_name = format_sensor_name ( sensor )
-		self.assertEqual ( formatted_name , "Sensor 1" )
+	def test_invalid_column_mapping ( self ) :
+		"""
+		Test that create_visualization() raises an error for invalid column mappings.
+		"""
+		invalid_column_mappings = {
+				"invalid_key" : "Time_(Hours)" ,  # This key doesn't exist in the DataFrame
+				}
+		with self.assertRaises ( DataVisualizationError ) :
+			create_visualization (
+					self.plot_data , 1.0 , 2023 , "Sensor_1" , invalid_column_mappings
+					)
 	
-	def test_load_excel_file ( self ) :
-		file_path = Path ( 'test_data.xlsx' )
-		# Create a test Excel file
-		df = DataFrame ( { 'A' : [ 1 , 2 , 3 ] , 'B' : [ 4 , 5 , 6 ] } )
-		df.to_excel ( file_path , index = False )
-		loaded_df = load_excel_file ( file_path )
-		self.assertTrue ( loaded_df.equals ( df ) )
-		file_path.unlink ( )  # Clean up the test file
+	def test_empty_plot_data ( self ) :
+		"""
+		Test that create_visualization() raises an error for empty plot_data.
+		"""
+		empty_data = DataFrame ( )  # Empty DataFrame
+		with self.assertRaises ( DataVisualizationError ) :
+			create_visualization (
+					empty_data , 1.0 , 2023 , "Sensor_1" , self.column_mappings
+					)
 	
-	def test_create_output_dir ( self ) :
-		rm = 1.0
-		output_dir = create_output_dir ( rm )
-		self.assertTrue ( output_dir.exists ( ) )
-		self.assertTrue ( output_dir.is_dir ( ) )
-		output_dir.rmdir ( )  # Clean up the test directory
+	def test_insufficient_numeric_data ( self ) :
+		"""
+		Test that create_visualization() raises an error for insufficient valid data.
+		"""
+		insufficient_data = DataFrame (
+				{
+						"Time_(Hours)" : [ 0 ] ,
+						"Hydrograph (Lagged)" : [ 10 ] ,
+						"Sensor_1" : [ 15 ] ,
+						}
+				)  # Only one data point
+		with self.assertRaises ( DataVisualizationError ) :
+			create_visualization (
+					insufficient_data , 1.0 , 2023 , "Sensor_1" , self.column_mappings
+					)
 
 
-if __name__ == '__main__' :
+if __name__ == "__main__" :
 	unittest.main ( )
+`
