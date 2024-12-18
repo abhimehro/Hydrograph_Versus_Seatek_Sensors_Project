@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "hydrosensors_project"
+version = "0.1.0"
+description = "A project comparing Hydrograph and Seatek sensors"
+authors = ["Abhi Mehrotra <abhimhrtr@pm.me>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "*"
+pandas = "*"
+matplotlib = "*"
+pytest = "*"
+flake8 = "*"
+black = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
