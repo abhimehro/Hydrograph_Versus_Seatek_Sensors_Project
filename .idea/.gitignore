@@ -1,9 +1,0 @@
-# IntelliJ IDEA and DataSpell IDE configuration files
-/workspace.xml
-/shelf/
-/dataSources/
-.dataSources.local.xml
-/httpRequests/
-
-# User-specific or corrupted IDE files
-/DataSpellProjects.im.delete

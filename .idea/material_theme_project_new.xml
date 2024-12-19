@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="MaterialThemeConfig">
-    <metadata migrated="true" pristine="false" userIdPlaceholder="USER_ID_PLACEHOLDER" />
-    <titleBarConfig overrideColor="false" />
-  </component>
   <component name="MaterialThemeProjectNewConfig">
     <option name="metadata">
       <MTProjectMetadataState>
         <option name="migrated" value="true" />
         <option name="pristineConfig" value="false" />
-        <option name="userId" value="-67a7a701:192fbc3bcb1:-7ff9" />
+        <option name="userId" value="-4780d63d:193dd2ca501:-7ffa" />
       </MTProjectMetadataState>
     </option>
     <option name="titleBarState">

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-    <!-- Git settings configuration -->
-    <component name="GitSettings">
-        <option name="version" value="2"/> <!-- Current version of the Git settings -->
-    </component>
-</project>
