@@ -122,13 +122,13 @@ Thumbs.db
 
 # JetBrains IDEs
 *.iml
-.idea/
 *.ipr
 *.iws
 out/
 
 # Python virtual environment
-venv/
 
 # Node modules
 node_modules/
+!/Hydrograph_Versus_Seatek_Sensors_Project/.idea/Hydrograph-Versus-Seatek-Sensors-Project.iml
+!/.idea/DataspellProjects.iml
