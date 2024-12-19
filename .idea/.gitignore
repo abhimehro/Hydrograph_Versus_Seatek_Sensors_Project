@@ -1,9 +1,9 @@
-# Default ignored files
-/shelf/
+# IntelliJ IDEA and DataSpell IDE configuration files
 /workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-# Datasource local storage ignored files
+/shelf/
 /dataSources/
-/dataSources.local.xml
-.qodo!/DataspellProjects.iml
+.dataSources.local.xml
+/httpRequests/
+
+# User-specific or corrupted IDE files
+/DataSpellProjects.im.delete

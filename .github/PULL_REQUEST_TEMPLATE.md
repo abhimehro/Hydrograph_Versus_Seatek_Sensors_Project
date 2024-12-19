@@ -1,38 +1,52 @@
 ## Description
 
-Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
+Provide a summary of the changes, including the motivation and the issue fixed (if applicable). Highlight any *
+*dependencies** introduced or required for this change.
 
-Fixes # (issue)
+- **Motivation**: Why is this change necessary?
+- **Fixes Issue**: # (link the issue)
 
-## Type of change
+---
 
-Please delete options that are not relevant.
+## Change Type
+
+Select the type of change made (uncheck those not applicable):
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] This change requires a documentation update
+- [ ] Documentation update required
 
-## How Has This Been Tested?
+---
 
-Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration
+## Testing Instructions
 
-- [ ] Test A
-- [ ] Test B
+Describe the tests conducted to verify the changes. Provide clear reproduction steps and configuration details (if
+applicable).
+
+**Tests Performed**:
+
+- [ ] Test A: (brief description)
+- [ ] Test B: (brief description)
 
 **Test Configuration**:
-* Firmware version:
-* Hardware:
-* Toolchain:
-* SDK:
 
-## Checklist:
+- **Firmware version**:
+- **Hardware**:
+- **Toolchain**:
+- **SDK**:
 
-- [ ] My code follows the style guidelines of this project
-- [ ] I have performed a self-review of my own code
-- [ ] I have commented on my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] New and existing unit tests pass locally with my changes
-- [ ] Any dependent changes have been merged and published in downstream modules
+---
+
+## Checklist
+
+Ensure the following items are complete (check off completed tasks):
+
+- [ ] Code adheres to project style guidelines.
+- [ ] A self-review has been performed.
+- [ ] Comments have been added for complex sections.
+- [ ] Documentation has been updated as necessary.
+- [ ] No new warnings have been introduced.
+- [ ] Tests prove the feature or fix works as intended.
+- [ ] Unit tests pass locally.
+- [ ] Dependent changes are merged and published.

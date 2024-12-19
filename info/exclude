@@ -1,6 +1,14 @@
-# git ls-files --others --exclude-from=.git/info/exclude
-# Lines that start with '#' are comments.
-# For a project mostly in C, the following would be a good set of
-# exclude patterns (uncomment them if you want to use them):
-# *.[oa]
-# *~
+# Custom Git Exclude File
+
+# Any files listed below will be excluded by Git
+# Exclusions are read from the .gitexclude file (recommended location).
+
+# General Comments:
+# - Lines starting with '#' are comments ignored by Git.
+# - Uncomment patterns to activate specific exclusions.
+
+# Example Exclude Patterns for C projects:
+# Ignore object and archive files
+*.[oa]
+# Ignore temporary files created by editors
+*~

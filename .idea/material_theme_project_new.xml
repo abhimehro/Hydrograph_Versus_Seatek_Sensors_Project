@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="MaterialThemeConfig">
+    <metadata migrated="true" pristine="false" userIdPlaceholder="USER_ID_PLACEHOLDER" />
+    <titleBarConfig overrideColor="false" />
+  </component>
   <component name="MaterialThemeProjectNewConfig">
     <option name="metadata">
       <MTProjectMetadataState>

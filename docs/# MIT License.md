@@ -1,3 +1,11 @@
+# Software Metadata
+
+Software: Hydrograph Versus Seatek Sensors Project  
+Version: 1.0.0  
+Contact: abhimhrtr@pm.me
+
+---
+
 # MIT License
 
 Copyright (c) 2024 Abhi Mehrotra
@@ -19,7 +27,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-Software: Hydrograph Versus Seatek Sensors Project
-Version: 1.0.0
-Contact: abhimhrtr@pm.me

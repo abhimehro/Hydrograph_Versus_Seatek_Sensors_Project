@@ -1,57 +1,46 @@
-<!--
-This is a GitHub issue template for reporting bugs.
+---
+# Bug Report Template
+# Use this template to report bugs and help improve the project.
 
-Template Fields:
-\- name: The issue template name.
-\- about: A brief description of the template's purpose.
-\- title: The default issue title.
-\- labels: Labels to categorize the issue.
-\- assignees: Default assignees for the issue.
-
-Sections:
-- Describe the bug: A clear and concise description of the bug.
-- To Reproduce: Steps to reproduce the bug.
-- Expected behavior: A description of what was expected to happen.
-- Screenshots: Option to add screenshots to explain the problem.
-- Desktop: Information about the desktop environment.
-- Smartphone: Information about the smartphone environment.
-- Additional context: Any other relevant information.
--->
+name: Bug Report
+about: Report any issues or bugs
+title: [Enter a brief title describing the issue]
+labels: [bug]
+assignees: [default-assignee]
 
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: bug
-assignees: ''
----
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Description of the Bug**
+Provide a clear and concise description of the bug.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '…'
-3. Scroll down to '…'
-4. See error
+**Steps to Reproduce**
+List steps to reproduce the behavior:
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+4. [Error or issue observed]
+
+**Expected Behavior**
+Describe what you expected to happen instead of the observed error.
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+If applicable, attach screenshots to help explain the issue.
 
-**Desktop (please complete the following information):**
-- OS: [e.g. iOS]
-- Browser [e.g. chrome, safari]
-- Version [e.g. 22]
+**Desktop Environment**
+Provide details about your desktop setup:
 
-**Smartphone (please complete the following information):**
-- Device: [e.g. iPhone6]
-- OS: [e.g. iOS8.1]
-- Browser [e.g. stock browser, safari]
-- Version [e.g. 22]
+- OS: [e.g., iOS]
+- Browser: [e.g., Chrome, Safari]
+- Version: [e.g., 22]
 
-**Additional context**
-Add any other context about the problem here.
+**Smartphone Environment**
+Include details if the issue occurs on a smartphone:
+
+- Device: [e.g., iPhone 6]
+- OS: [e.g., iOS 8.1]
+- Browser: [e.g., Safari]
+- Version: [e.g., 22]
+
+**Additional Context**
+Add any other relevant information or context about the problem here.

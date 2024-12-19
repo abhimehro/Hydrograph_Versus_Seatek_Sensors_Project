@@ -1,15 +1,17 @@
 [tool.poetry]
-name = "hydrosensors_project"
+name = "hydrosensors"  # Renamed to be more concise
 version = "0.1.0"
-description = "A project comparing Hydrograph and Seatek sensors"
+description = "Compare Hydrograph and Seatek sensors"
 authors = ["Abhi Mehrotra <abhimhrtr@pm.me>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.10"  # Extracted constant reflects Python compatibility
 requests = "*"
 pandas = "*"
 matplotlib = "*"
+
+[tool.poetry.dev-dependencies]
 pytest = "*"
 flake8 = "*"
 black = "*"

@@ -1,9 +1,14 @@
-#!/Users/abhimehrotra/Dataspell_Projects/Hydrograph_Versus_Seatek_Sensors_Project/clean_env/bin/python3
-# -*- coding: utf-8 -*-
 import re
 import sys
-from pip._internal.cli.main import main
+from pip._internal.cli.main import main as pip_main
 
-if __name__ == '__main__' :
-	sys.argv [ 0 ] = re.sub ( r'(-script\.pyw|\.exe)?$' , '' , sys.argv [ 0 ] )
-	sys.exit ( main ( ) )
+# Constant for the script extension pattern to remove
+SCRIPT_EXTENSION_PATTERN = r"(-script\.pyw|\.exe)?$"
+
+if __name__ == "__main__":
+    # Clean up the first command-line argument to remove script extensions
+    script_name = re.sub(SCRIPT_EXTENSION_PATTERN, "", sys.argv[0])
+    sys.argv[0] = script_name
+
+    # Execute the pip main function
+    sys.exit(pip_main())

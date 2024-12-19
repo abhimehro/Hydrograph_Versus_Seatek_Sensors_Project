@@ -1,9 +1,18 @@
-#!/Users/abhimehrotra/Dataspell_Projects/Hydrograph_Versus_Seatek_Sensors_Project/clean_env/bin/python3
-# -*- coding: utf-8 -*-
 import re
 import sys
 from pip._internal.cli.main import main
 
-if __name__ == '__main__' :
-	sys.argv [ 0 ] = re.sub ( r'(-script\.pyw|\.exe)?$' , '' , sys.argv [ 0 ] )
-	sys.exit ( main ( ) )
+# Introduced constant for reusability and clarity
+SCRIPT_SUFFIX_PATTERN = r'(-script\.pyw|\.exe)?$'
+
+def sanitize_script_name(script_name: str) -> str:
+    """Sanitize the script name by removing suffixes like '-script.pyw' or '.exe'."""
+    return re.sub(SCRIPT_SUFFIX_PATTERN, '', script_name)
+
+def execute_main():
+    """Set up the system arguments and execute the main function."""
+    sys.argv[0] = sanitize_script_name(sys.argv[0])
+    sys.exit(main())
+
+if __name__ == '__main__':
+    execute_main()

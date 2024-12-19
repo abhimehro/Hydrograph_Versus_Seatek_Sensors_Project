@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Black">
-    <option name="sdkName" value="$PROJECT_DIR$/../.ai-navigator/micromamba/envs/metal" />
-  </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13" project-jdk-type="Python SDK" />
-  <component name="PyCharmDSProjectLayout">
-    <option name="id" value="JupyterRightHiddenStructureLayout" />
-  </component>
-  <component name="PythonCompatibilityInspectionAdvertiser">
-    <option name="version" value="3" />
-  </component>
+    <!-- Constants for commonly reused values -->
+    <!ENTITY sdkPath "$PROJECT_DIR$/../.ai-navigator/micromamba/envs/metal">
+    <!ENTITY jdkName "Python 3.13">
+
+    <component name="Black">
+        <option name="sdkName" value="&sdkPath;"/>
+    </component>
+    <component name="ProjectRootManager" version="2" project-jdk-name="&jdkName;" project-jdk-type="Python SDK"/>
+    <component name="PyCharmDSProjectLayout">
+        <option name="id" value="JupyterRightHiddenStructureLayout"/>
+    </component>
+    <component name="PythonCompatibilityInspectionAdvertiser">
+        <option name="version" value="3"/>
+    </component>
 </project>

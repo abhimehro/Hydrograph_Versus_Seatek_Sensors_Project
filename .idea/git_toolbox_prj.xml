@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project [
+        <!ENTITY BoolValueOverride "<BoolValueOverride><option name='enabled' value='true' /></BoolValueOverride>">
+        ]>
 <project version="4">
-  <component name="GitToolBoxProjectSettings">
-    <option name="commitMessageIssueKeyValidationOverride">
-      <BoolValueOverride>
-        <option name="enabled" value="true" />
-      </BoolValueOverride>
-    </option>
-    <option name="commitMessageValidationEnabledOverride">
-      <BoolValueOverride>
-        <option name="enabled" value="true" />
-      </BoolValueOverride>
-    </option>
-  </component>
+    <component name="GitToolBoxProjectSettings">
+        <option name="issueKeyValidation">
+            &BoolValueOverride;
+        </option>
+        <option name="messageValidation">
+            &BoolValueOverride;
+        </option>
+    </component>
 </project>

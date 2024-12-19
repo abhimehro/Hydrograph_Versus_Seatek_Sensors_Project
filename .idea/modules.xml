@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/DataspellProjects.iml" filepath="$PROJECT_DIR$/.idea/DataspellProjects.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Hydrograph_Versus_Seatek_Sensors_Project/.idea/Hydrograph-Versus-Seatek-Sensors-Project.iml" filepath="$PROJECT_DIR$/Hydrograph_Versus_Seatek_Sensors_Project/.idea/Hydrograph-Versus-Seatek-Sensors-Project.iml" />
-    </modules>
-  </component>
+    <component name="ProjectModuleManager">
+        <modules>
+            <module
+                    fileUrl="file://$BASE_DIR$/.idea/DataspellProjects.iml"
+                    filePath="$BASE_DIR$/.idea/DataspellProjects.iml"
+            />
+            <module
+                    fileUrl="file://$BASE_DIR$/Hydrograph_Versus_Seatek_Sensors_Project/.idea/Hydrograph-Versus-Seatek-Sensors-Project.iml"
+                    filePath="$BASE_DIR$/Hydrograph_Versus_Seatek_Sensors_Project/.idea/Hydrograph-Versus-Seatek-Sensors-Project.iml"
+            />
+        </modules>
+    </component>
 </project>

@@ -1,18 +1,27 @@
 # Pipfile
+
 [[source]]
-name = "pypi"
+name = "pypi" # Primary package source
 url = "https://pypi.org/simple"
 verify_ssl = true
 
 [packages]
+# HTTP libraries
 requests = "*"
+
+# Data processing libraries
 pandas = "*"
+
+# Visualizations
 matplotlib = "*"
+
+[dev-packages]
+# Testing tools
 pytest = "*"
+
+# Code quality tools
 flake8 = "*"
 black = "*"
 
-[dev-packages]
-
 [requires]
-python_version = "3.10"
+python_version = "3.13"

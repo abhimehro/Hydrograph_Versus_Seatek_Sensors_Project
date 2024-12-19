@@ -1,38 +1,49 @@
-pip
-listimport
-subprocess
+import subprocess
 
+# Constants for Git commands
+GIT_DIFF_COMMAND = ["git", "diff", "--staged"]
+GIT_DIFF_NAME_ONLY_COMMAND = ["git", "diff", "--name-only", "--staged"]
+
+def determine_message_type(staged_diff):
+    """
+    Determine the type of commit message based on diff content.
+    """
+    diff_lower = staged_diff.lower()
+    if "fix" in diff_lower:
+        return "fix"
+    elif "add" in diff_lower:
+        return "feat"
+    elif "refactor" in diff_lower:
+        return "refactor"
+    else:
+        return "chore"
+
+def get_staged_file_list():
+    """
+    Get the list of staged files from Git.
+    """
+    staged_files_output = subprocess.run(
+        GIT_DIFF_NAME_ONLY_COMMAND, capture_output=True, text=True
+    ).stdout
+    return staged_files_output.strip().split("\n")
 
 def generate_commit_message():
-    # Get the Git diff
-    diff = subprocess.run(
-        ["git", "diff", "--staged"], capture_output=True, text=True
+    """
+    Generate a commit message based on staged changes.
+    """
+    staged_diff = subprocess.run(
+        GIT_DIFF_COMMAND, capture_output=True, text=True
     ).stdout
-
-    if not diff:
+    if not staged_diff:
         return "No changes staged for commit."
 
-    # Basic logic to identify types of changes
-    if "fix" in diff.lower():
-        message_type = "fix"
-    elif "add" in diff.lower():
-        message_type = "feat"
-    elif "refactor" in diff.lower():
-        message_type = "refactor"
-    else:
-        message_type = "chore"
-
-    # Extract file names and summarize changes
-    files = subprocess.run(
-        ["git", "diff", "--name-only", "--staged"], capture_output=True, text=True
-    ).stdout
-    file_list = files.strip().split("\n")
-    file_summary = ", ".join(file_list)
+    # Determine message type and summarize staged files
+    message_type = determine_message_type(staged_diff)
+    staged_files = get_staged_file_list()
+    file_summary = ", ".join(staged_files)
 
     # Construct the commit message
-    commit_message = f"{message_type}: Update {file_summary}"
-    return commit_message
-
+    return f"{message_type}: Update {file_summary}"
 
 # Example usage
 if __name__ == "__main__":
