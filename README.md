@@ -12,7 +12,7 @@ This project analyzes and visualizes Seatek sensor data collected from various r
 This project analyzes sediment bed levels and hydrograph data for various River Miles (RMs) along a river system.
 
 ## Quick Navigation
-- [Installation Guide](docs/installation.md)
+- [Installation Guide](docs/technical/installation.md)
 - [Data Format Specification](docs/technical/data_format.md)
 - [Technical Documentation](docs/technical/Technical%20Documentation)
 - [Sensor Analysis Documentation](docs/visualization/sensor_analysis.md)
