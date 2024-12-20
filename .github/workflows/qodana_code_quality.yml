@@ -18,8 +18,6 @@ jobs:
           fetch-depth: 0
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2024.2
-        with:
-          version: '2024.2'
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_736140003 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
