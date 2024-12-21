@@ -1,6 +1,3 @@
-project:
-  name: "Hydrograph vs Seatek Sensors"
-  version: "0.1.0"
 # Project Configuration
 project:
   name: "Hydrograph vs Seatek Sensors"
@@ -16,3 +13,9 @@ visualization:
   output_dir: "output/charts"
   dpi: 300
   figure_size: [12, 8]
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/hydrosensors.log"
