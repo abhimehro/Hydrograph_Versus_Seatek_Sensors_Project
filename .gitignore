@@ -61,4 +61,4 @@ htmlcov/
 # Cleanup scripts
 *cleanup*.py
 show_structure.py
-final_organization.py
+final_organization.py.qodo

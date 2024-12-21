@@ -1,6 +1,8 @@
 name: Python CI
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
 
 jobs:
   build:
@@ -11,6 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
@@ -23,10 +26,16 @@ jobs:
         pip install -r requirements-dev.txt
 
     - name: Lint with flake8
-      run: flake8 src tests
+      run: |
+        pip install flake8
+        flake8 src tests
 
     - name: Type check with mypy
-      run: mypy src
+      run: |
+        pip install mypy
+        mypy src
 
     - name: Test with pytest
-      run: pytest tests/
+      run: |
+        pip install pytest
+        pytest tests/
