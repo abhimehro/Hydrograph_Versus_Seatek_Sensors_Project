@@ -6,17 +6,7 @@ __pycache__/
 build/
 develop-eggs/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
 *.egg-info/
-.installed.cfg
 *.egg
 
 # Virtual Environment
@@ -24,10 +14,6 @@ wheels/
 .venv/
 venv/
 ENV/
-bin/
-include/
-share/
-pyvenv.cfg
 
 # IDE
 .idea/
@@ -35,12 +21,6 @@ pyvenv.cfg
 *.swp
 *.swo
 .run/
-
-# Git internals
-objects/
-hooks/
-info/
-refs/
 
 # Project specific
 output/**/*.png
@@ -52,10 +32,15 @@ data/**/*.txt
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 
-# Scripts
-scripts/other_scripts/
+# Temporary/Helper files
+update_structure.py
+organize_project.py
+show_structure.py
 
-# Logs
+# Documentation drafts
+docs/**/#*
+
+# Logs and cache
 *.log
 .coverage
 htmlcov/
