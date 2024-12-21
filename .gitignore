@@ -3,18 +3,31 @@ __pycache__/
 *.py[cod]
 *$py.class
 .Python
-*.so
-
-# Distribution / packaging
-dist/
 build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
 *.egg-info/
+.installed.cfg
+*.egg
 
 # Virtual Environment
 .env
 .venv/
 venv/
 ENV/
+bin/
+lib/
+include/
+share/
 
 # IDE
 .idea/
@@ -23,29 +36,38 @@ ENV/
 *.swo
 .run/
 
-# Testing
-.pytest_cache/
+# Project specific
+output/**/*.png
+!output/.gitkeep
+
+# Data
+data/processed/*
+!data/processed/.gitkeep
+data/raw/*
+!data/raw/.gitkeep
+
+# Logs
+*.log
 .coverage
 htmlcov/
+.pytest_cache/
+.mypy_cache/
 
-# Misc
+# OS specific
 .DS_Store
-*.log
+Thumbs.db
 
-# Data and Output
-data/raw/*
-data/processed/*
-output/charts/*
-
-# Keep directory structure
-!data/raw/.gitkeep
-!data/processed/.gitkeep
-!output/charts/.gitkeep
-
-# Explicitly include
+# Keep specific directories
 !src/
 !src/**
 !tests/
 !tests/**
 !config/
 !config/**
+!docs/
+!docs/**
+
+# Keep specific files
+!pyproject.toml
+!.pre-commit-config.yaml
+!README.md
