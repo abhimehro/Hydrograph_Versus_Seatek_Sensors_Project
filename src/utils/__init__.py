@@ -1,28 +1,41 @@
-"""
-Hydrograph Versus Seatek Sensors Project
-This package contains modules for processing hydrograph and sensor data,
-calculating correlations, and visualizing the results.
+import typing
+import logging
 
-Modules:
-    - data_processor: Functions for processing input data.
-    - correlation_explanation: Functions to calculate and explain correlations.
-    - import_logging: Functions to configure and manage logging.
-    - utils: Utility functions for data validation, cleaning, and file handling.
-    - visualization: Functions for setting up plot styles, creating visualizations, and saving plots.
-"""
+class HydrographProcessingError(Exception):
+    """Base exception for Hydrograph processing errors."""
 
-__all__ = [
-		"process_data" ,
-		"calculate_correlation" ,
-		"interpret_correlation" ,
-		"load_config" ,
-		"process_all_files" ,
-		"validate_numeric_data" ,
-		"clean_data" ,
-		"format_sensor_name" ,
-		"load_excel_file" ,
-		"create_output_dir" ,
-		"log_start_of_process" ,
-		"log_end_of_process" ,
-		"DataVisualizationError" ,
-		]
+    def __init__(self, message: str, context: typing.Optional[typing.Dict[str, typing.Any]] = None):
+        super().__init__(message)
+        self.context = context or {}
+
+    def __str__(self):
+        base_message = super().__str__()
+        if self.context:
+            return f"{base_message} | Context: {self.context}"
+        return base_message
+
+    def log_error(self, logger: typing.Optional[logging.Logger] = None):
+        """Logs the error using the provided logger or the default logger."""
+        if logger is None:
+            logger = logging.getLogger(__name__)
+        logger.error(self.__str__())
+
+    def to_dict(self) -> typing.Dict[str, typing.Any]:
+        """Converts the exception details to a dictionary."""
+        return {
+            'message': str(self),
+            'context': self.context
+        }
+
+    def sanitize_context(self):
+        """Sanitizes the context to remove sensitive information."""
+        # Implement specific logic to sanitize sensitive data
+        sanitized_context = {k: v for k, v in self.context.items() if not self.is_sensitive(k)}
+        self.context = sanitized_context
+
+    @staticmethod
+    def is_sensitive(key: str) -> bool:
+        """Determines if a context key is sensitive."""
+        # Define logic to identify sensitive keys
+        sensitive_keys = {'password', 'secret', 'token'}
+        return key.lower() in sensitive_keys
