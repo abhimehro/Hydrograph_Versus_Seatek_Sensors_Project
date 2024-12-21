@@ -25,9 +25,9 @@ wheels/
 venv/
 ENV/
 bin/
-lib/
 include/
 share/
+pyvenv.cfg
 
 # IDE
 .idea/
@@ -36,15 +36,24 @@ share/
 *.swo
 .run/
 
+# Git internals
+objects/
+hooks/
+info/
+refs/
+
 # Project specific
 output/**/*.png
 !output/.gitkeep
 
-# Data
-data/processed/*
-!data/processed/.gitkeep
-data/raw/*
+# Data files
+data/**/*.xlsx
+data/**/*.txt
 !data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Scripts
+scripts/other_scripts/
 
 # Logs
 *.log
@@ -57,7 +66,7 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# Keep specific directories
+# Keep specific directories and their contents
 !src/
 !src/**
 !tests/
@@ -71,3 +80,4 @@ Thumbs.db
 !pyproject.toml
 !.pre-commit-config.yaml
 !README.md
+!docs/**/*.md
