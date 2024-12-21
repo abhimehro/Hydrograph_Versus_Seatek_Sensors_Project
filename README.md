@@ -159,5 +159,5 @@ This project is licensed under the MIT License - see the [License](https://githu
 ## Contact
 
 - **Author**: Abhi Mehrotra
-- **Email**: abhimhrtr@pm.me
+- **Email**: AbhiMhrtr@pm.me
 - **Project Link**: [GitHub Repository](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project)
