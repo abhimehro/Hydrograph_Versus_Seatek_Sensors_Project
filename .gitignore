@@ -21,6 +21,7 @@ ENV/
 *.swp
 *.swo
 .run/
+.codiumai/
 
 # Project specific
 output/**/*.png
@@ -32,24 +33,13 @@ data/**/*.txt
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 
-# Temporary/Helper files
-update_structure.py
-organize_project.py
-show_structure.py
-
-# Documentation drafts
-docs/**/#*
-
-# Logs and cache
+# Temporary files
+.DS_Store
 *.log
 .coverage
 htmlcov/
 .pytest_cache/
 .mypy_cache/
-
-# OS specific
-.DS_Store
-Thumbs.db
 
 # Keep specific directories and their contents
 !src/
