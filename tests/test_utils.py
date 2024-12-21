@@ -4,7 +4,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from pandas import DataFrame
-from src.visualization import (
+from src import (
     create_visualization,
     DataVisualizationError,
     save_visualization,

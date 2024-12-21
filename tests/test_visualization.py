@@ -3,7 +3,7 @@ from pathlib import Path
 
 from matplotlib.figure import Figure
 from pandas import DataFrame
-from src.visualization import (
+from src import (
     create_visualization ,
     DataVisualizationError ,
     save_visualization ,

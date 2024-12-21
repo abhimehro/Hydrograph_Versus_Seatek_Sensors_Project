@@ -3,7 +3,6 @@ import sys
 import pandas as pd
 import pytest
 from unittest.mock import patch
-from pathlib import Path
 
 # Constants
 SRC_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
@@ -15,7 +14,7 @@ if not os.path.exists(SRC_DIR):
 sys.path.insert(0, SRC_DIR)
 
 from visualization.visualization import create_chart
-from src.data_processor import process_data
+from src import process_data
 
 
 # Sample data provided as a reusable fixture
