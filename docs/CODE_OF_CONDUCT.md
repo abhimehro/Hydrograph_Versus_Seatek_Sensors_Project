@@ -49,7 +49,7 @@ This Code of Conduct applies:
 
 Instances of abusive, harassing, or unacceptable behavior can be reported to community leaders:
 
-- Contact: **[INSERT CONTACT INFO]**
+- Contact: **[AbhiMhrtr@pm.me]**
 
 All complaints will be reviewed and investigated **promptly and fairly**, maintaining **respect for the privacy and
 security** of the reporter.
