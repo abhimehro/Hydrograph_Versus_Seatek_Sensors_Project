@@ -21,10 +21,6 @@
 
 This project analyzes and visualizes Seatek sensor data collected from various river miles over a 20-year period (1995-2014). It aims to provide insights into sediment bed level dynamics by correlating hydrograph data with sensor measurements. The main objectives are to understand how river morphology changes over time and to identify significant patterns in sediment transport.
 
-## Project Overview
-
-This project analyzes the relationship between hydrograph data and Seatek sensor measurements in river systems, providing insights into sediment bed level dynamics. The analysis combines environmental sensing data with advanced visualization techniques to better understand river morphology.
-
 ## Project Structure
 
 ```
