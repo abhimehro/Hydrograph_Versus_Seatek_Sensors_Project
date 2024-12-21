@@ -149,16 +149,16 @@ For more of the latter visualizations, check the `output/charts` directory speci
 ## Documentation
 
 - [Installation Guide](docs/technical/installation.md)
-- [Data Format Specification](docs/technical/data_format.md)
-- [API Reference](docs/technical/Technical%20Documentation)
+- [Data Format Specification](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/visualization/data_format.md)
+- [API Reference](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/visualization/API_Documentation.md)
 
 ## Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md).
+Contributions are welcome! Please read our [Contributing Guide](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/CONTRIBUTING.md) and [Code of Conduct](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/CODE_OF_CONDUCT.md).
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [License](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/LICENSE.md) file for details.
 
 ## Contact
 
