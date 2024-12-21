@@ -1,36 +1,51 @@
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
+.Python
+*.so
 
+# Distribution / packaging
 dist/
 build/
 *.egg-info/
 
+# Virtual Environment
 .env
+.venv/
 venv/
 ENV/
 
+# IDE
 .idea/
 .vscode/
 *.swp
 *.swo
 .run/
 
+# Testing
 .pytest_cache/
 .coverage
 htmlcov/
 
+# Misc
 .DS_Store
 *.log
 
+# Data and Output
+data/raw/*
+data/processed/*
+output/charts/*
+
+# Keep directory structure
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!output/charts/.gitkeep
+
+# Explicitly include
 !src/
 !src/**
 !tests/
 !tests/**
 !config/
 !config/**
-!.github/
-!.github/**
-!pyproject.toml
-!config.yaml
-!.pre-commit-config.yaml
