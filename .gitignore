@@ -59,6 +59,6 @@ htmlcov/
 !docs/**/*.md
 
 # Cleanup scripts
-cleanup_*.py
+*cleanup*.py
 show_structure.py
-final_cleanup.py
+final_organization.py
