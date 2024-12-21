@@ -15,7 +15,7 @@ dist/
 venv/
 ENV/
 
-# IDE
+# IDE and Editor
 .idea/
 .vscode/
 *.swp
@@ -26,6 +26,7 @@ ENV/
 # Project specific
 output/**/*.png
 !output/.gitkeep
+!output/*/.gitkeep
 
 # Data files
 data/**/*.xlsx
@@ -56,3 +57,8 @@ htmlcov/
 !.pre-commit-config.yaml
 !README.md
 !docs/**/*.md
+
+# Cleanup scripts
+cleanup_*.py
+show_structure.py
+final_cleanup.py
