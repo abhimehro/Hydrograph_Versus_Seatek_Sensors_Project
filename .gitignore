@@ -3,30 +3,43 @@ __pycache__/
 *.py[cod]
 *$py.class
 .Python
-*.so
-.venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.env
+.venv
+venv/
+ENV/
 
 # IDE
-.vscode/
 .idea/
+.vscode/
 *.swp
 *.swo
+.run/
 
-# Jupyter
-.ipynb_checkpoints/
-
-# Logs and Databases
+# Project specific
+output/
 *.log
-*.sqlite3
-
-# OS Generated Files
-.DS_Store
-Thumbs.db
-
-# Coverage and testing
 .coverage
 htmlcov/
 .pytest_cache/
+.mypy_cache/
 
-# Environments
-.env
+# OS specific
+.DS_Store
+Thumbs.db

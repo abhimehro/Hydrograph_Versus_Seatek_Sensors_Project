@@ -19,24 +19,53 @@ This project analyzes sediment bed levels and hydrograph data for various River 
 - [Contributor Code of Conduct](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/CODE_OF_CONDUCT.md)
 
 ## Project Structure
+
 ```
 Hydrograph_Versus_Seatek_Sensors_Project/
-├── src/ # Source code
-│ └── sensor-visualization.py
-├── data/ # Data files
-│ ├── raw/
-│ └── processed/
-├── output/ # Generated visualizations
-│ └── RM_*/ # River mile outputs
-│ └── sensor_charts/ # Sensor analysis outputs
-├── docs/ # Documentation
-│ ├── installation.md
-│ ├── sensor_analysis.md
-│ ├── data_format.md
-│ └── visualization_guide.md
-├── tests/ # Unit tests
-├── requirements.txt # Core dependencies
-└── requirements-dev.txt # Development dependencies
+│
+├── src/
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   ├── logger.py
+│   │   ├── import_logging.py
+│   │   └── utils.py
+│   │
+│   ├── data_processing/
+│   │   ├── __init__.py
+│   │   └── data_processor.py
+│   │
+│   ├── visualization/
+│   │   ├── __init__.py
+│   │   ├── sensor_visualization.py
+│   │   └── sensor_visualization_v2.py
+│   │
+│   └── main.py
+│
+├── tests/
+│   ├── __init__.py
+│   ├── test_utils.py
+│   └── test_visualization.py
+│
+├── docs/
+│   ├── technical/
+│   │   ├── description
+│   │   └── packed-refs
+│   │
+│   └── visualization/
+│       ├── data_format.md
+│       └── Hydrograph_Seatek Correlation Analysis Documentation.md
+│
+├── config/
+│   └── config.yaml
+│
+├── .github/
+│   └── workflows/
+│       ├── pylint.yml
+│       └── qodana_code_quality.yml
+│
+├── pyproject.toml
+├── README.md
+└── .gitignore
 ```
 
 ## Quick Start
