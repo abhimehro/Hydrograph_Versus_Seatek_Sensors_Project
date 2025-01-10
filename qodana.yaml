@@ -1,0 +1,39 @@
+# qodana.yaml
+#-------------------------------------------------------------------------------#
+#               Qodana Analysis Configuration                                   #
+#         Documentation: https://www.jetbrains.com/help/qodana/qodana-yaml.html #
+#-------------------------------------------------------------------------------#
+
+version: "1.0"
+qodana_linter: jetbrains/qodana-python:2024.3
+
+profile:
+  name: qodana.starter
+
+include:
+  - path: .
+    name: Project root
+exclude:
+  - name: Git directory
+    paths: [".git"]
+  - name: GitHub directory
+    paths: [".github"]
+  - name: Virtual environment
+    paths: ["venv"]
+  - name: Test directories
+    paths: ["tests"]
+
+inspections:
+  exclude:
+    - id: PyPep8Inspection
+    - id: PyUnresolvedReferencesInspection
+
+extensions:
+  - id: PythonCore
+  - id: PythonExtensions
+
+linter: "${qodana_linter}"
+
+fail-threshold:
+  overall: warning
+  new: error
