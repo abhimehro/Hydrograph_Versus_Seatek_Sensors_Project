@@ -17,9 +17,12 @@
 - [License](#license)
 - [Contact](#contact)
 
+# Seatek Sensor Data Processor
+
 ## Introduction
 
-This project analyzes and visualizes Seatek sensor data collected from various river miles over a 20-year period (1995-2014). It aims to provide insights into sediment bed level dynamics by correlating hydrograph data with sensor measurements. The main objectives are to understand how river morphology changes over time and to identify significant patterns in sediment transport.
+## Overview
+This project processes and visualizes Seatek sensor data with hydrograph measurements, converting Seatek readings to NAVD88 elevations and creating professional visualizations.
 
 ## Project Structure
 
@@ -96,12 +99,12 @@ python -m pip install poetry
 ```
 
 ### Installation
-
-```bash
-git clone https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project.git
-cd Hydrograph_Versus_Seatek_Sensors_Project
-poetry install
-```
+1. Clone the repository
+2. Create a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
 ### Usage
 

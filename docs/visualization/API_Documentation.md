@@ -10,7 +10,7 @@ Core class for handling hydrograph and sensor data processing.
 class DataProcessor:
     def __init__(self, file_path: str):
         """
-        Initialize data processor.
+        Initialize data processor.py.
         
         Args:
             file_path: Path to Excel file containing sensor data
@@ -70,7 +70,7 @@ class Visualizer:
 ```python
 from src.data_processing import DataProcessor
 
-# Initialize processor
+# Initialize processor.py
 processor = DataProcessor("data/sensor_readings.xlsx")
 
 # Load and process data

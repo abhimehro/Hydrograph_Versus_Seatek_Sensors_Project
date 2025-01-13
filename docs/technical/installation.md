@@ -5,7 +5,7 @@
 ### Hardware Requirements
 ```python
 SYSTEM_REQUIREMENTS = {
-    'cpu': 'Multi-core processor recommended',
+    'cpu': 'Multi-core processor.py recommended',
     'ram': '8GB minimum, 16GB recommended',
     'storage': '1GB free space minimum',
     'gpu': 'Optional - for accelerated visualization'

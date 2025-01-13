@@ -7769,3 +7769,83 @@
   Null values found: 401
 2025-01-09 17:42:09,549 - root - INFO - Combined visualization completed successfully
 2025-01-09 17:42:09,549 - root - INFO - Output files can be found in: /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/src/visualization/output/combined
+2025-01-10 12:53:14,826 - ERROR - Error loading data: [Errno 2] No such file or directory: 'data/processed/Hydrograph_Seatek_Data.xlsx'
+2025-01-10 12:53:14,828 - ERROR - Critical error: [Errno 2] No such file or directory: 'data/processed/Hydrograph_Seatek_Data.xlsx'
+2025-01-10 13:06:38,996 - ERROR - Critical error: name 'verify_files_exist' is not defined
+2025-01-10 13:36:05,621 - INFO - File /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/data/raw/Data_Summary.xlsx is accessible and readable.
+2025-01-10 13:36:05,655 - INFO - File /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/data/raw/Hydrograph_Seatek_Data.xlsx is accessible and readable.
+2025-01-10 13:36:05,655 - INFO - Output directory: /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/output/combined
+2025-01-10 13:36:05,667 - INFO - Loaded summary data with 12 river miles
+2025-01-10 13:36:05,754 - INFO - Processed sheet: RM_54.0
+2025-01-10 13:36:05,875 - INFO - Processed sheet: RM_53.0
+2025-01-10 13:36:05,960 - INFO - Processed sheet: RM_51.9
+2025-01-10 13:36:06,070 - INFO - Processed sheet: RM_50.5
+2025-01-10 13:36:06,161 - INFO - Processed sheet: RM_46.0
+2025-01-10 13:36:06,266 - INFO - Processed sheet: RM_42.1
+2025-01-10 13:36:06,353 - INFO - Processed sheet: RM_33.6
+2025-01-10 13:36:06,476 - INFO - Processed sheet: RM_23.0
+2025-01-10 13:36:06,561 - INFO - Processed sheet: RM_21.5
+2025-01-10 13:36:06,669 - INFO - Processed sheet: RM_17.0
+2025-01-10 13:36:06,782 - INFO - Processed sheet: RM_15.0
+2025-01-10 13:36:06,867 - INFO - Processed sheet: RM_13.1
+2025-01-10 13:36:06,869 - WARNING - No valid data for RM_54.0 - Sensor_1
+2025-01-10 13:36:06,869 - WARNING - No valid data for RM_54.0 - Sensor_2
+2025-01-10 13:36:06,870 - WARNING - No valid data for RM_53.0 - Sensor_3
+2025-01-10 13:36:06,870 - WARNING - No valid data for RM_53.0 - Sensor_4
+2025-01-10 13:36:06,871 - WARNING - No valid data for RM_51.9 - Sensor_5
+2025-01-10 13:36:06,871 - WARNING - No valid data for RM_51.9 - Sensor_6
+2025-01-10 13:36:06,872 - WARNING - No valid data for RM_50.5 - Sensor_7
+2025-01-10 13:36:06,872 - WARNING - No valid data for RM_50.5 - Sensor_8
+2025-01-10 13:36:06,873 - WARNING - No valid data for RM_46.0 - Sensor_9
+2025-01-10 13:36:06,873 - WARNING - No valid data for RM_46.0 - Sensor_10
+2025-01-10 13:36:06,874 - WARNING - No valid data for RM_46.0 - Sensor_11
+2025-01-10 13:36:06,874 - WARNING - No valid data for RM_46.0 - Sensor_12
+2025-01-10 13:36:06,875 - WARNING - No valid data for RM_42.1 - Sensor_13
+2025-01-10 13:36:06,875 - WARNING - No valid data for RM_42.1 - Sensor_14
+2025-01-10 13:36:06,875 - WARNING - No valid data for RM_42.1 - Sensor_15
+2025-01-10 13:36:06,876 - WARNING - No valid data for RM_42.1 - Sensor_16
+2025-01-10 13:36:06,876 - WARNING - No valid data for RM_33.6 - Sensor_17
+2025-01-10 13:36:06,877 - WARNING - No valid data for RM_33.6 - Sensor_18
+2025-01-10 13:36:06,877 - WARNING - No valid data for RM_33.6 - Sensor_19
+2025-01-10 13:36:06,878 - WARNING - No valid data for RM_33.6 - Sensor_20
+2025-01-10 13:36:06,878 - WARNING - No valid data for RM_23.0 - Sensor_21
+2025-01-10 13:36:06,879 - WARNING - No valid data for RM_23.0 - Sensor_22
+2025-01-10 13:36:06,879 - WARNING - No valid data for RM_21.5 - Sensor_23
+2025-01-10 13:36:06,880 - WARNING - No valid data for RM_21.5 - Sensor_24
+2025-01-10 13:36:06,880 - WARNING - No valid data for RM_17.0 - Sensor_25
+2025-01-10 13:36:06,881 - WARNING - No valid data for RM_17.0 - Sensor_26
+2025-01-10 13:36:06,881 - WARNING - No valid data for RM_17.0 - Sensor_27
+2025-01-10 13:36:06,882 - WARNING - No valid data for RM_15.0 - Sensor_28
+2025-01-10 13:36:06,882 - WARNING - No valid data for RM_15.0 - Sensor_29
+2025-01-10 13:36:06,883 - WARNING - No valid data for RM_15.0 - Sensor_30
+2025-01-10 13:36:06,883 - WARNING - No valid data for RM_13.1 - Sensor_31
+2025-01-10 13:36:06,884 - WARNING - No valid data for RM_13.1 - Sensor_32
+2025-01-10 13:58:58,353 - INFO - File /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/data/raw/Data_Summary.xlsx is accessible and readable.
+2025-01-10 13:58:58,970 - INFO - File /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/data/raw/Hydrograph_Seatek_Data.xlsx is accessible and readable.
+2025-01-10 13:58:58,971 - INFO - Output directory: /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/output/combined
+2025-01-10 13:58:59,575 - INFO - Loaded summary data with 12 river miles
+2025-01-10 13:58:59,754 - INFO - Processing sheet: RM_54.0
+2025-01-10 13:58:59,754 - ERROR - Missing required columns in RM_54.0
+2025-01-10 13:58:59,754 - WARNING - Invalid sheet structure: RM_54.0
+2025-01-10 13:58:59,918 - INFO - Processing sheet: RM_53.0
+2025-01-10 13:58:59,922 - WARNING - No valid data found in RM_53.0
+2025-01-10 13:59:00,066 - INFO - Processing sheet: RM_51.9
+2025-01-10 13:59:00,067 - WARNING - No valid data found in RM_51.9
+2025-01-10 13:59:00,224 - INFO - Processing sheet: RM_50.5
+2025-01-10 13:59:00,225 - WARNING - No valid data found in RM_50.5
+2025-01-10 13:59:00,420 - INFO - Processing sheet: RM_46.0
+2025-01-10 13:59:00,421 - WARNING - No valid data found in RM_46.0
+2025-01-10 13:59:00,599 - INFO - Processing sheet: RM_42.1
+2025-01-10 13:59:00,600 - WARNING - No valid data found in RM_42.1
+2025-01-10 13:59:00,793 - INFO - Processing sheet: RM_33.6
+2025-01-10 13:59:00,794 - WARNING - No valid data found in RM_33.6
+2025-01-10 13:59:00,950 - INFO - Processing sheet: RM_23.0
+2025-01-10 13:59:00,951 - WARNING - No valid data found in RM_23.0
+2025-01-10 13:59:01,106 - INFO - Processing sheet: RM_21.5
+2025-01-10 13:59:01,107 - WARNING - No valid data found in RM_21.5
+2025-01-10 13:59:01,269 - INFO - Processing sheet: RM_17.0
+2025-01-10 13:59:01,271 - WARNING - No valid data found in RM_17.0
+2025-01-10 13:59:01,456 - INFO - Processing sheet: RM_15.0
+2025-01-10 13:59:01,457 - WARNING - No valid data found in RM_15.0
+2025-01-10 13:59:01,615 - INFO - Processing sheet: RM_13.1
+2025-01-10 13:59:01,616 - WARNING - No valid data found in RM_13.1

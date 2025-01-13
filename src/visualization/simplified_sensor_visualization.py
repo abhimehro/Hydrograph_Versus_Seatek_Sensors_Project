@@ -79,7 +79,7 @@ class SeatekDataProcessor:
 
     def __init__(self, data_dir: Union[str, Path]):
         """
-        Initialize the data processor.
+        Initialize the data processor.py.
 
         Args:
             data_dir: Directory containing river mile files
@@ -431,7 +431,7 @@ def main():
 
     This function:
     1. Verifies required files exist and are accessible
-    2. Initializes data processor and visualizer
+    2. Initializes data processor.py and visualizer
     3. Creates output directories
     4. Processes and visualizes sensor data
     5. Handles any errors that occur during execution
@@ -467,8 +467,8 @@ def main():
         output_dir = Path("output/sensor_only")
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        # Initialize processor with verified processed directory
-        logger.info("Initializing data processor...")
+        # Initialize processor.py with verified processed directory
+        logger.info("Initializing data processor.py...")
         processor = SeatekDataProcessor(rm_path.parent)
 
         # Load and validate data
