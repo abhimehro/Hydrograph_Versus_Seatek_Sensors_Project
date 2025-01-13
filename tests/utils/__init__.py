@@ -25,15 +25,15 @@ logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
 # Import main classes and functions for easier access
-from src.utils.config import Config
-from src.utils.data_loader import DataLoader
-from src.utils.processor import (
+from utils.config import Config
+from utils.data_loader import DataLoader
+from utils.processor import (
     ProcessingMetrics,
     RiverMileData,
     SeatekDataProcessor
 )
-from src.utils.visualizer import SeatekVisualizer
-from src.utils.chart_generator import ChartGenerator
+from utils.visualizer import SeatekVisualizer
+from utils.chart_generator import ChartGenerator
 
 # Define what should be imported with "from utils import *"
 __all__ = [
