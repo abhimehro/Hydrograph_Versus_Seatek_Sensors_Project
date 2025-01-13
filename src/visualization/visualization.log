@@ -1,0 +1,89 @@
+2025-01-10 14:08:52,453 - INFO - Loading sheet: Data_Summary
+2025-01-10 14:08:52,454 - ERROR - Missing columns in Data_Summary: ['Time (Seconds)', 'Year']
+2025-01-10 14:08:52,454 - WARNING - Validation failed for Data_Summary
+2025-01-10 14:08:52,631 - INFO - Loading sheet: RM_54.0
+2025-01-10 14:08:52,631 - ERROR - Missing columns in RM_54.0: ['Time (Seconds)']
+2025-01-10 14:08:52,631 - WARNING - Validation failed for RM_54.0
+2025-01-10 14:08:52,789 - INFO - Loading sheet: RM_53.0
+2025-01-10 14:08:52,789 - INFO - Successfully loaded RM_53.0
+2025-01-10 14:08:52,926 - INFO - Loading sheet: RM_51.9
+2025-01-10 14:08:52,926 - INFO - Successfully loaded RM_51.9
+2025-01-10 14:08:53,083 - INFO - Loading sheet: RM_50.5
+2025-01-10 14:08:53,083 - INFO - Successfully loaded RM_50.5
+2025-01-10 14:08:53,259 - INFO - Loading sheet: RM_46.0
+2025-01-10 14:08:53,259 - INFO - Successfully loaded RM_46.0
+2025-01-10 14:08:53,455 - INFO - Loading sheet: RM_42.1
+2025-01-10 14:08:53,455 - INFO - Successfully loaded RM_42.1
+2025-01-10 14:08:53,647 - INFO - Loading sheet: RM_33.6
+2025-01-10 14:08:53,647 - INFO - Successfully loaded RM_33.6
+2025-01-10 14:08:53,803 - INFO - Loading sheet: RM_23.0
+2025-01-10 14:08:53,803 - INFO - Successfully loaded RM_23.0
+2025-01-10 14:08:53,940 - INFO - Loading sheet: RM_21.5
+2025-01-10 14:08:53,940 - INFO - Successfully loaded RM_21.5
+2025-01-10 14:08:54,117 - INFO - Loading sheet: RM_17.0
+2025-01-10 14:08:54,117 - INFO - Successfully loaded RM_17.0
+2025-01-10 14:08:54,274 - INFO - Loading sheet: RM_15.0
+2025-01-10 14:08:54,274 - INFO - Successfully loaded RM_15.0
+2025-01-10 14:08:54,432 - INFO - Loading sheet: RM_13.1
+2025-01-10 14:08:54,432 - INFO - Successfully loaded RM_13.1
+2025-01-10 14:08:54,439 - INFO - Output directory: /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/output/combined
+2025-01-10 14:18:42,862 - INFO - Loading sheet: Data_Summary
+2025-01-10 14:18:42,863 - INFO - Successfully loaded Data_Summary
+2025-01-10 14:18:43,035 - INFO - Loading sheet: RM_54.0
+2025-01-10 14:18:43,036 - INFO - Successfully loaded RM_54.0
+2025-01-10 14:18:43,199 - INFO - Loading sheet: RM_53.0
+2025-01-10 14:18:43,199 - INFO - Successfully loaded RM_53.0
+2025-01-10 14:18:43,337 - INFO - Loading sheet: RM_51.9
+2025-01-10 14:18:43,337 - INFO - Successfully loaded RM_51.9
+2025-01-10 14:18:43,492 - INFO - Loading sheet: RM_50.5
+2025-01-10 14:18:43,492 - INFO - Successfully loaded RM_50.5
+2025-01-10 14:18:43,684 - INFO - Loading sheet: RM_46.0
+2025-01-10 14:18:43,684 - INFO - Successfully loaded RM_46.0
+2025-01-10 14:18:43,863 - INFO - Loading sheet: RM_42.1
+2025-01-10 14:18:43,863 - INFO - Successfully loaded RM_42.1
+2025-01-10 14:18:44,055 - INFO - Loading sheet: RM_33.6
+2025-01-10 14:18:44,055 - INFO - Successfully loaded RM_33.6
+2025-01-10 14:18:44,212 - INFO - Loading sheet: RM_23.0
+2025-01-10 14:18:44,212 - INFO - Successfully loaded RM_23.0
+2025-01-10 14:18:44,349 - INFO - Loading sheet: RM_21.5
+2025-01-10 14:18:44,349 - INFO - Successfully loaded RM_21.5
+2025-01-10 14:18:44,523 - INFO - Loading sheet: RM_17.0
+2025-01-10 14:18:44,523 - INFO - Successfully loaded RM_17.0
+2025-01-10 14:18:44,703 - INFO - Loading sheet: RM_15.0
+2025-01-10 14:18:44,704 - INFO - Successfully loaded RM_15.0
+2025-01-10 14:18:44,845 - INFO - Loading sheet: RM_13.1
+2025-01-10 14:18:44,845 - INFO - Successfully loaded RM_13.1
+2025-01-10 14:18:44,855 - INFO - Processed RM_54.0
+2025-01-10 14:18:44,859 - INFO - Output directory: /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/output/combined
+2025-01-10 14:18:45,882 - INFO - Generated: /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/output/combined/RM_54.0/RM_54.0_Sensor_1.png
+2025-01-10 14:18:46,718 - INFO - Generated: /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/output/combined/RM_54.0/RM_54.0_Sensor_2.png
+2025-01-10 14:19:39,831 - INFO - Loading sheet: Data_Summary
+2025-01-10 14:19:39,831 - INFO - Successfully loaded Data_Summary
+2025-01-10 14:19:39,992 - INFO - Loading sheet: RM_54.0
+2025-01-10 14:19:39,996 - INFO - Successfully loaded RM_54.0
+2025-01-10 14:19:40,150 - INFO - Loading sheet: RM_53.0
+2025-01-10 14:19:40,150 - INFO - Successfully loaded RM_53.0
+2025-01-10 14:19:40,292 - INFO - Loading sheet: RM_51.9
+2025-01-10 14:19:40,292 - INFO - Successfully loaded RM_51.9
+2025-01-10 14:19:40,464 - INFO - Loading sheet: RM_50.5
+2025-01-10 14:19:40,464 - INFO - Successfully loaded RM_50.5
+2025-01-10 14:19:40,654 - INFO - Loading sheet: RM_46.0
+2025-01-10 14:19:40,654 - INFO - Successfully loaded RM_46.0
+2025-01-10 14:19:40,830 - INFO - Loading sheet: RM_42.1
+2025-01-10 14:19:40,830 - INFO - Successfully loaded RM_42.1
+2025-01-10 14:19:41,023 - INFO - Loading sheet: RM_33.6
+2025-01-10 14:19:41,023 - INFO - Successfully loaded RM_33.6
+2025-01-10 14:19:41,193 - INFO - Loading sheet: RM_23.0
+2025-01-10 14:19:41,193 - INFO - Successfully loaded RM_23.0
+2025-01-10 14:19:41,329 - INFO - Loading sheet: RM_21.5
+2025-01-10 14:19:41,329 - INFO - Successfully loaded RM_21.5
+2025-01-10 14:19:41,507 - INFO - Loading sheet: RM_17.0
+2025-01-10 14:19:41,507 - INFO - Successfully loaded RM_17.0
+2025-01-10 14:19:41,684 - INFO - Loading sheet: RM_15.0
+2025-01-10 14:19:41,684 - INFO - Successfully loaded RM_15.0
+2025-01-10 14:19:41,824 - INFO - Loading sheet: RM_13.1
+2025-01-10 14:19:41,824 - INFO - Successfully loaded RM_13.1
+2025-01-10 14:19:41,833 - INFO - Processed RM_54.0
+2025-01-10 14:19:41,837 - INFO - Output directory: /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/output/combined
+2025-01-10 14:19:42,809 - INFO - Generated: /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/output/combined/RM_54.0/RM_54.0_Sensor_1.png
+2025-01-10 14:19:43,684 - INFO - Generated: /Users/abhimehrotra/PycharmProjects/Hydrograph_Versus_Seatek_Sensors_Project/output/combined/RM_54.0/RM_54.0_Sensor_2.png
