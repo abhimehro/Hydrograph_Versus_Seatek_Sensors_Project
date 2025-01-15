@@ -1,11 +1,11 @@
 """Data processing utilities for Seatek sensor data."""
 
-import pandas as pd
-import numpy as np
 import logging
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
-from dataclasses import dataclass
+
+import pandas as pd
 
 logger = logging.getLogger(__name__)
 
@@ -17,16 +17,6 @@ class ProcessingMetrics:
     zero_values: int = 0
     null_values: int = 0
     valid_rows: int = 0
-
-    def to_dict(self) -> Dict[str, int]:
-        """Convert metrics to dictionary format."""
-        return {
-            'original_rows': self.original_rows,
-            'invalid_rows': self.invalid_rows,
-            'zero_values': self.zero_values,
-            'null_values': self.null_values,
-            'valid_rows': self.valid_rows
-        }
 
     def log_metrics(self) -> None:
         """Log processing metrics."""
@@ -43,12 +33,6 @@ class RiverMileData:
     """Container for river mile specific data and metadata."""
 
     def __init__(self, file_path: Path):
-        """
-        Initialize river mile data container.
-
-        Args:
-            file_path: Path to the river mile Excel file
-        """
         self.file_path = file_path
         self.river_mile = self._extract_river_mile()
         self.data: Optional[pd.DataFrame] = None
@@ -90,13 +74,6 @@ class SeatekDataProcessor:
     """Handles Seatek sensor data processing and NAVD88 conversion."""
 
     def __init__(self, data_dir: Union[str, Path], summary_data: pd.DataFrame):
-        """
-        Initialize data processor.
-
-        Args:
-            data_dir: Directory containing river mile files
-            summary_data: DataFrame with river mile metadata
-        """
         self.data_dir = Path(data_dir)
         self.summary_data = summary_data
         self.river_mile_data: Dict[float, RiverMileData] = {}
@@ -112,19 +89,7 @@ class SeatekDataProcessor:
         sensor: str,
         river_mile: float
     ) -> pd.DataFrame:
-        """
-        Convert Seatek sensor readings to NAVD88 elevation.
-
-        Formula: =-[Raw + 1.9 - 0.32] × (400/30.48) + Y_Offset
-
-        Args:
-            data: Raw sensor data
-            sensor: Sensor column name
-            river_mile: River mile for offset lookup
-
-        Returns:
-            DataFrame with converted values
-        """
+        """Convert Seatek sensor readings to NAVD88 elevation."""
         processed = data.copy()
         y_offset = self.offsets.get(river_mile, 0)
 
@@ -143,17 +108,7 @@ class SeatekDataProcessor:
         year: int,
         sensor: str
     ) -> Tuple[pd.DataFrame, ProcessingMetrics]:
-        """
-        Process data for a specific river mile, year, and sensor.
-
-        Args:
-            river_mile: River mile to process
-            year: Year to process
-            sensor: Sensor to process
-
-        Returns:
-            Tuple of (processed DataFrame, metrics)
-        """
+        """Process data for a specific river mile, year, and sensor."""
         if river_mile not in self.river_mile_data:
             raise ValueError(f"No data loaded for River Mile {river_mile}")
 

@@ -5,6 +5,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ## Table of Contents
+
 - [Introduction](#introduction)
 - [Project Overview](#project-overview)
 - [Project Structure](#project-structure)
@@ -16,112 +17,120 @@
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
+- [Acknowledgments](#acknowledgments)
 
 # Seatek Sensor Data Processor
 
 ## Introduction
 
-## Overview
-This project processes and visualizes Seatek sensor data with hydrograph measurements, converting Seatek readings to NAVD88 elevations and creating professional visualizations.
+This project processes and visualizes Seatek sensor data alongside hydrograph measurements, providing insights into river bed dynamics and water flow patterns. The system converts raw Seatek readings to NAVD88 elevations and generates professional-grade visualizations for analysis.
+
+## Project Overview
+
+The Hydrograph vs Seatek Sensors Analysis Project combines environmental monitoring data to understand the relationship between water flow (hydrograph) and river bed elevation (Seatek sensors). This tool is essential for:
+- Monitoring river bed changes over time
+- Analyzing water flow patterns
+- Understanding sediment transport dynamics
+- Supporting environmental research decisions
 
 ## Project Structure
 
 ```
 Hydrograph_Versus_Seatek_Sensors_Project/
-│
-├── src/
-│ ├── utils/
-│ │ ├── init.py
-│ │ ├── logger.py
-│ │ ├── import_logging.py
-│ │ └── utils.py
-│ │
-│ ├── data_processing/
-│ │ ├── init.py
-│ │ └── data_processor.py
-│ │
-│ ├── visualization/
-│ │ ├── init.py
-│ │ ├── sensor_visualization.py
-│ │ └── sensor_visualization_v2.py
-│ │
-│ └── main.py
-│
-├── tests/
-│ ├── init.py
-│ ├── test_utils.py
-│ └── test_visualization.py
-│
-├── docs/
-│ ├── technical/
-│ │ ├── description
-│ │ └── packed-refs
-│ │
-│ └── visualization/
-│ ├── data_format.md
-│ └── Hydrograph_Seatek Correlation Analysis Documentation.md
-│
-├── config/
-│ └── config.yaml
-│
-├── .github/
-│ └── workflows/
-│ ├── pylint.yml
-│ └── qodana_code_quality.yml
-│
-├── pyproject.toml
-├── README.md
-└── .gitignore
+├── data/
+│   ├── raw/                    # Raw input data files
+│   └── processed/              # Processed data files
+├── output/
+│   └── charts/                 # Generated visualizations
+├── utils/
+│   ├── init.py
+│   ├── config.py              # Configuration settings
+│   ├── data_loader.py         # Data loading utilities
+│   ├── processor.py           # Data processing logic
+│   ├── chart_generator.py     # Visualization generation
+│   └── visualizer.py          # Visualization utilities
+├── logs/                      # Processing logs
+├── docs/                      # Documentation
+├── tests/                     # Test files
+├── requirements.txt           # Project dependencies
+└── README.md                  # Project documentation
 ```
 
-### Key Features
+## Key Features
 
-- **Data Processing**: Robust handling of time-series sensor data
-- **Statistical Analysis**: Correlation analysis between hydrograph and sensor readings
-- **Advanced Visualization**: Professional-grade plots using matplotlib/seaborn
-- **Quality Assurance**: Comprehensive data validation and error handling
-- **Environmental Focus**: Specialized tools for hydrological data analysis
+- **NAVD88 Conversion**: Accurate conversion of Seatek readings to NAVD88 elevations
+- **Time Series Analysis**: Proper handling of temporal data with minute-resolution
+- **Dual-axis Visualization**: Professional plots combining Seatek and Hydrograph data
+- **Data Validation**: Comprehensive error checking and data quality assurance
+- **Automated Processing**: Batch processing of multiple sensors and time periods
+- **Detailed Logging**: Comprehensive logging system for tracking processing steps
 
-### Technology Stack
+## Technology Stack
 
-- Python 3.10+
-- pandas & numpy for data processing
-- matplotlib & seaborn for visualization
-- pytest for testing
-- Poetry for dependency management
+- **Python 3.10+**: Core programming language
+- **pandas & numpy**: Data processing and analysis
+- **matplotlib & seaborn**: Data visualization
+- **openpyxl**: Excel file handling
+- **logging**: Comprehensive logging system
 
 ## Getting Started
 
 ### Prerequisites
 
-```bash
-python -m pip install poetry
-```
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
 
 ### Installation
+
 1. Clone the repository
-2. Create a virtual environment:
+
+   ```bash
+   git clone https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project.git
+   cd Hydrograph_Versus_Seatek_Sensors_Project
+   ```
+    
+2. Create and activate a virtual environment:
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
+   
+3. Install the project dependencies:
+
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
 
 ### Usage
 
-```python
-from src.visualization import create_visualization
-from src.data_processing import process_data
+1. Place your data files in the appropriate directories:
 
-# Process data from an Excel file
-data = process_data("path/to/data.xlsx")
+    - **Raw Data**:
 
-# Create visualizations for the processed data
-create_visualization(data, output_dir="path/to/output")
-```
+        `data/raw/Data_Summary.xlsx`
+        `data/raw/Hydrograph_Seatek_Data.xlsx`
+
+    - **Processed Data**: 
+        `data/processed/RM_*.xlsx`
+
+2. Run the processing script:
+
+    ```bash
+    python seatek_processor.py
+    ```
+   
+3. Find generated visualizations in the `output/charts` directory.
 
 ## Example Visualizations
 
-Here are some sample charts generated by the project:
+The visualization shows:
+
+	• Seatek sensor readings (NAVD88) on the left y-axis
+	• Hydrograph measurements (GPM) on the right y-axis
+	• Time series in minutes on the x-axis
+	• Clear correlation between water flow and bed elevation changes
 
 ### Sensor 1 Hydrograph Versus Seatek Analysis Visualization
 
@@ -132,18 +141,7 @@ Here are some sample charts generated by the project:
 
 ![RM_54 0_Year_2_Sensor 1](https://github.com/user-attachments/assets/c351c096-9db8-4c70-94be-dfd9e1f5dc96)
 
-For more of the above visualizations, check the respective directories in the `output/RM_54.0` folder.
-
-### Sensor 1 Analysis Visualization
-
-![RM_54 0_Year_1_Sensor_1](https://github.com/user-attachments/assets/b914c71d-dc93-44f8-832a-7b83c5f8252b)
-
-
-### Sensor 2 Analysis Visualization
-
-![RM_54 0_Year_2_Sensor_1](https://github.com/user-attachments/assets/14142c72-9123-4ccd-84cf-4292c7c6c784)
-
-For more of the latter visualizations, check the `output/charts` directory specific to each river mile.
+For more of the above visualizations, check the respective directories in the `output/charts/RM_54.0` folder.
 
 ## Documentation
 
@@ -164,3 +162,9 @@ This project is licensed under the MIT License - see the [License](https://githu
 - **Author**: Abhi Mehrotra
 - **Email**: AbhiMhrtr@pm.me
 - **Project Link**: [GitHub Repository](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project)
+
+## Acknowledgments
+    • LSU Center for River Studies	
+    • Louisiana State University
+	• The Louisiana Freshwater Sponge Project
+	• Baton Rouge Community College
