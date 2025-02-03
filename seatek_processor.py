@@ -49,6 +49,7 @@ def setup_logging() -> None:
         ]
     )
 
+
 def verify_environment() -> bool:
     """Verify all required components are in place."""
     try:
@@ -66,6 +67,7 @@ def verify_environment() -> bool:
     except Exception as e:
         logging.error(f"Environment verification failed: {str(e)}")
         return False
+
 
 def main() -> None:
     """Main execution function."""
@@ -127,16 +129,18 @@ def main() -> None:
 
                             if chart:
                                 output_path = (config.output_dir /
-                                             f"RM_{rm_data.river_mile:.1f}" /
-                                             f"Year_{year}_{sensor}.png")
+                                               f"RM_{rm_data.river_mile:.1f}" /
+                                               f"Year_{year}_{sensor}.png")
                                 output_path.parent.mkdir(parents=True, exist_ok=True)
                                 chart.savefig(output_path, dpi=300, bbox_inches='tight')
                                 plt.close(chart)  # Free memory
                                 logger.info(f"Generated: {output_path}")
+                            else:
+                                logger.error(f"Failed to create chart for RM {rm_data.river_mile}, Year {year}, Sensor {sensor}")
 
                     except Exception as e:
                         logger.error(f"Error processing RM {rm_data.river_mile} "
-                                   f"Year {year} Sensor {sensor}: {str(e)}")
+                                     f"Year {year} Sensor {sensor}: {str(e)}")
                         continue
 
         logger.info("Processing completed successfully")
@@ -144,6 +148,7 @@ def main() -> None:
     except Exception as e:
         logger.error(f"Fatal error in main execution: {str(e)}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
