@@ -62,3 +62,4 @@ htmlcov/
 *cleanup*.py
 show_structure.py
 final_organization.py.qodo
+.qodo
