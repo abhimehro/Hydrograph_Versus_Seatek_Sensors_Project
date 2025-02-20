@@ -124,10 +124,10 @@ class SeatekDataProcessor:
         return processed
 
     def process_data(
-        self,
-        river_mile: float,
-        year: int,
-        sensor: str
+            self,
+            river_mile: float,
+            year: int,
+            sensor: str
     ) -> Tuple[pd.DataFrame, ProcessingMetrics]:
         """
         Process data for a given river mile, year, and sensor with fully decoupled filtering.
@@ -161,20 +161,20 @@ class SeatekDataProcessor:
             hydro_df = processed[
                 processed['Hydrograph (Lagged)'].notna() &
                 (processed['Hydrograph (Lagged)'] != 0)
-            ].copy()
+                ].copy()
         else:
             hydro_df = pd.DataFrame()
 
         # Independently filter the sensor stream.
         sensor_df = processed[
             processed[sensor].notna() & (processed[sensor] != 0)
-        ].copy()
+            ].copy()
 
         # Update processing metrics from the sensor column.
         metrics.null_values = processed[sensor].isna().sum()
         metrics.zero_values = (processed[sensor] == 0).sum()
 
-        # Optional: If there are no valid sensor readings but hydrograph data exist, force hydrograph to 0.
+        # If there are no valid sensor readings but hydrograph data exist, force hydrograph to 0.
         if sensor_df.empty and not hydro_df.empty:
             hydro_df.loc[:, 'Hydrograph (Lagged)'] = 0
 
