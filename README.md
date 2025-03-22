@@ -37,23 +37,31 @@ The Hydrograph vs Seatek Sensors Analysis Project combines environmental monitor
 
 ```
 Hydrograph_Versus_Seatek_Sensors_Project/
+├── src/
+│   └── hydrograph_seatek_analysis/      # Main package
+│       ├── core/                        # Core functionality
+│       │   ├── config.py                # Configuration settings
+│       │   └── logger.py                # Logging utilities
+│       ├── data/                        # Data processing
+│       │   ├── data_loader.py           # Data loading utilities
+│       │   ├── processor.py             # Data processing logic
+│       │   └── validator.py             # Data validation utilities
+│       └── visualization/               # Visualization utilities
+│           └── chart_generator.py       # Chart generation
 ├── data/
-│   ├── raw/                    # Raw input data files
-│   └── processed/              # Processed data files
+│   ├── raw/                             # Raw input data files
+│   └── processed/                       # Processed data files
 ├── output/
-│   └── charts/                 # Generated visualizations
-├── utils/
-│   ├── init.py
-│   ├── config.py              # Configuration settings
-│   ├── data_loader.py         # Data loading utilities
-│   ├── processor.py           # Data processing logic
-│   ├── chart_generator.py     # Visualization generation
-│   └── visualizer.py          # Visualization utilities
-├── logs/                      # Processing logs
-├── docs/                      # Documentation
-├── tests/                     # Test files
-├── requirements.txt           # Project dependencies
-└── README.md                  # Project documentation
+│   └── charts/                          # Generated visualizations
+├── logs/                                # Processing logs
+├── docs/                                # Documentation
+├── tests/                               # Test files
+├── seatek_processor_new.py              # Main script
+├── validate_data.py                     # Data validation script
+├── pyproject.toml                       # Poetry configuration
+├── setup.py                             # Installation configuration
+├── requirements.txt                     # Project dependencies
+└── README.md                            # Project documentation
 ```
 
 ## Key Features
@@ -64,6 +72,7 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 - **Data Validation**: Comprehensive error checking and data quality assurance
 - **Automated Processing**: Batch processing of multiple sensors and time periods
 - **Detailed Logging**: Comprehensive logging system for tracking processing steps
+- **Modular Architecture**: Well-organized code with proper separation of concerns
 
 ## Technology Stack
 
@@ -71,15 +80,16 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 - **pandas & numpy**: Data processing and analysis
 - **matplotlib & seaborn**: Data visualization
 - **openpyxl**: Excel file handling
-- **logging**: Comprehensive logging system
+- **colorlog**: Enhanced logging with color support
+- **Poetry**: Dependency management (optional)
 
 ## Getting Started
 
 ### Prerequisites
 
-   ```bash
-   python -m pip install -r requirements.txt
-   ```
+```bash
+python -m pip install -r requirements.txt
+```
 
 ### Installation
 
@@ -97,10 +107,17 @@ Hydrograph_Versus_Seatek_Sensors_Project/
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
    
-3. Install the project dependencies:
+3. Install the project:
 
    ```bash
-   python -m pip install -r requirements.txt
+   # Option 1: Install in development mode
+   pip install -e .
+   
+   # Option 2: Install using requirements.txt
+   pip install -r requirements.txt
+   
+   # Option 3: Install using Poetry
+   poetry install
    ```
 
 ### Usage
@@ -108,7 +125,6 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 1. Place your data files in the appropriate directories:
 
     - **Raw Data**:
-
         `data/raw/Data_Summary.xlsx`
         `data/raw/Hydrograph_Seatek_Data.xlsx`
 
@@ -118,19 +134,39 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 2. Run the processing script:
 
     ```bash
-    python seatek_processor.py
+    # Option 1: Run directly
+    python seatek_processor_new.py
+    
+    # Option 2: If installed as package
+    seatek-processor
     ```
    
-3. Find generated visualizations in the `output/charts` directory.
+3. Validate data files:
+
+    ```bash
+    # Option 1: Run directly
+    python validate_data.py
+    
+    # Option 2: Run with JSON output
+    python validate_data.py --json
+    
+    # Option 3: Save validation results to file
+    python validate_data.py --output validation_results.json
+    
+    # Option 4: If installed as package
+    validate-data
+    ```
+
+4. Find generated visualizations in the `output/charts` directory.
 
 ## Example Visualizations
 
 The visualization shows:
 
-	• Seatek sensor readings (NAVD88) on the left y-axis
-	• Hydrograph measurements (GPM) on the right y-axis
-	• Time series in minutes on the x-axis
-	• Clear correlation between water flow and bed elevation changes
+- Seatek sensor readings (NAVD88) on the left y-axis
+- Hydrograph measurements (GPM) on the right y-axis
+- Time series in minutes on the x-axis
+- Clear correlation between water flow and bed elevation changes
 
 ### Sensor 1 Hydrograph Versus Seatek Analysis Visualization
 
@@ -164,7 +200,7 @@ This project is licensed under the MIT License - see the [License](https://githu
 - **Project Link**: [GitHub Repository](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project)
 
 ## Acknowledgments
-    • LSU Center for River Studies	
-    • Louisiana State University
-	• The Louisiana Freshwater Sponge Project
-	• Baton Rouge Community College
+- LSU Center for River Studies
+- Louisiana State University
+- The Louisiana Freshwater Sponge Project
+- Baton Rouge Community College

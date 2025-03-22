@@ -1,273 +1,335 @@
 # Installation Guide
 
+This guide provides detailed instructions for installing and setting up the Hydrograph vs Seatek Sensors Analysis Project.
+
 ## System Requirements
 
 ### Hardware Requirements
-```python
-SYSTEM_REQUIREMENTS = {
-    'cpu': 'Multi-core processor.py recommended',
-    'ram': '8GB minimum, 16GB recommended',
-    'storage': '1GB free space minimum',
-    'gpu': 'Optional - for accelerated visualization'
-}
+```
+- CPU: Multi-core processor recommended
+- RAM: 8GB minimum, 16GB recommended
+- Storage: 1GB free space minimum
+- GPU: Optional - for accelerated visualization
 ```
 
 ### Software Requirements
-```python
-PYTHON_REQUIREMENTS = {
-    'python_version': '>=3.9',
-    'os': ['Windows 10/11', 'macOS 10.15+', 'Linux (Ubuntu 20.04+)'],
-    'additional': ['git', 'virtualenv']
-}
+```
+- Python 3.10 or higher
+- Operating System: Windows 10/11, macOS 10.15+, Linux (Ubuntu 20.04+)
+- Additional tools: git, virtualenv or venv
 ```
 
-## Installation Steps
+## Installation Methods
 
-### 1. Python Environment Setup
+You can install the project using one of the following methods:
 
-#### Windows
+### Method 1: Direct Installation (Recommended)
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project.git
+   cd Hydrograph_Versus_Seatek_Sensors_Project
+   ```
+
+2. Create and activate a virtual environment:
+   ```bash
+   # Create a virtual environment
+   python -m venv venv
+
+   # Activate the virtual environment
+   # On Windows:
+   venv\Scripts\activate
+   # On macOS/Linux:
+   source venv/bin/activate
+   ```
+
+3. Install the project in development mode:
+   ```bash
+   pip install -e .
+   ```
+
+   This will install the project and its dependencies, and also make the command-line tools available.
+
+### Method 2: Using pip with requirements.txt
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project.git
+   cd Hydrograph_Versus_Seatek_Sensors_Project
+   ```
+
+2. Create and activate a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. Install dependencies from requirements.txt:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Method 3: Using Poetry
+
+[Poetry](https://python-poetry.org/) is a modern Python package and dependency manager.
+
+1. Install Poetry if you don't have it:
+   ```bash
+   curl -sSL https://install.python-poetry.org | python3 -
+   ```
+
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project.git
+   cd Hydrograph_Versus_Seatek_Sensors_Project
+   ```
+
+3. Install the project and its dependencies:
+   ```bash
+   poetry install
+   ```
+
+4. Activate the Poetry shell:
+   ```bash
+   poetry shell
+   ```
+
+## Verifying Installation
+
+After installation, you can verify that everything is set up correctly:
+
+### Check Command-Line Tools
+
+If you installed the project with `pip install -e .` or Poetry, you should have access to the command-line tools:
+
 ```bash
-# Install Python 3.9+
-# Download from https://www.python.org/downloads/
-# Enable "Add Python to PATH" during installation
+# Check if the data validator is available
+validate-data --help
 
-# Verify installation
-python --version
-pip --version
+# Check if the Seatek processor is available
+seatek-processor --help
 ```
 
-#### macOS
+### Run the Data Validation Script
+
 ```bash
-# Using Homebrew
-brew install python@3.9
-
-# Verify installation
-python3 --version
-pip3 --version
+python validate_data.py
 ```
 
-#### Linux (Ubuntu)
+If the installation was successful, you should see the validation results for your data files.
+
+## Setting Up Data Directories
+
+The project expects data to be organized in a specific directory structure:
+
+```
+Hydrograph_Versus_Seatek_Sensors_Project/
+├── data/
+│   ├── raw/                    # Raw input data files
+│   │   ├── Data_Summary.xlsx   # Summary data
+│   │   └── Hydrograph_Seatek_Data.xlsx  # Hydrograph data
+│   └── processed/              # Processed data files
+│       ├── RM_54.0.xlsx        # River mile data
+│       ├── RM_53.0.xlsx
+│       └── ...
+├── output/
+│   └── charts/                 # Generated visualizations
+└── logs/                       # Processing logs
+```
+
+You can create these directories manually or run the following command:
+
 ```bash
-# Install Python and development tools
-sudo apt update
-sudo apt install python3.9 python3.9-dev python3.9-venv python3-pip
+mkdir -p data/raw data/processed output/charts logs
 ```
 
-### 2. Project Setup
+## Environment Variables
 
-#### Clone Repository
+The project supports the following environment variables:
+
+- `HYDROGRAPH_BASE_DIR`: Override the base directory for data files. By default, the current working directory is used.
+
+Example:
 ```bash
-# Clone the repository
-git clone https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project.git
-cd Hydrograph_Versus_Seatek_Sensors_Project
+# Set the base directory to a specific path
+export HYDROGRAPH_BASE_DIR=/path/to/data
 
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Run the processor with the custom base directory
+seatek-processor
 ```
 
-#### Install Dependencies
+## Development Setup
+
+If you plan to develop or modify the project, you'll need additional tools:
+
+### Install Development Dependencies
+
 ```bash
-# Install core dependencies
-pip install -r requirements.txt
+# Using pip
+pip install pytest pytest-cov black flake8 mypy pre-commit
 
-# Install development dependencies (optional)
-pip install -r requirements-dev.txt
+# Using Poetry
+poetry install --with dev
 ```
 
-### 3. Configuration Setup
+### Set Up Pre-commit Hooks
 
-#### Directory Structure
-```python
-def setup_directories():
-    """Create required directories."""
-    directories = [
-        'data/raw',
-        'data/processed',
-        'output',
-        'logs'
-    ]
-    for directory in directories:
-        os.makedirs(directory, exist_ok=True)
-```
+The project uses [pre-commit](https://pre-commit.com/) to ensure code quality:
 
-#### Environment Variables
 ```bash
-# Create .env file
-touch .env
-
-# Add required environment variables
-echo "DATA_DIR=data/processed" >> .env
-echo "OUTPUT_DIR=output" >> .env
-echo "LOG_LEVEL=INFO" >> .env
-```
-
-### 4. Verification
-
-#### Test Installation
-```python
-def verify_installation():
-    """Verify installation and dependencies."""
-    import sys
-    import numpy
-    import pandas
-    import matplotlib
-    import seaborn
-    
-    # Check Python version
-    assert sys.version_info >= (3, 9), "Python 3.9+ required"
-    
-    # Check critical dependencies
-    dependencies = {
-        'numpy': numpy.__version__,
-        'pandas': pandas.__version__,
-        'matplotlib': matplotlib.__version__,
-        'seaborn': seaborn.__version__
-    }
-    
-    return dependencies
-```
-
-#### Run Tests
-```bash
-# Install test dependencies
-pip install pytest pytest-cov
-
-# Run tests
-pytest tests/
-```
-
-## Optional Components
-
-### 1. GPU Acceleration
-```python
-def check_gpu_support():
-    """Check for GPU acceleration support."""
-    try:
-        import torch
-        return torch.cuda.is_available()
-    except ImportError:
-        return False
-```
-
-### 2. Development Tools
-```bash
-# Install development tools
-pip install black flake8 mypy pylint
-
-# Install pre-commit hooks
-pip install pre-commit
 pre-commit install
 ```
 
-## Troubleshooting
+This will install Git hooks that run checks before each commit.
 
-### Common Installation Issues
+### Run Tests
 
-1. **Dependency Conflicts**
-```python
-def resolve_dependencies():
-    """Resolve common dependency conflicts."""
-    import pip
-    
-    try:
-        # Force reinstall dependencies
-        pip.main(['install', '--force-reinstall', '-r', 'requirements.txt'])
-    except Exception as e:
-        print(f"Error: {e}")
+```bash
+# Run all tests
+python -m pytest
+
+# Run with coverage report
+python -m pytest --cov=src
+
+# Run specific test modules
+python -m pytest tests/test_config.py
 ```
 
-2. **Virtual Environment Issues**
-```python
-def verify_virtualenv():
-    """Verify virtual environment setup."""
-    import sys
-    
-    in_venv = hasattr(sys, 'real_prefix') or sys.base_prefix != sys.prefix
-    if not in_venv:
-        raise EnvironmentError("Not running in a virtual environment")
-```
+## Memory and Performance Optimization
 
-3. **Permission Issues**
-```python
-def check_permissions():
-    """Check for required permissions."""
-    paths = ['data', 'output', 'logs']
-    for path in paths:
-        if not os.access(path, os.W_OK):
-            raise PermissionError(f"No write access to {path}")
-```
-
-## Performance Optimization
+The project includes several performance optimizations:
 
 ### Memory Management
+
 ```python
-def optimize_memory():
-    """Configure memory optimization settings."""
-    import pandas as pd
-    
-    # Optimize Pandas settings
-    pd.options.mode.chained_assignment = None
-    pd.options.display.max_rows = 100
+# Configure memory optimization settings
+import pandas as pd
+
+# Optimize Pandas settings
+pd.options.mode.chained_assignment = None
+pd.options.display.max_rows = 100
 ```
 
-### Multiprocessing Setup
-```python
-def setup_multiprocessing():
-    """Configure multiprocessing settings."""
-    import multiprocessing as mp
-    
-    # Set number of workers
-    n_workers = mp.cpu_count() - 1
-    return max(1, n_workers)
+### Multiprocessing Potential
+
+The current implementation is sequential, but the architecture supports potential parallelization:
+
+- Processing different river miles could be parallelized
+- Processing different years/sensors could be parallelized
+- Chart generation could be parallelized
+
+## Troubleshooting
+
+### Missing Dependencies
+
+If you encounter errors about missing packages, ensure you've installed all dependencies:
+
+```bash
+pip install -r requirements.txt
 ```
 
-## Security Considerations
+### File Not Found Errors
 
-### Data Directory Permissions
-```python
-def secure_directories():
-    """Set secure permissions for data directories."""
-    import stat
-    
-    dirs = ['data/raw', 'data/processed']
-    for dir_path in dirs:
-        os.chmod(dir_path, stat.S_IRUSR | stat.S_IWUSR)
+If you see errors about missing data files, check that you've placed the required data files in the correct directories:
+
+- `data/raw/Data_Summary.xlsx`
+- `data/raw/Hydrograph_Seatek_Data.xlsx`
+- `data/processed/RM_*.xlsx`
+
+### Matplotlib/Visualization Issues
+
+If you encounter issues with matplotlib or visualization:
+
+1. Check that you have a functioning backend:
+   ```bash
+   python -c "import matplotlib.pyplot as plt; plt.figure(); plt.close()"
+   ```
+
+2. If running on a headless server, you may need to use a non-interactive backend:
+   ```python
+   import matplotlib
+   matplotlib.use('Agg')  # Use non-interactive backend
+   import matplotlib.pyplot as plt
+   ```
+
+### Python Version Issues
+
+The project requires Python 3.10 or higher. Check your Python version:
+
+```bash
+python --version
 ```
 
-### Environment Variable Safety
+If you're using an older version, consider using [pyenv](https://github.com/pyenv/pyenv) to manage multiple Python versions.
+
+### Virtual Environment Issues
+
+If you're having issues with the virtual environment:
+
 ```python
-def validate_env():
-    """Validate environment variables."""
-    required_vars = ['DATA_DIR', 'OUTPUT_DIR']
-    missing = [var for var in required_vars if var not in os.environ]
-    if missing:
-        raise EnvironmentError(f"Missing environment variables: {missing}")
+# Verify if running in a virtual environment
+import sys
+in_venv = hasattr(sys, 'real_prefix') or sys.base_prefix != sys.prefix
+print(f"Running in virtual environment: {in_venv}")
+```
+
+### Permission Issues
+
+Check for required permissions:
+
+```python
+import os
+paths = ['data', 'output', 'logs']
+for path in paths:
+    has_write_access = os.access(path, os.W_OK)
+    print(f"Write access to {path}: {has_write_access}")
 ```
 
 ## Maintenance
 
 ### Regular Updates
+
+Keep your dependencies up to date:
+
 ```bash
 # Update dependencies
 pip install --upgrade -r requirements.txt
 
-# Clean unused packages
-pip uninstall -y -r <(pip freeze)
-pip install -r requirements.txt
+# Using Poetry
+poetry update
 ```
 
 ### Log Rotation
+
+The application automatically sets up log rotation:
+
 ```python
-def setup_logging():
-    """Configure log rotation."""
-    import logging
-    from logging.handlers import RotatingFileHandler
-    
-    handler = RotatingFileHandler(
-        'logs/app.log',
-        maxBytes=1e6,
-        backupCount=5
-    )
-    logging.getLogger().addHandler(handler)
+handler = logging.handlers.RotatingFileHandler(
+    'logs/sensor_visualization.log',
+    maxBytes=10_000_000,  # 10MB
+    backupCount=5
+)
 ```
+
+## Security Considerations
+
+### Data Directory Permissions
+
+Ensure proper permissions for data directories:
+
+```python
+import os
+import stat
+
+dirs = ['data/raw', 'data/processed']
+for dir_path in dirs:
+    os.chmod(dir_path, stat.S_IRUSR | stat.S_IWUSR)
+```
+
+## Getting Help
+
+If you encounter any issues not covered in this guide, please:
+
+1. Check the project documentation in the `docs/` directory
+2. File an issue on the [GitHub repository](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues)
+3. Contact the maintainer at AbhiMhrtr@pm.me

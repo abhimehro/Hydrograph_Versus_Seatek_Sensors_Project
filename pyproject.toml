@@ -14,6 +14,8 @@ matplotlib = "^3.8.3"
 seaborn = "^0.13.2"
 scipy = "^1.12.0"
 openpyxl = "^3.1.2"
+colorlog = "^6.7.0"
+pyyaml = "^6.0.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
@@ -26,6 +28,10 @@ pre-commit = "^3.5.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+seatek-processor = "src.hydrograph_seatek_analysis.app:main"
+validate-data = "validate_data:main"
 
 [tool.black]
 line-length = 88
@@ -40,4 +46,4 @@ disallow_untyped_defs = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
-addopts = "-ra -q --cov=src"
+addopts = "-ra -q"
