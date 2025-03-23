@@ -1,4 +1,3 @@
-# qodana.yaml
 #-------------------------------------------------------------------------------#
 #               Qodana Analysis Configuration                                   #
 #         Documentation: https://www.jetbrains.com/help/qodana/qodana-yaml.html #
@@ -11,8 +10,7 @@ profile:
   name: qodana.starter
 
 include:
-  - path: .
-    name: Project root
+  - name: Project root
 exclude:
   - name: Git directory
     paths: [".git"]
@@ -28,11 +26,8 @@ inspections:
     - id: PyPep8Inspection
     - id: PyUnresolvedReferencesInspection
 
-extensions:
-  - id: PythonCore
-  - id: PythonExtensions
-
-linter: "${qodana_linter}"
+# Note: The extensions section has been removed as PythonCore and PythonExtensions
+# are already included in the Qodana Python linter
 
 fail-threshold:
   overall: warning
