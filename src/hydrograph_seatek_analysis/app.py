@@ -19,6 +19,28 @@ from .visualization.chart_generator import ChartGenerator
 class Application:
     """Main application class for Seatek data processing."""
     
+    @staticmethod
+    def _sanitize_filename(filename: str) -> str:
+        """
+        Sanitize a filename string to prevent path traversal and other vulnerabilities.
+
+        Args:
+            filename: The untrusted filename string (e.g., from an Excel column or sheet)
+
+        Returns:
+            A sanitized string safe for use as a path component.
+        """
+        import re
+        if not isinstance(filename, str):
+            filename = str(filename)
+
+        # Keep only alphanumeric, dash, underscore, and space
+        sanitized = re.sub(r'[^\w\-\.\s]', '_', filename)
+        # Prevent directory traversal dots like ..
+        sanitized = re.sub(r'\.{2,}', '_', sanitized)
+        # Strip leading/trailing whitespaces and dots
+        return sanitized.strip('. ')
+
     def __init__(self, config: Optional[Config] = None):
         """
         Initialize application with optional config.
@@ -148,9 +170,12 @@ class Application:
                             
                             if chart:
                                 # Save chart
+                                safe_year = self._sanitize_filename(str(year))
+                                safe_sensor = self._sanitize_filename(str(sensor))
+
                                 output_path = (self.config.output_dir / 
                                                f"RM_{rm_data.river_mile:.1f}" /
-                                               f"Year_{year}_{sensor}.png")
+                                               f"Year_{safe_year}_{safe_sensor}.png")
                                 
                                 if self.chart_generator.save_chart(chart, output_path):
                                     success_count += 1
