@@ -63,3 +63,7 @@ htmlcov/
 show_structure.py
 final_organization.py.qodo
 .qodo
+docs/.DS_Store
+src/.DS_Store
+src/hydrograph_seatek_analysis/.DS_Store
+tests/.DS_Store
