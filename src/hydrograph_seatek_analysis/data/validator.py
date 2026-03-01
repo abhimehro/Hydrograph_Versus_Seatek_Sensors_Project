@@ -39,15 +39,19 @@ class DataValidator:
                 logger.error(f"Summary file not found: {summary_file}")
                 return None
                 
-            df = pd.read_excel(summary_file)
+            # Use nrows=0 to quickly check columns without loading the full file
+            columns = pd.read_excel(summary_file, nrows=0).columns.tolist()
             
             # Check required columns
             required_cols = ['River_Mile', 'Y_Offset', 'Num_Sensors']
-            missing = [col for col in required_cols if col not in df.columns]
+            missing = [col for col in required_cols if col not in columns]
             if missing:
                 logger.error(f"Missing required columns in summary data: {missing}")
                 return None
                 
+            # Only load the required columns for validation to save memory and time
+            df = pd.read_excel(summary_file, usecols=required_cols)
+
             # Check data types
             if not pd.api.types.is_numeric_dtype(df['River_Mile']):
                 logger.warning("River_Mile column is not numeric")
@@ -101,18 +105,30 @@ class DataValidator:
                 sheet_info = []
                 
                 for sheet in rm_sheets:
-                    df = pd.read_excel(excel, sheet_name=sheet)
+                    # Use nrows=0 to quickly check columns
+                    columns = pd.read_excel(excel, sheet_name=sheet, nrows=0).columns.tolist()
                     
                     # Check required columns
                     required_cols = ['Time (Seconds)', 'Year']
-                    missing = [col for col in required_cols if col not in df.columns]
+                    missing = [col for col in required_cols if col not in columns]
+
+                    # To get accurate row count without loading all data, we load just the first column
+                    # If load_cols is empty, load just the first column (index 0) to get row count
+                    load_cols = [col for col in required_cols if col in columns]
+                    if load_cols:
+                        df = pd.read_excel(excel, sheet_name=sheet, usecols=load_cols)
+                    elif columns:
+                        # Load just the first column to get row count if we don't need any specific columns
+                        df = pd.read_excel(excel, sheet_name=sheet, usecols=[0])
+                    else:
+                        df = pd.DataFrame()
                     
                     sheet_info.append({
                         "name": sheet,
-                        "columns": list(df.columns),
+                        "columns": columns,
                         "rows": len(df),
                         "required_columns_present": len(missing) == 0,
-                        "years": sorted(df['Year'].unique().tolist()) if 'Year' in df.columns else None,
+                        "years": sorted(df['Year'].unique().tolist()) if 'Year' in df.columns and not df['Year'].empty else None,
                         "time_range": [df['Time (Seconds)'].min(), df['Time (Seconds)'].max()] 
                             if 'Time (Seconds)' in df.columns and not df['Time (Seconds)'].empty else None
                     })
@@ -145,8 +161,6 @@ class DataValidator:
         
         for file_path in rm_files:
             try:
-                df = pd.read_excel(file_path)
-                
                 # Extract river mile
                 try:
                     rm_str = file_path.stem.split('_')[1]
@@ -155,12 +169,25 @@ class DataValidator:
                     logger.warning(f"Invalid river mile file name: {file_path.name}")
                     river_mile = None
                 
+                # Use nrows=0 to quickly check columns
+                columns = pd.read_excel(file_path, nrows=0).columns.tolist()
+
                 # Check required columns
                 required_cols = ['Time (Seconds)', 'Year']
-                missing = [col for col in required_cols if col not in df.columns]
+                missing = [col for col in required_cols if col not in columns]
                 
                 # Check for sensor columns
-                sensor_cols = [col for col in df.columns if col.startswith('Sensor_')]
+                sensor_cols = [col for col in columns if col.startswith('Sensor_')]
+
+                # Load only required columns and sensor columns for validation
+                load_cols = [col for col in required_cols if col in columns] + sensor_cols
+                if load_cols:
+                    df = pd.read_excel(file_path, usecols=load_cols)
+                elif columns:
+                    # Load just the first column to get row count
+                    df = pd.read_excel(file_path, usecols=[0])
+                else:
+                    df = pd.DataFrame()
                 
                 # Check data range
                 year_range = None
@@ -175,7 +202,7 @@ class DataValidator:
                 results.append({
                     "file": file_path.name,
                     "river_mile": river_mile,
-                    "columns": list(df.columns),
+                    "columns": columns,
                     "rows": len(df),
                     "required_columns_present": len(missing) == 0,
                     "sensor_columns": sensor_cols,
