@@ -42,7 +42,7 @@ class Application:
         # Strip leading/trailing whitespaces and dots
         sanitized = sanitized.strip(". ")
         # SECURITY: Limit filename length to prevent path-length DoS or file system errors
-        return sanitized[:200]
+        return sanitized[:Application._MAX_FILENAME_LENGTH]
 
     def __init__(self, config: Optional[Config] = None):
         """
