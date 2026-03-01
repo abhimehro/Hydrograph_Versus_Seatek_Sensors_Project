@@ -113,8 +113,8 @@ class ChartGenerator:
             # Configure primary axis
             ax1.set_xlabel('Time (Minutes)', fontsize=12, labelpad=10)
             ax1.set_ylabel('Seatek Sensor Reading (NAVD88)',
-                          color='#CC4C02', fontsize=12)
-            ax1.tick_params(axis='y', labelcolor='#CC4C02')
+                          color=SEATEK_COLOR, fontsize=12)
+            ax1.tick_params(axis='y', labelcolor=SEATEK_COLOR)
             ax1.grid(True, alpha=0.2, linestyle=':')
 
             # Add hydrograph if available
