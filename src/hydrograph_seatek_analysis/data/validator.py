@@ -128,9 +128,9 @@ class DataValidator:
                         "columns": columns,
                         "rows": len(df),
                         "required_columns_present": len(missing) == 0,
-                        "years": sorted(df['Year'].unique().tolist()) if 'Year' in df.columns and not df['Year'].empty else None,
-                        "time_range": [df['Time (Seconds)'].min(), df['Time (Seconds)'].max()] 
-                            if 'Time (Seconds)' in df.columns and not df['Time (Seconds)'].empty else None
+                        "years": sorted(df['Year'].dropna().unique().astype(int).tolist()) if 'Year' in df.columns and df['Year'].notna().any() else None,
+                        "time_range": [df['Time (Seconds)'].dropna().min(), df['Time (Seconds)'].dropna().max()] 
+                            if 'Time (Seconds)' in df.columns and df['Time (Seconds)'].notna().any() else None
                     })
                     
                 return {
