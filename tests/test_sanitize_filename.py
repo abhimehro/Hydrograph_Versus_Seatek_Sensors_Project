@@ -1,4 +1,3 @@
-import pytest
 from src.hydrograph_seatek_analysis.app import Application
 
 
