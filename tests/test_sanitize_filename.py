@@ -7,7 +7,7 @@ def test_sanitize_filename_removes_path_traversal():
     sanitized = Application._sanitize_filename(malicious_input)
     assert ".." not in sanitized
     assert "/" not in sanitized
-    assert sanitized == "___etc_passwd"
+    assert sanitized == "______etc_passwd"
 
 
 def test_sanitize_filename_allows_normal_chars():

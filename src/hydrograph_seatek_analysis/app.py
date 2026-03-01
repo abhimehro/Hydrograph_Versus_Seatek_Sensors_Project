@@ -19,6 +19,8 @@ from .visualization.chart_generator import ChartGenerator
 class Application:
     """Main application class for Seatek data processing."""
 
+    _MAX_FILENAME_LENGTH = 200
+
     @staticmethod
     def _sanitize_filename(filename: str) -> str:
         """
