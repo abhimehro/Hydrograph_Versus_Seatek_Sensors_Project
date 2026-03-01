@@ -35,7 +35,7 @@ class Application:
         if not isinstance(filename, str):
             filename = str(filename)
 
-        # Keep only alphanumeric, dash, underscore, and space
+        # Keep only word characters (letters, digits, underscore), dashes, dots, and whitespace
         sanitized = re.sub(r"[^\w\-\.\s]", "_", filename)
         # Prevent directory traversal dots like ..
         sanitized = re.sub(r"\.{2,}", "_", sanitized)
