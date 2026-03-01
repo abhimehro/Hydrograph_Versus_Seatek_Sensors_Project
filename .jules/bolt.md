@@ -1,0 +1,3 @@
+## 2024-05-18 - [Excel File Parsing Optimization]
+**Learning:** Parsing large Excel files directly using `pd.read_excel()` to inspect columns is very slow and memory-intensive because pandas reads the entire dataset into memory. Using `pd.read_excel(filepath, nrows=0).columns` to quickly grab headers, and subsequently selectively loading data using `pd.read_excel(filepath, usecols=...)` massively decreases time and memory overhead.
+**Action:** When validating or partially loading data from Excel files, always use `nrows=0` to fetch and validate columns first, followed by a targeted `usecols` read.
