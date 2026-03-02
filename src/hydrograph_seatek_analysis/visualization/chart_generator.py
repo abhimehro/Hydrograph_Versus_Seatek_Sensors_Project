@@ -2,6 +2,7 @@
 
 import logging
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional, Dict, Any, Tuple
 
 import matplotlib.pyplot as plt
@@ -12,6 +13,9 @@ from matplotlib.figure import Figure
 from ..core.config import Config, ChartSettings
 
 logger = logging.getLogger(__name__)
+
+SEATEK_COLOR = '#A63600'
+HYDRO_COLOR = '#0E5A8A'
 
 
 @dataclass
@@ -154,7 +158,7 @@ class ChartGenerator:
             ax1.scatter(
                 sensor_data['Time (Minutes)'],
                 sensor_data[sensor],
-                color='#CC4C02',
+                color=SEATEK_COLOR,
                 alpha=0.7,
                 s=45,
                 label=f'Sensor {sensor.split("_")[1] if "_" in sensor else sensor} (NAVD88)'
@@ -177,14 +181,14 @@ class ChartGenerator:
                 ax2.scatter(
                     hydro_data['Time (Minutes)'],
                     hydro_data['Hydrograph (Lagged)'],
-                    color='#1F77B4',
+                    color=HYDRO_COLOR,
                     alpha=0.7,
                     s=70,
                     marker='s',
                     label='Hydrograph (GPM)'
                 )
-                ax2.set_ylabel('Hydrograph (GPM)', color='#1F77B4', fontsize=12)
-                ax2.tick_params(axis='y', labelcolor='#1F77B4')
+                ax2.set_ylabel('Hydrograph (GPM)', color=HYDRO_COLOR, fontsize=12)
+                ax2.tick_params(axis='y', labelcolor=HYDRO_COLOR)
 
                 # Add legend
                 lines1, labels1 = ax1.get_legend_handles_labels()
