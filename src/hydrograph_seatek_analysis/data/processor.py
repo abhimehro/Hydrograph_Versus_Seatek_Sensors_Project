@@ -70,7 +70,7 @@ class RiverMileData:
         except (IndexError, ValueError) as e:
             raise ValueError(f"Invalid river mile file name: {self.file_path.name}") from e
 
-    def load_data(self, max_file_size_bytes: int) -> None:
+    def load_data(self, max_file_size_bytes: int = 100 * 1024 * 1024) -> None:
         """
         Load and validate data from the Excel file.
         
@@ -82,7 +82,7 @@ class RiverMileData:
         """
         try:
             # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-            if self.file_path.stat().st_size > max_file_size_bytes:
+            if self.file_path.exists() and self.file_path.stat().st_size > max_file_size_bytes:
                 raise ValueError(f"File size exceeds maximum allowed size ({max_file_size_bytes} bytes): {self.file_path}")
 
             self.data = pd.read_excel(self.file_path)
