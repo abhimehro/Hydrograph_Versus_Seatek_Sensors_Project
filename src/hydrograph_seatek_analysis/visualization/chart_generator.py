@@ -193,8 +193,16 @@ class ChartGenerator:
                 )
                 ax2.set_ylabel('Hydrograph (GPM)', color=HYDRO_COLOR, fontsize=12)
                 ax2.tick_params(axis='y', labelcolor=HYDRO_COLOR)
-                ax2.yaxis.set_major_formatter(ticker.StrMethodFormatter('{x:,.0f}'))
 
+                # Choose y-axis formatter based on whether hydrograph values are effectively integers
+                hydro_values = hydro_data['Hydrograph (Lagged)']
+                # Compute maximum deviation from nearest integer to detect fractional values
+                max_frac_deviation = (hydro_values - hydro_values.round()).abs().max()
+                if pd.notna(max_frac_deviation) and max_frac_deviation < 1e-6:
+                    hydro_fmt = '{x:,.0f}'
+                else:
+                    hydro_fmt = '{x:,.2f}'
+                ax2.yaxis.set_major_formatter(ticker.StrMethodFormatter(hydro_fmt))
                 # Add legend
                 lines1, labels1 = ax1.get_legend_handles_labels()
                 lines2, labels2 = ax2.get_legend_handles_labels()
