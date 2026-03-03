@@ -83,3 +83,20 @@ def test_load_summary_data(mock_read_excel):
     
     assert result.equals(mock_df)
     mock_read_excel.assert_called_once_with(config.summary_file)
+
+
+@mock.patch('pandas.read_excel')
+def test_load_summary_data_file_too_large(mock_read_excel):
+    """Test _load_summary_data raises ValueError when file is too large."""
+    # Return value is irrelevant; size check should happen before reading.
+    mock_read_excel.return_value = pd.DataFrame()
+
+    config = Config()
+    data_loader = DataLoader(config)
+
+    # Mock exists and stat to simulate an oversized file
+    with mock.patch.object(Path, 'exists', return_value=True):
+        with mock.patch.object(Path, 'stat') as mock_stat:
+            mock_stat.return_value.st_size = config.max_file_size_bytes + 1
+            with pytest.raises(ValueError):
+                data_loader._load_summary_data()
