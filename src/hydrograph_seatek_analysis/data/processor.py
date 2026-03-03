@@ -70,7 +70,7 @@ class RiverMileData:
         except (IndexError, ValueError) as e:
             raise ValueError(f"Invalid river mile file name: {self.file_path.name}") from e
 
-    def load_data(self, max_file_size_bytes: int = 100 * 1024 * 1024) -> None:
+    def load_data(self, max_file_size_bytes: int) -> None:
         """
         Load and validate data from the Excel file.
         
