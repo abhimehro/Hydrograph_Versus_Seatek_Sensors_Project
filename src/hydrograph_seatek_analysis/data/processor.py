@@ -160,7 +160,7 @@ class SeatekDataProcessor:
             data: DataFrame containing sensor data
             sensor: Name of the sensor column
             river_mile: River mile for the data
-            copy: Whether to copy the input DataFrame
+            copy: If False, modifies the input DataFrame in-place. Defaults to True (makes a copy).
             
         Returns:
             DataFrame with converted sensor readings
