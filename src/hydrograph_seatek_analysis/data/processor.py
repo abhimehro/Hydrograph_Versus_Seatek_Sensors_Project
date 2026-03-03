@@ -157,13 +157,19 @@ class SeatekDataProcessor:
         river mile–specific offset, and convert time from seconds to minutes.
         
         Args:
-            data: DataFrame containing sensor data
-            sensor: Name of the sensor column
-            river_mile: River mile for the data
-            copy: If False, modifies the input DataFrame in-place. Defaults to True (makes a copy).
+            data: DataFrame containing sensor data.
+            sensor: Name of the sensor column.
+            river_mile: River mile for the data.
+            copy: Whether to operate on a copy of ``data``. Defaults to ``True``.
+                If ``True``, this method works on a copy and leaves the input
+                ``data`` unchanged. If ``False``, this method mutates the
+                passed-in DataFrame in place (it adds a ``"Time (Minutes)"``
+                column and overwrites the specified ``sensor`` column) and
+                returns the same object.
             
         Returns:
-            DataFrame with converted sensor readings
+            DataFrame with converted sensor readings. When ``copy=False``,
+            the returned DataFrame is the same object as the input ``data``.
         """
         processed = data.copy() if copy else data
         y_offset = self.offsets.get(river_mile, 0)
