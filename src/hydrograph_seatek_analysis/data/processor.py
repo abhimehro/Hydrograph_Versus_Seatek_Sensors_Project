@@ -149,21 +149,29 @@ class SeatekDataProcessor:
         self,
         data: pd.DataFrame,
         sensor: str,
-        river_mile: float
+        river_mile: float,
+        copy: bool = True
     ) -> pd.DataFrame:
         """
         Convert Seatek sensor readings to NAVD88 elevation using the
         river mile–specific offset, and convert time from seconds to minutes.
         
         Args:
-            data: DataFrame containing sensor data
-            sensor: Name of the sensor column
-            river_mile: River mile for the data
+            data: DataFrame containing sensor data.
+            sensor: Name of the sensor column.
+            river_mile: River mile for the data.
+            copy: Whether to operate on a copy of ``data``. Defaults to ``True``.
+                If ``True``, this method works on a copy and leaves the input
+                ``data`` unchanged. If ``False``, this method mutates the
+                passed-in DataFrame in place (it adds a ``"Time (Minutes)"``
+                column and overwrites the specified ``sensor`` column) and
+                returns the same object.
             
         Returns:
-            DataFrame with converted sensor readings
+            DataFrame with converted sensor readings. When ``copy=False``,
+            the returned DataFrame is the same object as the input ``data``.
         """
-        processed = data.copy()
+        processed = data.copy() if copy else data
         y_offset = self.offsets.get(river_mile, 0)
         # Convert time from seconds to minutes.
         processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0
@@ -219,7 +227,7 @@ class SeatekDataProcessor:
             return pd.DataFrame(), metrics
 
         # Convert the data and sensor values.
-        processed = self.convert_to_navd88(year_data, sensor, river_mile)
+        processed = self.convert_to_navd88(year_data, sensor, river_mile, copy=False)
 
         # Independently filter the hydrograph stream (if present).
         if 'Hydrograph (Lagged)' in processed.columns:
