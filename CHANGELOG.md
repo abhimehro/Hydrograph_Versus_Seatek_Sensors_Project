@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- 🎨 Palette: Format Y-axis tick labels with thousands separators [\#33](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/33) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize navd88 conversion memory usage [\#32](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/32) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[HIGH\] Fix DoS Risk in Pandas read\_excel [\#31](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/31) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: Improve chart accessibility with WCAG AA compliant colors [\#30](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/30) ([abhimehro](https://github.com/abhimehro))
