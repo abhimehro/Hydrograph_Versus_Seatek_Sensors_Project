@@ -82,7 +82,7 @@ class RiverMileData:
         """
         try:
             # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-            if self.file_path.exists() and self.file_path.stat().st_size > max_file_size_bytes:
+            if self.file_path.stat().st_size > max_file_size_bytes:
                 raise ValueError(f"File size exceeds maximum allowed size ({max_file_size_bytes} bytes): {self.file_path}")
 
             self.data = pd.read_excel(self.file_path)
