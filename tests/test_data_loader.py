@@ -77,7 +77,9 @@ def test_load_summary_data(mock_read_excel):
     
     # Mock exists check to avoid file not found error
     with mock.patch.object(Path, 'exists', return_value=True):
-        result = data_loader._load_summary_data()
+        with mock.patch.object(Path, 'stat') as mock_stat:
+            mock_stat.return_value.st_size = 1000
+            result = data_loader._load_summary_data()
     
     assert result.equals(mock_df)
     mock_read_excel.assert_called_once_with(config.summary_file)

@@ -45,6 +45,9 @@ class Config:
     navd88_constants: NavdConstants = field(default_factory=NavdConstants)
     chart_settings: ChartSettings = field(default_factory=ChartSettings)
     
+    # SECURITY: Prevent DoS by limiting max file size loaded into memory
+    max_file_size_bytes: int = 100 * 1024 * 1024  # 100 MB
+
     def __post_init__(self) -> None:
         """Initialize derived paths and ensure directories exist."""
         self.data_dir = self.base_dir / "data"

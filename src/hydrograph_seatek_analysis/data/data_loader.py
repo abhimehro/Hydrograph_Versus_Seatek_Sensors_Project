@@ -62,6 +62,10 @@ class DataLoader:
             if not summary_file.exists():
                 raise FileNotFoundError(f"Summary file not found: {summary_file}")
                 
+            # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+            if summary_file.stat().st_size > self.config.max_file_size_bytes:
+                raise ValueError(f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {summary_file}")
+
             df = pd.read_excel(summary_file)
             self._validate_columns(df, ['River_Mile', 'Y_Offset', 'Num_Sensors'], "summary data")
 
@@ -91,6 +95,10 @@ class DataLoader:
             if not hydro_file.exists():
                 raise FileNotFoundError(f"Hydrograph file not found: {hydro_file}")
                 
+            # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+            if hydro_file.stat().st_size > self.config.max_file_size_bytes:
+                raise ValueError(f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {hydro_file}")
+
             hydro_data = {}
             excel_file = pd.ExcelFile(hydro_file)
 
