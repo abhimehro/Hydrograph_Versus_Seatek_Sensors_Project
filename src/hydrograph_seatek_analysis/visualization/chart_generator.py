@@ -122,8 +122,8 @@ class ChartGenerator:
             ax1.tick_params(axis='y', labelcolor=SEATEK_COLOR)
             ax1.grid(True, alpha=0.2, linestyle=':')
 
-            # Add thousands separators to axis ticks
-            ax1.yaxis.set_major_formatter(ticker.StrMethodFormatter('{x:,.0f}'))
+            # Format NAVD88 axis ticks with decimal precision
+            ax1.yaxis.set_major_formatter(ticker.StrMethodFormatter('{x:.2f}'))
 
             # Add hydrograph if available
             if 'Hydrograph (Lagged)' in data.columns and metrics.hydro_count > 0:
