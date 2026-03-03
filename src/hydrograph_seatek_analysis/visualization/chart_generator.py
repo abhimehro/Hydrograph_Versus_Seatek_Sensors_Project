@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Optional, Tuple
 
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import pandas as pd
 import seaborn as sns
 from matplotlib.figure import Figure
@@ -121,6 +122,9 @@ class ChartGenerator:
             ax1.tick_params(axis='y', labelcolor=SEATEK_COLOR)
             ax1.grid(True, alpha=0.2, linestyle=':')
 
+            # Add thousands separators to axis ticks
+            ax1.yaxis.set_major_formatter(ticker.StrMethodFormatter('{x:,.0f}'))
+
             # Add hydrograph if available
             if 'Hydrograph (Lagged)' in data.columns and metrics.hydro_count > 0:
                 self._add_hydrograph(ax1, data)
@@ -189,6 +193,7 @@ class ChartGenerator:
                 )
                 ax2.set_ylabel('Hydrograph (GPM)', color=HYDRO_COLOR, fontsize=12)
                 ax2.tick_params(axis='y', labelcolor=HYDRO_COLOR)
+                ax2.yaxis.set_major_formatter(ticker.StrMethodFormatter('{x:,.0f}'))
 
                 # Add legend
                 lines1, labels1 = ax1.get_legend_handles_labels()
