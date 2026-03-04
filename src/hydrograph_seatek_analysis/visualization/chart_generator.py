@@ -221,7 +221,8 @@ class ChartGenerator:
         self, 
         fig: Figure, 
         output_path: str, 
-        dpi: Optional[int] = None
+        dpi: Optional[int] = None,
+        metadata: Optional[dict] = None
     ) -> bool:
         """
         Save chart to file.
@@ -230,6 +231,7 @@ class ChartGenerator:
             fig: Figure to save
             output_path: Path to save the figure to
             dpi: Optional DPI override
+            metadata: Optional dictionary with image metadata (e.g. Title, Description for a11y)
             
         Returns:
             True if successful, False otherwise
@@ -240,11 +242,14 @@ class ChartGenerator:
             output_path.parent.mkdir(parents=True, exist_ok=True)
             
             # Save figure
-            fig.savefig(
-                output_path, 
-                dpi=dpi or self.chart_settings.dpi, 
-                bbox_inches='tight'
-            )
+            kwargs = {
+                'dpi': dpi or self.chart_settings.dpi,
+                'bbox_inches': 'tight'
+            }
+            if metadata:
+                kwargs['metadata'] = metadata
+
+            fig.savefig(output_path, **kwargs)
             plt.close(fig)  # Free memory
             logger.info(f"Saved chart to {output_path}")
             return True

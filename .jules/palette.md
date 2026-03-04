@@ -1,3 +1,8 @@
+## 2026-03-04 - Accessible Chart Metadata
+
+**Learning:** Data visualizations saved as PNGs are opaque to screen readers unless embedded in an HTML `<img>` tag with proper `alt` text. However, users often download or share these PNGs independently.
+**Action:** Always embed descriptive `Title`, `Description` (acting as alt-text), and `Author` metadata directly into the PNG file using Matplotlib's `savefig(metadata={...})`. This ensures accessibility information travels with the file wherever it goes.
+
 ## 2025-03-05 - Chart Color Contrast
 
 **Learning:** When using colors to distinguish data points in charts, as well as for associated text labels, it's crucial to ensure sufficient color contrast against the background to meet WCAG AA guidelines (1.4.11 for Non-text Contrast, requiring 3.0:1, and 1.4.3 for Contrast (Minimum), requiring 4.5:1 for regular text). The original orange `#FF7F0E` had a contrast ratio of 2.53:1 against white, which fails both standards.
