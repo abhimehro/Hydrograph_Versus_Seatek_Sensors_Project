@@ -191,6 +191,10 @@ For more of the above visualizations, check the respective directories in the `o
 
 Contributions are welcome! Please read our [Contributing Guide](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/CONTRIBUTING.md) and [Code of Conduct](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/CODE_OF_CONDUCT.md).
 
+## Changelog
+
+CHANGELOG.md is auto-updated via GitHub Actions.
+
 ## License
 
 This project is licensed under the MIT License - see the [License](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/LICENSE.md) file for details.
