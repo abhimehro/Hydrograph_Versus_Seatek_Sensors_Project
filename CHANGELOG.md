@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- ⚡ Bolt: Optimize Excel data loading by utilizing `usecols` and header inspection [\#35](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/35) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[HIGH\] Fix DoS risk in DataValidator [\#34](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/34) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: Format Y-axis tick labels with thousands separators [\#33](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/33) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize navd88 conversion memory usage [\#32](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/32) ([abhimehro](https://github.com/abhimehro))
