@@ -66,8 +66,18 @@ class DataLoader:
             if summary_file.stat().st_size > self.config.max_file_size_bytes:
                 raise ValueError(f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {summary_file}")
 
-            df = pd.read_excel(summary_file)
-            self._validate_columns(df, ['River_Mile', 'Y_Offset', 'Num_Sensors'], "summary data")
+            # Optimize: use nrows=0 to check columns first
+            cols = pd.read_excel(summary_file, nrows=0).columns.tolist()
+            required_cols = ['River_Mile', 'Y_Offset', 'Num_Sensors']
+            missing_cols = [col for col in required_cols if col not in cols]
+            if missing_cols:
+                raise ValueError(f"Missing required columns in summary data: {missing_cols}")
+
+            # Load only the required columns
+            df = pd.read_excel(summary_file, usecols=required_cols)
+
+            # Keep original validation for safety and consistency
+            self._validate_columns(df, required_cols, "summary data")
 
             logger.debug(f"Summary data loaded successfully. Shape: {df.shape}")
             return df
@@ -106,10 +116,19 @@ class DataLoader:
                 if not sheet_name.startswith('RM_'):
                     continue
 
-                df = pd.read_excel(excel_file, sheet_name=sheet_name)
+                # Optimize: use nrows=0 to check columns first
+                cols = pd.read_excel(excel_file, sheet_name=sheet_name, nrows=0).columns.tolist()
+                required_cols = ['Time (Seconds)', 'Year']
+                missing_cols = [col for col in required_cols if col not in cols]
+
+                if missing_cols:
+                    logger.warning(f"Skipping sheet {sheet_name}: Missing required columns in sheet {sheet_name}: {missing_cols}")
+                    continue
+
+                df = pd.read_excel(excel_file, sheet_name=sheet_name, usecols=required_cols)
                 
                 try:
-                    self._validate_columns(df, ['Time (Seconds)', 'Year'], f"sheet {sheet_name}")
+                    self._validate_columns(df, required_cols, f"sheet {sheet_name}")
                     hydro_data[sheet_name] = df
                     logger.debug(f"Loaded sheet {sheet_name}. Shape: {df.shape}")
                 except ValueError as e:
