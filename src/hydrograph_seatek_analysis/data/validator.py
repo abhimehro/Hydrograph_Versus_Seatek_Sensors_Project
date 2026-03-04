@@ -39,6 +39,11 @@ class DataValidator:
                 logger.error(f"Summary file not found: {summary_file}")
                 return None
                 
+            # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+            if summary_file.stat().st_size > self.config.max_file_size_bytes:
+                logger.error(f"Summary file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {summary_file}")
+                return None
+
             # Use nrows=0 to quickly check columns without loading the full file
             columns = pd.read_excel(summary_file, nrows=0).columns.tolist()
             
@@ -94,6 +99,11 @@ class DataValidator:
                 logger.error(f"Hydrograph file not found: {hydro_file}")
                 return None
                 
+            # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+            if hydro_file.stat().st_size > self.config.max_file_size_bytes:
+                logger.error(f"Hydrograph file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {hydro_file}")
+                return None
+
             with pd.ExcelFile(hydro_file) as excel:
                 sheets = excel.sheet_names
                 rm_sheets = [s for s in sheets if s.startswith('RM_')]
@@ -161,6 +171,15 @@ class DataValidator:
         
         for file_path in rm_files:
             try:
+                # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+                if file_path.stat().st_size > self.config.max_file_size_bytes:
+                    logger.error(f"Processed file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {file_path}")
+                    results.append({
+                        "file": file_path.name,
+                        "error": f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes)"
+                    })
+                    continue
+
                 # Extract river mile
                 try:
                     rm_str = file_path.stem.split('_')[1]
