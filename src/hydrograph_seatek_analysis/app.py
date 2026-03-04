@@ -188,9 +188,17 @@ class Application:
                                 # Construct metadata for a11y
                                 sensor_num = sensor.split("_")[1] if "_" in sensor else sensor
                                 metadata = {
-                                    "Title": f"River Mile {rm_data.river_mile:.1f} - Year {year} Sensor {sensor_num}",
-                                    "Description": f"Chart showing Seatek Sensor {sensor_num} data (NAVD88) and Hydrograph flow (GPM) over time for River Mile {rm_data.river_mile:.1f} in Year {year}.",
-                                    "Author": "Hydrograph vs Seatek Sensors Analysis Project"
+                                    "Title": (
+                                        f"River Mile {rm_data.river_mile:.1f} - Year {year} "
+                                        f"Sensor {sensor_num}"
+                                    ),
+                                    "Description": (
+                                        "Chart showing Seatek "
+                                        f"Sensor {sensor_num} data (NAVD88) and "
+                                        "Hydrograph flow (GPM) over time for "
+                                        f"River Mile {rm_data.river_mile:.1f} in Year {year}."
+                                    ),
+                                    "Author": "Hydrograph vs Seatek Sensors Analysis Project",
                                 }
 
                                 if self.chart_generator.save_chart(chart, output_path, metadata=metadata):
