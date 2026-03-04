@@ -16,6 +16,7 @@
 - [Example Visualizations](#example-visualizations)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
+- [Changelog](#changelog)
 - [License](#license)
 - [Contact](#contact)
 - [Acknowledgments](#acknowledgments)
