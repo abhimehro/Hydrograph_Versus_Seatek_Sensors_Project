@@ -32,7 +32,8 @@ def test_validate_summary_file(mock_read_excel):
     validator = DataValidator(config)
     
     # Mock exists check to avoid file not found error
-    with mock.patch.object(Path, 'exists', return_value=True):
+    with mock.patch.object(Path, 'exists', return_value=True), \
+         mock.patch.object(Path, 'stat', return_value=mock.Mock(st_size=1000)):
         result = validator.validate_summary_file()
     
     assert result is not None
@@ -57,7 +58,8 @@ def test_validate_summary_file_missing_columns(mock_read_excel):
     
     # For missing columns, the validator returns None
     # Mock exists check to avoid file not found error
-    with mock.patch.object(Path, 'exists', return_value=True):
+    with mock.patch.object(Path, 'exists', return_value=True), \
+         mock.patch.object(Path, 'stat', return_value=mock.Mock(st_size=1000)):
         result = validator.validate_summary_file()
     
     assert result is None
@@ -93,7 +95,8 @@ def test_validate_hydro_file(mock_read_excel, mock_excel_file_cls):
     validator = DataValidator(config)
     
     # Mock exists check to avoid file not found error
-    with mock.patch.object(Path, 'exists', return_value=True):
+    with mock.patch.object(Path, 'exists', return_value=True), \
+         mock.patch.object(Path, 'stat', return_value=mock.Mock(st_size=1000)):
         result = validator.validate_hydro_file()
     
     assert result is not None
