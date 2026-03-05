@@ -163,8 +163,10 @@ class ChartGenerator:
                 sensor_data['Time (Minutes)'],
                 sensor_data[sensor],
                 color=SEATEK_COLOR,
-                alpha=0.7,
+                alpha=1.0,
                 s=45,
+                edgecolors='white',
+                linewidth=0.5,
                 label=f'Sensor {sensor.split("_")[1] if "_" in sensor else sensor} (NAVD88)'
             )
 
@@ -186,9 +188,11 @@ class ChartGenerator:
                     hydro_data['Time (Minutes)'],
                     hydro_data['Hydrograph (Lagged)'],
                     color=HYDRO_COLOR,
-                    alpha=0.7,
+                    alpha=1.0,
                     s=70,
                     marker='s',
+                    edgecolors='white',
+                    linewidth=0.5,
                     label='Hydrograph (GPM)'
                 )
                 ax2.set_ylabel('Hydrograph (GPM)', color=HYDRO_COLOR, fontsize=12)
