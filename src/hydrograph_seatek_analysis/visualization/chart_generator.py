@@ -165,8 +165,8 @@ class ChartGenerator:
                 color=SEATEK_COLOR,
                 alpha=1.0,
                 s=45,
-                edgecolors='white',
-                linewidth=0.5,
+                edgecolors=MARKER_EDGE_COLOR,
+                linewidth=MARKER_EDGE_LINEWIDTH,
                 label=f'Sensor {sensor.split("_")[1] if "_" in sensor else sensor} (NAVD88)'
             )
 
