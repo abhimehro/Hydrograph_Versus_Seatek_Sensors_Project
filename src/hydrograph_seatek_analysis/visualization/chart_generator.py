@@ -17,6 +17,8 @@ logger = logging.getLogger(__name__)
 
 SEATEK_COLOR = '#A63600'
 HYDRO_COLOR = '#0E5A8A'
+MARKER_EDGE_COLOR = 'white'
+MARKER_EDGE_LINEWIDTH = 0.5
 
 
 @dataclass
