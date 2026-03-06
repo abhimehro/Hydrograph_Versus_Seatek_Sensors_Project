@@ -1,3 +1,8 @@
+## 2025-03-05 - Avoid Alpha for Data Markers
+
+**Learning:** Data points in scatter plots with `alpha` (opacity) below 1.0 on a white background visually lighten the marker color. A WCAG-compliant color like `#A63600` (which has a 6.67:1 contrast ratio) may drop below the required 3.0:1 non-text contrast ratio if rendered at `alpha=0.7`.
+**Action:** When plotting accessible charts, avoid using `alpha` to handle overlapping data points. Instead, use `alpha=1.0` combined with subtle marker edge outlines (e.g., `edgecolors='white', linewidth=0.5`) or distinct markers to distinguish overlapping data while maintaining the true contrast of the base color.
+
 ## 2026-03-04 - Accessible Chart Metadata
 
 **Learning:** Data visualizations saved as PNGs are opaque to screen readers unless embedded in an HTML `<img>` tag with proper `alt` text. However, users often download or share these PNGs independently.
