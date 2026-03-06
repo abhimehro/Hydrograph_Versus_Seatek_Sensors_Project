@@ -125,8 +125,11 @@ class DataLoader:
                     logger.warning(f"Skipping sheet {sheet_name}: Missing required columns in sheet {sheet_name}: {missing_cols}")
                     continue
 
-                # Load full sheet to preserve all hydrograph / Sensor_* data
-                df = pd.read_excel(excel_file, sheet_name=sheet_name)
+                # Optimize: Load only required columns and sensor/hydrograph columns to reduce memory usage and speed up loading
+                load_cols = required_cols + [col for col in cols if col.startswith('Sensor_') or col == 'Hydrograph (Lagged)']
+
+                # Load sheet with only necessary columns
+                df = pd.read_excel(excel_file, sheet_name=sheet_name, usecols=load_cols)
                 
                 try:
                     self._validate_columns(df, required_cols, f"sheet {sheet_name}")
