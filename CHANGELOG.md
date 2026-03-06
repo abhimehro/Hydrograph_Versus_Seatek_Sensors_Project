@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- 🎨 Palette: Improve chart marker contrast for accessibility [\#38](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/38) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize DataLoader.\_load\_hydro\_data peak memory usage [\#37](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/37) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: Add accessible metadata to generated charts [\#36](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/36) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize Excel data loading by utilizing `usecols` and header inspection [\#35](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/35) ([abhimehro](https://github.com/abhimehro))
