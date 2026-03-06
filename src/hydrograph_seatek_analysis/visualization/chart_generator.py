@@ -191,8 +191,8 @@ class ChartGenerator:
                     alpha=1.0,
                     s=70,
                     marker='s',
-                    edgecolors='white',
-                    linewidth=0.5,
+                    edgecolors=MARKER_EDGE_COLOR,
+                    linewidth=MARKER_EDGE_LINEWIDTH,
                     label='Hydrograph (GPM)'
                 )
                 ax2.set_ylabel('Hydrograph (GPM)', color=HYDRO_COLOR, fontsize=12)
