@@ -94,3 +94,45 @@ def test_load_summary_data(mock_read_excel):
     args, kwargs = mock_read_excel.call_args
     assert args[0] == config.summary_file
     assert callable(kwargs.get("usecols"))
+
+
+@mock.patch('pandas.ExcelFile')
+@mock.patch('pandas.read_excel')
+def test_load_hydro_data_skips_invalid_sheet_value_error(
+    mock_read_excel, mock_excel_file_cls
+):
+    """Test _load_hydro_data skips sheets that raise a callable-usecols error."""
+    mock_excel_file = mock.MagicMock()
+    mock_excel_file.sheet_names = ['RM_invalid', 'RM_54.0']
+    mock_excel_file_cls.return_value = mock_excel_file
+
+    valid_df = pd.DataFrame({
+        'Time (Seconds)': [0, 60, 120],
+        'Year': [1, 1, 1],
+        'Sensor_1': [1.0, 2.0, 3.0],
+        'Hydrograph (Lagged)': [0.1, 0.2, 0.3],
+    })
+
+    def mock_read_excel_func(*args, **kwargs):
+        sheet_name = kwargs.get('sheet_name')
+        if sheet_name == 'RM_invalid':
+            raise ValueError('No columns to parse from file')
+
+        usecols = kwargs.get('usecols')
+        if callable(usecols):
+            selected_cols = [col for col in valid_df.columns if usecols(col)]
+            return valid_df[selected_cols]
+        return valid_df
+
+    mock_read_excel.side_effect = mock_read_excel_func
+
+    config = Config()
+    data_loader = DataLoader(config)
+
+    with mock.patch.object(Path, 'exists', return_value=True):
+        with mock.patch.object(Path, 'stat') as mock_stat:
+            mock_stat.return_value.st_size = 1000
+            result = data_loader._load_hydro_data()
+
+    assert list(result) == ['RM_54.0']
+    assert result['RM_54.0'].equals(valid_df)

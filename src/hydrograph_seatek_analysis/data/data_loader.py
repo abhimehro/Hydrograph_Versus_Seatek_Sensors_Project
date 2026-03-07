@@ -129,7 +129,15 @@ class DataLoader:
                     seen_cols.append(col)
                     return col in required_cols or str(col).startswith('Sensor_') or col == 'Hydrograph (Lagged)'
 
-                df = pd.read_excel(excel_file, sheet_name=sheet_name, usecols=filter_cols)
+                try:
+                    df = pd.read_excel(
+                        excel_file,
+                        sheet_name=sheet_name,
+                        usecols=filter_cols,
+                    )
+                except ValueError as exc:
+                    logger.warning(f"Skipping sheet {sheet_name}: {str(exc)}")
+                    continue
 
                 missing_cols = [col for col in required_cols if col not in seen_cols]
                 if missing_cols:
