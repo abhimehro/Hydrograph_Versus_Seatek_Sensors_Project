@@ -136,7 +136,7 @@ class DataLoader:
                         usecols=filter_cols,
                     )
                 except ValueError as exc:
-                    logger.warning(f"Skipping sheet {sheet_name}: {str(exc)}")
+                    logger.warning(f"Skipping sheet {sheet_name}: {exc}")
                     continue
 
                 missing_cols = [col for col in required_cols if col not in seen_cols]

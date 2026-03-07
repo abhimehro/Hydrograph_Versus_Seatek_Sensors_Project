@@ -99,9 +99,9 @@ def test_load_summary_data(mock_read_excel):
 @mock.patch('pandas.ExcelFile')
 @mock.patch('pandas.read_excel')
 def test_load_hydro_data_skips_invalid_sheet_value_error(
-    mock_read_excel, mock_excel_file_cls
+    mock_read_excel, mock_excel_file_cls, caplog
 ):
-    """Test _load_hydro_data skips sheets that raise a callable-usecols error."""
+    """Test _load_hydro_data skips sheets that raise a parsing ValueError."""
     mock_excel_file = mock.MagicMock()
     mock_excel_file.sheet_names = ['RM_invalid', 'RM_54.0']
     mock_excel_file_cls.return_value = mock_excel_file
@@ -134,5 +134,10 @@ def test_load_hydro_data_skips_invalid_sheet_value_error(
             mock_stat.return_value.st_size = 1000
             result = data_loader._load_hydro_data()
 
+    expected_df = valid_df[
+        ['Time (Seconds)', 'Year', 'Sensor_1', 'Hydrograph (Lagged)']
+    ]
     assert list(result) == ['RM_54.0']
-    assert result['RM_54.0'].equals(valid_df)
+    assert result['RM_54.0'].equals(expected_df)
+    assert list(result['RM_54.0'].columns) == list(expected_df.columns)
+    assert "Skipping sheet RM_invalid: No columns to parse from file" in caplog.text
