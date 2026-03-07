@@ -1,11 +1,6 @@
-import sys
 import unittest
 from unittest.mock import patch, MagicMock
 from pathlib import Path
-
-# Mock pandas since it's not installed in the sandbox
-sys.modules['pandas'] = MagicMock()
-
 from utils.config import Config
 from utils.data_loader import DataLoader
 
