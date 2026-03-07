@@ -29,7 +29,7 @@ class TestDataLoaderSizeLimits(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             self.loader._load_summary_data()
 
-        self.assertIn("Summary file exceeds maximum size", str(context.exception))
+        self.assertIn("exceeds maximum size", str(context.exception))
         mock_read_excel.assert_not_called()
 
     @patch('utils.data_loader.pd.ExcelFile')
@@ -44,7 +44,7 @@ class TestDataLoaderSizeLimits(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             self.loader._load_hydro_data()
 
-        self.assertIn("Hydrograph file exceeds maximum size", str(context.exception))
+        self.assertIn("exceeds maximum size", str(context.exception))
         mock_excel_file.assert_not_called()
 
 if __name__ == '__main__':

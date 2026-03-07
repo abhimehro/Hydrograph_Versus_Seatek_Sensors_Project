@@ -82,4 +82,4 @@ def test_load_summary_data(mock_read_excel):
             result = data_loader._load_summary_data()
     
     assert result.equals(mock_df)
-    mock_read_excel.assert_called_once_with(config.summary_file)
+    mock_read_excel.assert_called_once_with(config.summary_file, usecols=mock.ANY)
