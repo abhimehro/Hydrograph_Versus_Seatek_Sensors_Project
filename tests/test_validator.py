@@ -131,3 +131,85 @@ def test_validate_hydro_file(mock_read_excel, mock_excel_file_cls):
     assert sheet1['required_columns_present'] is True
     assert sheet1['years'] == [1]
     assert sheet1['time_range'] == [0, 120]
+
+@mock.patch('pandas.ExcelFile')
+@mock.patch('pandas.read_excel')
+def test_validate_hydro_file_missing_columns(mock_read_excel, mock_excel_file_cls):
+    """Test validate_hydro_file behavior when required columns are absent."""
+    mock_excel_file = mock.MagicMock()
+    mock_excel_file.sheet_names = ['RM_54.0']
+    mock_excel_file_cls.return_value.__enter__.return_value = mock_excel_file
+
+    # Missing 'Time (Seconds)' and 'Year'
+    df_missing = pd.DataFrame({
+        'SomeOtherCol': [0, 60, 120],
+        'YetAnotherCol': [1, 1, 1]
+    })
+
+    def mock_read_excel_hydro(*args, **kwargs):
+        usecols = kwargs.get('usecols')
+        if callable(usecols):
+            # Our stateful filter logic expects columns to be passed iteratively
+            for col in df_missing.columns:
+                usecols(col)
+        # Because we load at least the first column, we mock the dataframe subset
+        return df_missing[['SomeOtherCol']]
+
+    mock_read_excel.side_effect = mock_read_excel_hydro
+
+    config = Config()
+    validator = DataValidator(config)
+
+    with mock.patch.object(Path, 'exists', return_value=True), \
+         mock.patch.object(Path, 'stat', return_value=mock.Mock(st_size=1000)):
+        result = validator.validate_hydro_file()
+
+    assert result is not None
+    sheet1 = result['sheets'][0]
+    # Rows should match the length of the loaded first column (3 rows)
+    assert sheet1['rows'] == 3
+    # Required columns were absent
+    assert sheet1['required_columns_present'] is False
+    assert sheet1['years'] is None
+    assert sheet1['time_range'] is None
+
+
+@mock.patch('pandas.read_excel')
+def test_validate_processed_files_missing_columns(mock_read_excel):
+    """Test validate_processed_files behavior when required and sensor columns are absent."""
+    df_missing = pd.DataFrame({
+        'RandomData': [1.0, 2.0],
+        'MoreRandomData': [3.0, 4.0]
+    })
+
+    def mock_read_excel_proc(*args, **kwargs):
+        usecols = kwargs.get('usecols')
+        if callable(usecols):
+            for col in df_missing.columns:
+                usecols(col)
+        return df_missing[['RandomData']]
+
+    mock_read_excel.side_effect = mock_read_excel_proc
+
+    config = Config()
+    validator = DataValidator(config)
+
+    # Create a mock path object that matches glob "RM_*.xlsx"
+    mock_file = mock.MagicMock()
+    mock_file.name = "RM_54.0.xlsx"
+    mock_file.stem = "RM_54.0"
+    mock_file.stat.return_value.st_size = 1000
+
+    with mock.patch.object(Path, 'exists', return_value=True), \
+         mock.patch.object(Path, 'glob', return_value=[mock_file]):
+
+        results = validator.validate_processed_files()
+
+    assert len(results) == 1
+    res = results[0]
+    assert res['river_mile'] == 54.0
+    assert res['rows'] == 2
+    assert res['required_columns_present'] is False
+    assert res['sensor_columns'] == []
+    assert res['year_range'] is None
+    assert res['time_range'] is None
