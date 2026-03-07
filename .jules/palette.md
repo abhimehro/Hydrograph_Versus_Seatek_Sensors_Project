@@ -17,6 +17,6 @@
 **Learning:** Default Matplotlib/Seaborn qualitative palettes (like tab10) often fail WCAG AA 4.5:1 contrast requirements for colored text on a white background. For instance, `#CC4C02` is only ~4.56:1, and `#1F77B4` is ~4.82:1.
 **Action:** Always check generated hexadecimal colors using a luminance/contrast calculator when assigning them to text (like axis labels or plot titles). Darker shades like `#A63600` (Seatek, 6.67:1) and `#0E5A8A` (Hydrograph, 7.37:1) should be used as standard design tokens for accessibility in data visualization projects.
 
-## 2024-03-07 - Opaque Legend Backgrounds
+## 2025-03-07 - Opaque Legend Backgrounds
 **Learning:** Semi-transparent legend backgrounds (e.g., `framealpha=0.9`) in data visualizations can cause underlying data lines or grid lines to bleed through, which reduces the contrast ratio of the legend text and can cause it to fail WCAG accessibility standards.
 **Action:** Always use fully opaque backgrounds (`framealpha=1.0`) for chart legends that overlap the plot area, combined with a distinct edge color (`edgecolor='#333333'`) to ensure optimal contrast and readability for all users.
