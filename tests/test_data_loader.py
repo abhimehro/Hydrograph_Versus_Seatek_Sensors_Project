@@ -70,7 +70,15 @@ def test_load_summary_data(mock_read_excel):
         'Y_Offset': [10.5, 11.2],
         'Num_Sensors': [2, 2]
     })
-    mock_read_excel.return_value = mock_df
+
+    def mock_read_excel_func(*args, **kwargs):
+        usecols = kwargs.get('usecols')
+        if callable(usecols):
+            selected_cols = [col for col in mock_df.columns if usecols(col)]
+            return mock_df[selected_cols]
+        return mock_df
+
+    mock_read_excel.side_effect = mock_read_excel_func
     
     config = Config()
     data_loader = DataLoader(config)
@@ -82,4 +90,7 @@ def test_load_summary_data(mock_read_excel):
             result = data_loader._load_summary_data()
     
     assert result.equals(mock_df)
-    mock_read_excel.assert_called_once_with(config.summary_file)
+    mock_read_excel.assert_called_once()
+    args, kwargs = mock_read_excel.call_args
+    assert args[0] == config.summary_file
+    assert callable(kwargs.get("usecols"))
