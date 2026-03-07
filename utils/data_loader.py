@@ -53,10 +53,10 @@ class DataLoader:
         try:
             logger.debug(f"Loading hydrograph data from: {self.config.hydro_file}")
             hydro_data = {}
-            if self.config.hydro_file.exists() and self.config.hydro_file.stat().st_size > self.config.max_file_size_bytes:
-                raise ValueError(f"Hydrograph file exceeds maximum size of {self.config.max_file_size_bytes} bytes")
-
-            excel_file = pd.ExcelFile(self.config.hydro_file)
+            with self.config.hydro_file.open('rb') as f:
+                if os.fstat(f.fileno()).st_size > self.config.max_file_size_bytes:
+                    raise ValueError(f"Hydrograph file exceeds maximum size of {self.config.max_file_size_bytes} bytes")
+                excel_file = pd.ExcelFile(f)
 
             for sheet_name in excel_file.sheet_names:
                 if not sheet_name.startswith('RM_'):
