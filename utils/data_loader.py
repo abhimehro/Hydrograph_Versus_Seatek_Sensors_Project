@@ -31,6 +31,9 @@ class DataLoader:
         """Load and validate summary data."""
         try:
             logger.debug(f"Loading summary data from: {self.config.summary_file}")
+            if self.config.summary_file.exists() and self.config.summary_file.stat().st_size > self.config.max_file_size_bytes:
+                raise ValueError(f"Summary file exceeds maximum size of {self.config.max_file_size_bytes} bytes")
+
             df = pd.read_excel(self.config.summary_file)
             required_cols = {'River_Mile', 'Y_Offset', 'Num_Sensors'}
 
@@ -50,6 +53,9 @@ class DataLoader:
         try:
             logger.debug(f"Loading hydrograph data from: {self.config.hydro_file}")
             hydro_data = {}
+            if self.config.hydro_file.exists() and self.config.hydro_file.stat().st_size > self.config.max_file_size_bytes:
+                raise ValueError(f"Hydrograph file exceeds maximum size of {self.config.max_file_size_bytes} bytes")
+
             excel_file = pd.ExcelFile(self.config.hydro_file)
 
             for sheet_name in excel_file.sheet_names:

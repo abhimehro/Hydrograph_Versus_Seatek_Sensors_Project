@@ -21,6 +21,9 @@ class Config:
         self.summary_file = self.raw_data_dir / "Data_Summary.xlsx"
         self.hydro_file = self.raw_data_dir / "Hydrograph_Seatek_Data.xlsx"
 
+        # SECURITY: Prevent DoS by limiting max file size loaded into memory
+        self.max_file_size_bytes = 100 * 1024 * 1024  # 100 MB
+
         # Processing constants
         self.navd88_constants = {
             'offset_a': 1.9,
