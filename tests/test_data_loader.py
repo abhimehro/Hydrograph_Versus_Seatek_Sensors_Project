@@ -91,3 +91,6 @@ def test_load_summary_data(mock_read_excel):
     
     assert result.equals(mock_df)
     mock_read_excel.assert_called_once()
+    args, kwargs = mock_read_excel.call_args
+    assert args[0] == config.summary_file
+    assert callable(kwargs.get("usecols"))
