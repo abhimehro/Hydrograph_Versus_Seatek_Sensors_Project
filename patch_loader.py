@@ -1,20 +1,13 @@
-with open("utils/data_loader.py", "r") as f:
-    lines = f.readlines()
+"""
+Deprecated script.
 
-new_lines = []
-for i, line in enumerate(lines):
-    if "df = pd.read_excel(self.config.summary_file)" in line:
-        new_lines.append("            if self.config.summary_file.exists() and self.config.summary_file.stat().st_size > self.config.max_file_size_bytes:\n")
-        new_lines.append("                raise ValueError(f\"Summary file exceeds maximum size of {self.config.max_file_size_bytes} bytes\")\n\n")
-        new_lines.append(line)
-    elif "excel_file = pd.ExcelFile(self.config.hydro_file)" in line:
-        new_lines.append("            if self.config.hydro_file.exists() and self.config.hydro_file.stat().st_size > self.config.max_file_size_bytes:\n")
-        new_lines.append("                raise ValueError(f\"Hydrograph file exceeds maximum size of {self.config.max_file_size_bytes} bytes\")\n\n")
-        new_lines.append(line)
-    else:
-        new_lines.append(line)
+This module previously performed an in-place patch of `utils/data_loader.py`.
+It has been intentionally disabled to avoid keeping one-off source-mutation
+utilities in the repository. If you need the old behavior, please retrieve it
+from version control history instead of running this script.
+"""
 
-with open("utils/data_loader.py", "w") as f:
-    f.writelines(new_lines)
-
-print("Updated utils/data_loader.py")
+if __name__ == "__main__":
+    raise RuntimeError(
+        "patch_loader.py is deprecated and must not be used to modify source files."
+    )
