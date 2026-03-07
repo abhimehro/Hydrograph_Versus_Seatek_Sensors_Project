@@ -74,8 +74,8 @@ def test_load_summary_data(mock_read_excel):
     def mock_read_excel_func(*args, **kwargs):
         usecols = kwargs.get('usecols')
         if callable(usecols):
-            for col in mock_df.columns:
-                usecols(col)
+            selected_cols = [col for col in mock_df.columns if usecols(col)]
+            return mock_df[selected_cols]
         return mock_df
 
     mock_read_excel.side_effect = mock_read_excel_func
