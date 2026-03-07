@@ -217,7 +217,8 @@ class ChartGenerator:
                     labels1 + labels2,
                     loc='upper right',
                     bbox_to_anchor=(0.99, 0.99),
-                    framealpha=0.9,
+                    framealpha=1.0,
+                    edgecolor='#333333',
                     fontsize=11
                 )
         except Exception as e:
