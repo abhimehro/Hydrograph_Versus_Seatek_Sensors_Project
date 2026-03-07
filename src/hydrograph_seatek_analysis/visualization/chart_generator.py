@@ -218,7 +218,7 @@ class ChartGenerator:
                     loc='upper right',
                     bbox_to_anchor=(0.99, 0.99),
                     framealpha=1.0,
-                    edgecolor='#333333',
+                    edgecolor=LEGEND_EDGE_COLOR,
                     fontsize=11
                 )
         except Exception as e:
