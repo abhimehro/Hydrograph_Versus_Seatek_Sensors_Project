@@ -26,7 +26,15 @@ def test_validate_summary_file(mock_read_excel):
         'Y_Offset': [10.5, 11.2],
         'Num_Sensors': [2, 2]
     })
-    mock_read_excel.return_value = mock_df
+
+    def mock_read_excel_func(*args, **kwargs):
+        usecols = kwargs.get('usecols')
+        if callable(usecols):
+            for col in mock_df.columns:
+                usecols(col)
+        return mock_df
+
+    mock_read_excel.side_effect = mock_read_excel_func
     
     config = Config()
     validator = DataValidator(config)
@@ -51,7 +59,15 @@ def test_validate_summary_file_missing_columns(mock_read_excel):
         'River_Mile': [54.0, 53.0],
         # Missing Y_Offset and Num_Sensors
     })
-    mock_read_excel.return_value = mock_df
+
+    def mock_read_excel_func(*args, **kwargs):
+        usecols = kwargs.get('usecols')
+        if callable(usecols):
+            for col in mock_df.columns:
+                usecols(col)
+        return mock_df
+
+    mock_read_excel.side_effect = mock_read_excel_func
     
     config = Config()
     validator = DataValidator(config)
@@ -85,11 +101,16 @@ def test_validate_hydro_file(mock_read_excel, mock_excel_file_cls):
     })
     
     # Configure mock to return different values based on sheet name
-    mock_read_excel.side_effect = lambda *args, **kwargs: (
-        df_54 if kwargs.get('sheet_name') == 'RM_54.0' else 
-        df_53 if kwargs.get('sheet_name') == 'RM_53.0' else 
-        pd.DataFrame()
-    )
+    def mock_read_excel_hydro(*args, **kwargs):
+        sheet = kwargs.get('sheet_name')
+        df = df_54 if sheet == 'RM_54.0' else df_53 if sheet == 'RM_53.0' else pd.DataFrame()
+        usecols = kwargs.get('usecols')
+        if callable(usecols):
+            for col in df.columns:
+                usecols(col)
+        return df
+
+    mock_read_excel.side_effect = mock_read_excel_hydro
     
     config = Config()
     validator = DataValidator(config)

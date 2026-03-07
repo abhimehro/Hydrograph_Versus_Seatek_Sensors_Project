@@ -66,15 +66,20 @@ class DataLoader:
             if summary_file.stat().st_size > self.config.max_file_size_bytes:
                 raise ValueError(f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {summary_file}")
 
-            # Optimize: use nrows=0 to check columns first
-            cols = pd.read_excel(summary_file, nrows=0).columns.tolist()
             required_cols = ['River_Mile', 'Y_Offset', 'Num_Sensors']
-            missing_cols = [col for col in required_cols if col not in cols]
+
+            # Optimize: load columns dynamically to avoid checking headers and reloading
+            # This is an optimization for reading excel files in a single pass
+            seen_cols = []
+            def filter_cols(col):
+                seen_cols.append(col)
+                return col in required_cols
+
+            df = pd.read_excel(summary_file, usecols=filter_cols)
+
+            missing_cols = [col for col in required_cols if col not in seen_cols]
             if missing_cols:
                 raise ValueError(f"Missing required columns in summary data: {missing_cols}")
-
-            # Load only the required columns
-            df = pd.read_excel(summary_file, usecols=required_cols)
 
             # Keep original validation for safety and consistency
             self._validate_columns(df, required_cols, "summary data")
@@ -116,20 +121,20 @@ class DataLoader:
                 if not sheet_name.startswith('RM_'):
                     continue
 
-                # Optimize: use nrows=0 to check columns first
-                cols = pd.read_excel(excel_file, sheet_name=sheet_name, nrows=0).columns.tolist()
                 required_cols = ['Time (Seconds)', 'Year']
-                missing_cols = [col for col in required_cols if col not in cols]
 
+                # Optimize: Load only required columns and sensor/hydrograph columns to reduce memory usage and speed up loading
+                seen_cols = []
+                def filter_cols(col):
+                    seen_cols.append(col)
+                    return col in required_cols or str(col).startswith('Sensor_') or col == 'Hydrograph (Lagged)'
+
+                df = pd.read_excel(excel_file, sheet_name=sheet_name, usecols=filter_cols)
+
+                missing_cols = [col for col in required_cols if col not in seen_cols]
                 if missing_cols:
                     logger.warning(f"Skipping sheet {sheet_name}: Missing required columns in sheet {sheet_name}: {missing_cols}")
                     continue
-
-                # Optimize: Load only required columns and sensor/hydrograph columns to reduce memory usage and speed up loading
-                load_cols = required_cols + [col for col in cols if col.startswith('Sensor_') or col == 'Hydrograph (Lagged)']
-
-                # Load sheet with only necessary columns
-                df = pd.read_excel(excel_file, sheet_name=sheet_name, usecols=load_cols)
                 
                 try:
                     self._validate_columns(df, required_cols, f"sheet {sheet_name}")
