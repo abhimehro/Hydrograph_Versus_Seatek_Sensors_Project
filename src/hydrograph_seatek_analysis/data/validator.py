@@ -4,7 +4,7 @@ Data validation utilities for Seatek sensor data.
 
 import logging
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Callable, Tuple
 
 import pandas as pd
 
@@ -25,6 +25,19 @@ class DataValidator:
         """
         self.config = config
     
+    def _create_stateful_col_filter(
+        self, keep_condition: Callable[[Any], bool]
+    ) -> Tuple[Callable[[Any], bool], List[str]]:
+        """Creates a stateful column filter that always includes the first column."""
+        seen_cols: List[str] = []
+
+        def filter_func(col: Any) -> bool:
+            is_first = not seen_cols
+            seen_cols.append(col)
+            return keep_condition(col) or is_first
+
+        return filter_func, seen_cols
+
     def validate_summary_file(self) -> Optional[Dict[str, Any]]:
         """
         Validate summary data file.
@@ -120,12 +133,9 @@ class DataValidator:
                 for sheet in rm_sheets:
                     required_cols = ['Time (Seconds)', 'Year']
 
-                    # Optimization: load columns dynamically to check headers and load only required in single pass
-                    seen_cols = []
-                    def filter_cols(col):
-                        is_first = len(seen_cols) == 0
-                        seen_cols.append(col)
-                        return col in required_cols or is_first
+                    # Optimization: check headers and conditionally load only required in single pass.
+                    # First column is unconditionally included as an anchor to guarantee a non-empty dataframe for row-count retrieval.
+                    filter_cols, seen_cols = self._create_stateful_col_filter(lambda c: c in required_cols)
 
                     df = pd.read_excel(excel, sheet_name=sheet, usecols=filter_cols)
                     columns = list(seen_cols)
@@ -189,12 +199,11 @@ class DataValidator:
                 
                 required_cols = ['Time (Seconds)', 'Year']
                 
-                # Optimization: load columns dynamically and load in a single pass
-                seen_cols = []
-                def filter_cols(col):
-                    is_first = len(seen_cols) == 0
-                    seen_cols.append(col)
-                    return col in required_cols or str(col).startswith('Sensor_') or is_first
+                # Optimization: load columns dynamically and load in a single pass.
+                # First column is unconditionally included as an anchor so df may include a column that is neither required nor a Sensor_ column.
+                filter_cols, seen_cols = self._create_stateful_col_filter(
+                    lambda c: c in required_cols or str(c).startswith('Sensor_')
+                )
 
                 df = pd.read_excel(file_path, usecols=filter_cols)
                 columns = list(seen_cols)
