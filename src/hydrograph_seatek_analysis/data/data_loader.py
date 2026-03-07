@@ -68,14 +68,16 @@ class DataLoader:
 
             required_cols = ['River_Mile', 'Y_Offset', 'Num_Sensors']
 
-            # Optimize: Single pass loading with callable usecols
-            def summary_usecols(col):
+            # Optimize: load columns dynamically to avoid checking headers and reloading
+            # This is an optimization for reading excel files in a single pass
+            seen_cols = []
+            def filter_cols(col):
+                seen_cols.append(col)
                 return col in required_cols
 
-            df = pd.read_excel(summary_file, usecols=lambda col: col in required_cols)
+            df = pd.read_excel(summary_file, usecols=filter_cols)
 
-            # Verify all required columns were found
-            missing_cols = [col for col in required_cols if col not in df.columns]
+            missing_cols = [col for col in required_cols if col not in seen_cols]
             if missing_cols:
                 raise ValueError(f"Missing required columns in summary data: {missing_cols}")
 
@@ -121,15 +123,15 @@ class DataLoader:
 
                 required_cols = ['Time (Seconds)', 'Year']
 
-                # Optimize: Single pass loading with callable usecols
-                def hydro_usecols(col):
+                # Optimize: Load only required columns and sensor/hydrograph columns to reduce memory usage and speed up loading
+                seen_cols = []
+                def filter_cols(col):
+                    seen_cols.append(col)
                     return col in required_cols or str(col).startswith('Sensor_') or col == 'Hydrograph (Lagged)'
 
-                # Load sheet with only necessary columns in a single pass
-                df = pd.read_excel(excel_file, sheet_name=sheet_name, usecols=hydro_usecols)
+                df = pd.read_excel(excel_file, sheet_name=sheet_name, usecols=filter_cols)
 
-                # Check if required columns were found during load
-                missing_cols = [col for col in required_cols if col not in df.columns]
+                missing_cols = [col for col in required_cols if col not in seen_cols]
                 if missing_cols:
                     logger.warning(f"Skipping sheet {sheet_name}: Missing required columns in sheet {sheet_name}: {missing_cols}")
                     continue

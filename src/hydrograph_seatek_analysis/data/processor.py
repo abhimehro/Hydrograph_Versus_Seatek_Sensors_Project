@@ -85,27 +85,26 @@ class RiverMileData:
             if self.file_path.exists() and self.file_path.stat().st_size > max_file_size_bytes:
                 raise ValueError(f"File size exceeds maximum allowed size ({max_file_size_bytes} bytes): {self.file_path}")
 
-            # Optimize: use nrows=0 to check columns first
-            cols = pd.read_excel(self.file_path, nrows=0).columns.tolist()
+            required_cols = ['Time (Seconds)', 'Year']
+
+            # Optimization: load columns dynamically and load in a single pass
+            seen_cols = []
+            def filter_cols(col):
+                seen_cols.append(col)
+                return col in required_cols or str(col).startswith('Sensor_') or col == 'Hydrograph (Lagged)'
+
+            self.data = pd.read_excel(self.file_path, usecols=filter_cols)
+            cols = list(seen_cols)
 
             # Check required columns
-            required_cols = ['Time (Seconds)', 'Year']
             missing = [c for c in required_cols if c not in cols]
             if missing:
                 raise ValueError(f"Missing required columns: {set(missing)}")
 
             # Find sensor columns
-            self.sensors = [col for col in cols if col.startswith('Sensor_')]
+            self.sensors = [col for col in cols if str(col).startswith('Sensor_')]
             if not self.sensors:
                 raise ValueError("No sensor columns found")
-
-            # Determine load columns
-            load_cols = required_cols + self.sensors
-            if 'Hydrograph (Lagged)' in cols:
-                load_cols.append('Hydrograph (Lagged)')
-
-            # Load only required columns
-            self.data = pd.read_excel(self.file_path, usecols=load_cols)
 
             # Keep original validation steps to ensure no methods are bypassed
             self._validate_data()

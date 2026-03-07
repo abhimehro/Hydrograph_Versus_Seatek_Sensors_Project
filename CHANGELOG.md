@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- ⚡ Bolt: Optimize Excel Loading with single-pass `usecols` [\#41](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/41) ([abhimehro](https://github.com/abhimehro))
 - 🔒 \[security\] Validate Max File Size Before Loading Data [\#40](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/40) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: Fix accessible marker styles to prevent NameError [\#39](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/39) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: Improve chart marker contrast for accessibility [\#38](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/38) ([abhimehro](https://github.com/abhimehro))
