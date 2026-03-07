@@ -202,7 +202,7 @@ class DataValidator:
                 columns = list(seen_cols)
 
                 # If no required or sensor cols found but there are columns, load first column to get row count
-                if df.empty and columns:
+                if df.shape[1] == 0 and columns:
                     df = pd.read_excel(file_path, usecols=[0])
 
                 missing = [col for col in required_cols if col not in columns]
