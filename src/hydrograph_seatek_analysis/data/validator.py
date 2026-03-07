@@ -123,15 +123,12 @@ class DataValidator:
                     # Optimization: load columns dynamically to check headers and load only required in single pass
                     seen_cols = []
                     def filter_cols(col):
+                        is_first = len(seen_cols) == 0
                         seen_cols.append(col)
-                        return col in required_cols
+                        return col in required_cols or is_first
 
                     df = pd.read_excel(excel, sheet_name=sheet, usecols=filter_cols)
                     columns = list(seen_cols)
-
-                    # If no required cols found but there are columns, load first column to get row count
-                    if df.empty and columns:
-                        df = pd.read_excel(excel, sheet_name=sheet, usecols=[0])
 
                     missing = [col for col in required_cols if col not in columns]
                     
@@ -195,15 +192,12 @@ class DataValidator:
                 # Optimization: load columns dynamically and load in a single pass
                 seen_cols = []
                 def filter_cols(col):
+                    is_first = len(seen_cols) == 0
                     seen_cols.append(col)
-                    return col in required_cols or str(col).startswith('Sensor_')
+                    return col in required_cols or str(col).startswith('Sensor_') or is_first
 
                 df = pd.read_excel(file_path, usecols=filter_cols)
                 columns = list(seen_cols)
-
-                # If no required or sensor cols found but there are columns, load first column to get row count
-                if df.shape[1] == 0 and columns:
-                    df = pd.read_excel(file_path, usecols=[0])
 
                 missing = [col for col in required_cols if col not in columns]
                 sensor_cols = [col for col in columns if str(col).startswith('Sensor_')]
