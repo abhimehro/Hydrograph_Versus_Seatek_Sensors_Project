@@ -52,6 +52,12 @@ htmlcov/
 !docs/
 !docs/**
 
+# Re-ignore generated Python cache artifacts inside kept source/test trees
+src/**/__pycache__/
+src/**/*.py[cod]
+tests/**/__pycache__/
+tests/**/*.py[cod]
+
 # Keep specific files
 !pyproject.toml
 !.pre-commit-config.yaml
