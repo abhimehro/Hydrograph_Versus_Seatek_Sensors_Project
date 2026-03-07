@@ -4,16 +4,13 @@ This module implements decoupled filtering for sensor and hydrograph values,
 and merges the two streams using a full outer join so that all valid sensor readings
 (as well as all valid lagged hydrograph measurements) are preserved.
 """
-
+from utils.security import validate_file_size
 import logging
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
-
 import pandas as pd
-
 logger = logging.getLogger(__name__)
-
 
 @dataclass
 class ProcessingMetrics:
@@ -26,15 +23,7 @@ class ProcessingMetrics:
 
     def log_metrics(self) -> None:
         """Log processing metrics."""
-        logger.info(
-            "Data processing metrics:\n"
-            f"  Original rows: {self.original_rows}\n"
-            f"  Invalid rows: {self.invalid_rows}\n"
-            f"  Zero values: {self.zero_values}\n"
-            f"  Null values: {self.null_values}\n"
-            f"  Valid rows: {self.valid_rows}"
-        )
-
+        logger.info(f'Data processing metrics:\n  Original rows: {self.original_rows}\n  Invalid rows: {self.invalid_rows}\n  Zero values: {self.zero_values}\n  Null values: {self.null_values}\n  Valid rows: {self.valid_rows}')
 
 class RiverMileData:
     """Container for river mile–specific data and metadata."""
@@ -52,16 +41,17 @@ class RiverMileData:
             rm_str = self.file_path.stem.split('_')[1]
             return float(rm_str)
         except (IndexError, ValueError) as e:
-            raise ValueError(f"Invalid river mile file name: {self.file_path.name}") from e
+            raise ValueError(f'Invalid river mile file name: {self.file_path.name}') from e
 
     def load_data(self) -> None:
         """Load and validate data from the Excel file."""
         try:
+            validate_file_size(self.file_path, 100 * 1024 * 1024)
             self.data = pd.read_excel(self.file_path)
             self._validate_data()
             self._setup_sensors()
         except Exception as e:
-            logger.error(f"Error loading {self.file_path.name}: {str(e)}")
+            logger.error(f'Error loading {self.file_path.name}: {str(e)}')
             raise
 
     def _validate_data(self) -> None:
@@ -69,14 +59,13 @@ class RiverMileData:
         required_cols = {'Time (Seconds)', 'Year'}
         missing = required_cols - set(self.data.columns)
         if missing:
-            raise ValueError(f"Missing required columns: {missing}")
+            raise ValueError(f'Missing required columns: {missing}')
 
     def _setup_sensors(self) -> None:
         """Identify available sensor columns (those whose names begin with 'Sensor_')."""
         self.sensors = [col for col in self.data.columns if col.startswith('Sensor_')]
         if not self.sensors:
-            raise ValueError("No sensor columns found")
-
+            raise ValueError('No sensor columns found')
 
 class SeatekDataProcessor:
     """Handles Seatek sensor data processing and conversion to NAVD88,
@@ -101,34 +90,18 @@ class SeatekDataProcessor:
         """Setup Y_Offset values for each river mile from the summary data."""
         self.offsets = self.summary_data.set_index('River_Mile')['Y_Offset'].to_dict()
 
-    def convert_to_navd88(
-        self,
-        data: pd.DataFrame,
-        sensor: str,
-        river_mile: float
-    ) -> pd.DataFrame:
+    def convert_to_navd88(self, data: pd.DataFrame, sensor: str, river_mile: float) -> pd.DataFrame:
         """Convert Seatek sensor readings to NAVD88 elevation using the
         river mile–specific offset, and convert time from seconds to minutes.
         """
         processed = data.copy()
         y_offset = self.offsets.get(river_mile, 0)
-        # Convert time from seconds to minutes.
         processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0
-
-        # Convert the sensor column to numeric and apply the NAVD88 conversion.
         raw_data = pd.to_numeric(processed[sensor], errors='coerce')
-        # Conversion formula (adjust as necessary):
-        # NAVD88_value = -(raw_data + 1.9 - 0.32) * (400 / 30.48) + y_offset
         processed[sensor] = -(raw_data + 1.9 - 0.32) * (400 / 30.48) + y_offset
-
         return processed
 
-    def process_data(
-            self,
-            river_mile: float,
-            year: int,
-            sensor: str
-    ) -> Tuple[pd.DataFrame, ProcessingMetrics]:
+    def process_data(self, river_mile: float, year: int, sensor: str) -> Tuple[pd.DataFrame, ProcessingMetrics]:
         """
         Process data for a given river mile, year, and sensor with fully decoupled filtering.
 
@@ -144,84 +117,51 @@ class SeatekDataProcessor:
           • Finally, recalculate the time in minutes (if needed), sort by time, and update metrics.
         """
         if river_mile not in self.river_mile_data:
-            raise ValueError(f"No data loaded for River Mile {river_mile}")
-
+            raise ValueError(f'No data loaded for River Mile {river_mile}')
         rm_data = self.river_mile_data[river_mile]
         year_data = rm_data.data[rm_data.data['Year'] == year].copy()
         metrics = ProcessingMetrics(original_rows=len(year_data))
-
         if year_data.empty:
-            return pd.DataFrame(), metrics
-
-        # Convert the data and sensor values.
+            return (pd.DataFrame(), metrics)
         processed = self.convert_to_navd88(year_data, sensor, river_mile)
-
-        # Independently filter the hydrograph stream (if present).
         if 'Hydrograph (Lagged)' in processed.columns:
-            hydro_df = processed[
-                processed['Hydrograph (Lagged)'].notna() &
-                (processed['Hydrograph (Lagged)'] != 0)
-                ].copy()
+            hydro_df = processed[processed['Hydrograph (Lagged)'].notna() & (processed['Hydrograph (Lagged)'] != 0)].copy()
         else:
             hydro_df = pd.DataFrame()
-
-        # Independently filter the sensor stream.
-        sensor_df = processed[
-            processed[sensor].notna() & (processed[sensor] != 0)
-            ].copy()
-
-        # Update processing metrics from the sensor column.
+        sensor_df = processed[processed[sensor].notna() & (processed[sensor] != 0)].copy()
         metrics.null_values = processed[sensor].isna().sum()
         metrics.zero_values = (processed[sensor] == 0).sum()
-
-        # If there are no valid sensor readings but hydrograph data exist, force hydrograph to 0.
-        if sensor_df.empty and not hydro_df.empty:
+        if sensor_df.empty and (not hydro_df.empty):
             hydro_df.loc[:, 'Hydrograph (Lagged)'] = 0
-
-        # Merge the two streams using an outer join on "Time (Seconds)" so that
-        # every valid sensor data point and every valid hydrograph value is preserved.
-        merged = pd.merge(
-            sensor_df[['Time (Seconds)', sensor]],
-            hydro_df[['Time (Seconds)', 'Hydrograph (Lagged)']],
-            on='Time (Seconds)',
-            how='outer'
-        )
-
-        # Recalculate "Time (Minutes)" for the merged dataset.
+        merged = pd.merge(sensor_df[['Time (Seconds)', sensor]], hydro_df[['Time (Seconds)', 'Hydrograph (Lagged)']], on='Time (Seconds)', how='outer')
         merged['Time (Minutes)'] = merged['Time (Seconds)'] / 60.0
-
-        # Sort by time.
         merged.sort_values('Time (Minutes)', inplace=True)
-
         metrics.valid_rows = len(merged)
         metrics.invalid_rows = metrics.original_rows - len(processed)
         metrics.log_metrics()
-
-        return merged, metrics
+        return (merged, metrics)
 
     def load_data(self) -> None:
         """Load data from all river mile Excel files present in the data directory."""
         try:
             rm_files = self._find_river_mile_files()
-
             if not rm_files:
-                raise FileNotFoundError("No valid river mile files found")
-
+                raise FileNotFoundError('No valid river mile files found')
             for file_path in rm_files:
                 try:
                     rm_data = RiverMileData(file_path)
                     rm_data.load_data()
                     self.river_mile_data[rm_data.river_mile] = rm_data
-                    logger.info(f"Loaded data for River Mile {rm_data.river_mile}")
+                    logger.info(f'Loaded data for River Mile {rm_data.river_mile}')
                 except Exception as e:
-                    logger.error(f"Error loading {file_path.name}: {str(e)}")
+                    logger.error(f'Error loading {file_path.name}: {str(e)}')
         except Exception as e:
-            logger.error(f"Error loading data: {str(e)}")
+            logger.error(f'Error loading data: {str(e)}')
             raise
 
     def _find_river_mile_files(self) -> List[Path]:
         """Find all Excel files in the data directory with names starting with 'RM_'."""
         if not self.data_dir.exists():
-            raise FileNotFoundError(f"Data directory not found: {self.data_dir}")
-        rm_files = list(self.data_dir.glob("RM_*.xlsx"))
+            raise FileNotFoundError(f'Data directory not found: {self.data_dir}')
+        rm_files = list(self.data_dir.glob('RM_*.xlsx'))
         return sorted(rm_files)
