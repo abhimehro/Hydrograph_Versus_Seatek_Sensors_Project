@@ -72,7 +72,7 @@ class DataLoader:
             def summary_usecols(col):
                 return col in required_cols
 
-            df = pd.read_excel(summary_file, usecols=summary_usecols)
+            df = pd.read_excel(summary_file, usecols=lambda col: col in required_cols)
 
             # Verify all required columns were found
             missing_cols = [col for col in required_cols if col not in df.columns]
