@@ -31,10 +31,10 @@ class DataLoader:
         """Load and validate summary data."""
         try:
             logger.debug(f"Loading summary data from: {self.config.summary_file}")
-            if self.config.summary_file.exists() and self.config.summary_file.stat().st_size > self.config.max_file_size_bytes:
-                raise ValueError(f"Summary file exceeds maximum size of {self.config.max_file_size_bytes} bytes")
-
-            df = pd.read_excel(self.config.summary_file)
+            with self.config.summary_file.open('rb') as f:
+                if os.fstat(f.fileno()).st_size > self.config.max_file_size_bytes:
+                    raise ValueError(f"Summary file exceeds maximum size of {self.config.max_file_size_bytes} bytes")
+                df = pd.read_excel(f)
             required_cols = {'River_Mile', 'Y_Offset', 'Num_Sensors'}
 
             if not all(col in df.columns for col in required_cols):
