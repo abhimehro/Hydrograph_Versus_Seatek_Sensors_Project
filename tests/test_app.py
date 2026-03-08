@@ -69,7 +69,7 @@ class TestApplicationSetup(unittest.TestCase):
         original_is_dir = Path.is_dir
 
         def mock_is_dir(path_self):
-            if str(path_self) == str(self.temp_config.output_dir):
+            if path_self == self.temp_config.output_dir:
                 return False
             return original_is_dir(path_self)
 
