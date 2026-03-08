@@ -29,6 +29,7 @@ from utils.chart_generator import ChartGenerator
 from utils.config import Config
 from utils.data_loader import DataLoader
 from utils.processor import SeatekDataProcessor
+from utils.security import sanitize_filename
 
 
 def setup_logging() -> None:
@@ -128,9 +129,11 @@ def main() -> None:
                             )
 
                             if chart:
+                                safe_year = sanitize_filename(str(year))
+                                safe_sensor = sanitize_filename(str(sensor))
                                 output_path = (config.output_dir /
                                                f"RM_{rm_data.river_mile:.1f}" /
-                                               f"Year_{year}_{sensor}.png")
+                                               f"Year_{safe_year}_{safe_sensor}.png")
                                 output_path.parent.mkdir(parents=True, exist_ok=True)
                                 chart.savefig(output_path, dpi=300, bbox_inches='tight')
                                 plt.close(chart)  # Free memory

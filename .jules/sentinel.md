@@ -2,3 +2,7 @@
 **Vulnerability:** Memory exhaustion (DoS) vulnerability in data loaders lacking pre-read file size validation.
 **Learning:** `pd.read_excel()` and `pd.ExcelFile()` read the entire file into memory before validation can occur, which makes the application susceptible to out-of-memory errors and DoS when parsing excessively large malicious files.
 **Prevention:** Always verify the file size (`pathlib.Path.stat().st_size`) against a reasonable predefined limit (`max_file_size_bytes`) before attempting to parse the file into memory.
+## 2025-03-08 - Path Traversal Vulnerability in Legacy Visualization Script
+**Vulnerability:** Path traversal and path-length Denial of Service (DoS) in `seatek_processor.py` where untrusted variables (`year` and `sensor` from Excel data) were concatenated directly into a `Path` without sanitization, e.g., `f"Year_{year}_{sensor}.png"`. This could allow saving files outside the designated output directory or crashing the application with overly long filenames.
+**Learning:** Legacy scripts using `pathlib` for file creation often lack the input sanitization present in newer architecture (e.g., `_sanitize_filename` in `app.py`). These paths must explicitly be verified and sanitized.
+**Prevention:** Use a standalone utility function like `sanitize_filename` in `utils/security.py` that removes directory traversal sequences, limits filename length, and restricts characters. Apply this sanitization to all dynamic components of a file path before constructing the final path object.
