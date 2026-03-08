@@ -213,3 +213,65 @@ def test_validate_processed_files_missing_columns(mock_read_excel):
     assert res['sensor_columns'] == []
     assert res['year_range'] is None
     assert res['time_range'] is None
+
+
+@mock.patch.object(DataValidator, 'validate_summary_file')
+@mock.patch.object(DataValidator, 'validate_hydro_file')
+@mock.patch.object(DataValidator, 'validate_processed_files')
+def test_run_validation_success(mock_processed, mock_hydro, mock_summary):
+    """Test run_validation when all files are valid and consistent."""
+    mock_summary.return_value = {"river_miles": [54.0, 53.0]}
+    mock_hydro.return_value = {"mock_key": "mock_value"}
+    mock_processed.return_value = [{"river_mile": 54.0}, {"river_mile": 53.0}]
+
+    config = Config()
+    validator = DataValidator(config)
+
+    result = validator.run_validation()
+
+    assert result["summary"] == mock_summary.return_value
+    assert result["hydrograph"] == mock_hydro.return_value
+    assert result["processed"] == mock_processed.return_value
+    assert result["overall_valid"] is True
+
+    assert result["river_mile_consistency"]["all_summary_rms_processed"] is True
+    assert set(result["river_mile_consistency"]["missing_processed_rms"]) == set()
+    assert set(result["river_mile_consistency"]["extra_processed_rms"]) == set()
+
+
+@mock.patch.object(DataValidator, 'validate_summary_file')
+@mock.patch.object(DataValidator, 'validate_hydro_file')
+@mock.patch.object(DataValidator, 'validate_processed_files')
+def test_run_validation_inconsistent(mock_processed, mock_hydro, mock_summary):
+    """Test run_validation when files are valid but river miles are inconsistent."""
+    mock_summary.return_value = {"river_miles": [54.0, 53.0]}
+    mock_hydro.return_value = {"mock_key": "mock_value"}
+    mock_processed.return_value = [{"river_mile": 54.0}, {"river_mile": 55.0}]
+
+    config = Config()
+    validator = DataValidator(config)
+
+    result = validator.run_validation()
+
+    assert result["overall_valid"] is True
+    assert result["river_mile_consistency"]["all_summary_rms_processed"] is False
+    assert set(result["river_mile_consistency"]["missing_processed_rms"]) == {53.0}
+    assert set(result["river_mile_consistency"]["extra_processed_rms"]) == {55.0}
+
+
+@mock.patch.object(DataValidator, 'validate_summary_file')
+@mock.patch.object(DataValidator, 'validate_hydro_file')
+@mock.patch.object(DataValidator, 'validate_processed_files')
+def test_run_validation_failure(mock_processed, mock_hydro, mock_summary):
+    """Test run_validation when files are invalid."""
+    mock_summary.return_value = None
+    mock_hydro.return_value = None
+    mock_processed.return_value = []
+
+    config = Config()
+    validator = DataValidator(config)
+
+    result = validator.run_validation()
+
+    assert result["overall_valid"] is False
+    assert result["river_mile_consistency"] is None
