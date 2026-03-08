@@ -2,6 +2,7 @@ import logging
 from pathlib import Path
 import os
 import pandas as pd
+from src.hydrograph_seatek_analysis.core.config import Config
 
 
 def get_project_root() -> Path:
@@ -13,7 +14,8 @@ def get_project_root() -> Path:
         if (current_path / '.git').exists() or \
                 (current_path / 'setup.py').exists() or \
                 (current_path / 'pyproject.toml').exists() or \
-                current_path.name == 'Hydrograph_Versus_Seatek_Sensors_Project':
+                (current_path.name ==
+                 'Hydrograph_Versus_Seatek_Sensors_Project'):
             return current_path
         parent = current_path.parent
         if parent == current_path:
@@ -52,12 +54,18 @@ def validate_data_files():
             for f in files:
                 logging.info(f"{subindent}{f}")
 
+        config = Config()
+
         # Validate existence
         for path in [summary_path, hydro_path, rm_path]:
             logging.info(f"\nChecking path: {path}")
             if not path.exists():
                 logging.error(f"File not found: {path}")
                 continue
+
+            # SECURITY: Prevent DoS via memory exhaustion
+            if path.stat().st_size > config.max_file_size_bytes:
+                raise ValueError(f"File exceeds maximum size: {path}")
 
             # Read and validate Data_Summary
             if path == summary_path:
@@ -70,7 +78,9 @@ def validate_data_files():
             elif path == hydro_path:
                 with pd.ExcelFile(path) as xlsx:
                     sheets = xlsx.sheet_names
-                    logging.info(f"Available sheets in Hydrograph data: {sheets}")
+                    logging.info(
+                        f"Available sheets in Hydrograph data: {sheets}"
+                    )
 
                     for sheet in sheets:
                         df = pd.read_excel(xlsx, sheet_name=sheet)
