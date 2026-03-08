@@ -3,6 +3,8 @@ from pathlib import Path
 import os
 import pandas as pd
 
+MAX_FILE_SIZE_BYTES = 100 * 1024 * 1024  # 100 MB
+
 
 def get_project_root() -> Path:
     """Get the project root directory."""
@@ -13,7 +15,8 @@ def get_project_root() -> Path:
         if (current_path / '.git').exists() or \
                 (current_path / 'setup.py').exists() or \
                 (current_path / 'pyproject.toml').exists() or \
-                current_path.name == 'Hydrograph_Versus_Seatek_Sensors_Project':
+                current_path.name == (
+                    'Hydrograph_Versus_Seatek_Sensors_Project'):
             return current_path
         parent = current_path.parent
         if parent == current_path:
@@ -61,6 +64,9 @@ def validate_data_files():
 
             # Read and validate Data_Summary
             if path == summary_path:
+                if path.stat().st_size > MAX_FILE_SIZE_BYTES:
+                    raise ValueError(
+                                f"File {path} exceeds maximum size")
                 df = pd.read_excel(path)
                 logging.info("Data_Summary.xlsx structure:")
                 logging.info(f"Columns: {df.columns.tolist()}")
@@ -68,11 +74,18 @@ def validate_data_files():
 
             # Read and validate Hydrograph_Seatek_Data
             elif path == hydro_path:
+                if path.stat().st_size > MAX_FILE_SIZE_BYTES:
+                    raise ValueError(
+                                f"File {path} exceeds maximum size")
                 with pd.ExcelFile(path) as xlsx:
                     sheets = xlsx.sheet_names
-                    logging.info(f"Available sheets in Hydrograph data: {sheets}")
+                    logging.info(
+                        f"Available sheets in Hydrograph data: {sheets}")
 
                     for sheet in sheets:
+                        if path.stat().st_size > MAX_FILE_SIZE_BYTES:
+                            raise ValueError(
+                                f"File {path} exceeds maximum size")
                         df = pd.read_excel(xlsx, sheet_name=sheet)
                         logging.info(f"\nSheet: {sheet}")
                         logging.info(f"Columns: {df.columns.tolist()}")
@@ -80,6 +93,9 @@ def validate_data_files():
 
             # Read and validate RM_54.0
             elif path == rm_path:
+                if path.stat().st_size > MAX_FILE_SIZE_BYTES:
+                    raise ValueError(
+                                f"File {path} exceeds maximum size")
                 df = pd.read_excel(path)
                 logging.info("\nRM_54.0.xlsx structure:")
                 logging.info(f"Columns: {df.columns.tolist()}")
