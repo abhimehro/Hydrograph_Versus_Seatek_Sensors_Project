@@ -1,6 +1,7 @@
-═════════ ELIR ═════════
-PURPOSE: Add file size validation before parsing Excel files to prevent memory exhaustion DoS attacks in the legacy `utils/data_loader.py`.
-SECURITY: Missing input size validation allowed potentially infinite-sized files to be loaded into memory. I've added a check using `pathlib.Path.stat().st_size` against `max_file_size_bytes` configuration to safely exit and raise a `ValueError` for large files.
-FAILS IF: A legitimate file exceeds the newly set limit of 100MB.
-VERIFY: Check tests/utils/test_data_loader.py to ensure that the mocked st_size exceeds the max file size and successfully triggers the exception without processing the file.
-MAINTAIN: Update `max_file_size_bytes` inside `utils/config.py` if larger files are expected in normal operation in the future.
+# ELIR Handoff: Application Setup Tests
+
+- 📋 **Purpose**: Added a comprehensive test suite (`tests/test_app.py`) for the `Application.setup()` method to ensure correct application initialization.
+- 🛡️ **Security**: The setup method now includes tests to ensure paths and directories behave as expected, preventing issues downstream if environments aren't properly configured or if permissions are mismatched.
+- ⚠️ **Failure Modes**: The `output_dir` creation failure and exception flows are well tested, ensuring graceful degradation if filesystem operations fail (e.g., due to missing permissions).
+- ✅ **Review Checklist**: Verify the tests successfully mock out the necessary `sys.modules` for missing environment dependencies and that all 4 test cases correctly assess `Application.setup()` output.
+- 🔧 **Maintenance**: Since pandas and matplotlib might not be available in all sandbox environments, they must be mocked via `sys.modules` to test `app.py` effectively.
