@@ -55,7 +55,7 @@ class TestApplicationSetup(unittest.TestCase):
         original_exists = Path.exists
 
         def mock_exists(path_self):
-            if str(path_self) == str(self.temp_config.output_dir):
+            if path_self == self.temp_config.output_dir:
                 return False
             return original_exists(path_self)
 
