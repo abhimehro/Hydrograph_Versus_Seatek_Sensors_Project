@@ -5,9 +5,7 @@ Main application module for Seatek and Hydrograph data processing.
 import logging
 import sys
 from pathlib import Path
-from typing import Optional, List, Tuple, Dict
-
-import pandas as pd
+from typing import Optional
 
 from .core.config import Config
 from .core.logger import configure_root_logger
@@ -44,7 +42,7 @@ class Application:
         # Strip leading/trailing whitespaces and dots
         sanitized = sanitized.strip(". ")
         # SECURITY: Limit filename length to prevent path-length DoS or file system errors
-        return sanitized[:Application._MAX_FILENAME_LENGTH]
+        return sanitized[: Application._MAX_FILENAME_LENGTH]
 
     def __init__(self, config: Optional[Config] = None):
         """
@@ -154,8 +152,12 @@ class Application:
 
             # Process each river mile, year, and sensor
             for rm_data in self.processor.river_mile_data.values():
+                # Optimization: Extract and sort years once per river mile
+                # using pre-grouped cache rather than redundantly calculating
+                # .unique() on the entire DataFrame for every sensor.
+                years = sorted(rm_data.year_data_cache.keys())
                 for sensor in rm_data.sensors:
-                    for year in sorted(rm_data.data["Year"].unique()):
+                    for year in years:
                         try:
                             # Process data
                             processed_data, metrics = self.processor.process_data(
@@ -186,7 +188,9 @@ class Application:
                                 )
 
                                 # Construct metadata for a11y
-                                sensor_num = sensor.split("_")[1] if "_" in sensor else sensor
+                                sensor_num = (
+                                    sensor.split("_")[1] if "_" in sensor else sensor
+                                )
                                 metadata = {
                                     "Title": (
                                         f"River Mile {rm_data.river_mile:.1f} - Year {year} "
@@ -201,7 +205,9 @@ class Application:
                                     "Author": "Hydrograph vs Seatek Sensors Analysis Project",
                                 }
 
-                                if self.chart_generator.save_chart(chart, output_path, metadata=metadata):
+                                if self.chart_generator.save_chart(
+                                    chart, output_path, metadata=metadata
+                                ):
                                     success_count += 1
                                 else:
                                     error_count += 1
