@@ -2,6 +2,9 @@ import logging
 from pathlib import Path
 import os
 import pandas as pd
+from config import Config
+
+MAX_FILE_SIZE_BYTES = Config.max_file_size_bytes
 
 
 def get_project_root() -> Path:
@@ -13,7 +16,8 @@ def get_project_root() -> Path:
         if (current_path / '.git').exists() or \
                 (current_path / 'setup.py').exists() or \
                 (current_path / 'pyproject.toml').exists() or \
-                current_path.name == 'Hydrograph_Versus_Seatek_Sensors_Project':
+                current_path.name == (
+                    'Hydrograph_Versus_Seatek_Sensors_Project'):
             return current_path
         parent = current_path.parent
         if parent == current_path:
@@ -73,9 +77,13 @@ def validate_data_files():
 
             # Read and validate Hydrograph_Seatek_Data
             elif path == hydro_path:
+                if path.stat().st_size > MAX_FILE_SIZE_BYTES:
+                    raise ValueError(
+                                f"File {path} exceeds maximum size")
                 with pd.ExcelFile(path) as xlsx:
                     sheets = xlsx.sheet_names
-                    logging.info(f"Available sheets in Hydrograph data: {sheets}")
+                    logging.info(
+                        f"Available sheets in Hydrograph data: {sheets}")
 
                     for sheet in sheets:
                         if path.stat().st_size > MAX_FILE_SIZE_BYTES:
