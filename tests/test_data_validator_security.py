@@ -57,7 +57,8 @@ class TestDataValidatorSecurity(unittest.TestCase):
             validate_data_files()
 
         self.assertIn("exceeds maximum allowed size", str(context.exception))
-        self.assertEqual(mock_read_excel.call_count, 1) # Called for summary_path
+        self.assertEqual(mock_read_excel.call_count, 1)  # Called for summary_path
+        mock_excel_file.assert_not_called()  # ExcelFile must not be used for oversized hydro file
         mock_excel_file.assert_not_called()
 
     @patch('data_validator.pd.read_excel')
