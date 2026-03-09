@@ -56,6 +56,9 @@ def validate_data_files():
             for f in files:
                 logging.info(f"{subindent}{f}")
 
+        # SECURITY: Prevent DoS by limiting max file size loaded into memory
+        MAX_FILE_SIZE_BYTES = 100 * 1024 * 1024  # 100 MB
+
         # Validate existence
         for path in [summary_path, hydro_path, rm_path]:
             logging.info(f"\nChecking path: {path}")
@@ -65,10 +68,8 @@ def validate_data_files():
 
             # Read and validate Data_Summary
             if path == summary_path:
-                file_size = path.stat().st_size
-                if file_size > MAX_FILE_SIZE_BYTES:
-                    raise ValueError(
-                        f"File {path} is too large (size: {file_size}, max: {MAX_FILE_SIZE_BYTES})")
+                if path.stat().st_size > MAX_FILE_SIZE_BYTES:
+                    raise ValueError(f"File size exceeds maximum allowed size ({MAX_FILE_SIZE_BYTES} bytes): {path}")
                 df = pd.read_excel(path)
                 logging.info("Data_Summary.xlsx structure:")
                 logging.info(f"Columns: {df.columns.tolist()}")
@@ -85,6 +86,8 @@ def validate_data_files():
                         f"Available sheets in Hydrograph data: {sheets}")
 
                     for sheet in sheets:
+                        if path.stat().st_size > MAX_FILE_SIZE_BYTES:
+                            raise ValueError(f"File size exceeds maximum allowed size ({MAX_FILE_SIZE_BYTES} bytes): {path}")
                         df = pd.read_excel(xlsx, sheet_name=sheet)
                         logging.info(f"\nSheet: {sheet}")
                         logging.info(f"Columns: {df.columns.tolist()}")
@@ -93,8 +96,7 @@ def validate_data_files():
             # Read and validate RM_54.0
             elif path == rm_path:
                 if path.stat().st_size > MAX_FILE_SIZE_BYTES:
-                    raise ValueError(
-                                f"File {path} exceeds maximum size")
+                    raise ValueError(f"File size exceeds maximum allowed size ({MAX_FILE_SIZE_BYTES} bytes): {path}")
                 df = pd.read_excel(path)
                 logging.info("\nRM_54.0.xlsx structure:")
                 logging.info(f"Columns: {df.columns.tolist()}")
