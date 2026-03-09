@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- 🧹 \[code health improvement\] Remove unused Path import in test\_data\_processing [\#56](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/56) ([abhimehro](https://github.com/abhimehro))
 - 🔒 \[security\] Fix missing file size validation before pd.read\_excel\(\) [\#55](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/55) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: Improve chart legend reliability and axis readability [\#54](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/54) ([abhimehro](https://github.com/abhimehro))
 - 🔒 Prevent memory exhaustion DoS in data\_validator.py [\#53](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/53) ([abhimehro](https://github.com/abhimehro))
