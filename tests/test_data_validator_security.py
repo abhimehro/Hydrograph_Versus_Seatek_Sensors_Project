@@ -88,6 +88,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
 
         self.assertIn("exceeds maximum allowed size", str(context.exception))
         self.assertEqual(mock_read_excel.call_count, 2) # Called for summary_path and hydro_path
+        mock_excel_file.assert_called_once()
 
 if __name__ == '__main__':
     unittest.main()
