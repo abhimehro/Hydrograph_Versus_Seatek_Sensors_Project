@@ -64,9 +64,10 @@ def validate_data_files():
 
             # Read and validate Data_Summary
             if path == summary_path:
-                if path.stat().st_size > MAX_FILE_SIZE_BYTES:
+                file_size = path.stat().st_size
+                if file_size > MAX_FILE_SIZE_BYTES:
                     raise ValueError(
-                                f"File {path} exceeds maximum size")
+                        f"File {path} is too large (size: {file_size}, max: {MAX_FILE_SIZE_BYTES})")
                 df = pd.read_excel(path)
                 logging.info("Data_Summary.xlsx structure:")
                 logging.info(f"Columns: {df.columns.tolist()}")
