@@ -102,8 +102,8 @@ class ChartGenerator:
                 data[sensor].notna().sum() if sensor in data.columns else 0
             )
             metrics.hydro_count = (
-                data["Hydrograph (Lagged)"].notna().sum()
-                if "Hydrograph (Lagged)" in data.columns
+                data[HYDROGRAPH_COL].notna().sum()
+                if HYDROGRAPH_COL in data.columns
                 else 0
             )
 
