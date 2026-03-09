@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- 🧪 \[testing improvement\] Cover DataLoader.load\_all\_data orchestrator [\#49](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/49) ([abhimehro](https://github.com/abhimehro))
 - 🧪 \[testing improvement\] Add error path tests for DataValidator.validate\_processed\_files [\#48](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/48) ([abhimehro](https://github.com/abhimehro))
 - 🧪 Application Setup Testing Improvement [\#47](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/47) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: \[performance improvement\] Document single-pass excel parsing validation [\#46](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/46) ([abhimehro](https://github.com/abhimehro))
