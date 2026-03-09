@@ -64,8 +64,16 @@ def validate_data_files():
                 continue
 
             # SECURITY: Prevent DoS via memory exhaustion
-            if path.stat().st_size > config.max_file_size_bytes:
-                raise ValueError(f"File exceeds maximum size: {path}")
+            size_bytes = path.stat().st_size
+            if size_bytes > config.max_file_size_bytes:
+                max_bytes = config.max_file_size_bytes
+                raise ValueError(
+                    f"File exceeds maximum size: {path} "
+                    f"(size={size_bytes} bytes "
+                    f"~{size_bytes / (1024 ** 2):.2f} MiB, "
+                    f"limit={max_bytes} bytes "
+                    f"~{max_bytes / (1024 ** 2):.2f} MiB)"
+                )
 
             # Read and validate Data_Summary
             if path == summary_path:
