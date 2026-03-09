@@ -47,5 +47,9 @@ def sanitize_filename(filename: str, max_length: int = 200) -> str:
     sanitized = re.sub(r"\.{2,}", "_", sanitized)
     # Strip leading/trailing whitespaces and dots
     sanitized = sanitized.strip(". ")
+
+    # Ensure we never return an empty filename after sanitization
+    if not sanitized:
+        sanitized = "unknown"
     # SECURITY: Limit filename length to prevent path-length DoS or file system errors
     return sanitized[:max_length]
