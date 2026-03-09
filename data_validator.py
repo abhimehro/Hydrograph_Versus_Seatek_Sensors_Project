@@ -85,9 +85,6 @@ def validate_data_files():
                         f"Available sheets in Hydrograph data: {sheets}")
 
                     for sheet in sheets:
-                        if path.stat().st_size > MAX_FILE_SIZE_BYTES:
-                            raise ValueError(
-                                f"File {path} exceeds maximum size")
                         df = pd.read_excel(xlsx, sheet_name=sheet)
                         logging.info(f"\nSheet: {sheet}")
                         logging.info(f"Columns: {df.columns.tolist()}")
