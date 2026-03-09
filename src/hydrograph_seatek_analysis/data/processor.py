@@ -113,7 +113,7 @@ class RiverMileData:
 
             # Optimization: Pre-group data by year to avoid O(N) boolean masking
             # for each sensor during data processing.
-            self.year_data_cache = {int(year): df for year, df in self.data.groupby('Year')}
+            self.year_data_cache = {int(year): df for year, df in self.data.groupby('Year', sort=False)}
         except Exception as e:
             logger.error(f"Error loading {self.file_path.name}: {str(e)}")
             raise
