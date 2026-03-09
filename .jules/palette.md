@@ -24,3 +24,7 @@
 ## 2024-05-24 - Persistent Legends in Dynamic Charts
 **Learning:** In dynamically generated charts (where secondary datasets like a hydrograph might be absent), coupling the legend generation to the secondary dataset's plotting function causes the legend to disappear entirely for single-axis plots, reducing clarity. Additionally, large raw numbers on axes (e.g., 50000 for minutes) reduce quick readability.
 **Action:** Always decouple legend creation from individual plot layers. Collect handles and labels from all active axes at the end of the chart generation process to ensure a legend is always rendered. Furthermore, apply comma formatting (`{x:,.0f}`) to large numeric axes to improve cognitive ease.
+
+## 2025-03-09 - Legend Placement UX
+**Learning:** Making chart legends fully opaque (`framealpha=1.0`) is excellent for accessibility (WCAG contrast compliance). However, placing an opaque legend inside the plot area (`loc="upper right", bbox_to_anchor=(0.99, 0.99)`) creates a new UX problem: it completely obscures underlying data points.
+**Action:** When designing data visualizations with opaque legends, always place the legend *outside* the chart bounding box (e.g., `loc="upper left", bbox_to_anchor=(1.02, 1)`) so that 100% of the data remains visible to users without compromising the accessibility of the text.
