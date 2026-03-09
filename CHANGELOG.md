@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- 🎨 Palette: Improve chart legend reliability and axis readability [\#54](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/54) ([abhimehro](https://github.com/abhimehro))
 - 🔒 Prevent memory exhaustion DoS in data\_validator.py [\#53](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/53) ([abhimehro](https://github.com/abhimehro))
 - 🧪 \[testing improvement\] Add integration tests for DataValidator run\_validation [\#52](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/52) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: \[performance improvement\] Optimize DataFrame filtering with pre-grouped cache [\#51](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/51) ([abhimehro](https://github.com/abhimehro))
