@@ -5,7 +5,6 @@ Test script for data processing components without visualization.
 """
 
 import logging
-from pathlib import Path
 
 from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.core.logger import configure_root_logger
