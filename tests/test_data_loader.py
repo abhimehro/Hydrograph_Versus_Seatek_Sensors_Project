@@ -169,9 +169,9 @@ def test_load_all_data_exception(mock_load_summary, mock_load_hydro):
     config = Config()
     data_loader = DataLoader(config)
 
-    mock_load_summary.side_effect = Exception("Test summary error")
+    mock_load_summary.side_effect = RuntimeError("Test summary error")
 
-    with pytest.raises(Exception, match="Test summary error"):
+    with pytest.raises(RuntimeError, match="Test summary error"):
         data_loader.load_all_data()
 
     mock_load_summary.assert_called_once()
