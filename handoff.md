@@ -1,3 +1,17 @@
+# ELIR Handoff: File Size Validation for `pd.read_excel`
+
+📋 **PURPOSE**: Adds explicit file size validation using `pathlib.Path.stat().st_size` right before invoking `pd.read_excel()` on sheets in `utils/data_loader.py`.
+🛡️ **SECURITY**: Mitigates potential Denial-of-Service (DoS) attacks and out-of-memory crashes by preventing the parsing of maliciously large or inflated files.
+⚠️ **FAILS IF**: The underlying `max_file_size_bytes` limit is configured to be too small for legitimate production data.
+✅ **VERIFY**: Check that `pd.read_excel()` operations correctly throw a `ValueError` with "exceeds maximum size" when processing large dummy files.
+🔧 **MAINTAIN**: If `max_file_size_bytes` proves restrictive during normal operation, its value can be bumped within `utils/config.py`.
+# ELIR Handoff: Application Setup Tests
+
+- 📋 **Purpose**: Added a comprehensive test suite (`tests/test_app.py`) for the `Application.setup()` method to ensure correct application initialization.
+- 🛡️ **Security**: The setup method now includes tests to ensure paths and directories behave as expected, preventing issues downstream if environments aren't properly configured or if permissions are mismatched.
+- ⚠️ **Failure Modes**: The `output_dir` creation failure and exception flows are well tested, ensuring graceful degradation if filesystem operations fail (e.g., due to missing permissions).
+- ✅ **Review Checklist**: Verify the tests successfully mock out the necessary `sys.modules` for missing environment dependencies and that all 4 test cases correctly assess `Application.setup()` output.
+- 🔧 **Maintenance**: Since pandas and matplotlib might not be available in all sandbox environments, they must be mocked via `sys.modules` to test `app.py` effectively.
 # Performance Optimization Handoff
 
 ## ⚡ Bolt: [performance improvement] Document single-pass excel parsing validation

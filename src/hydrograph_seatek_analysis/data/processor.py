@@ -51,6 +51,7 @@ class RiverMileData:
         self.file_path = file_path
         self.river_mile = self._extract_river_mile()
         self.data: Optional[pd.DataFrame] = None
+        self.year_data_cache: Dict[int, pd.DataFrame] = {}
         self.y_offset: float = 0
         self.sensors: List[str] = []
 
@@ -109,6 +110,10 @@ class RiverMileData:
             # Keep original validation steps to ensure no methods are bypassed
             self._validate_data()
             self._setup_sensors()
+
+            # Optimization: Pre-group data by year to avoid O(N) boolean masking
+            # for each sensor during data processing.
+            self.year_data_cache = {int(year): df for year, df in self.data.groupby('Year', sort=False)}
         except Exception as e:
             logger.error(f"Error loading {self.file_path.name}: {str(e)}")
             raise
@@ -241,7 +246,13 @@ class SeatekDataProcessor:
             raise ValueError(f"No data loaded for River Mile {river_mile}")
 
         rm_data = self.river_mile_data[river_mile]
-        year_data = rm_data.data[rm_data.data['Year'] == year].copy()
+
+        # Optimization: Use pre-grouped year data cache instead of O(N) boolean masking
+        cached_year_data = rm_data.year_data_cache.get(year)
+        if cached_year_data is None:
+            year_data = pd.DataFrame()
+        else:
+            year_data = cached_year_data.copy()
         metrics = ProcessingMetrics(original_rows=len(year_data))
 
         if year_data.empty:
