@@ -248,7 +248,11 @@ class SeatekDataProcessor:
         rm_data = self.river_mile_data[river_mile]
 
         # Optimization: Use pre-grouped year data cache instead of O(N) boolean masking
-        year_data = rm_data.year_data_cache.get(year, pd.DataFrame()).copy()
+        cached_year_data = rm_data.year_data_cache.get(year)
+        if cached_year_data is None:
+            year_data = pd.DataFrame()
+        else:
+            year_data = cached_year_data.copy()
         metrics = ProcessingMetrics(original_rows=len(year_data))
 
         if year_data.empty:
