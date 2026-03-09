@@ -20,3 +20,7 @@
 ## 2025-03-07 - Opaque Legend Backgrounds
 **Learning:** Semi-transparent legend backgrounds (e.g., `framealpha=0.9`) in data visualizations can cause underlying data lines or grid lines to bleed through, which reduces the contrast ratio of the legend text and can cause it to fail WCAG accessibility standards.
 **Action:** Always use fully opaque backgrounds (`framealpha=1.0`) for chart legends that overlap the plot area, combined with a distinct edge color (`edgecolor='#333333'`) to ensure optimal contrast and readability for all users.
+
+## 2024-05-24 - Persistent Legends in Dynamic Charts
+**Learning:** In dynamically generated charts (where secondary datasets like a hydrograph might be absent), coupling the legend generation to the secondary dataset's plotting function causes the legend to disappear entirely for single-axis plots, reducing clarity. Additionally, large raw numbers on axes (e.g., 50000 for minutes) reduce quick readability.
+**Action:** Always decouple legend creation from individual plot layers. Collect handles and labels from all active axes at the end of the chart generation process to ensure a legend is always rendered. Furthermore, apply comma formatting (`{x:,.0f}`) to large numeric axes to improve cognitive ease.

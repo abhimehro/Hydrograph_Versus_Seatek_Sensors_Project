@@ -141,3 +141,40 @@ def test_load_hydro_data_skips_invalid_sheet_value_error(
     assert result['RM_54.0'].equals(expected_df)
     assert list(result['RM_54.0'].columns) == list(expected_df.columns)
     assert "Skipping sheet RM_invalid: No columns to parse from file" in caplog.text
+
+@mock.patch.object(DataLoader, '_load_hydro_data')
+@mock.patch.object(DataLoader, '_load_summary_data')
+def test_load_all_data_success(mock_load_summary, mock_load_hydro):
+    """Test successful loading of all data."""
+    config = Config()
+    data_loader = DataLoader(config)
+
+    mock_summary_df = pd.DataFrame({'River_Mile': [54.0]})
+    mock_hydro_dict = {'RM_54.0': pd.DataFrame({'Time (Seconds)': [0]})}
+
+    mock_load_summary.return_value = mock_summary_df
+    mock_load_hydro.return_value = mock_hydro_dict
+
+    summary_data, hydro_data = data_loader.load_all_data()
+
+    assert summary_data.equals(mock_summary_df)
+    assert set(hydro_data.keys()) == set(mock_hydro_dict.keys())
+    for key in hydro_data:
+        assert hydro_data[key].equals(mock_hydro_dict[key])
+    mock_load_summary.assert_called_once()
+    mock_load_hydro.assert_called_once()
+
+@mock.patch.object(DataLoader, '_load_hydro_data')
+@mock.patch.object(DataLoader, '_load_summary_data')
+def test_load_all_data_exception(mock_load_summary, mock_load_hydro):
+    """Test exception handling during load_all_data."""
+    config = Config()
+    data_loader = DataLoader(config)
+
+    mock_load_summary.side_effect = RuntimeError("Test summary error")
+
+    with pytest.raises(RuntimeError, match="Test summary error"):
+        data_loader.load_all_data()
+
+    mock_load_summary.assert_called_once()
+    mock_load_hydro.assert_not_called()
