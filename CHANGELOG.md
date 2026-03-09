@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- 🛡️ Sentinel: \[HIGH\] Fix path traversal in file download/saving [\#58](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/58) ([abhimehro](https://github.com/abhimehro))
 - 🔒 \[security\] Fix File Size Validation in data\_validator.py [\#57](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/57) ([abhimehro](https://github.com/abhimehro))
 - 🧹 \[code health improvement\] Remove unused Path import in test\_data\_processing [\#56](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/56) ([abhimehro](https://github.com/abhimehro))
 - 🔒 \[security\] Fix missing file size validation before pd.read\_excel\(\) [\#55](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/55) ([abhimehro](https://github.com/abhimehro))
