@@ -2,8 +2,9 @@ import logging
 from pathlib import Path
 import os
 import pandas as pd
+from config import Config
 
-MAX_FILE_SIZE_BYTES = 100 * 1024 * 1024  # 100 MB
+MAX_FILE_SIZE_BYTES = Config.max_file_size_bytes
 
 
 def get_project_root() -> Path:
