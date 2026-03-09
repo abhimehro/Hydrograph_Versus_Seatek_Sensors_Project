@@ -158,7 +158,9 @@ def test_load_all_data_success(mock_load_summary, mock_load_hydro):
     summary_data, hydro_data = data_loader.load_all_data()
 
     assert summary_data.equals(mock_summary_df)
-    assert hydro_data == mock_hydro_dict
+    assert set(hydro_data.keys()) == set(mock_hydro_dict.keys())
+    for key in hydro_data:
+        assert hydro_data[key].equals(mock_hydro_dict[key])
     mock_load_summary.assert_called_once()
     mock_load_hydro.assert_called_once()
 
