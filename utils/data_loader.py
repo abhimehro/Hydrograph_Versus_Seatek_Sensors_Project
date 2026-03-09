@@ -50,8 +50,7 @@ class DataLoader:
             for sheet_name in excel_file.sheet_names:
                 if not sheet_name.startswith('RM_'):
                     continue
-                if self.config.hydro_file.stat().st_size > self.config.max_file_size_bytes:
-                    raise ValueError(f'File {self.config.hydro_file.name} exceeds maximum size of {self.config.max_file_size_bytes} bytes')
+                validate_file_size(self.config.hydro_file, self.config.max_file_size_bytes)
                 df = pd.read_excel(excel_file, sheet_name=sheet_name)
                 required_cols = {'Time (Seconds)', 'Year'}
                 if not all((col in df.columns for col in required_cols)):
