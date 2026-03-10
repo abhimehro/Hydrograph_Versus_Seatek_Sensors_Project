@@ -160,10 +160,11 @@ class ChartGenerator:
                 ax1.legend(
                     lines,
                     labels,
-                    loc="upper right",
-                    bbox_to_anchor=(0.99, 0.99),
+                    loc="upper center",
+                    bbox_to_anchor=(0.5, -0.15),
                     framealpha=1.0,
                     edgecolor="#333333",
+                    ncol=2,
                     fontsize=11,
                 )
 
