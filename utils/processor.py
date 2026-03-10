@@ -129,7 +129,7 @@ class SeatekDataProcessor:
         if cached_year_data is None:
             year_data = pd.DataFrame()
         else:
-            year_data = cached_year_data.copy()
+            year_data = cached_year_data
 
         metrics = ProcessingMetrics(original_rows=len(year_data))
         if year_data.empty:
