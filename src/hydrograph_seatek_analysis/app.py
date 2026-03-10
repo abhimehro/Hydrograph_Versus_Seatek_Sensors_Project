@@ -155,7 +155,9 @@ class Application:
             # Process each river mile, year, and sensor
             for rm_data in self.processor.river_mile_data.values():
                 for sensor in rm_data.sensors:
-                    for year in sorted(rm_data.data["Year"].unique()):
+                    # Optimization: Extract unique years from the pre-grouped dictionary cache
+                    # keys rather than repeatedly calling .unique() on the entire DataFrame.
+                    for year in sorted(rm_data.year_data_cache.keys()):
                         try:
                             # Process data
                             processed_data, metrics = self.processor.process_data(

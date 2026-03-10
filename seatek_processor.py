@@ -112,7 +112,9 @@ def main() -> None:
         logger.info("Generating visualizations...")
         for rm_data in processor.river_mile_data.values():
             for sensor in rm_data.sensors:
-                for year in sorted(rm_data.data['Year'].unique()):
+                # Optimization: Extract unique years from the pre-grouped dictionary cache
+                # keys rather than repeatedly calling .unique() on the entire DataFrame.
+                for year in sorted(rm_data.year_data_cache.keys()):
                     try:
                         processed_data, metrics = processor.process_data(
                             rm_data.river_mile,
