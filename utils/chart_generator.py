@@ -10,6 +10,7 @@ from matplotlib.figure import Figure
 
 logger = logging.getLogger(__name__)
 
+
 class ChartGenerator:
     """Handles creation of data visualizations."""
 
@@ -46,7 +47,10 @@ class ChartGenerator:
     ) -> Optional[Figure]:
         """Create visualization for the given data."""
         try:
-            logger.debug(f"Creating chart for RM {river_mile}, Year {year}, Sensor {sensor}")
+            logger.debug(
+                f"Creating chart for RM {river_mile}, "
+                f"Year {year}, Sensor {sensor}"
+            )
             logger.debug(f"Data shape: {data.shape}")
 
             fig, ax1 = plt.subplots(figsize=(12, 8))
@@ -56,22 +60,44 @@ class ChartGenerator:
             ax1.scatter(
                 data['Time (Minutes)'],
                 data[sensor],
-                color='#FF7F0E',
-                alpha=0.7,
+                color='#A63600',
+                alpha=1.0,
                 s=45,
+                edgecolors='white',
+                linewidth=0.5,
                 label=f'Sensor {sensor.split("_")[1]} (NAVD88)'
             )
 
             # Configure primary axis
             ax1.set_xlabel('Time (Minutes)', fontsize=12, labelpad=10)
             ax1.set_ylabel('Seatek Sensor Reading (NAVD88)',
-                          color='#FF7F0E', fontsize=12)
-            ax1.tick_params(axis='y', labelcolor='#FF7F0E')
+                           color='#A63600', fontsize=12)
+            ax1.tick_params(axis='y', labelcolor='#A63600')
             ax1.grid(True, alpha=0.2, linestyle=':')
 
             # Add hydrograph if available
+            ax2 = None
             if 'Hydrograph (Lagged)' in data.columns:
-                self._add_hydrograph(ax1, data)
+                ax2 = self._add_hydrograph(ax1, data)
+
+            # Persistent Legend Placement
+            lines, labels = ax1.get_legend_handles_labels()
+            if ax2 is not None:
+                lines2, labels2 = ax2.get_legend_handles_labels()
+                lines.extend(lines2)
+                labels.extend(labels2)
+
+            if lines:
+                ax1.legend(
+                    lines,
+                    labels,
+                    loc='upper center',
+                    bbox_to_anchor=(0.5, -0.15),
+                    framealpha=1.0,
+                    edgecolor='#333333',
+                    ncol=2,
+                    fontsize=11
+                )
 
             # Set title and format plot
             plt.title(
@@ -90,7 +116,10 @@ class ChartGenerator:
             return None
 
     @staticmethod
-    def _add_hydrograph(ax1: plt.Axes, data: pd.DataFrame) -> None:
+    def _add_hydrograph(
+        ax1: plt.Axes,
+        data: pd.DataFrame
+    ) -> Optional[plt.Axes]:
         """Add hydrograph data to the plot."""
         try:
             ax2 = ax1.twinx()
@@ -100,25 +129,20 @@ class ChartGenerator:
                 ax2.scatter(
                     hydro_data['Time (Minutes)'],
                     hydro_data['Hydrograph (Lagged)'],
-                    color='#1F77B4',
-                    alpha=0.7,
+                    color='#0E5A8A',
+                    alpha=1.0,
                     s=70,
                     marker='s',
+                    edgecolors='white',
+                    linewidth=0.5,
                     label='Hydrograph (GPM)'
                 )
-                ax2.set_ylabel('Hydrograph (GPM)', color='#1F77B4', fontsize=12)
-                ax2.tick_params(axis='y', labelcolor='#1F77B4')
-
-                # Add legend
-                lines1, labels1 = ax1.get_legend_handles_labels()
-                lines2, labels2 = ax2.get_legend_handles_labels()
-                ax1.legend(
-                    lines1 + lines2,
-                    labels1 + labels2,
-                    loc='upper right',
-                    bbox_to_anchor=(0.99, 0.99),
-                    framealpha=0.9,
-                    fontsize=11
+                ax2.set_ylabel(
+                    'Hydrograph (GPM)', color='#0E5A8A', fontsize=12
                 )
+                ax2.tick_params(axis='y', labelcolor='#0E5A8A')
+
+            return ax2
         except Exception as e:
             logger.error(f"Error adding hydrograph: {str(e)}")
+            return None
