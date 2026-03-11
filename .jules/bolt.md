@@ -8,3 +8,7 @@
 ## 2024-03-07 - Optimized DataFrame reading using stateful callable in `validate_hydro_file` and `validate_processed_files`
 **Learning:** Using a single-pass stateful `usecols` callable parameter in `pd.read_excel` avoids performing redundant full-sheet reads just to discover column names, achieving massive (~49%) improvement on IO operations for Excel processing.
 **Action:** The codebase already included `_create_stateful_col_filter` which executes the single-pass optimization, meaning no additional rewrites were necessary. I validated the impact with an ad-hoc local timing experiment (not committed as a benchmark script) showing this single-pass reading pattern reduced parse time from 92.5s down to 46.9s on a representative dataset.
+
+## 2026-03-07 - Optimize Pandas DataFrame copying in nested loops
+**Learning:** In nested loops iterating over different columns (e.g., sensors) of a pre-grouped Pandas DataFrame, calling `df.copy()` without column filtering copies the entire DataFrame (including unused columns), causing unnecessary $O(N \cdot M)$ overhead for each sensor.
+**Action:** When extracting a subset of data from a larger cached DataFrame for processing, explicitly filter for only the required columns before calling `.copy()` (e.g., `cols = ['Time', sensor]; processed = df[cols].copy()`). This avoids redundant duplication of data that won't be used in the current processing step.
