@@ -2,9 +2,10 @@ import logging
 from pathlib import Path
 import os
 import pandas as pd
-from config import Config
+from src.hydrograph_seatek_analysis.core.config import Config
 
-MAX_FILE_SIZE_BYTES = Config.max_file_size_bytes
+config = Config()
+MAX_FILE_SIZE_BYTES = config.max_file_size_bytes
 
 
 def get_project_root() -> Path:
@@ -91,7 +92,7 @@ def validate_data_files():
             elif path == hydro_path:
                 if path.stat().st_size > MAX_FILE_SIZE_BYTES:
                     raise ValueError(
-                                f"File {path} exceeds maximum size")
+                                f"File size exceeds maximum allowed size ({MAX_FILE_SIZE_BYTES} bytes): {path}")
                 with pd.ExcelFile(path) as xlsx:
                     sheets = xlsx.sheet_names
                     logging.info(
