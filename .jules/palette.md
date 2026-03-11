@@ -28,3 +28,7 @@
 ## 2026-03-10 - Legend Placement UX
 **Learning:** Making chart legends fully opaque (`framealpha=1.0`) is excellent for accessibility (WCAG contrast compliance). However, placing an opaque legend inside the plot area (`loc="upper right", bbox_to_anchor=(0.99, 0.99)`) creates a new UX problem: it completely obscures underlying data points.
 **Action:** When designing data visualizations with opaque legends, always place the legend *outside* the chart bounding box (e.g., `loc="upper center", bbox_to_anchor=(0.5, -0.15)`) so that 100% of the data remains visible to users without compromising the accessibility of the text.
+
+## 2025-03-11 - Defensive Matplotlib Secondary Axis Extraction
+**Learning:** When trying to fix a bug relating to hardcoded properties (e.g., replacing `.right_ax` with index-based secondary axis selection `fig.axes[1]`), failing to verify that the extracted object is a valid plotting axes before calling methods like `get_legend_handles_labels()` can cause the application to crash.
+**Action:** When collecting legend handles from secondary axes in dynamically generated Matplotlib charts (e.g., iterating through `fig.axes`), always use defensive checks like `hasattr(ax, 'get_legend_handles_labels')` prior to extraction to prevent runtime crashes.

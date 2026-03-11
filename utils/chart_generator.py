@@ -56,17 +56,19 @@ class ChartGenerator:
             ax1.scatter(
                 data['Time (Minutes)'],
                 data[sensor],
-                color='#FF7F0E',
-                alpha=0.7,
+                color='#A63600',
+                alpha=1.0,
                 s=45,
+                edgecolors='white',
+                linewidth=0.5,
                 label=f'Sensor {sensor.split("_")[1]} (NAVD88)'
             )
 
             # Configure primary axis
             ax1.set_xlabel('Time (Minutes)', fontsize=12, labelpad=10)
             ax1.set_ylabel('Seatek Sensor Reading (NAVD88)',
-                          color='#FF7F0E', fontsize=12)
-            ax1.tick_params(axis='y', labelcolor='#FF7F0E')
+                          color='#A63600', fontsize=12)
+            ax1.tick_params(axis='y', labelcolor='#A63600')
             ax1.grid(True, alpha=0.2, linestyle=':')
 
             # Add hydrograph if available
@@ -100,14 +102,16 @@ class ChartGenerator:
                 ax2.scatter(
                     hydro_data['Time (Minutes)'],
                     hydro_data['Hydrograph (Lagged)'],
-                    color='#1F77B4',
-                    alpha=0.7,
+                    color='#0E5A8A',
+                    alpha=1.0,
                     s=70,
                     marker='s',
+                    edgecolors='white',
+                    linewidth=0.5,
                     label='Hydrograph (GPM)'
                 )
-                ax2.set_ylabel('Hydrograph (GPM)', color='#1F77B4', fontsize=12)
-                ax2.tick_params(axis='y', labelcolor='#1F77B4')
+                ax2.set_ylabel('Hydrograph (GPM)', color='#0E5A8A', fontsize=12)
+                ax2.tick_params(axis='y', labelcolor='#0E5A8A')
 
                 # Add legend
                 lines1, labels1 = ax1.get_legend_handles_labels()
@@ -115,9 +119,11 @@ class ChartGenerator:
                 ax1.legend(
                     lines1 + lines2,
                     labels1 + labels2,
-                    loc='upper right',
-                    bbox_to_anchor=(0.99, 0.99),
-                    framealpha=0.9,
+                    loc='upper center',
+                    bbox_to_anchor=(0.5, -0.15),
+                    framealpha=1.0,
+                    edgecolor='#333333',
+                    ncol=2,
                     fontsize=11
                 )
         except Exception as e:

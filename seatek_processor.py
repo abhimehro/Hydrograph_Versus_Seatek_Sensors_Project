@@ -137,7 +137,24 @@ def main() -> None:
                                                f"RM_{rm_data.river_mile:.1f}" /
                                                f"Year_{safe_year}_{safe_sensor}.png")
                                 output_path.parent.mkdir(parents=True, exist_ok=True)
-                                chart.savefig(output_path, dpi=300, bbox_inches='tight')
+
+                                # Construct metadata for a11y
+                                sensor_num = sensor.split("_")[1] if "_" in sensor else sensor
+                                metadata = {
+                                    "Title": (
+                                        f"River Mile {rm_data.river_mile:.1f} - Year {year} "
+                                        f"Sensor {sensor_num}"
+                                    ),
+                                    "Description": (
+                                        "Chart showing Seatek "
+                                        f"Sensor {sensor_num} data (NAVD88) and "
+                                        "Hydrograph flow (GPM) over time for "
+                                        f"River Mile {rm_data.river_mile:.1f} in Year {year}."
+                                    ),
+                                    "Author": "Hydrograph vs Seatek Sensors Analysis Project",
+                                }
+
+                                chart.savefig(output_path, dpi=300, bbox_inches='tight', metadata=metadata)
                                 plt.close(chart)  # Free memory
                                 logger.info(f"Generated: {output_path}")
                             else:
