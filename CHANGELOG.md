@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- 🛡️ Sentinel: \[HIGH\] Fix broken config import and uninitialized limit in DoS validation check [\#65](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/65) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: Improve chart accessibility and contrast in legacy codebase [\#64](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/64) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize Pandas DataFrame copying in nested loops [\#63](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/63) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: \[performance improvement\] Replace O\(N\) unique\(\) call with cached keys in nested loops [\#61](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/61) ([abhimehro](https://github.com/abhimehro))
