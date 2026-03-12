@@ -93,16 +93,18 @@ class SeatekVisualizer:
         ax.scatter(
             data['Time (Minutes)'],
             data[sensor],
-            color='#FF7F0E',
-            alpha=0.7,
+            color='#A63600',
+            alpha=1.0,
             s=45,
+            edgecolors='white',
+            linewidth=0.5,
             label=f'Sensor {sensor.split("_")[1]} (NAVD88)'
         )
 
         ax.set_xlabel('Time (Minutes)', fontsize=12, labelpad=10)
         ax.set_ylabel('Seatek Sensor Reading (NAVD88)',
-                      color='#FF7F0E', fontsize=12)
-        ax.tick_params(axis='y', labelcolor='#FF7F0E')
+                      color='#A63600', fontsize=12)
+        ax.tick_params(axis='y', labelcolor='#A63600')
         ax.grid(True, alpha=0.2, linestyle=':')
 
     def _add_hydrograph_data(
@@ -118,15 +120,17 @@ class SeatekVisualizer:
             ax2.scatter(
                 hydro_data['Time (Minutes)'],
                 hydro_data['Hydrograph (Lagged)'],
-                color='#1F77B4',
-                alpha=0.7,
+                color='#0E5A8A',
+                alpha=1.0,
                 s=70,
                 marker='s',
+                edgecolors='white',
+                linewidth=0.5,
                 label='Hydrograph (GPM)'
             )
 
-            ax2.set_ylabel('Hydrograph (GPM)', color='#1F77B4', fontsize=12)
-            ax2.tick_params(axis='y', labelcolor='#1F77B4')
+            ax2.set_ylabel('Hydrograph (GPM)', color='#0E5A8A', fontsize=12)
+            ax2.tick_params(axis='y', labelcolor='#0E5A8A')
 
     def _format_plot(
             self,
@@ -150,20 +154,24 @@ class SeatekVisualizer:
 
         # Add legend
         lines1, labels1 = ax.get_legend_handles_labels()
-        if hasattr(ax, 'right_ax'):
-            lines2, labels2 = ax.right_ax.get_legend_handles_labels()
+
+        # Access secondary axis if it exists (using standard axes logic, not right_ax attribute)
+        if len(fig.axes) > 1:
+            ax2 = fig.axes[1]
+            if hasattr(ax2, 'get_legend_handles_labels'):
+                lines2, labels2 = ax2.get_legend_handles_labels()
+                lines1.extend(lines2)
+                labels1.extend(labels2)
+
+        if lines1:
             ax.legend(
-                lines1 + lines2,
-                labels1 + labels2,
-                loc='upper right',
-                bbox_to_anchor=(0.99, 0.99),
-                framealpha=0.9,
-                fontsize=11
-            )
-        else:
-            ax.legend(
-                loc='upper right',
-                framealpha=0.9,
+                lines1,
+                labels1,
+                loc='upper center',
+                bbox_to_anchor=(0.5, -0.15),
+                framealpha=1.0,
+                edgecolor='#333333',
+                ncol=2,
                 fontsize=11
             )
 
