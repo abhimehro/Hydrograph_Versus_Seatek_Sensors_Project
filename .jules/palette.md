@@ -32,3 +32,7 @@
 ## 2025-03-11 - Defensive Matplotlib Secondary Axis Extraction
 **Learning:** When trying to fix a bug relating to hardcoded properties (e.g., replacing `.right_ax` with index-based secondary axis selection `fig.axes[1]`), failing to verify that the extracted object is a valid plotting axes before calling methods like `get_legend_handles_labels()` can cause the application to crash.
 **Action:** When collecting legend handles from secondary axes in dynamically generated Matplotlib charts (e.g., iterating through `fig.axes`), always use defensive checks like `hasattr(ax, 'get_legend_handles_labels')` prior to extraction to prevent runtime crashes.
+
+## 2026-03-12 - CLI Visual Cues and Formatting
+**Learning:** Command-line interfaces that output dense, unformatted text are difficult for users to scan quickly. Large numbers without formatting (e.g., `123456`) increase cognitive load, and lack of visual state indicators makes identifying failures slower.
+**Action:** When designing CLI output, use emojis (`✅`, `❌`, `⚠️`) as quick visual cues for state. Apply comma formatting (`{:,}`) to large numbers and center-align headers to create a more delightful and readable user experience.
