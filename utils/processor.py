@@ -129,7 +129,12 @@ class SeatekDataProcessor:
         if cached_year_data is None:
             year_data = pd.DataFrame()
         else:
-            year_data = cached_year_data
+            # Optimization: Only extract the required columns (Time, current sensor, and Hydrograph)
+            # to avoid redundantly copying all other sensor columns on every iteration.
+            cols = ['Time (Seconds)', sensor]
+            if 'Hydrograph (Lagged)' in cached_year_data.columns:
+                cols.append('Hydrograph (Lagged)')
+            year_data = cached_year_data[cols]
 
         metrics = ProcessingMetrics(original_rows=len(year_data))
         if year_data.empty:
