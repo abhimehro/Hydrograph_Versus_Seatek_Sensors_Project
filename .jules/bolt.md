@@ -12,3 +12,7 @@
 ## 2026-03-07 - Optimize Pandas DataFrame copying in nested loops
 **Learning:** In nested loops iterating over different columns (e.g., sensors) of a pre-grouped Pandas DataFrame, calling `df.copy()` without column filtering copies the entire DataFrame (including unused columns), causing unnecessary $O(N \cdot M)$ overhead for each sensor.
 **Action:** When extracting a subset of data from a larger cached DataFrame for processing, explicitly filter for only the required columns before calling `.copy()` (e.g., `cols = ['Time', sensor]; processed = df[cols].copy()`). This avoids redundant duplication of data that won't be used in the current processing step.
+
+## 2025-03-12 - Replacing O(N log N) `pd.merge` with O(N) boolean masking
+**Learning:** When aligning multiple streams of data (e.g. sensor readings and hydrograph values) that are already perfectly aligned by index or time within a single parent DataFrame, filtering them into separate DataFrames and recombining them with `pd.merge(..., how='outer')` is an unnecessary and expensive O(N log N) anti-pattern.
+**Action:** Use boolean masking (`keep_mask = sensor_mask | hydro_mask`) directly on the parent DataFrame to achieve the exact same O(N) filtering logic, then use `.loc` to nullify values that aren't valid in their respective streams to simulate the outer join.
