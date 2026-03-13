@@ -155,10 +155,10 @@ def main():
                     print(f"  ⚠️  Extra processed data for river miles: {results['river_mile_consistency']['extra_processed_rms']}")
             
             # Overall verdict
-            print("\n" + "=" * 10 + " 🏁 OVERALL VALIDATION " + "=" * 10)
+            print("\n" + " 🏁 OVERALL VALIDATION ".center(51, "="))
             overall_status = "✅ PASSED" if results['overall_valid'] else "❌ FAILED"
             print(f"  STATUS: {overall_status}")
-            print("===================================================\n")
+            print("=" * 51 + "\n")
         
         # Return appropriate exit code
         return 0 if results["overall_valid"] else 1
