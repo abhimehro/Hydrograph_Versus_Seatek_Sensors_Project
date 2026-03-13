@@ -287,9 +287,17 @@ class SeatekDataProcessor:
         # If no valid readings exist for both streams, return appropriate early empty df.
         if not keep_mask.any():
             if has_hydro:
-                merged = pd.DataFrame(columns=['Time (Seconds)', sensor, 'Time (Minutes)', 'Hydrograph (Lagged)'])
+                # Select and order columns identical to original pd.merge output
+                if not sensor_mask.any():
+                    cols = ['Time (Seconds)', 'Time (Minutes)', 'Hydrograph (Lagged)']
+                elif not hydro_mask.any():
+                    cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
+                else:
+                    cols = ['Time (Seconds)', sensor, 'Time (Minutes)', 'Hydrograph (Lagged)']
             else:
-                merged = pd.DataFrame(columns=['Time (Seconds)', 'Time (Minutes)', sensor])
+                cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
+
+            merged = pd.DataFrame(columns=cols)
         else:
             # Filter processed data using the union mask
             merged = processed[keep_mask].copy()
