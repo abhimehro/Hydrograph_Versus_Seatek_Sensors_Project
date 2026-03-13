@@ -98,7 +98,7 @@ def main():
                 print(f"  ✅ File: {results['summary']['file']}")
                 print(f"  📊 Rows: {results['summary']['rows']:,}")
                 print(f"  📑 Columns: {', '.join(results['summary']['columns'])}")
-                print(f"  ✔️  Required columns present: {results['summary']['required_columns_present']}")
+                print(f"  ✔️ Required columns present: {results['summary']['required_columns_present']}")
                 print(f"  🏞️  River miles: {results['summary']['river_miles']}")
             else:
                 print("  ❌ VALIDATION FAILED")
