@@ -303,7 +303,7 @@ class SeatekDataProcessor:
                 if not sensor_keep.all():
                     merged.loc[~sensor_keep, sensor] = pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan
                 if not hydro_keep.all():
-                    merged.loc[~hydro_keep, 'Hydrograph (Lagged)'] = np.nan
+                    merged.loc[~hydro_keep, 'Hydrograph (Lagged)'] = pd.NA if pd.api.types.is_object_dtype(merged['Hydrograph (Lagged)']) else np.nan
 
                 # If no valid sensor readings exist but hydrograph data exist, force hydrograph to 0
                 if not sensor_mask.any() and hydro_mask.any():
