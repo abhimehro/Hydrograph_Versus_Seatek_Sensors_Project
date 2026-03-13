@@ -301,7 +301,7 @@ class SeatekDataProcessor:
             # Nullify values that are not valid in their respective streams
             if has_hydro:
                 if not sensor_keep.all():
-                    merged.loc[~sensor_keep, sensor] = np.nan
+                    merged.loc[~sensor_keep, sensor] = pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan
                 if not hydro_keep.all():
                     merged.loc[~hydro_keep, 'Hydrograph (Lagged)'] = np.nan
 
