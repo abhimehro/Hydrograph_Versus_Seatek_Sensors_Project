@@ -12,3 +12,7 @@
 ## 2026-03-07 - Optimize Pandas DataFrame copying in nested loops
 **Learning:** In nested loops iterating over different columns (e.g., sensors) of a pre-grouped Pandas DataFrame, calling `df.copy()` without column filtering copies the entire DataFrame (including unused columns), causing unnecessary $O(N \cdot M)$ overhead for each sensor.
 **Action:** When extracting a subset of data from a larger cached DataFrame for processing, explicitly filter for only the required columns before calling `.copy()` (e.g., `cols = ['Time', sensor]; processed = df[cols].copy()`). This avoids redundant duplication of data that won't be used in the current processing step.
+
+## 2026-03-13 - Optimize Pandas usecols filtering with O(1) sets
+**Learning:** When using `pd.read_excel(..., usecols=filter_func)`, defining `required_cols` as a list causes `O(N)` membership checks for every column parsed in the file. Over many columns and sheets, this causes a non-trivial performance overhead.
+**Action:** Defined `required_cols` as a `set` to ensure `O(1)` lookups and moved its instantiation completely outside of per-sheet/file iteration loops so the set object is only created once.
