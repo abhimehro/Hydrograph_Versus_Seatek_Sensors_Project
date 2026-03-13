@@ -1,6 +1,7 @@
 """Visualization utilities for Seatek sensor data."""
 
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import seaborn as sns
 import pandas as pd
 import logging
@@ -107,6 +108,13 @@ class SeatekVisualizer:
         ax.tick_params(axis='y', labelcolor='#A63600')
         ax.grid(True, alpha=0.2, linestyle=':')
 
+        # Format NAVD88 axis ticks with decimal precision
+        ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
+
+        # Format X-axis to have comma separators for large numbers
+        if pd.api.types.is_numeric_dtype(data['Time (Minutes)']):
+            ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
+
     def _add_hydrograph_data(
             self,
             ax1: plt.Axes,
@@ -131,6 +139,15 @@ class SeatekVisualizer:
 
             ax2.set_ylabel('Hydrograph (GPM)', color='#0E5A8A', fontsize=12)
             ax2.tick_params(axis='y', labelcolor='#0E5A8A')
+
+            # Choose y-axis formatter based on whether hydrograph values are effectively integers
+            hydro_values = hydro_data['Hydrograph (Lagged)']
+            max_frac_deviation = (hydro_values - hydro_values.round()).abs().max()
+            if pd.notna(max_frac_deviation) and max_frac_deviation < 1e-6:
+                hydro_fmt = "{x:,.0f}"
+            else:
+                hydro_fmt = "{x:,.2f}"
+            ax2.yaxis.set_major_formatter(ticker.StrMethodFormatter(hydro_fmt))
 
     def _format_plot(
             self,
