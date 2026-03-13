@@ -17,5 +17,6 @@ def fix_file(filepath):
     with open(filepath, 'w') as f:
         f.write(content)
 
-fix_file('src/hydrograph_seatek_analysis/data/processor.py')
-fix_file('utils/processor.py')
+if __name__ == "__main__":
+    fix_file('src/hydrograph_seatek_analysis/data/processor.py')
+    fix_file('utils/processor.py')
