@@ -47,12 +47,12 @@ class DataLoader:
             hydro_data = {}
             validate_file_size(self.config.hydro_file, self.config.max_file_size_bytes)
             excel_file = pd.ExcelFile(self.config.hydro_file)
+            required_cols = {'Time (Seconds)', 'Year'}
             for sheet_name in excel_file.sheet_names:
                 if not sheet_name.startswith('RM_'):
                     continue
                 validate_file_size(self.config.hydro_file, self.config.max_file_size_bytes)
                 df = pd.read_excel(excel_file, sheet_name=sheet_name)
-                required_cols = {'Time (Seconds)', 'Year'}
                 if not all((col in df.columns for col in required_cols)):
                     logger.warning(f'Skipping sheet {sheet_name}: Missing required columns')
                     continue
