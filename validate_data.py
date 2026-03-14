@@ -90,72 +90,75 @@ def main():
                 print(json_results)
         else:
             # Print human-readable results
-            print("\n===== DATA VALIDATION RESULTS =====\n")
+            print("\n" + "=" * 10 + " ✨ DATA VALIDATION RESULTS ✨ " + "=" * 10 + "\n")
             
             # Summary file validation
-            print("SUMMARY FILE:")
+            print("📋 SUMMARY FILE:")
             if results["summary"]:
-                print(f"  File: {results['summary']['file']}")
-                print(f"  Rows: {results['summary']['rows']}")
-                print(f"  Columns: {', '.join(results['summary']['columns'])}")
-                print(f"  Required columns present: {results['summary']['required_columns_present']}")
-                print(f"  River miles: {results['summary']['river_miles']}")
+                print(f"  ✅ File: {results['summary']['file']}")
+                print(f"  📊 Rows: {results['summary']['rows']:,}")
+                print(f"  📑 Columns: {', '.join(results['summary']['columns'])}")
+                print(f"  ✔️ Required columns present: {results['summary']['required_columns_present']}")
+                print(f"  🏞️  River miles: {results['summary']['river_miles']}")
             else:
-                print("  VALIDATION FAILED")
+                print("  ❌ VALIDATION FAILED")
             
             # Hydrograph file validation
-            print("\nHYDROGRAPH FILE:")
+            print("\n🌊 HYDROGRAPH FILE:")
             if results["hydrograph"]:
-                print(f"  File: {results['hydrograph']['file']}")
-                print(f"  River mile sheets: {results['hydrograph']['river_mile_sheets']}")
+                print(f"  ✅ File: {results['hydrograph']['file']}")
+                print(f"  📑 River mile sheets: {results['hydrograph']['river_mile_sheets']}")
                 
                 for sheet in results["hydrograph"]["sheets"]:
-                    print(f"\n  Sheet: {sheet['name']}")
-                    print(f"    Rows: {sheet['rows']}")
-                    print(f"    Required columns present: {sheet['required_columns_present']}")
+                    print(f"\n  📄 Sheet: {sheet['name']}")
+                    print(f"    📊 Rows: {sheet['rows']:,}")
+                    print(f"    ✔️  Required columns present: {sheet['required_columns_present']}")
                     if sheet['years']:
-                        print(f"    Years: {sheet['years']}")
+                        print(f"    📅 Years: {sheet['years']}")
                     if sheet['time_range']:
-                        print(f"    Time range: {sheet['time_range']}")
+                        print(f"    ⏱️  Time range: {sheet['time_range']}")
             else:
-                print("  VALIDATION FAILED")
+                print("  ❌ VALIDATION FAILED")
             
             # Processed files validation
-            print("\nPROCESSED FILES:")
+            print("\n⚙️  PROCESSED FILES:")
             if results["processed"]:
                 for file_result in results["processed"]:
                     if "error" in file_result:
-                        print(f"  File: {file_result['file']} - ERROR: {file_result['error']}")
+                        print(f"  ❌ File: {file_result['file']} - ERROR: {file_result['error']}")
                         continue
                         
-                    print(f"\n  File: {file_result['file']}")
-                    print(f"    River mile: {file_result['river_mile']}")
-                    print(f"    Rows: {file_result['rows']}")
-                    print(f"    Required columns present: {file_result['required_columns_present']}")
-                    print(f"    Sensor columns: {file_result['sensor_columns']}")
+                    print(f"\n  ✅ File: {file_result['file']}")
+                    print(f"    🏞️  River mile: {file_result['river_mile']}")
+                    print(f"    📊 Rows: {file_result['rows']:,}")
+                    print(f"    ✔️  Required columns present: {file_result['required_columns_present']}")
+                    print(f"    📡 Sensor columns: {file_result['sensor_columns']}")
                     
                     if file_result['year_range']:
-                        print(f"    Year range: {file_result['year_range']}")
+                        print(f"    📅 Year range: {file_result['year_range']}")
                     if file_result['time_range']:
-                        print(f"    Time range: {file_result['time_range']}")
+                        print(f"    ⏱️  Time range: {file_result['time_range']}")
             else:
-                print("  No processed files found")
+                print("  ⚠️  No processed files found")
             
             # River mile consistency
             if results["river_mile_consistency"]:
-                print("\nRIVER MILE CONSISTENCY:")
-                print(f"  All summary river miles have processed data: {results['river_mile_consistency']['all_summary_rms_processed']}")
+                print("\n🔗 RIVER MILE CONSISTENCY:")
+                all_processed = results['river_mile_consistency']['all_summary_rms_processed']
+                status_icon = "✅" if all_processed else "⚠️"
+                print(f"  {status_icon} All summary river miles have processed data: {all_processed}")
                 
                 if results['river_mile_consistency']['missing_processed_rms']:
-                    print(f"  Missing processed data for river miles: {results['river_mile_consistency']['missing_processed_rms']}")
+                    print(f"  ❌ Missing processed data for river miles: {results['river_mile_consistency']['missing_processed_rms']}")
                     
                 if results['river_mile_consistency']['extra_processed_rms']:
-                    print(f"  Extra processed data for river miles: {results['river_mile_consistency']['extra_processed_rms']}")
+                    print(f"  ⚠️  Extra processed data for river miles: {results['river_mile_consistency']['extra_processed_rms']}")
             
             # Overall verdict
-            print("\nOVERALL VALIDATION:")
-            print(f"  PASSED: {results['overall_valid']}")
-            print("\n=====================================\n")
+            print("\n" + " 🏁 OVERALL VALIDATION ".center(51, "="))
+            overall_status = "✅ PASSED" if results['overall_valid'] else "❌ FAILED"
+            print(f"  STATUS: {overall_status}")
+            print("=" * 51 + "\n")
         
         # Return appropriate exit code
         return 0 if results["overall_valid"] else 1
