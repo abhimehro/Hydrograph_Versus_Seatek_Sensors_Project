@@ -4,6 +4,7 @@ import logging
 from typing import Optional
 
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import pandas as pd
 import seaborn as sns
 from matplotlib.figure import Figure
@@ -72,16 +73,45 @@ class ChartGenerator:
             ax1.grid(True, alpha=0.2, linestyle=':')
 
             # Add hydrograph if available
+            ax2 = None
             if 'Hydrograph (Lagged)' in data.columns:
-                self._add_hydrograph(ax1, data)
+                ax2 = self._add_hydrograph(ax1, data)
+
+            # Collect legend handles and labels
+            lines, labels = ax1.get_legend_handles_labels()
+            if ax2 is not None and hasattr(ax2, 'get_legend_handles_labels'):
+                lines2, labels2 = ax2.get_legend_handles_labels()
+                lines.extend(lines2)
+                labels.extend(labels2)
+
+            if lines:
+                ax1.legend(
+                    lines,
+                    labels,
+                    loc='upper center',
+                    bbox_to_anchor=(0.5, -0.15),
+                    framealpha=1.0,
+                    edgecolor='#333333',
+                    ncol=2,
+                    fontsize=11
+                )
+
+            # Apply formatting safely based on data types
+            # X-axis time formatting
+            if 'Time (Minutes)' in data.columns and pd.api.types.is_numeric_dtype(data['Time (Minutes)']):
+                ax1.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
+
+            # Y-axis sensor formatting
+            if sensor in data.columns and pd.api.types.is_numeric_dtype(data[sensor]):
+                ax1.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
 
             # Set title and format plot
-            plt.title(
-                f'River Mile {river_mile:.1f} - Year {year}\n'
-                f'Seatek Sensor {sensor.split("_")[1]} Data with Hydrograph',
-                pad=20,
-                fontsize=14
-            )
+            sensor_num = sensor.split("_")[1] if "_" in sensor else sensor
+            title_text = f"River Mile {river_mile:.1f} - Year {year}\nSeatek Sensor {sensor_num} Data"
+            if ax2 is not None:
+                title_text += " with Hydrograph"
+
+            plt.title(title_text, pad=20, fontsize=14)
 
             plt.tight_layout()
             return fig
@@ -92,7 +122,7 @@ class ChartGenerator:
             return None
 
     @staticmethod
-    def _add_hydrograph(ax1: plt.Axes, data: pd.DataFrame) -> None:
+    def _add_hydrograph(ax1: plt.Axes, data: pd.DataFrame) -> Optional[plt.Axes]:
         """Add hydrograph data to the plot."""
         try:
             ax2 = ax1.twinx()
@@ -113,18 +143,16 @@ class ChartGenerator:
                 ax2.set_ylabel('Hydrograph (GPM)', color='#0E5A8A', fontsize=12)
                 ax2.tick_params(axis='y', labelcolor='#0E5A8A')
 
-                # Add legend
-                lines1, labels1 = ax1.get_legend_handles_labels()
-                lines2, labels2 = ax2.get_legend_handles_labels()
-                ax1.legend(
-                    lines1 + lines2,
-                    labels1 + labels2,
-                    loc='upper center',
-                    bbox_to_anchor=(0.5, -0.15),
-                    framealpha=1.0,
-                    edgecolor='#333333',
-                    ncol=2,
-                    fontsize=11
-                )
+                if pd.api.types.is_numeric_dtype(data['Hydrograph (Lagged)']):
+                    hydro_values = hydro_data['Hydrograph (Lagged)']
+                    max_frac_deviation = (hydro_values - hydro_values.round()).abs().max()
+                    if pd.notna(max_frac_deviation) and max_frac_deviation < 1e-6:
+                        hydro_fmt = "{x:,.0f}"
+                    else:
+                        hydro_fmt = "{x:,.2f}"
+                    ax2.yaxis.set_major_formatter(ticker.StrMethodFormatter(hydro_fmt))
+
+            return ax2
         except Exception as e:
             logger.error(f"Error adding hydrograph: {str(e)}")
+            return None
