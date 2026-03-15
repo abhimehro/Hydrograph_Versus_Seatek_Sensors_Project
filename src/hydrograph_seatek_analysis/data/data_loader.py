@@ -7,6 +7,7 @@ from typing import Tuple, Dict, Optional, List
 import pandas as pd
 
 from ..core.config import Config
+from utils.security import validate_file_size
 
 logger = logging.getLogger(__name__)
 
@@ -66,7 +67,7 @@ class DataLoader:
             if summary_file.stat().st_size > self.config.max_file_size_bytes:
                 raise ValueError(f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {summary_file}")
 
-            required_cols = ['River_Mile', 'Y_Offset', 'Num_Sensors']
+            required_cols = {'River_Mile', 'Y_Offset', 'Num_Sensors'}
 
             # Optimize: load columns dynamically to avoid checking headers and reloading
             # This is an optimization for reading excel files in a single pass
@@ -82,7 +83,7 @@ class DataLoader:
                 raise ValueError(f"Missing required columns in summary data: {missing_cols}")
 
             # Keep original validation for safety and consistency
-            self._validate_columns(df, required_cols, "summary data")
+            self._validate_columns(df, list(required_cols), "summary data")
 
             logger.debug(f"Summary data loaded successfully. Shape: {df.shape}")
             return df
@@ -116,12 +117,12 @@ class DataLoader:
 
             hydro_data = {}
             excel_file = pd.ExcelFile(hydro_file)
+            required_cols = {'Time (Seconds)', 'Year'}
 
             for sheet_name in excel_file.sheet_names:
                 if not sheet_name.startswith('RM_'):
                     continue
 
-                required_cols = ['Time (Seconds)', 'Year']
 
                 # Optimize: Load only required columns and sensor/hydrograph columns to reduce memory usage and speed up loading
                 seen_cols = []
@@ -130,6 +131,10 @@ class DataLoader:
                     return col in required_cols or str(col).startswith('Sensor_') or col == 'Hydrograph (Lagged)'
 
                 try:
+                    # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+                    if hydro_file.stat().st_size > self.config.max_file_size_bytes:
+                        raise ValueError(f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {hydro_file}")
+
                     df = pd.read_excel(
                         excel_file,
                         sheet_name=sheet_name,
@@ -145,7 +150,7 @@ class DataLoader:
                     continue
                 
                 try:
-                    self._validate_columns(df, required_cols, f"sheet {sheet_name}")
+                    self._validate_columns(df, list(required_cols), f"sheet {sheet_name}")
                     hydro_data[sheet_name] = df
                     logger.debug(f"Loaded sheet {sheet_name}. Shape: {df.shape}")
                 except ValueError as e:

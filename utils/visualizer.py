@@ -1,6 +1,7 @@
 """Visualization utilities for Seatek sensor data."""
 
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import seaborn as sns
 import pandas as pd
 import logging
@@ -65,7 +66,7 @@ class SeatekVisualizer:
             if 'Hydrograph (Lagged)' in data.columns:
                 self._add_hydrograph_data(axes[0], axes[1], data)
 
-            self._format_plot(fig, axes[0], river_mile, year, sensor)
+            self._format_plot(fig, axes[0], river_mile, year, sensor, data)
 
             if output_path:
                 self._save_plot(fig, output_path)
@@ -138,7 +139,8 @@ class SeatekVisualizer:
             ax: plt.Axes,
             river_mile: float,
             year: int,
-            sensor: str
+            sensor: str,
+            data: pd.DataFrame = None
     ) -> None:
         """Format plot with titles, legends, and styling."""
         plt.title(
@@ -174,6 +176,28 @@ class SeatekVisualizer:
                 ncol=2,
                 fontsize=11
             )
+
+        # Apply formatting safely based on data types
+        if data is not None:
+            # X-axis time formatting
+            if 'Time (Minutes)' in data.columns and pd.api.types.is_numeric_dtype(data['Time (Minutes)']):
+                ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
+
+            # Y-axis sensor formatting
+            if sensor in data.columns and pd.api.types.is_numeric_dtype(data[sensor]):
+                ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.2f}"))
+
+            # Secondary Y-axis hydrograph formatting
+            if 'Hydrograph (Lagged)' in data.columns and pd.api.types.is_numeric_dtype(data['Hydrograph (Lagged)']):
+                if len(fig.axes) > 1:
+                    ax2 = fig.axes[1]
+                    if hasattr(ax2, 'yaxis'):
+                        hydro_vals = data['Hydrograph (Lagged)'].dropna()
+                        max_frac = (hydro_vals - hydro_vals.round()).abs().max()
+                        if pd.notna(max_frac) and max_frac < 1e-6:
+                            ax2.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
+                        else:
+                            ax2.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.2f}"))
 
         plt.tight_layout()
 
