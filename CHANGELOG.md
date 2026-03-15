@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- 🎨 Palette: Improve CLI output readability [\#73](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/73) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize Pandas Series math evaluations [\#72](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/72) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[CRITICAL\] Fix DoS vulnerability in file parsing [\#71](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/71) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: \[UX improvement\] Format axes with commas and decouple legends [\#70](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/70) ([abhimehro](https://github.com/abhimehro))
