@@ -99,7 +99,7 @@ def main():
                 print(f"  📊 Rows: {results['summary']['rows']:,}")
                 print(f"  📑 Columns: {', '.join(results['summary']['columns'])}")
                 print(f"  ✔️ Required columns present: {results['summary']['required_columns_present']}")
-                print(f"  🏞️  River miles: {results['summary']['river_miles']}")
+                print(f"  🏞️  River miles: {', '.join(str(rm) for rm in results['summary']['river_miles'])}")
             else:
                 print("  ❌ VALIDATION FAILED")
             
@@ -114,9 +114,9 @@ def main():
                     print(f"    📊 Rows: {sheet['rows']:,}")
                     print(f"    ✔️  Required columns present: {sheet['required_columns_present']}")
                     if sheet['years']:
-                        print(f"    📅 Years: {sheet['years']}")
+                        print(f"    📅 Years: {', '.join(str(y) for y in sheet['years'])}")
                     if sheet['time_range']:
-                        print(f"    ⏱️  Time range: {sheet['time_range']}")
+                        print(f"    ⏱️  Time range: {float(sheet['time_range'][0]):,.0f} to {float(sheet['time_range'][1]):,.0f}")
             else:
                 print("  ❌ VALIDATION FAILED")
             
@@ -135,9 +135,9 @@ def main():
                     print(f"    📡 Sensor columns: {file_result['sensor_columns']}")
                     
                     if file_result['year_range']:
-                        print(f"    📅 Year range: {file_result['year_range']}")
+                        print(f"    📅 Year range: {file_result['year_range'][0]} to {file_result['year_range'][1]}")
                     if file_result['time_range']:
-                        print(f"    ⏱️  Time range: {file_result['time_range']}")
+                        print(f"    ⏱️  Time range: {file_result['time_range'][0]:,.0f} to {file_result['time_range'][1]:,.0f}")
             else:
                 print("  ⚠️  No processed files found")
             
@@ -149,10 +149,12 @@ def main():
                 print(f"  {status_icon} All summary river miles have processed data: {all_processed}")
                 
                 if results['river_mile_consistency']['missing_processed_rms']:
-                    print(f"  ❌ Missing processed data for river miles: {results['river_mile_consistency']['missing_processed_rms']}")
+                    missing_rms_str = ', '.join(str(rm) for rm in results['river_mile_consistency']['missing_processed_rms'])
+                    print(f"  ❌ Missing processed data for river miles: {missing_rms_str}")
                     
                 if results['river_mile_consistency']['extra_processed_rms']:
-                    print(f"  ⚠️  Extra processed data for river miles: {results['river_mile_consistency']['extra_processed_rms']}")
+                    extra_rms_str = ', '.join(str(rm) for rm in results['river_mile_consistency']['extra_processed_rms'])
+                    print(f"  ⚠️  Extra processed data for river miles: {extra_rms_str}")
             
             # Overall verdict
             print("\n" + " 🏁 OVERALL VALIDATION ".center(51, "="))
