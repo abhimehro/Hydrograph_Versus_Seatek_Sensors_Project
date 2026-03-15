@@ -13,6 +13,9 @@
 **Learning:** In nested loops iterating over different columns (e.g., sensors) of a pre-grouped Pandas DataFrame, calling `df.copy()` without column filtering copies the entire DataFrame (including unused columns), causing unnecessary $O(N \cdot M)$ overhead for each sensor.
 **Action:** When extracting a subset of data from a larger cached DataFrame for processing, explicitly filter for only the required columns before calling `.copy()` (e.g., `cols = ['Time', sensor]; processed = df[cols].copy()`). This avoids redundant duplication of data that won't be used in the current processing step.
 
+## 2026-03-12 - Replacing O(N log N) `pd.merge` with O(N) boolean masking
+**Learning:** When aligning multiple streams of data (e.g. sensor readings and hydrograph values) that are already perfectly aligned by index or time within a single parent DataFrame, filtering them into separate DataFrames and recombining them with `pd.merge(..., how='outer')` is an unnecessary and expensive O(N log N) anti-pattern.
+**Action:** Use boolean masking (`keep_mask = sensor_mask | hydro_mask`) directly on the parent DataFrame to achieve the exact same O(N) filtering logic, then use `.loc` to nullify values that aren't valid in their respective streams to simulate the outer join.
 ## 2026-03-13 - Optimize Pandas usecols filtering with O(1) sets
 **Learning:** When using `pd.read_excel(..., usecols=filter_func)`, defining `required_cols` as a list causes `O(N)` membership checks for every column parsed in the file. Over many columns and sheets, this causes a non-trivial performance overhead.
 **Action:** Defined `required_cols` as a `set` to ensure `O(1)` lookups and moved its instantiation completely outside of per-sheet/file iteration loops so the set object is only created once.
