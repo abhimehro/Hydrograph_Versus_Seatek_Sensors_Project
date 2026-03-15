@@ -58,7 +58,7 @@ class DataValidator:
                 logger.error(f"Summary file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {summary_file}")
                 return None
 
-            required_cols = ['River_Mile', 'Y_Offset', 'Num_Sensors']
+            required_cols = {'River_Mile', 'Y_Offset', 'Num_Sensors'}
 
             # Optimization: load columns dynamically and validate headers in a single pass
             seen_cols = []
@@ -130,9 +130,9 @@ class DataValidator:
                     return None
                     
                 sheet_info = []
+                required_cols = {'Time (Seconds)', 'Year'}
                 
                 for sheet in rm_sheets:
-                    required_cols = ['Time (Seconds)', 'Year']
 
                     # Optimization: check headers and conditionally load only required in single pass.
                     # First column is unconditionally included as an anchor to guarantee a non-empty dataframe for row-count retrieval.
@@ -182,6 +182,7 @@ class DataValidator:
             return results
         
         rm_files = list(processed_dir.glob("RM_*.xlsx"))
+        required_cols = {'Time (Seconds)', 'Year'}
         
         for file_path in rm_files:
             try:
@@ -202,7 +203,6 @@ class DataValidator:
                     logger.warning(f"Invalid river mile file name: {file_path.name}")
                     river_mile = None
                 
-                required_cols = ['Time (Seconds)', 'Year']
                 
                 # Optimization: load columns dynamically and load in a single pass.
                 # First column is unconditionally included as an anchor so df may include a column that is neither required nor a Sensor_ column.

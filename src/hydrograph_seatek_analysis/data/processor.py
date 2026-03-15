@@ -86,7 +86,7 @@ class RiverMileData:
             if self.file_path.exists() and self.file_path.stat().st_size > max_file_size_bytes:
                 raise ValueError(f"File size exceeds maximum allowed size ({max_file_size_bytes} bytes): {self.file_path}")
 
-            required_cols = ['Time (Seconds)', 'Year']
+            required_cols = {'Time (Seconds)', 'Year'}
 
             # Optimization: load columns dynamically and load in a single pass
             seen_cols = []
