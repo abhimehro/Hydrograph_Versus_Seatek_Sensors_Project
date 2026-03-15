@@ -206,8 +206,14 @@ class SeatekDataProcessor:
         raw_data = pd.to_numeric(processed[sensor], errors='coerce')
         # Get conversion constants from config
         constants = self.config.navd88_constants
-        # Conversion formula: NAVD88_value = -(raw_data + offset_a - offset_b) * scale_factor + y_offset
-        processed[sensor] = -(raw_data + constants.offset_a - constants.offset_b) * constants.scale_factor + y_offset
+
+        # Optimization: Pre-calculate scalar coefficients to minimize memory allocations
+        # and array operations. Math simplification:
+        # -(raw_data + A - B) * C + D  ==>  raw_data * (-C) + (D - (A - B) * C)
+        m = -constants.scale_factor
+        b = y_offset - (constants.offset_a - constants.offset_b) * constants.scale_factor
+
+        processed[sensor] = raw_data * m + b
 
         return processed
 

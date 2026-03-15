@@ -102,7 +102,14 @@ class SeatekDataProcessor:
         y_offset = self.offsets.get(river_mile, 0)
         processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0
         raw_data = pd.to_numeric(processed[sensor], errors='coerce')
-        processed[sensor] = -(raw_data + 1.9 - 0.32) * (400 / 30.48) + y_offset
+
+        # Optimization: Pre-calculate scalar coefficients to minimize memory allocations
+        # and array operations. Math simplification:
+        # -(raw_data + A - B) * C + D  ==>  raw_data * (-C) + (D - (A - B) * C)
+        m = -(400 / 30.48)
+        b = y_offset - (1.9 - 0.32) * (400 / 30.48)
+
+        processed[sensor] = raw_data * m + b
         return processed
 
     def process_data(self, river_mile: float, year: int, sensor: str) -> Tuple[pd.DataFrame, ProcessingMetrics]:

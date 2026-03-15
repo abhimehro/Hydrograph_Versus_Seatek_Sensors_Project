@@ -16,3 +16,7 @@
 ## 2026-03-13 - Optimize Pandas usecols filtering with O(1) sets
 **Learning:** When using `pd.read_excel(..., usecols=filter_func)`, defining `required_cols` as a list causes `O(N)` membership checks for every column parsed in the file. Over many columns and sheets, this causes a non-trivial performance overhead.
 **Action:** Defined `required_cols` as a `set` to ensure `O(1)` lookups and moved its instantiation completely outside of per-sheet/file iteration loops so the set object is only created once.
+
+## 2026-03-20 - Optimize Pandas Series arithmetic by minimizing allocations
+**Learning:** Performing compound mathematical operations (e.g., `-(raw_data + A - B) * C + D`) directly on Pandas Series objects triggers the allocation of multiple intermediate array objects (one for each operation step), which increases memory footprint and slows down execution time on large datasets.
+**Action:** Pre-calculate scalar coefficients mathematically to simplify the formula to a linear function (e.g., `raw_data * M + B`), reducing the operations and temporary Series array allocations to the absolute minimum needed.
