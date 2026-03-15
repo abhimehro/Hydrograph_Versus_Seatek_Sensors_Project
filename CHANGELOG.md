@@ -7,6 +7,7 @@
 **Merged pull requests:**
 
 - 🛡️ Sentinel: \[CRITICAL\] Fix DoS vulnerability in file parsing [\#71](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/71) ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: \[UX improvement\] Format axes with commas and decouple legends [\#70](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/70) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: CLI Report UX Enhancements [\#67](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/67) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[HIGH\] Fix broken config import and uninitialized limit in DoS validation check [\#65](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/65) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: Improve chart accessibility and contrast in legacy codebase [\#64](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/64) ([abhimehro](https://github.com/abhimehro))
