@@ -116,7 +116,7 @@ def main():
                     if sheet['years']:
                         print(f"    📅 Years: {', '.join(str(y) for y in sheet['years'])}")
                     if sheet['time_range']:
-                        print(f"    ⏱️  Time range: {sheet['time_range'][0]:,.0f} to {sheet['time_range'][1]:,.0f}")
+                        print(f"    ⏱️  Time range: {float(sheet['time_range'][0]):,.0f} to {float(sheet['time_range'][1]):,.0f}")
             else:
                 print("  ❌ VALIDATION FAILED")
             

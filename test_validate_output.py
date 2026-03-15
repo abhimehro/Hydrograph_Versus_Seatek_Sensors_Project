@@ -2,9 +2,6 @@ import sys
 from io import StringIO
 from unittest import mock
 
-# Mock pandas module before importing validate_data
-sys.modules['pandas'] = mock.MagicMock()
-
 from validate_data import main
 
 @mock.patch("src.hydrograph_seatek_analysis.data.validator.DataValidator.run_validation")
@@ -47,14 +44,8 @@ def test_cli_output(mock_run_validation):
 
     # Redirect stdout
     captured_output = StringIO()
-    sys.stdout = captured_output
-
-    # Run main with mocked args to avoid parsing real sys.argv
-    with mock.patch("sys.argv", ["validate_data.py"]):
+    with mock.patch('sys.stdout', captured_output), mock.patch('sys.argv', ['validate_data.py']):
         main()
-
-    # Reset stdout
-    sys.stdout = sys.__stdout__
 
     output = captured_output.getvalue()
 
@@ -65,7 +56,6 @@ def test_cli_output(mock_run_validation):
     assert "Year range: 2021 to 2022" in output
     assert "Missing processed data for river miles: 53.0" in output
     assert "Extra processed data for river miles: 55.0" in output
-    print("All tests passed!")
 
 if __name__ == "__main__":
     test_cli_output()
