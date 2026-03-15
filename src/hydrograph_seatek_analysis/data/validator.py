@@ -9,6 +9,7 @@ from typing import List, Dict, Any, Optional, Callable, Tuple
 import pandas as pd
 
 from ..core.config import Config
+from utils.security import validate_file_size
 
 logger = logging.getLogger(__name__)
 
@@ -136,6 +137,10 @@ class DataValidator:
                     # Optimization: check headers and conditionally load only required in single pass.
                     # First column is unconditionally included as an anchor to guarantee a non-empty dataframe for row-count retrieval.
                     filter_cols, seen_cols = self._create_stateful_col_filter(lambda c: c in required_cols)
+
+                    # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+                    if hydro_file.stat().st_size > self.config.max_file_size_bytes:
+                        raise ValueError(f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {hydro_file}")
 
                     df = pd.read_excel(excel, sheet_name=sheet, usecols=filter_cols)
                     columns = list(seen_cols)
