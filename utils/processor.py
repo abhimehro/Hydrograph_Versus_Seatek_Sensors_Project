@@ -108,7 +108,7 @@ class SeatekDataProcessor:
         # and array operations. Math simplification:
         # -(raw_data + A - B) * C + D  ==>  raw_data * (-C) + (D - (A - B) * C)
         m = -(400 / 30.48)
-        b = y_offset - (1.9 - 0.32) * (400 / 30.48)
+        b = y_offset + (1.9 - 0.32) * m
 
         processed[sensor] = raw_data * m + b
         return processed
