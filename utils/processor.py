@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
 import pandas as pd
+import numpy as np
 logger = logging.getLogger(__name__)
 
 @dataclass
@@ -102,7 +103,14 @@ class SeatekDataProcessor:
         y_offset = self.offsets.get(river_mile, 0)
         processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0
         raw_data = pd.to_numeric(processed[sensor], errors='coerce')
-        processed[sensor] = -(raw_data + 1.9 - 0.32) * (400 / 30.48) + y_offset
+
+        # Optimization: Pre-calculate scalar coefficients to minimize memory allocations
+        # and array operations. Math simplification:
+        # -(raw_data + A - B) * C + D  ==>  raw_data * (-C) + (D - (A - B) * C)
+        m = -(400 / 30.48)
+        b = y_offset + (1.9 - 0.32) * m
+
+        processed[sensor] = raw_data * m + b
         return processed
 
     def process_data(self, river_mile: float, year: int, sensor: str) -> Tuple[pd.DataFrame, ProcessingMetrics]:
@@ -140,18 +148,61 @@ class SeatekDataProcessor:
         if year_data.empty:
             return (pd.DataFrame(), metrics)
         processed = self.convert_to_navd88(year_data, sensor, river_mile)
-        if 'Hydrograph (Lagged)' in processed.columns:
-            hydro_df = processed[processed['Hydrograph (Lagged)'].notna() & (processed['Hydrograph (Lagged)'] != 0)].copy()
-        else:
-            hydro_df = pd.DataFrame()
-        sensor_df = processed[processed[sensor].notna() & (processed[sensor] != 0)].copy()
         metrics.null_values = processed[sensor].isna().sum()
         metrics.zero_values = (processed[sensor] == 0).sum()
-        if sensor_df.empty and (not hydro_df.empty):
-            hydro_df.loc[:, 'Hydrograph (Lagged)'] = 0
-        merged = pd.merge(sensor_df[['Time (Seconds)', sensor]], hydro_df[['Time (Seconds)', 'Hydrograph (Lagged)']], on='Time (Seconds)', how='outer')
-        merged['Time (Minutes)'] = merged['Time (Seconds)'] / 60.0
-        merged.sort_values('Time (Minutes)', inplace=True)
+
+        has_hydro = 'Hydrograph (Lagged)' in processed.columns
+
+        # Optimization: Use boolean masking instead of expensive outer pd.merge.
+        # Create masks for valid data (nonzero and non-null) for each stream.
+        sensor_mask = processed[sensor].notna() & (processed[sensor] != 0)
+
+        if has_hydro:
+            hydro_mask = processed['Hydrograph (Lagged)'].notna() & (processed['Hydrograph (Lagged)'] != 0)
+            keep_mask = sensor_mask | hydro_mask
+        else:
+            hydro_mask = pd.Series(False, index=processed.index)
+            keep_mask = sensor_mask
+
+        # If no valid readings exist for both streams, return appropriate early empty df.
+        if not keep_mask.any():
+            if has_hydro:
+                merged = pd.DataFrame(columns=['Time (Seconds)', sensor, 'Time (Minutes)', 'Hydrograph (Lagged)'])
+            else:
+                merged = pd.DataFrame(columns=['Time (Seconds)', 'Time (Minutes)', sensor])
+        else:
+            # Filter processed data using the union mask
+            merged = processed[keep_mask].copy()
+
+            # Sub-masks on the filtered data
+            sensor_keep = sensor_mask[keep_mask]
+            hydro_keep = hydro_mask[keep_mask]
+
+            # Nullify values that are not valid in their respective streams
+            if has_hydro:
+                if not sensor_keep.all():
+                    merged.loc[~sensor_keep, sensor] = (pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan)
+                if not hydro_keep.all():
+                    merged.loc[~hydro_keep, 'Hydrograph (Lagged)'] = (pd.NA if pd.api.types.is_object_dtype(merged['Hydrograph (Lagged)']) else np.nan)
+
+                # If no valid sensor readings exist but hydrograph data exist, force hydrograph to 0
+                if not sensor_mask.any() and hydro_mask.any():
+                    merged['Hydrograph (Lagged)'] = 0
+
+                # Select and order columns identical to original pd.merge output
+                if not sensor_mask.any():
+                    cols = ['Time (Seconds)', 'Time (Minutes)', 'Hydrograph (Lagged)']
+                elif not hydro_mask.any():
+                    cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
+                else:
+                    cols = ['Time (Seconds)', sensor, 'Time (Minutes)', 'Hydrograph (Lagged)']
+            else:
+                if not sensor_keep.all():
+                    merged.loc[~sensor_keep, sensor] = (pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan)
+                cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
+
+            merged = merged[cols]
+            merged.sort_values('Time (Minutes)', inplace=True)
         metrics.valid_rows = len(merged)
         metrics.invalid_rows = metrics.original_rows - len(processed)
         metrics.log_metrics()

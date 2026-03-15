@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union, Any
 
 import pandas as pd
+import numpy as np
 
 from ..core.config import Config
 
@@ -44,7 +45,7 @@ class RiverMileData:
     def __init__(self, file_path: Path):
         """
         Initialize river mile data from file.
-        
+
         Args:
             file_path: Path to the Excel file containing river mile data
         """
@@ -58,10 +59,10 @@ class RiverMileData:
     def _extract_river_mile(self) -> float:
         """
         Extract river mile from the filename.
-        
+
         Returns:
             The river mile as a float
-            
+
         Raises:
             ValueError: If the river mile cannot be extracted from the filename
         """
@@ -74,7 +75,7 @@ class RiverMileData:
     def load_data(self, max_file_size_bytes: int = 100 * 1024 * 1024) -> None:
         """
         Load and validate data from the Excel file.
-        
+
         Args:
             max_file_size_bytes: Maximum allowed file size to prevent memory exhaustion
 
@@ -121,7 +122,7 @@ class RiverMileData:
     def _validate_data(self) -> None:
         """
         Ensure that required columns exist.
-        
+
         Raises:
             ValueError: If required columns are missing
         """
@@ -133,7 +134,7 @@ class RiverMileData:
     def _setup_sensors(self) -> None:
         """
         Identify available sensor columns (those whose names begin with 'Sensor_').
-        
+
         Raises:
             ValueError: If no sensor columns are found
         """
@@ -181,7 +182,7 @@ class SeatekDataProcessor:
         """
         Convert Seatek sensor readings to NAVD88 elevation using the
         river mile–specific offset, and convert time from seconds to minutes.
-        
+
         Args:
             data: DataFrame containing sensor data.
             sensor: Name of the sensor column.
@@ -192,7 +193,7 @@ class SeatekDataProcessor:
                 passed-in DataFrame in place (it adds a ``"Time (Minutes)"``
                 column and overwrites the specified ``sensor`` column) and
                 returns the same object.
-            
+
         Returns:
             DataFrame with converted sensor readings. When ``copy=False``,
             the returned DataFrame is the same object as the input ``data``.
@@ -206,8 +207,14 @@ class SeatekDataProcessor:
         raw_data = pd.to_numeric(processed[sensor], errors='coerce')
         # Get conversion constants from config
         constants = self.config.navd88_constants
-        # Conversion formula: NAVD88_value = -(raw_data + offset_a - offset_b) * scale_factor + y_offset
-        processed[sensor] = -(raw_data + constants.offset_a - constants.offset_b) * constants.scale_factor + y_offset
+
+        # Optimization: Pre-calculate scalar coefficients to minimize memory allocations
+        # and array operations. Math simplification:
+        # -(raw_data + A - B) * C + D  ==>  raw_data * (-C) + (D - (A - B) * C)
+        m = -constants.scale_factor
+        b = y_offset + (constants.offset_a - constants.offset_b) * m
+
+        processed[sensor] = raw_data * m + b
 
         return processed
 
@@ -230,15 +237,15 @@ class SeatekDataProcessor:
         • Merge the two streams using an outer join on "Time (Seconds)" so that all valid sensor points and all
           valid hydrograph points are retained.
         • Finally, recalculate the time in minutes (if needed), sort by time, and update metrics.
-        
+
         Args:
             river_mile: River mile to process
             year: Year to process
             sensor: Sensor column to process
-            
+
         Returns:
             Tuple containing processed DataFrame and processing metrics
-            
+
         Raises:
             ValueError: If no data is loaded for the specified river mile
         """
@@ -266,46 +273,70 @@ class SeatekDataProcessor:
         # Convert the data and sensor values.
         processed = self.convert_to_navd88(year_data, sensor, river_mile, copy=False)
 
-        # Independently filter the hydrograph stream (if present).
-        if 'Hydrograph (Lagged)' in processed.columns:
-            hydro_df = processed[
-                processed['Hydrograph (Lagged)'].notna() &
-                (processed['Hydrograph (Lagged)'] != 0)
-                ].copy()
-        else:
-            hydro_df = pd.DataFrame()
-
-        # Independently filter the sensor stream.
-        sensor_df = processed[
-            processed[sensor].notna() & (processed[sensor] != 0)
-            ].copy()
-
-        # Update processing metrics from the sensor column.
+        # Update processing metrics from the sensor column before filtering
         metrics.null_values = processed[sensor].isna().sum()
         metrics.zero_values = (processed[sensor] == 0).sum()
 
-        # If there are no valid sensor readings but hydrograph data exist, force hydrograph to 0.
-        if sensor_df.empty and not hydro_df.empty:
-            hydro_df.loc[:, 'Hydrograph (Lagged)'] = 0
+        has_hydro = 'Hydrograph (Lagged)' in processed.columns
 
-        # Merge the two streams using an outer join on "Time (Seconds)" so that
-        # every valid sensor data point and every valid hydrograph value is preserved.
-        if sensor_df.empty:
-            merged = hydro_df[['Time (Seconds)', 'Time (Minutes)', 'Hydrograph (Lagged)']]
-        elif hydro_df.empty:
-            merged = sensor_df[['Time (Seconds)', 'Time (Minutes)', sensor]]
+        # Optimization: Use boolean masking instead of expensive outer pd.merge.
+        # Create masks for valid data (nonzero and non-null) for each stream.
+        sensor_mask = processed[sensor].notna() & (processed[sensor] != 0)
+
+        if has_hydro:
+            hydro_mask = processed['Hydrograph (Lagged)'].notna() & (processed['Hydrograph (Lagged)'] != 0)
+            keep_mask = sensor_mask | hydro_mask
         else:
-            merged = pd.merge(
-                sensor_df[['Time (Seconds)', sensor, 'Time (Minutes)']],
-                hydro_df[['Time (Seconds)', 'Hydrograph (Lagged)']],
-                on='Time (Seconds)',
-                how='outer'
-            )
-            # Recalculate "Time (Minutes)" for the merged dataset.
-            merged['Time (Minutes)'] = merged['Time (Seconds)'] / 60.0
+            hydro_mask = pd.Series(False, index=processed.index)
+            keep_mask = sensor_mask
 
-        # Sort by time.
-        merged.sort_values('Time (Minutes)', inplace=True)
+        # If no valid readings exist for both streams, return appropriate early empty df.
+        if not keep_mask.any():
+            if has_hydro:
+                # Select and order columns identical to original pd.merge output
+                if not sensor_mask.any():
+                    cols = ['Time (Seconds)', 'Time (Minutes)', 'Hydrograph (Lagged)']
+                elif not hydro_mask.any():
+                    cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
+                else:
+                    cols = ['Time (Seconds)', sensor, 'Time (Minutes)', 'Hydrograph (Lagged)']
+            else:
+                cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
+
+            merged = pd.DataFrame(columns=cols)
+        else:
+            # Filter processed data using the union mask
+            merged = processed[keep_mask].copy()
+
+            # Sub-masks on the filtered data
+            sensor_keep = sensor_mask[keep_mask]
+            hydro_keep = hydro_mask[keep_mask]
+
+            # Nullify values that are not valid in their respective streams
+            if has_hydro:
+                if not sensor_keep.all():
+                    merged.loc[~sensor_keep, sensor] = pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan
+                if not hydro_keep.all():
+                    merged.loc[~hydro_keep, 'Hydrograph (Lagged)'] = pd.NA if pd.api.types.is_object_dtype(merged['Hydrograph (Lagged)']) else np.nan
+
+                # If no valid sensor readings exist but hydrograph data exist, force hydrograph to 0
+                if not sensor_mask.any() and hydro_mask.any():
+                    merged['Hydrograph (Lagged)'] = 0
+
+                # Select and order columns identical to original pd.merge output
+                if not sensor_mask.any():
+                    cols = ['Time (Seconds)', 'Time (Minutes)', 'Hydrograph (Lagged)']
+                elif not hydro_mask.any():
+                    cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
+                else:
+                    cols = ['Time (Seconds)', sensor, 'Time (Minutes)', 'Hydrograph (Lagged)']
+            else:
+                if not sensor_keep.all():
+                    merged.loc[~sensor_keep, sensor] = np.nan
+                cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
+
+            merged = merged[cols]
+            merged.sort_values('Time (Minutes)', inplace=True)
 
         metrics.valid_rows = len(merged)
         metrics.invalid_rows = metrics.original_rows - len(processed)
@@ -316,7 +347,7 @@ class SeatekDataProcessor:
     def load_data(self) -> None:
         """
         Load data from all river mile Excel files present in the data directory.
-        
+
         Raises:
             FileNotFoundError: If no valid river mile files are found
             Exception: If an error occurs while loading data
@@ -342,10 +373,10 @@ class SeatekDataProcessor:
     def _find_river_mile_files(self) -> List[Path]:
         """
         Find all Excel files in the data directory with names starting with 'RM_'.
-        
+
         Returns:
             List of Paths to river mile Excel files
-            
+
         Raises:
             FileNotFoundError: If the data directory doesn't exist
         """
