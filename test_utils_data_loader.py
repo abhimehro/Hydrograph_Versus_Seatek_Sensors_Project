@@ -55,6 +55,9 @@ def test_data_loader():
     loader.load_all_data()
 
     assert pd.read_excel.call_count == 2
+    for call_args in pd.read_excel.call_args_list:
+        assert 'usecols' in call_args.kwargs
+        assert callable(call_args.kwargs['usecols'])
 
 test_data_loader()
 print("test_utils_data_loader passed!")
