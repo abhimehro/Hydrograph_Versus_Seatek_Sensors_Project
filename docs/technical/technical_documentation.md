@@ -401,7 +401,7 @@ Processes and visualizes Seatek sensor data with hydrograph measurements.
 
 ```bash
 # Run directly
-python seatek_processor_new.py
+python seatek_processor.py
 
 # If installed as package
 seatek-processor
