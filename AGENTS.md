@@ -13,7 +13,7 @@ Standard commands are documented in `CLAUDE.md`. Key references:
 - **Tests**: `python3 -m pytest tests/`
 - **Lint**: `flake8 src/ tests/`
 - **Type check**: `mypy src/`
-- **Run processor**: `python3 seatek_processor_new.py`
+- **Run processor**: `python3 seatek_processor.py`
 - **Run validator**: `python3 validate_data.py`
 
 ### Non-obvious caveats

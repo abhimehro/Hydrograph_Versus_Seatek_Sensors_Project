@@ -58,7 +58,7 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 ├── logs/                                # Processing logs
 ├── docs/                                # Documentation
 ├── tests/                               # Test files
-├── seatek_processor_new.py              # Main script
+├── seatek_processor.py                  # Main script
 ├── validate_data.py                     # Data validation script
 ├── pyproject.toml                       # Poetry configuration
 ├── setup.py                             # Installation configuration
@@ -137,7 +137,7 @@ python -m pip install -r requirements.txt
 
     ```bash
     # Option 1: Run directly
-    python seatek_processor_new.py
+    python seatek_processor.py
     
     # Option 2: If installed as package
     seatek-processor

@@ -371,7 +371,7 @@ class Application:
 
 ## Command-Line Tools
 
-### Seatek Processor (`seatek_processor_new.py`)
+### Seatek Processor (`src/hydrograph_seatek_analysis/app.py`)
 
 ```python
 def main() -> int:
