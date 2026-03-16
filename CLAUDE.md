@@ -5,7 +5,7 @@
 - Run specific test file: `python -m pytest tests/test_config.py`
 - Run specific test: `python -m pytest tests/test_config.py::test_config_default_initialization`
 - Run data validator: `python validate_data.py`
-- Run main processor: `python seatek_processor.py`
+- Run main processor: `python3 seatek_processor.py`
 - Code linting: `flake8 src/ tests/`
 - Type checking: `mypy src/`
 
