@@ -58,7 +58,7 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 ├── logs/                                # Processing logs
 ├── docs/                                # Documentation
 ├── tests/                               # Test files
-├── seatek_processor.py              # Main script
+├── seatek_processor.py                  # Main script
 ├── validate_data.py                     # Data validation script
 ├── pyproject.toml                       # Poetry configuration
 ├── setup.py                             # Installation configuration
