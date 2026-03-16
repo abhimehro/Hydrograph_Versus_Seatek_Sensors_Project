@@ -49,7 +49,21 @@ class RiverMileData:
         """Load and validate data from the Excel file."""
         try:
             validate_file_size(self.file_path, 100 * 1024 * 1024)
-            self.data = pd.read_excel(self.file_path)
+            required_cols = {'Time (Seconds)', 'Year'}
+
+            # ⚡ Bolt Optimization: load columns dynamically and load in a single pass
+            # This dramatically reduces memory allocations by skipping unnecessary columns
+            seen_cols = []
+            def filter_cols(col):
+                seen_cols.append(col)
+                return col in required_cols or str(col).startswith('Sensor_') or col == 'Hydrograph (Lagged)'
+
+            self.data = pd.read_excel(self.file_path, usecols=filter_cols)
+
+            missing_cols = required_cols - set(seen_cols)
+            if missing_cols:
+                raise ValueError(f'Missing required columns: {missing_cols}')
+
             self._validate_data()
             self._setup_sensors()
 
