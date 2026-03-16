@@ -36,3 +36,6 @@
 ## 2026-03-12 - CLI Visual Cues and Formatting
 **Learning:** Command-line interfaces that output dense, unformatted text are difficult for users to scan quickly. Large numbers without formatting (e.g., `123456`) increase cognitive load, and lack of visual state indicators makes identifying failures slower.
 **Action:** When designing CLI output, use emojis (`✅`, `❌`, `⚠️`) as quick visual cues for state. Apply comma formatting (`{:,}`) to large numbers and center-align headers to create a more delightful and readable user experience.
+## 2025-03-16 - CLI Error Message Actionability
+**Learning:** Command-line interfaces that return generic "VALIDATION FAILED" or "No processed files found" leave users guessing what to do next, which leads to frustration and friction.
+**Action:** Always provide actionable hints (e.g., "💡 Please ensure 'Data_Summary.xlsx' is in the data/raw/ directory") in CLI error output to guide users toward resolving the issue themselves.

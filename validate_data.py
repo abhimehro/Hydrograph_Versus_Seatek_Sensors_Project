@@ -101,7 +101,8 @@ def main():
                 print(f"  ✔️ Required columns present: {results['summary']['required_columns_present']}")
                 print(f"  🏞️  River miles: {', '.join(str(rm) for rm in results['summary']['river_miles'])}")
             else:
-                print("  ❌ VALIDATION FAILED")
+                print("  ❌ VALIDATION FAILED: Missing or invalid summary data file")
+                print("     💡 Please ensure 'Data_Summary.xlsx' is in the data/raw/ directory.")
             
             # Hydrograph file validation
             print("\n🌊 HYDROGRAPH FILE:")
@@ -118,7 +119,8 @@ def main():
                     if sheet['time_range']:
                         print(f"    ⏱️  Time range: {float(sheet['time_range'][0]):,.0f} to {float(sheet['time_range'][1]):,.0f}")
             else:
-                print("  ❌ VALIDATION FAILED")
+                print("  ❌ VALIDATION FAILED: Missing or invalid hydrograph data file")
+                print("     💡 Please ensure 'Hydrograph_Seatek_Data.xlsx' is in the data/raw/ directory.")
             
             # Processed files validation
             print("\n⚙️  PROCESSED FILES:")
@@ -139,7 +141,8 @@ def main():
                     if file_result['time_range']:
                         print(f"    ⏱️  Time range: {file_result['time_range'][0]:,.0f} to {file_result['time_range'][1]:,.0f}")
             else:
-                print("  ⚠️  No processed files found")
+                print("  ⚠️  No processed files found in the output directory.")
+                print("     💡 Please run 'python seatek_processor.py' first to generate them.")
             
             # River mile consistency
             if results["river_mile_consistency"]:
