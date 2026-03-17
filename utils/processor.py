@@ -116,7 +116,12 @@ class SeatekDataProcessor:
         processed = data.copy()
         y_offset = self.offsets.get(river_mile, 0)
         processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0
-        raw_data = pd.to_numeric(processed[sensor], errors='coerce')
+
+        # Optimization: Avoid pd.to_numeric if the column is already numeric.
+        if pd.api.types.is_numeric_dtype(processed[sensor]):
+            raw_data = processed[sensor]
+        else:
+            raw_data = pd.to_numeric(processed[sensor], errors='coerce')
 
         # Optimization: Pre-calculate scalar coefficients to minimize memory allocations
         # and array operations. Math simplification:
