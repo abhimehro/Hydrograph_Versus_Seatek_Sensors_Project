@@ -71,7 +71,7 @@ class Application:
             True if successful, False otherwise
         """
         try:
-            self.logger.info("Setting up application environment")
+            self.logger.info("⚙️  Setting up application environment")
 
             # Verify directories exist
             required_dirs = [
@@ -88,13 +88,15 @@ class Application:
             # Check output directory is writable
             if not Path(self.config.output_dir).exists():
                 self.logger.error(
-                    f"Output directory does not exist: {self.config.output_dir}"
+                    f"❌ Output directory does not exist: {self.config.output_dir}\n"
+                    f"   💡 Please ensure the directory is created and accessible."
                 )
                 return False
 
             if not Path(self.config.output_dir).is_dir():
                 self.logger.error(
-                    f"Output path is not a directory: {self.config.output_dir}"
+                    f"❌ Output path is not a directory: {self.config.output_dir}\n"
+                    f"   💡 Please provide a valid directory path, not a file."
                 )
                 return False
 
@@ -112,7 +114,7 @@ class Application:
             True if successful, False otherwise
         """
         try:
-            self.logger.info("Loading data")
+            self.logger.info("📂 Loading data")
 
             # Load summary and hydrograph data
             summary_data, hydro_data = self.data_loader.load_all_data()
@@ -128,12 +130,12 @@ class Application:
             self.processor.load_data()
 
             self.logger.info(
-                f"Loaded data for {len(self.processor.river_mile_data)} river miles"
+                f"✅ Loaded data for {len(self.processor.river_mile_data):,} river miles"
             )
             return True
 
         except Exception as e:
-            self.logger.error(f"Error loading data: {e}")
+            self.logger.error(f"❌ Error loading data: {e}")
             return False
 
     def process_data(self) -> bool:
@@ -144,11 +146,14 @@ class Application:
             True if successful, False otherwise
         """
         if not self.processor:
-            self.logger.error("Processor not initialized. Call load_data() first.")
+            self.logger.error(
+                "❌ Processor not initialized.\n"
+                "   💡 Call load_data() before process_data()."
+            )
             return False
 
         try:
-            self.logger.info("Processing data and generating visualizations")
+            self.logger.info("📊 Processing data and generating visualizations")
             success_count = 0
             error_count = 0
 
@@ -166,7 +171,7 @@ class Application:
 
                             if processed_data.empty:
                                 self.logger.warning(
-                                    f"No data to process for RM {rm_data.river_mile}, "
+                                    f"⚠️  No data to process for RM {rm_data.river_mile}, "
                                     f"Year {year}, Sensor {sensor}"
                                 )
                                 continue
@@ -209,26 +214,27 @@ class Application:
                                     error_count += 1
                             else:
                                 self.logger.error(
-                                    f"Failed to create chart for RM {rm_data.river_mile}, "
-                                    f"Year {year}, Sensor {sensor}"
+                                    f"❌ Failed to create chart for RM {rm_data.river_mile}, "
+                                    f"Year {year}, Sensor {sensor}\n"
+                                    f"   💡 Check if the data contains valid numerical values."
                                 )
                                 error_count += 1
 
                         except Exception as e:
                             self.logger.error(
-                                f"Error processing RM {rm_data.river_mile}, "
+                                f"❌ Error processing RM {rm_data.river_mile}, "
                                 f"Year {year}, Sensor {sensor}: {str(e)}"
                             )
                             error_count += 1
                             continue
 
             self.logger.info(
-                f"Processed {success_count} charts successfully, {error_count} errors"
+                f"🏁 Processed {success_count:,} charts successfully, {error_count:,} errors"
             )
             return error_count == 0
 
         except Exception as e:
-            self.logger.error(f"Error processing data: {e}")
+            self.logger.error(f"❌ Error processing data: {e}")
             return False
 
     def run(self) -> bool:
@@ -239,18 +245,18 @@ class Application:
             True if successful, False otherwise
         """
         if not self.setup():
-            self.logger.error("Failed to set up application")
+            self.logger.error("❌ Failed to set up application")
             return False
 
         if not self.load_data():
-            self.logger.error("Failed to load data")
+            self.logger.error("❌ Failed to load data")
             return False
 
         if not self.process_data():
-            self.logger.warning("Errors occurred during data processing")
+            self.logger.warning("⚠️  Errors occurred during data processing")
             return False
 
-        self.logger.info("Processing completed successfully")
+        self.logger.info("✨ Processing completed successfully")
         return True
 
 
