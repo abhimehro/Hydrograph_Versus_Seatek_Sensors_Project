@@ -204,7 +204,11 @@ class SeatekDataProcessor:
         processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0
 
         # Convert the sensor column to numeric and apply the NAVD88 conversion.
-        raw_data = pd.to_numeric(processed[sensor], errors='coerce')
+        # Optimization: Avoid pd.to_numeric if the column is already numeric.
+        if pd.api.types.is_numeric_dtype(processed[sensor]):
+            raw_data = processed[sensor]
+        else:
+            raw_data = pd.to_numeric(processed[sensor], errors='coerce')
         # Get conversion constants from config
         constants = self.config.navd88_constants
 
