@@ -5,6 +5,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Changelog Status](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/actions/workflows/changelog.yml/badge.svg)](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/actions/workflows/changelog.yml)
 [![CodeScene System Mastery](https://codescene.io/projects/78057/status-badges/system-mastery?component-name=Hydrograph_versus_seatek_sensors_project)](https://codescene.io/projects/78057/)
+[![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/78057)
 
 
 ## Table of Contents
