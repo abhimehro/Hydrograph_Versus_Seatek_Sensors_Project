@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- 🎨 Palette: Improve CLI UX with formatting and actionable hints [\#78](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/78) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Avoid unnecessary pd.to\_numeric overhead in processor data loads [\#77](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/77) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: Improve validation CLI error message clarity [\#76](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/76) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: \[performance improvement\] Optimize legacy data loading with usecols filtering [\#75](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/75) ([abhimehro](https://github.com/abhimehro))
