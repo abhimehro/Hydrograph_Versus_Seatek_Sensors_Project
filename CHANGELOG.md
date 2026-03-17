@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- 🎨 Palette: Improve validation CLI error message clarity [\#76](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/76) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: \[performance improvement\] Optimize legacy data loading with usecols filtering [\#75](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/75) ([abhimehro](https://github.com/abhimehro))
 - 🧹 \[code health improvement\] Consolidate seatek\_processor.py and seatek\_processor\_new.py [\#74](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/74) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: Improve CLI output readability [\#73](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/73) ([abhimehro](https://github.com/abhimehro))
