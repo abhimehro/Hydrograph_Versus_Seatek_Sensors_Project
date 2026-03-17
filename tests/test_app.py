@@ -47,34 +47,6 @@ class TestApplicationSetup(unittest.TestCase):
         self.assertTrue(self.temp_config.processed_dir.exists())
         self.assertTrue(self.temp_config.output_dir.exists())
 
-    def test_setup_output_not_exists(self):
-        """Test that setup returns False if the output directory does not exist after creation."""
-        app = Application(config=self.temp_config)
-
-        original_exists = Path.exists
-
-        def mock_exists(path_self):
-            if path_self == self.temp_config.output_dir:
-                return False
-            return original_exists(path_self)
-
-        with mock.patch.object(Path, 'exists', autospec=True, side_effect=mock_exists):
-            self.assertFalse(app.setup())
-
-    def test_setup_output_not_dir(self):
-        """Test that setup returns False if the output path exists but is not a directory."""
-        app = Application(config=self.temp_config)
-
-        original_is_dir = Path.is_dir
-
-        def mock_is_dir(path_self):
-            if path_self == self.temp_config.output_dir:
-                return False
-            return original_is_dir(path_self)
-
-        with mock.patch.object(Path, 'is_dir', autospec=True, side_effect=mock_is_dir):
-            self.assertFalse(app.setup())
-
     def test_setup_exception(self):
         """Test that setup returns False if an exception occurs during directory creation."""
         app = Application(config=self.temp_config)

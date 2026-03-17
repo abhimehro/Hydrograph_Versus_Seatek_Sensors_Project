@@ -85,21 +85,6 @@ class Application:
                 directory.mkdir(parents=True, exist_ok=True)
                 self.logger.debug(f"Verified directory: {directory}")
 
-            # Check output directory is writable
-            if not Path(self.config.output_dir).exists():
-                self.logger.error(
-                    f"❌ Output directory does not exist: {self.config.output_dir}\n"
-                    f"   💡 Please ensure the directory is created and accessible."
-                )
-                return False
-
-            if not Path(self.config.output_dir).is_dir():
-                self.logger.error(
-                    f"❌ Output path is not a directory: {self.config.output_dir}\n"
-                    f"   💡 Please provide a valid directory path, not a file."
-                )
-                return False
-
             return True
 
         except Exception as e:
