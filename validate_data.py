@@ -120,7 +120,7 @@ def main():
                         print(f"    ⏱️  Time range: {float(sheet['time_range'][0]):,.0f} to {float(sheet['time_range'][1]):,.0f}")
             else:
                 print("  ❌ VALIDATION FAILED: Missing or invalid hydrograph data file")
-                print("     💡 Please ensure 'Hydrograph_Seatek_Data.xlsx' is in the data/raw/ directory.")
+                print(f"     💡 Please ensure '{config.hydro_file.name}' is in the '{config.hydro_file.parent}' directory.")
             
             # Processed files validation
             print("\n⚙️  PROCESSED FILES:")
