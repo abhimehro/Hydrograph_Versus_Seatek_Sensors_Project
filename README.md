@@ -1,12 +1,15 @@
 # Hydrograph vs Seatek Sensors Analysis Project
 
+[![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/78056)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Changelog Status](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/actions/workflows/changelog.yml/badge.svg)](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/actions/workflows/changelog.yml)
-[![CodeScene System Mastery](https://codescene.io/projects/78057/status-badges/system-mastery?component-name=Hydrograph_versus_seatek_sensors_project)](https://codescene.io/projects/78057/)
-[![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/78057)
 
+[![CodeScene Average Code Health](https://codescene.io/projects/78056/status-badges/average-code-health?component-name=Hydrograph_versus_seatek_sensors_project)](https://codescene.io/projects/78056/architecture/biomarkers?component=Hydrograph_versus_seatek_sensors_project)
+[![CodeScene Hotspot Code Health](https://codescene.io/projects/78056/status-badges/hotspot-code-health)](https://codescene.io/projects/78056)
+[![CodeScene Missed Goals](https://codescene.io/projects/78056/status-badges/missed-goals)](https://codescene.io/projects/78056)
+[![CodeScene System Mastery](https://codescene.io/projects/78056/status-badges/system-mastery?component-name=Hydrograph_versus_seatek_sensors_project)](https://codescene.io/projects/78056/)
 
 ## Table of Contents
 
