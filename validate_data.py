@@ -102,7 +102,7 @@ def main():
                 print(f"  🏞️  River miles: {', '.join(str(rm) for rm in results['summary']['river_miles'])}")
             else:
                 print("  ❌ VALIDATION FAILED: Missing or invalid summary data file")
-                print("     💡 Please ensure 'Data_Summary.xlsx' is in the data/raw/ directory.")
+                print(f"     💡 Please ensure '{config.summary_file.name}' is in the '{config.summary_file.parent}' directory.")
             
             # Hydrograph file validation
             print("\n🌊 HYDROGRAPH FILE:")
