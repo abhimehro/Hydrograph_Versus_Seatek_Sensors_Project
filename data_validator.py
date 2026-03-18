@@ -4,9 +4,6 @@ import os
 import pandas as pd
 from src.hydrograph_seatek_analysis.core.config import Config
 
-config = Config()
-MAX_FILE_SIZE_BYTES = config.max_file_size_bytes
-
 
 def get_project_root() -> Path:
     """Get the project root directory."""
@@ -58,7 +55,8 @@ def validate_data_files():
                 logging.info(f"{subindent}{f}")
 
         # SECURITY: Prevent DoS by limiting max file size loaded into memory
-        MAX_FILE_SIZE_BYTES = 100 * 1024 * 1024  # 100 MB
+        config = Config()
+        MAX_FILE_SIZE_BYTES = config.max_file_size_bytes
 
         # Validate existence
         for path in [summary_path, hydro_path, rm_path]:

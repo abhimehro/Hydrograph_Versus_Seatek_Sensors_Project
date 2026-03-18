@@ -14,11 +14,13 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from data_validator import validate_data_files
 
 class TestDataValidatorSecurity(unittest.TestCase):
+    @patch('data_validator.Config')
     @patch('data_validator.pd.read_excel')
     @patch('data_validator.Path.exists')
     @patch('data_validator.Path.stat')
     @patch('data_validator.os.walk')
-    def test_summary_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_read_excel):
+    def test_summary_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_read_excel, mock_config):
+        mock_config.return_value.max_file_size_bytes = 100 * 1024 * 1024
         mock_walk.return_value = []
         mock_exists.return_value = True
 
@@ -31,12 +33,14 @@ class TestDataValidatorSecurity(unittest.TestCase):
         self.assertIn("exceeds maximum size", str(context.exception))
         mock_read_excel.assert_not_called()
 
+    @patch('data_validator.Config')
     @patch('data_validator.pd.read_excel')
     @patch('data_validator.pd.ExcelFile')
     @patch('data_validator.Path.exists')
     @patch('data_validator.Path.stat')
     @patch('data_validator.os.walk')
-    def test_hydro_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_excel_file, mock_read_excel):
+    def test_hydro_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_excel_file, mock_read_excel, mock_config):
+        mock_config.return_value.max_file_size_bytes = 100 * 1024 * 1024
         mock_walk.return_value = []
         mock_exists.return_value = True
 
@@ -62,12 +66,14 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_excel_file.assert_not_called()  # ExcelFile must not be used for oversized hydro file
         mock_excel_file.assert_not_called()
 
+    @patch('data_validator.Config')
     @patch('data_validator.pd.read_excel')
     @patch('data_validator.pd.ExcelFile')
     @patch('data_validator.Path.exists')
     @patch('data_validator.Path.stat')
     @patch('data_validator.os.walk')
-    def test_rm_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_excel_file, mock_read_excel):
+    def test_rm_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_excel_file, mock_read_excel, mock_config):
+        mock_config.return_value.max_file_size_bytes = 100 * 1024 * 1024
         mock_walk.return_value = []
         mock_exists.return_value = True
 
