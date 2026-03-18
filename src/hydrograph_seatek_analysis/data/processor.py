@@ -271,24 +271,32 @@ class SeatekDataProcessor:
             year_data = cached_year_data[cols].copy()
         metrics = ProcessingMetrics(original_rows=len(year_data))
 
-        if year_data.empty:
+        if len(year_data) == 0:
             return pd.DataFrame(), metrics
 
         # Convert the data and sensor values.
         processed = self.convert_to_navd88(year_data, sensor, river_mile, copy=False)
 
-        # Update processing metrics from the sensor column before filtering
-        metrics.null_values = processed[sensor].isna().sum()
-        metrics.zero_values = (processed[sensor] == 0).sum()
+        # Optimization: Extract Series to avoid repeated DataFrame lookups and object creations
+        sensor_series = processed[sensor]
+
+        # Optimization: pre-calculate isna and == 0 to avoid computing them twice
+        sensor_isna = sensor_series.isna()
+        sensor_iszero = sensor_series == 0
+
+        # Update processing metrics from the cached masks
+        metrics.null_values = sensor_isna.sum()
+        metrics.zero_values = sensor_iszero.sum()
 
         has_hydro = 'Hydrograph (Lagged)' in processed.columns
 
         # Optimization: Use boolean masking instead of expensive outer pd.merge.
         # Create masks for valid data (nonzero and non-null) for each stream.
-        sensor_mask = processed[sensor].notna() & (processed[sensor] != 0)
+        sensor_mask = ~(sensor_isna | sensor_iszero)
 
         if has_hydro:
-            hydro_mask = processed['Hydrograph (Lagged)'].notna() & (processed['Hydrograph (Lagged)'] != 0)
+            hydro_series = processed['Hydrograph (Lagged)']
+            hydro_mask = ~(hydro_series.isna() | (hydro_series == 0))
             keep_mask = sensor_mask | hydro_mask
         else:
             hydro_mask = pd.Series(False, index=processed.index)

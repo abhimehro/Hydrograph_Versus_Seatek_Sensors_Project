@@ -85,7 +85,7 @@ class DataValidator:
                 logger.warning("Num_Sensors column is not numeric")
                 
             # Check for missing values
-            missing_values = df[required_cols].isna().sum()
+            missing_values = df[list(required_cols)].isna().sum()
             if missing_values.sum() > 0:
                 logger.warning(f"Missing values detected in summary data: {missing_values}")
                 
@@ -220,10 +220,10 @@ class DataValidator:
                 year_range = None
                 time_range = None
                 
-                if 'Year' in df.columns and not df['Year'].empty:
+                if 'Year' in df.columns and len(df['Year']) > 0:
                     year_range = [int(df['Year'].min()), int(df['Year'].max())]
                     
-                if 'Time (Seconds)' in df.columns and not df['Time (Seconds)'].empty:
+                if 'Time (Seconds)' in df.columns and len(df['Time (Seconds)']) > 0:
                     time_range = [float(df['Time (Seconds)'].min()), float(df['Time (Seconds)'].max())]
                 
                 results.append({
