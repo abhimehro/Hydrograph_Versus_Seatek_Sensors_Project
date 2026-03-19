@@ -33,3 +33,11 @@
 ## 2026-03-22 - Optimize Pandas boolean masking array allocations
 **Learning:** Performing boolean operations directly on Pandas Series (e.g., `df['Sensor'].notna() & (df['Sensor'] != 0)`) inside inner loops creates intermediate Pandas Series objects and performs unnecessary index alignment operations.
 **Action:** Extract the underlying numpy arrays (`.values`) before applying the boolean operations (`~pd.isna(sensor_vals) & (sensor_vals != 0)`), which avoids intermediate Series allocations and index overhead, offering measurable improvements when executed within nested processing loops over many sensors and years.
+
+## 2026-03-18 - Avoid pd.DataFrame.empty overhead in nested loops
+**Learning:** Using `df.empty` or `series.empty` inside a tight inner loop is slower than expected because it evaluates properties via `len(df.index) == 0` implicitly, which invokes getter property overhead.
+**Action:** Replace `df.empty` checks directly with `len(df) == 0` (or `len(df) > 0`) for micro-optimizations inside nested loops. While small, this avoids Pandas property overhead entirely, making length comparisons faster.
+
+## 2026-03-18 - Reuse Series and Cache Boolean Masks
+**Learning:** When performing multiple boolean checks (`isna().sum()`, `== 0.sum()`, `notna() & != 0`), extracting the series to a variable (`s = df[col]`) prevents duplicated DataFrame `__getitem__` overhead. Furthermore, you can apply De Morgan's Law `~(isna | iszero)` to calculate valid values by reusing the cached `isna()` and `== 0` masks from earlier metric collections.
+**Action:** Ensure intermediate mask calculations are saved to local variables (`sensor_isna = s.isna()`) and reused across both metric derivations and mask merging to skip redundant iterations over large arrays.
