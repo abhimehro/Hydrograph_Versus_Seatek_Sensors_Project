@@ -56,7 +56,6 @@ def validate_data_files():
             for f in files:
                 logging.info(f"{subindent}{f}")
 
-
         # Validate existence
         for path in [summary_path, hydro_path, rm_path]:
             logging.info(f"\nChecking path: {path}")
