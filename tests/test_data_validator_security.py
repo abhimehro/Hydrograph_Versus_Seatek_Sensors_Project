@@ -19,10 +19,13 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch('data_validator.Path.exists')
     @patch('data_validator.Path.stat')
     @patch('data_validator.os.walk')
-    def test_summary_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_read_excel, mock_config):
-        mock_config.return_value.max_file_size_bytes = 100 * 1024 * 1024
+    def test_summary_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_read_excel, mock_config_cls):
         mock_walk.return_value = []
         mock_exists.return_value = True
+
+        mock_config = MagicMock()
+        mock_config.max_file_size_bytes = 100 * 1024 * 1024
+        mock_config_cls.return_value = mock_config
 
         # Make the stat return size > 100MB
         mock_stat.return_value = MagicMock(st_size=100 * 1024 * 1024 + 1)
@@ -39,10 +42,13 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch('data_validator.Path.exists')
     @patch('data_validator.Path.stat')
     @patch('data_validator.os.walk')
-    def test_hydro_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_excel_file, mock_read_excel, mock_config):
-        mock_config.return_value.max_file_size_bytes = 100 * 1024 * 1024
+    def test_hydro_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_excel_file, mock_read_excel, mock_config_cls):
         mock_walk.return_value = []
         mock_exists.return_value = True
+
+        mock_config = MagicMock()
+        mock_config.max_file_size_bytes = 100 * 1024 * 1024
+        mock_config_cls.return_value = mock_config
 
         def stat_side_effect():
             # The order of checks: summary_path, hydro_path, rm_path
@@ -72,10 +78,13 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch('data_validator.Path.exists')
     @patch('data_validator.Path.stat')
     @patch('data_validator.os.walk')
-    def test_rm_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_excel_file, mock_read_excel, mock_config):
-        mock_config.return_value.max_file_size_bytes = 100 * 1024 * 1024
+    def test_rm_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_excel_file, mock_read_excel, mock_config_cls):
         mock_walk.return_value = []
         mock_exists.return_value = True
+
+        mock_config = MagicMock()
+        mock_config.max_file_size_bytes = 100 * 1024 * 1024
+        mock_config_cls.return_value = mock_config
 
         def stat_side_effect():
             # summary_path general check

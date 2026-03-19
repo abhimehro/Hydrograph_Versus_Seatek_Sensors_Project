@@ -178,12 +178,12 @@ The visualization shows:
 
 ### Sensor 1 Hydrograph Versus Seatek Analysis Visualization
 
-![RM_54 0_Year_1_Sensor 1](https://github.com/user-attachments/assets/de2307b3-68f3-44b3-8b63-2e2bcc8253cf)
+![Chart showing Seatek Sensor 1 data (NAVD88) and Hydrograph flow (GPM) over time for River Mile 54.0 in Year 1](https://github.com/user-attachments/assets/de2307b3-68f3-44b3-8b63-2e2bcc8253cf)
 
 
 ### Sensor 2 Hydrograph Versus Seatek Analysis Visualization
 
-![RM_54 0_Year_2_Sensor 1](https://github.com/user-attachments/assets/c351c096-9db8-4c70-94be-dfd9e1f5dc96)
+![Chart showing Seatek Sensor 1 data (NAVD88) and Hydrograph flow (GPM) over time for River Mile 54.0 in Year 2](https://github.com/user-attachments/assets/c351c096-9db8-4c70-94be-dfd9e1f5dc96)
 
 For more of the above visualizations, check the respective directories in the `output/charts/RM_54.0` folder.
 

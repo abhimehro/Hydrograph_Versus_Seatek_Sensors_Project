@@ -37,6 +37,8 @@ def validate_data_files():
 
         # Get project root using absolute path
         project_root = get_project_root()
+        config = Config(base_dir=project_root)
+        MAX_FILE_SIZE_BYTES = config.max_file_size_bytes
         logging.info(f"Project root: {project_root}")
 
         # Construct absolute paths
@@ -53,10 +55,6 @@ def validate_data_files():
             subindent = ' ' * 4 * (level + 1)
             for f in files:
                 logging.info(f"{subindent}{f}")
-
-        # SECURITY: Prevent DoS by limiting max file size loaded into memory
-        config = Config()
-        MAX_FILE_SIZE_BYTES = config.max_file_size_bytes
 
         # Validate existence
         for path in [summary_path, hydro_path, rm_path]:
