@@ -154,7 +154,7 @@ class Application:
                                 rm_data.river_mile, year, sensor
                             )
 
-                            if processed_data.empty:
+                            if len(processed_data) == 0:
                                 self.logger.warning(
                                     f"⚠️  No data to process for RM {rm_data.river_mile}, "
                                     f"Year {year}, Sensor {sensor}"

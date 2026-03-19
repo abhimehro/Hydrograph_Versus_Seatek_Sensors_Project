@@ -29,3 +29,11 @@
 ## 2026-03-17 - Avoid pd.to_numeric overhead
 **Learning:** `pd.to_numeric(..., errors='coerce')` on an already numeric series creates an unnecessary object copy and performs type checking overhead.
 **Action:** Always verify if a column/series is already numeric via `pd.api.types.is_numeric_dtype(series)` before applying `pd.to_numeric` to avoid unnecessary work.
+
+## 2026-03-18 - Avoid pd.DataFrame.empty overhead in nested loops
+**Learning:** Using `df.empty` or `series.empty` inside a tight inner loop is slower than expected because it evaluates properties via `len(df.index) == 0` implicitly, which invokes getter property overhead.
+**Action:** Replace `df.empty` checks directly with `len(df) == 0` (or `len(df) > 0`) for micro-optimizations inside nested loops. While small, this avoids Pandas property overhead entirely, making length comparisons faster.
+
+## 2026-03-18 - Reuse Series and Cache Boolean Masks
+**Learning:** When performing multiple boolean checks (`isna().sum()`, `== 0.sum()`, `notna() & != 0`), extracting the series to a variable (`s = df[col]`) prevents duplicated DataFrame `__getitem__` overhead. Furthermore, you can apply De Morgan's Law `~(isna | iszero)` to calculate valid values by reusing the cached `isna()` and `== 0` masks from earlier metric collections.
+**Action:** Ensure intermediate mask calculations are saved to local variables (`sensor_isna = s.isna()`) and reused across both metric derivations and mask merging to skip redundant iterations over large arrays.
