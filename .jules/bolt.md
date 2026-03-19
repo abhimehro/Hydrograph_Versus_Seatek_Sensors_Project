@@ -29,3 +29,7 @@
 ## 2026-03-17 - Avoid pd.to_numeric overhead
 **Learning:** `pd.to_numeric(..., errors='coerce')` on an already numeric series creates an unnecessary object copy and performs type checking overhead.
 **Action:** Always verify if a column/series is already numeric via `pd.api.types.is_numeric_dtype(series)` before applying `pd.to_numeric` to avoid unnecessary work.
+
+## 2026-03-22 - Optimize Pandas boolean masking array allocations
+**Learning:** Performing boolean operations directly on Pandas Series (e.g., `df['Sensor'].notna() & (df['Sensor'] != 0)`) inside inner loops creates intermediate Pandas Series objects and performs unnecessary index alignment operations.
+**Action:** Extract the underlying numpy arrays (`.values`) before applying the boolean operations (`~pd.isna(sensor_vals) & (sensor_vals != 0)`), which avoids intermediate Series allocations and index overhead, offering measurable improvements when executed within nested processing loops over many sensors and years.
