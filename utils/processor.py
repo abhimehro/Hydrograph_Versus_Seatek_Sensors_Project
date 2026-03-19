@@ -174,10 +174,18 @@ class SeatekDataProcessor:
 
         # Optimization: Use boolean masking instead of expensive outer pd.merge.
         # Create masks for valid data (nonzero and non-null) for each stream.
-        sensor_mask = processed[sensor].notna() & (processed[sensor] != 0)
+        # ⚡ Bolt Optimization: Cache underlying numpy arrays to avoid repeated
+        # pandas Series indexing and intermediate object allocations.
+        sensor_vals = processed[sensor].values
+        # Need to handle potential object dtype or strings carefully if data wasn't fully numeric,
+        # but in convert_to_navd88 we've already done arithmetic, so it should be numeric/nan.
+        sensor_mask_arr = ~pd.isna(sensor_vals) & (sensor_vals != 0)
+        sensor_mask = pd.Series(sensor_mask_arr, index=processed.index)
 
         if has_hydro:
-            hydro_mask = processed['Hydrograph (Lagged)'].notna() & (processed['Hydrograph (Lagged)'] != 0)
+            hydro_vals = processed['Hydrograph (Lagged)'].values
+            hydro_mask_arr = ~pd.isna(hydro_vals) & (hydro_vals != 0)
+            hydro_mask = pd.Series(hydro_mask_arr, index=processed.index)
             keep_mask = sensor_mask | hydro_mask
         else:
             hydro_mask = pd.Series(False, index=processed.index)
