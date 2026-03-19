@@ -7,6 +7,7 @@
 **Merged pull requests:**
 
 - 🎨 Palette: Improve accessibility of README images with descriptive alt text [\#83](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/83) ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Pandas boolean masking array allocations [\#82](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/82) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[HIGH\] Fix DoS validation bypass in data validator [\#81](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/81) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize Pandas boolean masking and length checks [\#80](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/80) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[CRITICAL\] Fix DoS validation bypass due to config instantiation crash [\#79](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/79) ([abhimehro](https://github.com/abhimehro))
