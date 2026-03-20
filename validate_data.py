@@ -93,27 +93,29 @@ def main():
             print("\n" + "=" * 10 + " ✨ DATA VALIDATION RESULTS ✨ " + "=" * 10 + "\n")
             
             # Summary file validation
-            print("📋 SUMMARY FILE:")
+            print(" 📋 SUMMARY FILE ".center(51, "="))
             if results["summary"]:
                 print(f"  ✅ File: {results['summary']['file']}")
                 print(f"  📊 Rows: {results['summary']['rows']:,}")
                 print(f"  📑 Columns: {', '.join(results['summary']['columns'])}")
-                print(f"  ✔️ Required columns present: {results['summary']['required_columns_present']}")
+                req_icon = "✅" if results['summary']['required_columns_present'] else "❌"
+                print(f"  {req_icon} Required columns present: {results['summary']['required_columns_present']}")
                 print(f"  🏞️  River miles: {', '.join(str(rm) for rm in results['summary']['river_miles'])}")
             else:
                 print("  ❌ VALIDATION FAILED: Missing or invalid summary data file")
                 print(f"     💡 Please ensure '{config.summary_file.name}' is in the '{config.summary_file.parent}' directory.")
             
             # Hydrograph file validation
-            print("\n🌊 HYDROGRAPH FILE:")
+            print("\n" + " 🌊 HYDROGRAPH FILE ".center(51, "="))
             if results["hydrograph"]:
                 print(f"  ✅ File: {results['hydrograph']['file']}")
-                print(f"  📑 River mile sheets: {results['hydrograph']['river_mile_sheets']}")
+                print(f"  📑 River mile sheets: {', '.join(results['hydrograph']['river_mile_sheets'])}")
                 
                 for sheet in results["hydrograph"]["sheets"]:
                     print(f"\n  📄 Sheet: {sheet['name']}")
                     print(f"    📊 Rows: {sheet['rows']:,}")
-                    print(f"    ✔️  Required columns present: {sheet['required_columns_present']}")
+                    req_icon = "✅" if sheet['required_columns_present'] else "❌"
+                    print(f"    {req_icon}  Required columns present: {sheet['required_columns_present']}")
                     if sheet['years']:
                         print(f"    📅 Years: {', '.join(str(y) for y in sheet['years'])}")
                     if sheet['time_range']:
@@ -123,7 +125,7 @@ def main():
                 print(f"     💡 Please ensure '{config.hydro_file.name}' is in the '{config.hydro_file.parent}' directory.")
             
             # Processed files validation
-            print("\n⚙️  PROCESSED FILES:")
+            print("\n" + " ⚙️  PROCESSED FILES ".center(51, "="))
             if results["processed"]:
                 for file_result in results["processed"]:
                     if "error" in file_result:
@@ -133,8 +135,9 @@ def main():
                     print(f"\n  ✅ File: {file_result['file']}")
                     print(f"    🏞️  River mile: {file_result['river_mile']}")
                     print(f"    📊 Rows: {file_result['rows']:,}")
-                    print(f"    ✔️  Required columns present: {file_result['required_columns_present']}")
-                    print(f"    📡 Sensor columns: {file_result['sensor_columns']}")
+                    req_icon = "✅" if file_result['required_columns_present'] else "❌"
+                    print(f"    {req_icon}  Required columns present: {file_result['required_columns_present']}")
+                    print(f"    📡 Sensor columns: {', '.join(file_result['sensor_columns'])}")
                     
                     if file_result['year_range']:
                         print(f"    📅 Year range: {file_result['year_range'][0]} to {file_result['year_range'][1]}")
@@ -146,7 +149,7 @@ def main():
             
             # River mile consistency
             if results["river_mile_consistency"]:
-                print("\n🔗 RIVER MILE CONSISTENCY:")
+                print("\n" + " 🔗 RIVER MILE CONSISTENCY ".center(51, "="))
                 all_processed = results['river_mile_consistency']['all_summary_rms_processed']
                 status_icon = "✅" if all_processed else "⚠️"
                 print(f"  {status_icon} All summary river miles have processed data: {all_processed}")
