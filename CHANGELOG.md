@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- 🛡️ Sentinel: \[CRITICAL\] Fix Memory Exhaustion DoS in pd.ExcelFile [\#84](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/84) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: Improve accessibility of README images with descriptive alt text [\#83](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/83) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize Pandas boolean masking array allocations [\#82](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/82) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[HIGH\] Fix DoS validation bypass in data validator [\#81](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/81) ([abhimehro](https://github.com/abhimehro))
