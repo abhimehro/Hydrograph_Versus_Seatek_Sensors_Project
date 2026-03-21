@@ -277,14 +277,14 @@ class SeatekDataProcessor:
         # Convert the data and sensor values.
         processed = self.convert_to_navd88(year_data, sensor, river_mile, copy=False)
 
-        # Optimization: Extract Series to avoid repeated DataFrame lookups and object creations
-        sensor_series = processed[sensor]
+        # ⚡ Bolt Optimization: Extract the underlying numpy arrays (.values) before applying
+        # boolean operations to avoid intermediate Pandas Series allocations and index overhead.
+        # Also pre-calculate isna/==0 masks to avoid redundant iterations over large arrays.
+        sensor_vals = processed[sensor].values
+        sensor_isna = pd.isna(sensor_vals)
+        sensor_iszero = sensor_vals == 0
 
-        # Optimization: pre-calculate isna and == 0 to avoid computing them twice
-        sensor_isna = sensor_series.isna()
-        sensor_iszero = sensor_series == 0
-
-        # Update processing metrics from the cached masks
+        # Update processing metrics from the cached numpy masks
         metrics.null_values = sensor_isna.sum()
         metrics.zero_values = sensor_iszero.sum()
 
@@ -292,9 +292,9 @@ class SeatekDataProcessor:
 
         # Optimization: Use boolean masking instead of expensive outer pd.merge.
         # Create masks for valid data (nonzero and non-null) for each stream.
-        # ⚡ Bolt: Apply De Morgan's Law and reuse the cached boolean masks
+        # ⚡ Bolt: Apply De Morgan's Law and reuse the cached numpy boolean masks
         # to skip redundant iterations over large arrays.
-        sensor_mask_arr = ~(sensor_isna.values | sensor_iszero.values)
+        sensor_mask_arr = ~(sensor_isna | sensor_iszero)
         sensor_mask = pd.Series(sensor_mask_arr, index=processed.index)
 
         if has_hydro:
