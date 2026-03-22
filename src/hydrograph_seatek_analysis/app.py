@@ -230,15 +230,24 @@ class Application:
             True if successful, False otherwise
         """
         if not self.setup():
-            self.logger.error("❌ Failed to set up application")
+            self.logger.error(
+                "❌ Failed to set up application\n"
+                "   💡 Check your directory permissions and ensure the drive is not full."
+            )
             return False
 
         if not self.load_data():
-            self.logger.error("❌ Failed to load data")
+            self.logger.error(
+                "❌ Failed to load data\n"
+                "   💡 Please ensure 'Data_Summary.xlsx' and 'Hydrograph_Seatek_Data.xlsx' are in the data/raw/ directory."
+            )
             return False
 
         if not self.process_data():
-            self.logger.warning("⚠️  Errors occurred during data processing")
+            self.logger.warning(
+                "⚠️  Errors occurred during data processing\n"
+                "   💡 Check the logs above for specific row/column errors or missing data."
+            )
             return False
 
         self.logger.info("✨ Processing completed successfully")
