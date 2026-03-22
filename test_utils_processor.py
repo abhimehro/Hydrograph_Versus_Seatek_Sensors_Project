@@ -25,6 +25,7 @@ def test_river_mile_data_load():
         return mock_df
 
     pd.read_excel.side_effect = side_effect_read_excel
+    pd.read_excel.reset_mock()
 
     # Test file path
     p = Path("data/RM_55.xlsx")
