@@ -69,7 +69,16 @@ class SeatekVisualizer:
             self._format_plot(fig, axes[0], river_mile, year, sensor, data)
 
             if output_path:
-                self._save_plot(fig, output_path)
+                sensor_num = sensor.split("_")[1] if "_" in sensor else sensor
+                metadata = {
+                    "Title": f"River Mile {river_mile:.1f} - Year {year} Sensor {sensor_num}",
+                    "Description": (
+                        f"Chart showing Seatek Sensor {sensor_num} data (NAVD88) and "
+                        f"Hydrograph flow (GPM) over time for River Mile {river_mile:.1f} in Year {year}."
+                    ),
+                    "Author": "Hydrograph vs Seatek Sensors Analysis Project"
+                }
+                self._save_plot(fig, output_path, metadata=metadata)
 
             return fig
 
@@ -201,16 +210,19 @@ class SeatekVisualizer:
 
         plt.tight_layout()
 
-    def _save_plot(self, fig: plt.Figure, output_path: Path) -> None:
+    def _save_plot(self, fig: plt.Figure, output_path: Path, metadata: Optional[dict] = None) -> None:
         """Save plot to file with proper settings."""
         try:
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            fig.savefig(
-                output_path,
-                dpi=300,
-                bbox_inches='tight',
-                facecolor='white'
-            )
+            kwargs = {
+                "dpi": 300,
+                "bbox_inches": "tight",
+                "facecolor": "white"
+            }
+            if metadata:
+                kwargs["metadata"] = metadata
+
+            fig.savefig(output_path, **kwargs)
             logger.info(f"Saved visualization to {output_path}")
         except Exception as e:
             logger.error(f"Error saving plot to {output_path}: {str(e)}")
