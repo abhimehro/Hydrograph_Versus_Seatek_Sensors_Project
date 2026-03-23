@@ -41,3 +41,7 @@
 ## 2026-03-18 - Reuse Series and Cache Boolean Masks
 **Learning:** When performing multiple boolean checks (`isna().sum()`, `== 0.sum()`, `notna() & != 0`), extracting the series to a variable (`s = df[col]`) prevents duplicated DataFrame `__getitem__` overhead. Furthermore, you can apply De Morgan's Law `~(isna | iszero)` to calculate valid values by reusing the cached `isna()` and `== 0` masks from earlier metric collections.
 **Action:** Ensure intermediate mask calculations are saved to local variables (`sensor_isna = s.isna()`) and reused across both metric derivations and mask merging to skip redundant iterations over large arrays.
+
+## 2026-03-23 - Optimize Pandas array division by pre-calculating upstream
+**Learning:** Performing array operations (e.g., `processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0`) repeatedly inside a nested loop over subsets of data redundantly executes the exact same mathematical operations multiple times per data file.
+**Action:** Shift scalar conversions and derived column creation upstream so they are computed exactly once during the initial data loading phase (e.g., right after `pd.read_excel`) to avoid `O(num_subsets)` redundant calculations on the hot path.

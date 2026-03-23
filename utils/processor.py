@@ -59,6 +59,8 @@ class RiverMileData:
                 return col in required_cols or str(col).startswith('Sensor_') or col == 'Hydrograph (Lagged)'
 
             self.data = pd.read_excel(self.file_path, usecols=filter_cols)
+            if 'Time (Seconds)' in self.data.columns:
+                self.data['Time (Minutes)'] = self.data['Time (Seconds)'] / 60.0
 
             missing_cols = required_cols - set(seen_cols)
             if missing_cols:
@@ -115,7 +117,6 @@ class SeatekDataProcessor:
         """
         processed = data.copy()
         y_offset = self.offsets.get(river_mile, 0)
-        processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0
 
         # Optimization: Avoid pd.to_numeric if the column is already numeric.
         if pd.api.types.is_numeric_dtype(processed[sensor]):
@@ -158,7 +159,7 @@ class SeatekDataProcessor:
         else:
             # Optimization: Only extract the required columns (Time, current sensor, and Hydrograph)
             # to avoid redundantly copying all other sensor columns on every iteration.
-            cols = ['Time (Seconds)', sensor]
+            cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
             if 'Hydrograph (Lagged)' in cached_year_data.columns:
                 cols.append('Hydrograph (Lagged)')
             year_data = cached_year_data[cols]
