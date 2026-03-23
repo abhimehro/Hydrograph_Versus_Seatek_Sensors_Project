@@ -59,8 +59,6 @@ class RiverMileData:
                 return col in required_cols or str(col).startswith('Sensor_') or col == 'Hydrograph (Lagged)'
 
             self.data = pd.read_excel(self.file_path, usecols=filter_cols)
-            if 'Time (Seconds)' in self.data.columns:
-                self.data['Time (Minutes)'] = self.data['Time (Seconds)'] / 60.0
 
             missing_cols = required_cols - set(seen_cols)
             if missing_cols:
@@ -68,6 +66,8 @@ class RiverMileData:
 
             self._validate_data()
             self._setup_sensors()
+
+            self.data['Time (Minutes)'] = self.data['Time (Seconds)'] / 60.0
 
             # Optimization: Pre-group data by year to avoid O(N) boolean masking
             self.year_data_cache = {int(year): df for year, df in self.data.groupby('Year', sort=False)}
