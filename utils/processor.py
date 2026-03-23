@@ -13,6 +13,8 @@ import pandas as pd
 import numpy as np
 logger = logging.getLogger(__name__)
 
+SECONDS_PER_MINUTE = 60.0
+
 @dataclass
 class ProcessingMetrics:
     """Metrics for data processing operations."""
@@ -67,7 +69,7 @@ class RiverMileData:
             self._validate_data()
             self._setup_sensors()
 
-            self.data['Time (Minutes)'] = self.data['Time (Seconds)'] / 60.0
+            self.data['Time (Minutes)'] = self.data['Time (Seconds)'] / SECONDS_PER_MINUTE
 
             # Optimization: Pre-group data by year to avoid O(N) boolean masking
             self.year_data_cache = {int(year): df for year, df in self.data.groupby('Year', sort=False)}

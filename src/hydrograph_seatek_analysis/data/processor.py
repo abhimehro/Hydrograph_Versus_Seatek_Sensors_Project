@@ -17,6 +17,8 @@ from ..core.config import Config
 
 logger = logging.getLogger(__name__)
 
+SECONDS_PER_MINUTE = 60.0
+
 
 @dataclass
 class ProcessingMetrics:
@@ -112,7 +114,7 @@ class RiverMileData:
             self._validate_data()
             self._setup_sensors()
 
-            self.data['Time (Minutes)'] = self.data['Time (Seconds)'] / 60.0
+            self.data['Time (Minutes)'] = self.data['Time (Seconds)'] / SECONDS_PER_MINUTE
 
             # Optimization: Pre-group data by year to avoid O(N) boolean masking
             # for each sensor during data processing.
