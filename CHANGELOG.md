@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- 🎨 Palette: Improve CLI error actionability and chart metadata accessibility [\#88](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/88) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize Pandas boolean masking array allocations [\#87](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/87) ([abhimehro](https://github.com/abhimehro))
 - 🎨 Palette: Improve CLI Visual Cues and Formatting [\#86](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/86) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize Pandas boolean masking array allocations [\#85](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/85) ([abhimehro](https://github.com/abhimehro))
