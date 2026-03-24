@@ -41,3 +41,7 @@
 ## 2026-03-18 - Reuse Series and Cache Boolean Masks
 **Learning:** When performing multiple boolean checks (`isna().sum()`, `== 0.sum()`, `notna() & != 0`), extracting the series to a variable (`s = df[col]`) prevents duplicated DataFrame `__getitem__` overhead. Furthermore, you can apply De Morgan's Law `~(isna | iszero)` to calculate valid values by reusing the cached `isna()` and `== 0` masks from earlier metric collections.
 **Action:** Ensure intermediate mask calculations are saved to local variables (`sensor_isna = s.isna()`) and reused across both metric derivations and mask merging to skip redundant iterations over large arrays.
+
+## 2026-03-24 - Pre-calculate Time (Minutes) during data loading
+**Learning:** In the Seatek data processor, computing `Time (Minutes)` from `Time (Seconds)` inside `convert_to_navd88` forces a redundant calculation (`processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0`) for every sensor and year combination. This redundantly executes an identical scalar array division inside deeply nested processing loops.
+**Action:** Move the `Time (Minutes)` calculation to the initial `load_data` phase before the `groupby('Year')` cache operation. This executes the array division precisely once per loaded Excel file, and downstream processes simply include `'Time (Minutes)'` when extracting required columns from the cached year data.
