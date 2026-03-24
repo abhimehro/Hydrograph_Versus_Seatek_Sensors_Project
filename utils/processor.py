@@ -67,6 +67,10 @@ class RiverMileData:
             self._validate_data()
             self._setup_sensors()
 
+            # ⚡ Bolt Optimization: Pre-calculate Time (Minutes) once during data loading
+            # to avoid redundantly dividing Time (Seconds) by 60 for every sensor and year combination
+            self.data['Time (Minutes)'] = self.data['Time (Seconds)'] / 60.0
+
             # Optimization: Pre-group data by year to avoid O(N) boolean masking
             self.year_data_cache = {int(year): df for year, df in self.data.groupby('Year', sort=False)}
         except Exception as e:
@@ -115,7 +119,10 @@ class SeatekDataProcessor:
         """
         processed = data.copy()
         y_offset = self.offsets.get(river_mile, 0)
-        processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0
+
+        # ⚡ Bolt Optimization: Ensure Time (Minutes) is calculated if missing.
+        if 'Time (Minutes)' not in processed.columns and 'Time (Seconds)' in processed.columns:
+            processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0
 
         # Optimization: Avoid pd.to_numeric if the column is already numeric.
         if pd.api.types.is_numeric_dtype(processed[sensor]):
@@ -158,7 +165,7 @@ class SeatekDataProcessor:
         else:
             # Optimization: Only extract the required columns (Time, current sensor, and Hydrograph)
             # to avoid redundantly copying all other sensor columns on every iteration.
-            cols = ['Time (Seconds)', sensor]
+            cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
             if 'Hydrograph (Lagged)' in cached_year_data.columns:
                 cols.append('Hydrograph (Lagged)')
             year_data = cached_year_data[cols]

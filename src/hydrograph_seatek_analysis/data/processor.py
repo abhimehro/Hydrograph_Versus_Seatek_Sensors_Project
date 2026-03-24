@@ -112,6 +112,10 @@ class RiverMileData:
             self._validate_data()
             self._setup_sensors()
 
+            # ⚡ Bolt Optimization: Pre-calculate Time (Minutes) once during data loading
+            # to avoid redundantly dividing Time (Seconds) by 60 for every sensor and year combination
+            self.data['Time (Minutes)'] = self.data['Time (Seconds)'] / 60.0
+
             # Optimization: Pre-group data by year to avoid O(N) boolean masking
             # for each sensor during data processing.
             self.year_data_cache = {int(year): df for year, df in self.data.groupby('Year', sort=False)}
@@ -200,8 +204,12 @@ class SeatekDataProcessor:
         """
         processed = data.copy() if copy else data
         y_offset = self.offsets.get(river_mile, 0)
-        # Convert time from seconds to minutes.
-        processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0
+
+        # ⚡ Bolt Optimization: Ensure Time (Minutes) is calculated if missing.
+        # This preserves backwards compatibility for external callers, while internal loops
+        # avoid redundant calculation by pre-calculating it during load_data.
+        if 'Time (Minutes)' not in processed.columns and 'Time (Seconds)' in processed.columns:
+            processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0
 
         # Convert the sensor column to numeric and apply the NAVD88 conversion.
         # Optimization: Avoid pd.to_numeric if the column is already numeric.
@@ -265,7 +273,7 @@ class SeatekDataProcessor:
         else:
             # Optimization: Only extract the required columns (Time, current sensor, and Hydrograph)
             # to avoid redundantly copying all other sensor columns on every iteration.
-            cols = ['Time (Seconds)', sensor]
+            cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
             if 'Hydrograph (Lagged)' in cached_year_data.columns:
                 cols.append('Hydrograph (Lagged)')
             year_data = cached_year_data[cols].copy()
@@ -274,7 +282,7 @@ class SeatekDataProcessor:
         if len(year_data) == 0:
             return pd.DataFrame(), metrics
 
-        # Convert the data and sensor values.
+        # Convert the sensor values.
         processed = self.convert_to_navd88(year_data, sensor, river_mile, copy=False)
 
         # ⚡ Bolt Optimization: Extract the underlying numpy arrays (.values) before applying
