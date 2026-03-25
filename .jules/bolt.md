@@ -45,3 +45,7 @@
 ## 2026-03-24 - Pre-calculate Time (Minutes) during data loading
 **Learning:** In the Seatek data processor, computing `Time (Minutes)` from `Time (Seconds)` inside `convert_to_navd88` forces a redundant calculation (`processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0`) for every sensor and year combination. This redundantly executes an identical scalar array division inside deeply nested processing loops.
 **Action:** Move the `Time (Minutes)` calculation to the initial `load_data` phase before the `groupby('Year')` cache operation. This executes the array division precisely once per loaded Excel file, and downstream processes simply include `'Time (Minutes)'` when extracting required columns from the cached year data.
+
+## 2026-03-24 - Avoid pd.DataFrame.empty overhead in nested loops (visualizers)
+**Learning:** Using `df.empty` or `series.empty` inside a tight inner loop is slower than expected because it evaluates properties via `len(df.index) == 0` implicitly, which invokes getter property overhead.
+**Action:** Replace `df.empty` checks directly with `len(df) == 0` (or `len(df) > 0`) for micro-optimizations inside nested loops. While small, this avoids Pandas property overhead entirely, making length comparisons faster. Applied this optimization to `utils/processor.py`, `utils/chart_generator.py`, and `utils/visualizer.py`.
