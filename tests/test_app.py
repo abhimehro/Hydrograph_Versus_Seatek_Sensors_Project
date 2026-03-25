@@ -17,6 +17,7 @@ sys.modules['matplotlib.lines'] = mock.MagicMock()
 sys.modules['seaborn'] = mock.MagicMock()
 sys.modules['matplotlib.dates'] = mock.MagicMock()
 sys.modules['matplotlib.ticker'] = mock.MagicMock()
+sys.modules['numpy'] = mock.MagicMock()
 
 from src.hydrograph_seatek_analysis.app import Application
 from src.hydrograph_seatek_analysis.core.config import Config
