@@ -126,7 +126,7 @@ class SeatekVisualizer:
         """Add hydrograph data to the plot."""
         hydro_data = data[data['Hydrograph (Lagged)'].notna()]
 
-        if not hydro_data.empty:
+        if len(hydro_data) > 0:
             ax2.scatter(
                 hydro_data['Time (Minutes)'],
                 hydro_data['Hydrograph (Lagged)'],

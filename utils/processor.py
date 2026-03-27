@@ -171,7 +171,7 @@ class SeatekDataProcessor:
             year_data = cached_year_data[cols]
 
         metrics = ProcessingMetrics(original_rows=len(year_data))
-        if year_data.empty:
+        if len(year_data) == 0:
             return (pd.DataFrame(), metrics)
         processed = self.convert_to_navd88(year_data, sensor, river_mile)
 
