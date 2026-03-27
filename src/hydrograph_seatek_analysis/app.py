@@ -14,37 +14,11 @@ from .core.logger import configure_root_logger
 from .data.data_loader import DataLoader
 from .data.processor import SeatekDataProcessor
 from .visualization.chart_generator import ChartGenerator
+from utils.security import sanitize_filename
 
 
 class Application:
     """Main application class for Seatek data processing."""
-
-    _MAX_FILENAME_LENGTH = 200
-
-    @staticmethod
-    def _sanitize_filename(filename: str) -> str:
-        """
-        Sanitize a filename string to prevent path traversal and other vulnerabilities.
-
-        Args:
-            filename: The untrusted filename string (e.g., from an Excel column or sheet)
-
-        Returns:
-            A sanitized string safe for use as a path component.
-        """
-        import re
-
-        if not isinstance(filename, str):
-            filename = str(filename)
-
-        # Keep only word characters (letters, digits, underscore), dashes, dots, and whitespace
-        sanitized = re.sub(r"[^\w\-\.\s]", "_", filename)
-        # Prevent directory traversal dots like ..
-        sanitized = re.sub(r"\.{2,}", "_", sanitized)
-        # Strip leading/trailing whitespaces and dots
-        sanitized = sanitized.strip(". ")
-        # SECURITY: Limit filename length to prevent path-length DoS or file system errors
-        return sanitized[:Application._MAX_FILENAME_LENGTH]
 
     def __init__(self, config: Optional[Config] = None):
         """
@@ -168,8 +142,8 @@ class Application:
 
                             if chart:
                                 # Save chart
-                                safe_year = self._sanitize_filename(str(year))
-                                safe_sensor = self._sanitize_filename(str(sensor))
+                                safe_year = sanitize_filename(str(year))
+                                safe_sensor = sanitize_filename(str(sensor))
 
                                 output_path = (
                                     self.config.output_dir
