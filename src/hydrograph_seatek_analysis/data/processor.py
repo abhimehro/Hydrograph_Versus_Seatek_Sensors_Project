@@ -14,6 +14,7 @@ import pandas as pd
 import numpy as np
 
 from ..core.config import Config
+from utils.security import validate_file_size
 
 logger = logging.getLogger(__name__)
 
@@ -84,8 +85,7 @@ class RiverMileData:
         """
         try:
             # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-            if self.file_path.exists() and self.file_path.stat().st_size > max_file_size_bytes:
-                raise ValueError(f"File size exceeds maximum allowed size ({max_file_size_bytes} bytes): {self.file_path}")
+            validate_file_size(self.file_path, max_file_size_bytes)
 
             required_cols = {'Time (Seconds)', 'Year'}
 
