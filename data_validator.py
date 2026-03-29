@@ -3,6 +3,7 @@ from pathlib import Path
 import os
 import pandas as pd
 from src.hydrograph_seatek_analysis.core.config import Config
+from utils.security import validate_file_size
 
 
 def get_project_root() -> Path:
@@ -56,29 +57,21 @@ def validate_data_files():
             for f in files:
                 logging.info(f"{subindent}{f}")
 
-        # Validate existence
         for path in [summary_path, hydro_path, rm_path]:
             logging.info(f"\nChecking path: {path}")
-            if not path.exists():
-                logging.error(f"File not found: {path}")
-                continue
 
-            # SECURITY: Prevent DoS via memory exhaustion
-            size_bytes = path.stat().st_size
-            if size_bytes > config.max_file_size_bytes:
-                max_bytes = config.max_file_size_bytes
-                raise ValueError(
-                    f"File exceeds maximum size: {path} "
-                    f"(size={size_bytes} bytes "
-                    f"~{size_bytes / (1024 ** 2):.2f} MiB, "
-                    f"limit={max_bytes} bytes "
-                    f"~{max_bytes / (1024 ** 2):.2f} MiB)"
-                )
+            try:
+                # SECURITY: Prevent DoS via memory exhaustion
+                validate_file_size(path, MAX_FILE_SIZE_BYTES)
+            except (ValueError, FileNotFoundError) as e:
+                logging.error(str(e))
+                if isinstance(e, FileNotFoundError):
+                    continue
+                raise
 
             # Read and validate Data_Summary
             if path == summary_path:
-                if path.stat().st_size > MAX_FILE_SIZE_BYTES:
-                    raise ValueError(f"File size exceeds maximum allowed size ({MAX_FILE_SIZE_BYTES} bytes): {path}")
+                validate_file_size(path, MAX_FILE_SIZE_BYTES)
                 df = pd.read_excel(path)
                 logging.info("Data_Summary.xlsx structure:")
                 logging.info(f"Columns: {df.columns.tolist()}")
@@ -86,17 +79,14 @@ def validate_data_files():
 
             # Read and validate Hydrograph_Seatek_Data
             elif path == hydro_path:
-                if path.stat().st_size > MAX_FILE_SIZE_BYTES:
-                    raise ValueError(
-                                f"File size exceeds maximum allowed size ({MAX_FILE_SIZE_BYTES} bytes): {path}")
+                validate_file_size(path, MAX_FILE_SIZE_BYTES)
                 with pd.ExcelFile(path) as xlsx:
                     sheets = xlsx.sheet_names
                     logging.info(
                         f"Available sheets in Hydrograph data: {sheets}")
 
                     for sheet in sheets:
-                        if path.stat().st_size > MAX_FILE_SIZE_BYTES:
-                            raise ValueError(f"File size exceeds maximum allowed size ({MAX_FILE_SIZE_BYTES} bytes): {path}")
+                        validate_file_size(path, MAX_FILE_SIZE_BYTES)
                         df = pd.read_excel(xlsx, sheet_name=sheet)
                         logging.info(f"\nSheet: {sheet}")
                         logging.info(f"Columns: {df.columns.tolist()}")
@@ -104,8 +94,7 @@ def validate_data_files():
 
             # Read and validate RM_54.0
             elif path == rm_path:
-                if path.stat().st_size > MAX_FILE_SIZE_BYTES:
-                    raise ValueError(f"File size exceeds maximum allowed size ({MAX_FILE_SIZE_BYTES} bytes): {path}")
+                validate_file_size(path, MAX_FILE_SIZE_BYTES)
                 df = pd.read_excel(path)
                 logging.info("\nRM_54.0.xlsx structure:")
                 logging.info(f"Columns: {df.columns.tolist()}")

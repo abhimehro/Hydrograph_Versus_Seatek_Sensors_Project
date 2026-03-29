@@ -60,12 +60,8 @@ class DataLoader:
             summary_file = self.config.summary_file
             logger.debug(f"Loading summary data from: {summary_file}")
             
-            if not summary_file.exists():
-                raise FileNotFoundError(f"Summary file not found: {summary_file}")
-                
             # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-            if summary_file.stat().st_size > self.config.max_file_size_bytes:
-                raise ValueError(f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {summary_file}")
+            validate_file_size(summary_file, self.config.max_file_size_bytes)
 
             required_cols = {'River_Mile', 'Y_Offset', 'Num_Sensors'}
 
@@ -108,12 +104,8 @@ class DataLoader:
             hydro_file = self.config.hydro_file
             logger.debug(f"Loading hydrograph data from: {hydro_file}")
             
-            if not hydro_file.exists():
-                raise FileNotFoundError(f"Hydrograph file not found: {hydro_file}")
-                
             # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-            if hydro_file.stat().st_size > self.config.max_file_size_bytes:
-                raise ValueError(f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {hydro_file}")
+            validate_file_size(hydro_file, self.config.max_file_size_bytes)
 
             hydro_data = {}
             excel_file = pd.ExcelFile(hydro_file)
@@ -132,8 +124,7 @@ class DataLoader:
 
                 try:
                     # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-                    if hydro_file.stat().st_size > self.config.max_file_size_bytes:
-                        raise ValueError(f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {hydro_file}")
+                    validate_file_size(hydro_file, self.config.max_file_size_bytes)
 
                     df = pd.read_excel(
                         excel_file,

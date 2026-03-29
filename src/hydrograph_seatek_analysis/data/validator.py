@@ -49,13 +49,11 @@ class DataValidator:
         summary_file = self.config.summary_file
         
         try:
-            if not summary_file.exists():
-                logger.error(f"Summary file not found: {summary_file}")
-                return None
-                
             # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-            if summary_file.stat().st_size > self.config.max_file_size_bytes:
-                logger.error(f"Summary file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {summary_file}")
+            try:
+                validate_file_size(summary_file, self.config.max_file_size_bytes)
+            except (ValueError, FileNotFoundError) as e:
+                logger.error(str(e))
                 return None
 
             required_cols = {'River_Mile', 'Y_Offset', 'Num_Sensors'}
@@ -112,13 +110,11 @@ class DataValidator:
         hydro_file = self.config.hydro_file
         
         try:
-            if not hydro_file.exists():
-                logger.error(f"Hydrograph file not found: {hydro_file}")
-                return None
-                
             # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-            if hydro_file.stat().st_size > self.config.max_file_size_bytes:
-                logger.error(f"Hydrograph file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {hydro_file}")
+            try:
+                validate_file_size(hydro_file, self.config.max_file_size_bytes)
+            except (ValueError, FileNotFoundError) as e:
+                logger.error(str(e))
                 return None
 
             with pd.ExcelFile(hydro_file) as excel:
@@ -139,8 +135,7 @@ class DataValidator:
                     filter_cols, seen_cols = self._create_stateful_col_filter(lambda c: c in required_cols)
 
                     # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-                    if hydro_file.stat().st_size > self.config.max_file_size_bytes:
-                        raise ValueError(f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {hydro_file}")
+                    validate_file_size(hydro_file, self.config.max_file_size_bytes)
 
                     df = pd.read_excel(excel, sheet_name=sheet, usecols=filter_cols)
                     columns = list(seen_cols)
@@ -187,11 +182,13 @@ class DataValidator:
         for file_path in rm_files:
             try:
                 # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-                if file_path.stat().st_size > self.config.max_file_size_bytes:
-                    logger.error(f"Processed file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {file_path}")
+                try:
+                    validate_file_size(file_path, self.config.max_file_size_bytes)
+                except (ValueError, FileNotFoundError) as e:
+                    logger.error(str(e))
                     results.append({
                         "file": file_path.name,
-                        "error": f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes)"
+                        "error": str(e)
                     })
                     continue
 
