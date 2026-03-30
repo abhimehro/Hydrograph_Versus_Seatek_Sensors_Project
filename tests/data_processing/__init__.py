@@ -4,6 +4,7 @@ import sys
 from typing import Dict, Tuple
 
 import matplotlib.pyplot as plt
+from utils.security import sanitize_filename
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -197,9 +198,12 @@ class DataAnalyzer:
 
             # Check if output path already exists
             output_dir = self._create_output_dir(river_mile, sensor)
+            safe_river_mile = sanitize_filename(str(river_mile))
+            safe_year = sanitize_filename(str(year))
+            safe_sensor = sanitize_filename(str(sensor))
             output_path = os.path.join(
                 output_dir,
-                f"RM_{river_mile}_Year_{year}_{sensor}.png"
+                f"RM_{safe_river_mile}_Year_{safe_year}_{safe_sensor}.png"
             )
 
             if os.path.exists(output_path):
@@ -235,8 +239,10 @@ class DataAnalyzer:
     def _create_output_dir(self, river_mile: float, sensor: str) -> str:
         """Create output directory for sensor visualizations within existing river mile directory."""
         # Construct paths
-        rm_base_dir = os.path.join(self.output_base_dir, f"RM_{river_mile}")
-        sensor_dir = os.path.join(rm_base_dir, "sensor_charts", sensor)
+        safe_river_mile = sanitize_filename(str(river_mile))
+        safe_sensor = sanitize_filename(str(sensor))
+        rm_base_dir = os.path.join(self.output_base_dir, f"RM_{safe_river_mile}")
+        sensor_dir = os.path.join(rm_base_dir, "sensor_charts", safe_sensor)
 
         # Create sensor directory
         os.makedirs(sensor_dir, exist_ok=True)
