@@ -301,26 +301,25 @@ class SeatekDataProcessor:
         # Optimization: Use boolean masking instead of expensive outer pd.merge.
         # Create masks for valid data (nonzero and non-null) for each stream.
         # ⚡ Bolt: Apply De Morgan's Law and reuse the cached numpy boolean masks
-        # to skip redundant iterations over large arrays.
+        # to skip redundant iterations over large arrays. Avoid intermediate
+        # pd.Series wrapper allocations entirely for boolean logic combinations.
         sensor_mask_arr = ~(sensor_isna | sensor_iszero)
-        sensor_mask = pd.Series(sensor_mask_arr, index=processed.index)
 
         if has_hydro:
             hydro_vals = processed['Hydrograph (Lagged)'].values
             hydro_mask_arr = ~pd.isna(hydro_vals) & (hydro_vals != 0)
-            hydro_mask = pd.Series(hydro_mask_arr, index=processed.index)
-            keep_mask = sensor_mask | hydro_mask
+            keep_mask_arr = sensor_mask_arr | hydro_mask_arr
         else:
-            hydro_mask = pd.Series(False, index=processed.index)
-            keep_mask = sensor_mask
+            hydro_mask_arr = np.zeros(len(processed), dtype=bool)
+            keep_mask_arr = sensor_mask_arr
 
         # If no valid readings exist for both streams, return appropriate early empty df.
-        if not keep_mask.any():
+        if not keep_mask_arr.any():
             if has_hydro:
                 # Select and order columns identical to original pd.merge output
-                if not sensor_mask.any():
+                if not sensor_mask_arr.any():
                     cols = ['Time (Seconds)', 'Time (Minutes)', 'Hydrograph (Lagged)']
-                elif not hydro_mask.any():
+                elif not hydro_mask_arr.any():
                     cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
                 else:
                     cols = ['Time (Seconds)', sensor, 'Time (Minutes)', 'Hydrograph (Lagged)']
@@ -330,33 +329,33 @@ class SeatekDataProcessor:
             merged = pd.DataFrame(columns=cols)
         else:
             # Filter processed data using the union mask
-            merged = processed[keep_mask].copy()
+            merged = processed[keep_mask_arr].copy()
 
             # Sub-masks on the filtered data
-            sensor_keep = sensor_mask[keep_mask]
-            hydro_keep = hydro_mask[keep_mask]
+            sensor_keep_arr = sensor_mask_arr[keep_mask_arr]
+            hydro_keep_arr = hydro_mask_arr[keep_mask_arr]
 
             # Nullify values that are not valid in their respective streams
             if has_hydro:
-                if not sensor_keep.all():
-                    merged.loc[~sensor_keep, sensor] = pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan
-                if not hydro_keep.all():
-                    merged.loc[~hydro_keep, 'Hydrograph (Lagged)'] = pd.NA if pd.api.types.is_object_dtype(merged['Hydrograph (Lagged)']) else np.nan
+                if not sensor_keep_arr.all():
+                    merged.loc[~sensor_keep_arr, sensor] = pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan
+                if not hydro_keep_arr.all():
+                    merged.loc[~hydro_keep_arr, 'Hydrograph (Lagged)'] = pd.NA if pd.api.types.is_object_dtype(merged['Hydrograph (Lagged)']) else np.nan
 
                 # If no valid sensor readings exist but hydrograph data exist, force hydrograph to 0
-                if not sensor_mask.any() and hydro_mask.any():
+                if not sensor_mask_arr.any() and hydro_mask_arr.any():
                     merged['Hydrograph (Lagged)'] = 0
 
                 # Select and order columns identical to original pd.merge output
-                if not sensor_mask.any():
+                if not sensor_mask_arr.any():
                     cols = ['Time (Seconds)', 'Time (Minutes)', 'Hydrograph (Lagged)']
-                elif not hydro_mask.any():
+                elif not hydro_mask_arr.any():
                     cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
                 else:
                     cols = ['Time (Seconds)', sensor, 'Time (Minutes)', 'Hydrograph (Lagged)']
             else:
-                if not sensor_keep.all():
-                    merged.loc[~sensor_keep, sensor] = np.nan
+                if not sensor_keep_arr.all():
+                    merged.loc[~sensor_keep_arr, sensor] = np.nan
                 cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
 
             merged = merged[cols]

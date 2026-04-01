@@ -49,3 +49,7 @@
 ## 2026-03-24 - Avoid pd.DataFrame.empty overhead in nested loops
 **Learning:** Using `df.empty` or `series.empty` inside a tight inner loop is slower than expected because it evaluates properties via `len(df.index) == 0` implicitly, which invokes getter property overhead.
 **Action:** Replace `df.empty` checks directly with `len(df) == 0` (or `len(df) > 0`) for micro-optimizations inside nested loops. While small, this avoids Pandas property overhead entirely, making length comparisons faster. Applied this optimization to `utils/processor.py`, `utils/chart_generator.py`, and `utils/visualizer.py`.
+
+## 2026-03-24 - Optimize Boolean Masking with Numpy Arrays
+**Learning:** Wrapping boolean numpy arrays into `pd.Series` inside tight nested loops just to perform logical `OR` operations (`|`) incurs unnecessary object allocation and index alignment overhead.
+**Action:** Perform boolean mask combinations (e.g., `sensor_mask_arr | hydro_mask_arr`) directly on the underlying numpy arrays and use them directly for filtering (`processed[keep_mask_arr]`) and `.loc` assignment. This entirely avoids intermediate Pandas Series allocations.
