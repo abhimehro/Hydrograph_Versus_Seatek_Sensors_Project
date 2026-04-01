@@ -26,3 +26,8 @@
 **Vulnerability:** Path traversal and path-length Denial of Service (DoS) in `tests/data_processing/__init__.py` where untrusted variables (`year`, `river_mile`, and `sensor` from Excel data) were concatenated directly into a path string. This could allow saving files outside the designated output directory or crashing the application with overly long filenames.
 **Learning:** Even test data processing scripts can lack the input sanitization present in newer architecture (e.g., `sanitize_filename` in `app.py`). These paths must explicitly be verified and sanitized.
 **Prevention:** Always use a standalone utility function like `sanitize_filename` in `utils/security.py` that removes directory traversal sequences, limits filename length, and restricts characters. Apply this sanitization to all dynamic components of a file path before constructing the final path object.
+
+## 2025-03-01 - Prevent Symlink Attacks in File Validation
+**Vulnerability:** The `validate_file_size` function checks file existence and size, but does not explicitly prevent the processing of symbolic links. This could allow an attacker to read arbitrary files on the system or bypass size limits by pointing a symlink to a sensitive file or a very large file.
+**Learning:** File validation functions must consider the file type and explicitly reject symbolic links when processing untrusted files to prevent symlink-based attacks (like arbitrary file read or DoS).
+**Prevention:** Add a `file_path.is_symlink()` check in `validate_file_size` and raise a `ValueError` to ensure only regular files are processed.

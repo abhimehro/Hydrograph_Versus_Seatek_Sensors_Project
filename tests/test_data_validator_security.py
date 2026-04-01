@@ -17,9 +17,10 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch('data_validator.Config')
     @patch('data_validator.pd.read_excel')
     @patch('data_validator.Path.exists')
+    @patch('data_validator.Path.is_symlink', return_value=False)
     @patch('data_validator.Path.stat')
     @patch('data_validator.os.walk')
-    def test_summary_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_read_excel, mock_config_cls):
+    def test_summary_path_size_exceeds(self, mock_walk, mock_stat, mock_is_symlink, mock_exists, mock_read_excel, mock_config_cls):
         mock_walk.return_value = []
         mock_exists.return_value = True
 
@@ -40,9 +41,10 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch('data_validator.pd.read_excel')
     @patch('data_validator.pd.ExcelFile')
     @patch('data_validator.Path.exists')
+    @patch('data_validator.Path.is_symlink', return_value=False)
     @patch('data_validator.Path.stat')
     @patch('data_validator.os.walk')
-    def test_hydro_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_excel_file, mock_read_excel, mock_config_cls):
+    def test_hydro_path_size_exceeds(self, mock_walk, mock_stat, mock_is_symlink, mock_exists, mock_excel_file, mock_read_excel, mock_config_cls):
         mock_walk.return_value = []
         mock_exists.return_value = True
 
@@ -76,9 +78,10 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch('data_validator.pd.read_excel')
     @patch('data_validator.pd.ExcelFile')
     @patch('data_validator.Path.exists')
+    @patch('data_validator.Path.is_symlink', return_value=False)
     @patch('data_validator.Path.stat')
     @patch('data_validator.os.walk')
-    def test_rm_path_size_exceeds(self, mock_walk, mock_stat, mock_exists, mock_excel_file, mock_read_excel, mock_config_cls):
+    def test_rm_path_size_exceeds(self, mock_walk, mock_stat, mock_is_symlink, mock_exists, mock_excel_file, mock_read_excel, mock_config_cls):
         mock_walk.return_value = []
         mock_exists.return_value = True
 

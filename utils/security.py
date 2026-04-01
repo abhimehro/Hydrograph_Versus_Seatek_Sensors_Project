@@ -21,6 +21,10 @@ def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
     if not file_path.exists():
         raise FileNotFoundError(f"File not found: {file_path}")
 
+    if file_path.is_symlink():
+        logger.error(f"File {file_path.name} is a symbolic link, which is not allowed for security reasons")
+        raise ValueError(f"Symbolic links are not allowed: {file_path.name}")
+
     file_size = file_path.stat().st_size
     if file_size > max_size_bytes:
         logger.error(f"File {file_path.name} size ({file_size} bytes) exceeds maximum limit ({max_size_bytes} bytes)")
