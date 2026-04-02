@@ -1,8 +1,8 @@
-## 2026-03-07 - Missing File Size Validation Before pandas.read_excel
+## 2024-03-07 - Missing File Size Validation Before pandas.read_excel
 **Vulnerability:** Memory exhaustion (DoS) vulnerability in data loaders lacking pre-read file size validation.
 **Learning:** `pd.read_excel()` and `pd.ExcelFile()` read the entire file into memory before validation can occur, which makes the application susceptible to out-of-memory errors and DoS when parsing excessively large malicious files.
 **Prevention:** Always verify the file size (`pathlib.Path.stat().st_size`) against a reasonable predefined limit (`max_file_size_bytes`) before attempting to parse the file into memory.
-## 2026-03-08 - Path Traversal Vulnerability in Legacy Visualization Script
+## 2024-03-08 - Path Traversal Vulnerability in Legacy Visualization Script
 **Vulnerability:** Path traversal and path-length Denial of Service (DoS) in `seatek_processor.py` where untrusted variables (`year` and `sensor` from Excel data) were concatenated directly into a `Path` without sanitization, e.g., `f"Year_{year}_{sensor}.png"`. This could allow saving files outside the designated output directory or crashing the application with overly long filenames.
 **Learning:** Legacy scripts using `pathlib` for file creation often lack the input sanitization present in newer architecture (e.g., `_sanitize_filename` in `app.py`). These paths must explicitly be verified and sanitized.
 **Prevention:** Use a standalone utility function like `sanitize_filename` in `utils/security.py` that removes directory traversal sequences, limits filename length, and restricts characters. Apply this sanitization to all dynamic components of a file path before constructing the final path object.
@@ -10,11 +10,11 @@
 **Vulnerability:** File size validation check against DoS in `data_validator.py` was skipped because the script improperly imported an uninstantiated config object, triggering an immediate crash (ImportError and NameError) when running the validator, breaking the security check entirely.
 **Learning:** Security validations often rely on limits sourced from configuration objects. If the configuration object is improperly imported or fails to instantiate, the security check acts as a denial of service to the validator itself or completely fails to limit inputs.
 **Prevention:** Ensure configuration instances holding threshold limits are properly imported and instantiated (e.g., `config = Config()`) before using their properties (`config.max_file_size_bytes`) in the critical validation path. Test validation scripts thoroughly using mock side_effects matching the exact path execution order.
-## 2026-03-17 - Improper Configuration Instantiation Leads to Security Validation Bypass
+## 2024-03-17 - Improper Configuration Instantiation Leads to Security Validation Bypass
 **Vulnerability:** File size validation check against DoS in `data_validator.py` was skipped because the script improperly imported an uninstantiated config object, triggering an immediate crash (`ImportError` and `NameError`) when running the validator, breaking the security check entirely.
 **Learning:** Security validations often rely on limits sourced from configuration objects. If the configuration object is improperly imported or fails to instantiate, the security check acts as a denial of service to the validator itself or completely fails to limit inputs.
 **Prevention:** Ensure configuration instances holding threshold limits are properly imported and instantiated (e.g., `config = Config(base_dir=...)`) within the proper scope, usually inside the execution path instead of the global scope, before using their properties (`config.max_file_size_bytes`) in the critical validation path. Test validation scripts thoroughly using mock side_effects matching the exact path execution order.
-## 2026-03-24 - XML Entity Expansion Vulnerability in openpyxl Excel Parsing
+## 2024-03-24 - XML Entity Expansion Vulnerability in openpyxl Excel Parsing
 **Vulnerability:** XML External Entity (XXE) and XML Entity Expansion (Billion Laughs) attacks could be triggered when `pandas.read_excel` / `openpyxl` parses maliciously crafted Excel files because the default XML parser does not restrict entity expansion when `defusedxml` is not installed.
 **Learning:** `openpyxl`, which pandas uses to read `.xlsx` files, is vulnerable to DoS attacks via malicious XML parsing if the `defusedxml` library is missing from the environment. `openpyxl` conditionally uses `defusedxml` if it's available, otherwise falling back to the standard, unsafe XML parser.
 **Prevention:** Always include `defusedxml` in project dependencies (`requirements.txt` and `Pipfile`) for any application that processes untrusted Excel (`.xlsx`) or XML files to ensure `openpyxl` handles XML safely and prevents entity expansion attacks.
@@ -27,7 +27,7 @@
 **Learning:** Even test data processing scripts can lack the input sanitization present in newer architecture (e.g., `sanitize_filename` in `app.py`). These paths must explicitly be verified and sanitized.
 **Prevention:** Always use a standalone utility function like `sanitize_filename` in `utils/security.py` that removes directory traversal sequences, limits filename length, and restricts characters. Apply this sanitization to all dynamic components of a file path before constructing the final path object.
 
-## 2026-04-01 - Prevent Symlink Attacks in File Validation
+## 2025-03-01 - Prevent Symlink Attacks in File Validation
 **Vulnerability:** The `validate_file_size` function checks file existence and size, but does not explicitly prevent the processing of symbolic links. This could allow an attacker to read arbitrary files on the system or bypass size limits by pointing a symlink to a sensitive file or a very large file.
 **Learning:** File validation functions must consider the file type and explicitly reject symbolic links when processing untrusted files to prevent symlink-based attacks (like arbitrary file read or DoS).
 **Prevention:** Add a `file_path.is_symlink()` check in `validate_file_size` and raise a `ValueError` to ensure only regular files are processed.
