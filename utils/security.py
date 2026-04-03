@@ -18,12 +18,11 @@ def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
         ValueError: If the file size exceeds the maximum limit, or if the file is a symbolic link.
         FileNotFoundError: If the file does not exist.
     """
-    if file_path.is_symlink():
-        raise ValueError(f"File is a symbolic link: {file_path}")
-
     if not file_path.exists():
         raise FileNotFoundError(f"File not found: {file_path}")
 
+    if file_path.is_symlink():
+        raise ValueError(f"File is a symbolic link: {file_path}")
     file_size = file_path.stat().st_size
     if file_size > max_size_bytes:
         logger.error(f"File {file_path.name} size ({file_size} bytes) exceeds maximum limit ({max_size_bytes} bytes)")
