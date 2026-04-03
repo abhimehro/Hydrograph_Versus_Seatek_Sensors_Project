@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- 🛡️ Sentinel: \[security improvement\] Reject symlinks in file size validation [\#100](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/100) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: \[performance improvement\] Optimize Boolean array masking in inner loops [\#98](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/98) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[HIGH\] Fix path traversal in test data processor [\#97](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/97) ([abhimehro](https://github.com/abhimehro))
 - No changes: No suitable optimization identified [\#96](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/96) ([abhimehro](https://github.com/abhimehro))
