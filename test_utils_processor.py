@@ -1,5 +1,5 @@
 import sys
-from unittest.mock import ANY, MagicMock
+from unittest.mock import MagicMock
 
 # Mock missing dependencies
 sys.modules["pandas"] = MagicMock()
@@ -31,7 +31,7 @@ def test_river_mile_data_load():
     pd.read_excel.reset_mock()
 
     # Test file path
-    p = Path("data/RM_55.xlsx")
+    Path("data/RM_55.xlsx")
 
     # Mock stat for security check
     p_mock = MagicMock()

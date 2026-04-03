@@ -51,7 +51,7 @@ def validate_data_files():
 
         # Log directory structure
         logging.info("\nDirectory structure:")
-        for root, dirs, files in os.walk(project_root):
+        for root, _dirs, files in os.walk(project_root):
             level = root.replace(str(project_root), "").count(os.sep)
             indent = " " * 4 * level
             logging.info(f"{indent}{os.path.basename(root)}/")

@@ -1,12 +1,10 @@
 import os
 import sys
 import unittest
-from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 # Create a mock for pandas so we can import data_validator even if pandas is missing
 sys.modules["pandas"] = MagicMock()
-import pandas as pd
 
 # Add root directory to python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))

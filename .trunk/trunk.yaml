@@ -32,14 +32,15 @@ lint:
     - trufflehog@3.94.2
     - yamllint@1.38.0
 actions:
-  enabled:
-    - trunk-check-pre-commit
-    - trunk-check-pre-push-always
+  disabled:
     - git-lfs
     - npm-check
     - poetry-install
     - submodule-init-update
-    - trunk-announce
+    - trunk-check-pre-commit
     - trunk-check-pre-push
+    - trunk-check-pre-push-always
     - trunk-fmt-pre-commit
+  enabled:
+    - trunk-announce
     - trunk-upgrade-available

@@ -20,7 +20,7 @@ class TestDataValidation:
 
     def test_sensor_range_validation(self, sample_data):
         """Test sensor readings are within expected physical ranges."""
-        processor = DataProcessor("test_data.xlsx")
+        DataProcessor("test_data.xlsx")
         # Sensor readings should be between 0-1000mm (typical range for river bed measurements)
         assert all(0 <= x <= 1000 for x in sample_data["Sensor_1"].dropna())
 

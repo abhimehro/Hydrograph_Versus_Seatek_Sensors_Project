@@ -1,11 +1,9 @@
 """Tests for the data validator module."""
 
-import tempfile
 from pathlib import Path
 from unittest import mock
 
 import pandas as pd
-import pytest
 
 from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.data.validator import DataValidator

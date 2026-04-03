@@ -4,8 +4,6 @@ import logging
 import tempfile
 from pathlib import Path
 
-import pytest
-
 from src.hydrograph_seatek_analysis.core.logger import (
     configure_root_logger,
     setup_logger,

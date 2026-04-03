@@ -1,6 +1,5 @@
 """Tests for the data processor module."""
 
-import os
 import tempfile
 from pathlib import Path
 from unittest import mock
@@ -100,11 +99,12 @@ def test_convert_to_navd88():
 
     # Ensure Y offset was applied
     constants = config.navd88_constants
-    expected_formula = (
-        lambda x: -(x + constants.offset_a - constants.offset_b)
-        * constants.scale_factor
-        + 10.5
-    )
+
+    def expected_formula(x):
+        return (
+            -(x + constants.offset_a - constants.offset_b) * constants.scale_factor
+            + 10.5
+        )
 
     for i, val in enumerate(test_data["Sensor_1"]):
         assert processed["Sensor_1"].iloc[i] == pytest.approx(expected_formula(val))

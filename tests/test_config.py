@@ -1,10 +1,7 @@
 """Tests for the configuration module."""
 
-import os
 import tempfile
 from pathlib import Path
-
-import pytest
 
 from src.hydrograph_seatek_analysis.core.config import (
     ChartSettings,

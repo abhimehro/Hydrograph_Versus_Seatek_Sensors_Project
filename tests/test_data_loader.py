@@ -1,6 +1,5 @@
 """Tests for the data loader module."""
 
-import os
 import tempfile
 from pathlib import Path
 from unittest import mock
