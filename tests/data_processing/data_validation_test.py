@@ -33,7 +33,7 @@ def check_excel_structure(file_path: Path) -> None:
                 logger.info(f"Data shape: {df.shape}")
 
                 # Check for sensor columns
-                sensor_cols = [col for col in df.columns if col.startswith('Sensor_')]
+                sensor_cols = [col for col in df.columns if col.startswith("Sensor_")]
                 if sensor_cols:
                     for col in sensor_cols:
                         non_null = df[col].notna().sum()
@@ -44,11 +44,9 @@ def check_excel_structure(file_path: Path) -> None:
                         )
 
                 # Check time column
-                if 'Time (Seconds)' in df.columns:
-                    time_data = df['Time (Seconds)']
-                    logger.info(
-                        f"Time range: [{time_data.min()}, {time_data.max()}]"
-                    )
+                if "Time (Seconds)" in df.columns:
+                    time_data = df["Time (Seconds)"]
+                    logger.info(f"Time range: [{time_data.min()}, {time_data.max()}]")
 
     except Exception as e:
         logger.error(f"Error checking file: {str(e)}")
@@ -58,15 +56,14 @@ def main():
     """Run data validation checks."""
     # Configure logging
     logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s'
+        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
     )
 
     # Define paths
     project_root = Path(__file__).resolve().parent.parent.parent
     data_files = [
         project_root / "data/raw/Data_Summary.xlsx",
-        project_root / "data/raw/Hydrograph_Seatek_Data.xlsx"
+        project_root / "data/raw/Hydrograph_Seatek_Data.xlsx",
     ]
 
     # Check each file

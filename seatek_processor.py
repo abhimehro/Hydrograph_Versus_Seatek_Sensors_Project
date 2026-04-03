@@ -19,6 +19,7 @@ Version: 3.0.0
 """
 
 import sys
+
 from src.hydrograph_seatek_analysis.app import main
 
 if __name__ == "__main__":

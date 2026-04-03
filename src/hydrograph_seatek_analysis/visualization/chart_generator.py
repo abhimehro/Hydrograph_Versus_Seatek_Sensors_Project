@@ -11,7 +11,7 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.figure import Figure
 
-from ..core.config import Config, ChartSettings
+from ..core.config import ChartSettings, Config
 
 logger = logging.getLogger(__name__)
 

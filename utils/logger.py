@@ -1,9 +1,12 @@
-import colorlog
 import logging
+
+import colorlog
+
 try:
     import colorlog
 except ImportError:
     colorlog = None
+
 
 def setup_logger(name: str, level: int = logging.INFO) -> logging.Logger:
     """
@@ -19,20 +22,22 @@ def setup_logger(name: str, level: int = logging.INFO) -> logging.Logger:
     if colorlog is not None:
         logger = colorlog.getLogger(name)
         handler = colorlog.StreamHandler()
-        handler.setFormatter(colorlog.ColoredFormatter(
-            '%(log_color)s%(levelname)s:%(name)s:%(message)s',
-            log_colors={
-                'DEBUG': 'cyan',
-                'INFO': 'green',
-                'WARNING': 'yellow',
-                'ERROR': 'red',
-                'CRITICAL': 'red,bg_white',
-            }
-        ))
+        handler.setFormatter(
+            colorlog.ColoredFormatter(
+                "%(log_color)s%(levelname)s:%(name)s:%(message)s",
+                log_colors={
+                    "DEBUG": "cyan",
+                    "INFO": "green",
+                    "WARNING": "yellow",
+                    "ERROR": "red",
+                    "CRITICAL": "red,bg_white",
+                },
+            )
+        )
     else:
         logger = logging.getLogger(name)
         handler = logging.StreamHandler()
-        formatter = logging.Formatter('%(levelname)s:%(name)s:%(message)s')
+        formatter = logging.Formatter("%(levelname)s:%(name)s:%(message)s")
         handler.setFormatter(formatter)
 
     logger.addHandler(handler)

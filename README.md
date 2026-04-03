@@ -36,6 +36,7 @@ This project processes and visualizes Seatek sensor data alongside hydrograph me
 ## Project Overview
 
 The Hydrograph vs Seatek Sensors Analysis Project combines environmental monitoring data to understand the relationship between water flow (hydrograph) and river bed elevation (Seatek sensors). This tool is essential for:
+
 - Monitoring river bed changes over time
 - Analyzing water flow patterns
 - Understanding sediment transport dynamics
@@ -107,23 +108,23 @@ python -m pip install -r requirements.txt
    git clone https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project.git
    cd Hydrograph_Versus_Seatek_Sensors_Project
    ```
-    
+
 2. Create and activate a virtual environment:
 
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
-   
+
 3. Install the project:
 
    ```bash
    # Option 1: Install in development mode
    pip install -e .
-   
+
    # Option 2: Install using requirements.txt
    pip install -r requirements.txt
-   
+
    # Option 3: Install using Poetry
    poetry install
    ```
@@ -131,39 +132,38 @@ python -m pip install -r requirements.txt
 ### Usage
 
 1. Place your data files in the appropriate directories:
+   - **Raw Data**:
+     `data/raw/Data_Summary.xlsx`
+     `data/raw/Hydrograph_Seatek_Data.xlsx`
 
-    - **Raw Data**:
-        `data/raw/Data_Summary.xlsx`
-        `data/raw/Hydrograph_Seatek_Data.xlsx`
-
-    - **Processed Data**: 
-        `data/processed/RM_*.xlsx`
+   - **Processed Data**:
+     `data/processed/RM_*.xlsx`
 
 2. Run the processing script:
 
-    ```bash
-    # Option 1: Run directly
-    python seatek_processor.py
-    
-    # Option 2: If installed as package
-    seatek-processor
-    ```
-   
+   ```bash
+   # Option 1: Run directly
+   python seatek_processor.py
+
+   # Option 2: If installed as package
+   seatek-processor
+   ```
+
 3. Validate data files:
 
-    ```bash
-    # Option 1: Run directly
-    python validate_data.py
-    
-    # Option 2: Run with JSON output
-    python validate_data.py --json
-    
-    # Option 3: Save validation results to file
-    python validate_data.py --output validation_results.json
-    
-    # Option 4: If installed as package
-    validate-data
-    ```
+   ```bash
+   # Option 1: Run directly
+   python validate_data.py
+
+   # Option 2: Run with JSON output
+   python validate_data.py --json
+
+   # Option 3: Save validation results to file
+   python validate_data.py --output validation_results.json
+
+   # Option 4: If installed as package
+   validate-data
+   ```
 
 4. Find generated visualizations in the `output/charts` directory.
 
@@ -179,7 +179,6 @@ The visualization shows:
 ### Sensor 1 Hydrograph Versus Seatek Analysis Visualization
 
 ![Chart showing Seatek Sensor 1 data (NAVD88) and Hydrograph flow (GPM) over time for River Mile 54.0 in Year 1](https://github.com/user-attachments/assets/de2307b3-68f3-44b3-8b63-2e2bcc8253cf)
-
 
 ### Sensor 2 Hydrograph Versus Seatek Analysis Visualization
 
@@ -212,6 +211,7 @@ This project is licensed under the MIT License - see the [License](https://githu
 - **Project Link**: [GitHub Repository](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project)
 
 ## Acknowledgments
+
 - LSU Center for River Studies
 - Louisiana State University
 - The Louisiana Freshwater Sponge Project

@@ -17,23 +17,30 @@ runtimes:
 # This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
 lint:
   enabled:
-    - actionlint@1.7.8
+    - actionlint@1.7.12
     - bandit@1.9.4
     - black@26.3.1
-    - checkov@3.2.510
+    - checkov@3.2.513
     - git-diff-check
     - isort@8.0.1
     - markdownlint@0.48.0
-    - mypy@1.19.1
-    - osv-scanner@2.2.4
+    - mypy@1.20.0
+    - osv-scanner@2.3.5
     - prettier@3.8.1
-    - ruff@0.15.7
+    - ruff@0.15.9
     - taplo@0.10.0
-    - trufflehog@3.90.13
+    - trufflehog@3.94.2
     - yamllint@1.38.0
 actions:
+  disabled:
+    - git-lfs
+    - npm-check
+    - poetry-install
+    - submodule-init-update
+    - trunk-check-pre-commit
+    - trunk-check-pre-push
+    - trunk-check-pre-push-always
+    - trunk-fmt-pre-commit
   enabled:
     - trunk-announce
-    - trunk-check-pre-push
-    - trunk-fmt-pre-commit
     - trunk-upgrade-available

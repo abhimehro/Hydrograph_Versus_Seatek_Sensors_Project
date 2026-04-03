@@ -1,6 +1,7 @@
 # Claude Coding Guidelines
 
 ## Build & Testing Commands
+
 - Run all tests: `python -m pytest tests/`
 - Run specific test file: `python -m pytest tests/test_config.py`
 - Run specific test: `python -m pytest tests/test_config.py::test_config_default_initialization`
@@ -10,6 +11,7 @@
 - Type checking: `mypy src/`
 
 ## Code Style Guidelines
+
 - **Formatting**: Follow PEP 8; line length of 88 characters (Black-compatible)
 - **Imports**: Group as standard library, third-party, local imports; sort alphabetically
 - **Types**: Use type hints for all function parameters and return values

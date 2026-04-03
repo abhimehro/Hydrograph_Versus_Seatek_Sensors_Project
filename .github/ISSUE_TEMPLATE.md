@@ -7,7 +7,6 @@ about: Report any issues or bugs
 title: [Enter a brief title describing the issue]
 labels: [bug]
 assignees: [default-assignee]
-
 ---
 
 **Description of the Bug**

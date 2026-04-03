@@ -1,6 +1,6 @@
 """Setup script for the hydrograph-seatek-analysis package."""
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
     name="hydrograph-seatek-analysis",
