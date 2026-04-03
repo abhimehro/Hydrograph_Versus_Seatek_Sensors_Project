@@ -1,12 +1,13 @@
 """Visualization utilities for Seatek sensor data."""
 
+import logging
+from pathlib import Path
+from typing import Optional, Tuple
+
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-import seaborn as sns
 import pandas as pd
-import logging
-from typing import Optional, Tuple
-from pathlib import Path
+import seaborn as sns
 
 logger = logging.getLogger(__name__)
 
@@ -20,31 +21,36 @@ class SeatekVisualizer:
 
     def _setup_style(self) -> None:
         """Configure professional plot styling."""
-        sns.set_style("whitegrid", {
-            "grid.linestyle": ":",
-            "grid.alpha": 0.2,
-            "axes.edgecolor": "#333333",
-            "axes.linewidth": 1.2,
-            "grid.color": "#CCCCCC",
-        })
+        sns.set_style(
+            "whitegrid",
+            {
+                "grid.linestyle": ":",
+                "grid.alpha": 0.2,
+                "axes.edgecolor": "#333333",
+                "axes.linewidth": 1.2,
+                "grid.color": "#CCCCCC",
+            },
+        )
 
-        plt.rcParams.update({
-            "font.family": "sans-serif",
-            "font.sans-serif": ["Arial"],
-            "font.size": 11,
-            "figure.figsize": (12, 8),
-            "figure.dpi": 300,
-            "savefig.bbox": "tight",
-            "savefig.pad_inches": 0.2
-        })
+        plt.rcParams.update(
+            {
+                "font.family": "sans-serif",
+                "font.sans-serif": ["Arial"],
+                "font.size": 11,
+                "figure.figsize": (12, 8),
+                "figure.dpi": 300,
+                "savefig.bbox": "tight",
+                "savefig.pad_inches": 0.2,
+            }
+        )
 
     def create_visualization(
-            self,
-            data: pd.DataFrame,
-            river_mile: float,
-            year: int,
-            sensor: str,
-            output_path: Optional[Path] = None
+        self,
+        data: pd.DataFrame,
+        river_mile: float,
+        year: int,
+        sensor: str,
+        output_path: Optional[Path] = None,
     ) -> Optional[plt.Figure]:
         """
         Create professional visualization with Seatek and Hydrograph data.
@@ -63,7 +69,7 @@ class SeatekVisualizer:
             fig, axes = self._create_base_plot()
             self._add_seatek_data(axes[0], data, sensor)
 
-            if 'Hydrograph (Lagged)' in data.columns:
+            if "Hydrograph (Lagged)" in data.columns:
                 self._add_hydrograph_data(axes[0], axes[1], data)
 
             self._format_plot(fig, axes[0], river_mile, year, sensor, data)
@@ -76,7 +82,7 @@ class SeatekVisualizer:
                         f"Chart showing Seatek Sensor {sensor_num} data (NAVD88) and "
                         f"Hydrograph flow (GPM) over time for River Mile {river_mile:.1f} in Year {year}."
                     ),
-                    "Author": "Hydrograph vs Seatek Sensors Analysis Project"
+                    "Author": "Hydrograph vs Seatek Sensors Analysis Project",
                 }
                 self._save_plot(fig, output_path, metadata=metadata)
 
@@ -93,70 +99,61 @@ class SeatekVisualizer:
         ax2 = ax1.twinx()
         return fig, (ax1, ax2)
 
-    def _add_seatek_data(
-            self,
-            ax: plt.Axes,
-            data: pd.DataFrame,
-            sensor: str
-    ) -> None:
+    def _add_seatek_data(self, ax: plt.Axes, data: pd.DataFrame, sensor: str) -> None:
         """Add Seatek sensor data to the plot."""
         ax.scatter(
-            data['Time (Minutes)'],
+            data["Time (Minutes)"],
             data[sensor],
-            color='#A63600',
+            color="#A63600",
             alpha=1.0,
             s=45,
-            edgecolors='white',
+            edgecolors="white",
             linewidth=0.5,
-            label=f'Sensor {sensor.split("_")[1]} (NAVD88)'
+            label=f'Sensor {sensor.split("_")[1]} (NAVD88)',
         )
 
-        ax.set_xlabel('Time (Minutes)', fontsize=12, labelpad=10)
-        ax.set_ylabel('Seatek Sensor Reading (NAVD88)',
-                      color='#A63600', fontsize=12)
-        ax.tick_params(axis='y', labelcolor='#A63600')
-        ax.grid(True, alpha=0.2, linestyle=':')
+        ax.set_xlabel("Time (Minutes)", fontsize=12, labelpad=10)
+        ax.set_ylabel("Seatek Sensor Reading (NAVD88)", color="#A63600", fontsize=12)
+        ax.tick_params(axis="y", labelcolor="#A63600")
+        ax.grid(True, alpha=0.2, linestyle=":")
 
     def _add_hydrograph_data(
-            self,
-            ax1: plt.Axes,
-            ax2: plt.Axes,
-            data: pd.DataFrame
+        self, ax1: plt.Axes, ax2: plt.Axes, data: pd.DataFrame
     ) -> None:
         """Add hydrograph data to the plot."""
-        hydro_data = data[data['Hydrograph (Lagged)'].notna()]
+        hydro_data = data[data["Hydrograph (Lagged)"].notna()]
 
         if len(hydro_data) > 0:
             ax2.scatter(
-                hydro_data['Time (Minutes)'],
-                hydro_data['Hydrograph (Lagged)'],
-                color='#0E5A8A',
+                hydro_data["Time (Minutes)"],
+                hydro_data["Hydrograph (Lagged)"],
+                color="#0E5A8A",
                 alpha=1.0,
                 s=70,
-                marker='s',
-                edgecolors='white',
+                marker="s",
+                edgecolors="white",
                 linewidth=0.5,
-                label='Hydrograph (GPM)'
+                label="Hydrograph (GPM)",
             )
 
-            ax2.set_ylabel('Hydrograph (GPM)', color='#0E5A8A', fontsize=12)
-            ax2.tick_params(axis='y', labelcolor='#0E5A8A')
+            ax2.set_ylabel("Hydrograph (GPM)", color="#0E5A8A", fontsize=12)
+            ax2.tick_params(axis="y", labelcolor="#0E5A8A")
 
     def _format_plot(
-            self,
-            fig: plt.Figure,
-            ax: plt.Axes,
-            river_mile: float,
-            year: int,
-            sensor: str,
-            data: pd.DataFrame = None
+        self,
+        fig: plt.Figure,
+        ax: plt.Axes,
+        river_mile: float,
+        year: int,
+        sensor: str,
+        data: pd.DataFrame = None,
     ) -> None:
         """Format plot with titles, legends, and styling."""
         plt.title(
-            f'River Mile {river_mile:.1f} - Year {year}\n'
+            f"River Mile {river_mile:.1f} - Year {year}\n"
             f'Seatek Sensor {sensor.split("_")[1]} Data with Hydrograph',
             pad=20,
-            fontsize=14
+            fontsize=14,
         )
 
         # Enhance spines
@@ -169,7 +166,7 @@ class SeatekVisualizer:
         # Access secondary axis if it exists (using standard axes logic, not right_ax attribute)
         if len(fig.axes) > 1:
             ax2 = fig.axes[1]
-            if hasattr(ax2, 'get_legend_handles_labels'):
+            if hasattr(ax2, "get_legend_handles_labels"):
                 lines2, labels2 = ax2.get_legend_handles_labels()
                 lines1.extend(lines2)
                 labels1.extend(labels2)
@@ -178,18 +175,20 @@ class SeatekVisualizer:
             ax.legend(
                 lines1,
                 labels1,
-                loc='upper center',
+                loc="upper center",
                 bbox_to_anchor=(0.5, -0.15),
                 framealpha=1.0,
-                edgecolor='#333333',
+                edgecolor="#333333",
                 ncol=2,
-                fontsize=11
+                fontsize=11,
             )
 
         # Apply formatting safely based on data types
         if data is not None:
             # X-axis time formatting
-            if 'Time (Minutes)' in data.columns and pd.api.types.is_numeric_dtype(data['Time (Minutes)']):
+            if "Time (Minutes)" in data.columns and pd.api.types.is_numeric_dtype(
+                data["Time (Minutes)"]
+            ):
                 ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
 
             # Y-axis sensor formatting
@@ -197,28 +196,32 @@ class SeatekVisualizer:
                 ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.2f}"))
 
             # Secondary Y-axis hydrograph formatting
-            if 'Hydrograph (Lagged)' in data.columns and pd.api.types.is_numeric_dtype(data['Hydrograph (Lagged)']):
+            if "Hydrograph (Lagged)" in data.columns and pd.api.types.is_numeric_dtype(
+                data["Hydrograph (Lagged)"]
+            ):
                 if len(fig.axes) > 1:
                     ax2 = fig.axes[1]
-                    if hasattr(ax2, 'yaxis'):
-                        hydro_vals = data['Hydrograph (Lagged)'].dropna()
+                    if hasattr(ax2, "yaxis"):
+                        hydro_vals = data["Hydrograph (Lagged)"].dropna()
                         max_frac = (hydro_vals - hydro_vals.round()).abs().max()
                         if pd.notna(max_frac) and max_frac < 1e-6:
-                            ax2.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
+                            ax2.yaxis.set_major_formatter(
+                                ticker.StrMethodFormatter("{x:,.0f}")
+                            )
                         else:
-                            ax2.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.2f}"))
+                            ax2.yaxis.set_major_formatter(
+                                ticker.StrMethodFormatter("{x:,.2f}")
+                            )
 
         plt.tight_layout()
 
-    def _save_plot(self, fig: plt.Figure, output_path: Path, metadata: Optional[dict] = None) -> None:
+    def _save_plot(
+        self, fig: plt.Figure, output_path: Path, metadata: Optional[dict] = None
+    ) -> None:
         """Save plot to file with proper settings."""
         try:
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            kwargs = {
-                "dpi": 300,
-                "bbox_inches": "tight",
-                "facecolor": "white"
-            }
+            kwargs = {"dpi": 300, "bbox_inches": "tight", "facecolor": "white"}
             if metadata:
                 kwargs["metadata"] = metadata
 

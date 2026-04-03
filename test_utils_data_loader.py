@@ -1,39 +1,39 @@
 import sys
-from unittest.mock import MagicMock, ANY
+from unittest.mock import MagicMock
 
 # Mock missing dependencies
-sys.modules['pandas'] = MagicMock()
-sys.modules['numpy'] = MagicMock()
+sys.modules["pandas"] = MagicMock()
+sys.modules["numpy"] = MagicMock()
+
 
 from utils.data_loader import DataLoader
-from utils.config import Config
-from pathlib import Path
+
 
 def test_data_loader():
     import pandas as pd
 
     mock_summary_df = MagicMock()
-    mock_summary_df.columns = ['River_Mile', 'Y_Offset', 'Num_Sensors']
+    mock_summary_df.columns = ["River_Mile", "Y_Offset", "Num_Sensors"]
 
     def side_effect_read_excel(*args, **kwargs):
-        usecols = kwargs.get('usecols')
+        usecols = kwargs.get("usecols")
         if usecols:
-            if 'Data_Summary' in str(args[0]):
-                usecols('River_Mile')
-                usecols('Y_Offset')
-                usecols('Num_Sensors')
-            elif 'sheet_name' in kwargs:
-                usecols('Time (Seconds)')
-                usecols('Year')
-                usecols('Sensor_1')
-                usecols('Hydrograph (Lagged)')
+            if "Data_Summary" in str(args[0]):
+                usecols("River_Mile")
+                usecols("Y_Offset")
+                usecols("Num_Sensors")
+            elif "sheet_name" in kwargs:
+                usecols("Time (Seconds)")
+                usecols("Year")
+                usecols("Sensor_1")
+                usecols("Hydrograph (Lagged)")
         return mock_summary_df
 
     pd.read_excel.side_effect = side_effect_read_excel
 
     # Mock ExcelFile
     mock_excel_file = MagicMock()
-    mock_excel_file.sheet_names = ['RM_55']
+    mock_excel_file.sheet_names = ["RM_55"]
     pd.ExcelFile.return_value = mock_excel_file
 
     # Mock Config to avoid permission errors
@@ -56,8 +56,9 @@ def test_data_loader():
 
     assert pd.read_excel.call_count == 2
     for call_args in pd.read_excel.call_args_list:
-        assert 'usecols' in call_args.kwargs
-        assert callable(call_args.kwargs['usecols'])
+        assert "usecols" in call_args.kwargs
+        assert callable(call_args.kwargs["usecols"])
+
 
 test_data_loader()
 print("test_utils_data_loader passed!")

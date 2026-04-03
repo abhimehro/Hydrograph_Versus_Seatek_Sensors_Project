@@ -1,12 +1,13 @@
-import unittest
 import tempfile
+import unittest
 from pathlib import Path
 from unittest.mock import patch
 
 from pandas import DataFrame
+
 from src import (
-    create_visualization,
     DataVisualizationError,
+    create_visualization,
     save_visualization,
     setup_plot_style,
 )
@@ -48,15 +49,18 @@ class TestVisualization(unittest.TestCase):
     @staticmethod
     def get_test_plot_data() -> DataFrame:
         """Provide shared test data DataFrame."""
-        return DataFrame({
-            TestVisualization.TIME_COLUMN: [0, 1, 2, 3],
-            TestVisualization.HYDROGRAPH_COLUMN: [10, 20, 30, 40],
-            TestVisualization.SENSOR_COLUMN: [15, 25, 35, 45],
-        })
+        return DataFrame(
+            {
+                TestVisualization.TIME_COLUMN: [0, 1, 2, 3],
+                TestVisualization.HYDROGRAPH_COLUMN: [10, 20, 30, 40],
+                TestVisualization.SENSOR_COLUMN: [15, 25, 35, 45],
+            }
+        )
 
     def test_setup_plot_style(self) -> None:
         """Test that setup_plot_style() executes without exceptions."""
         import matplotlib as mpl
+
         original_style = mpl.rcParams.copy()
 
         try:
@@ -97,8 +101,10 @@ class TestVisualization(unittest.TestCase):
         """
         Test that save_visualization() saves the figure and performs cleanup.
         """
-        with patch("src.visualization.Path.exists", return_value=True) as mock_exists, \
-                patch("src.visualization.Path.unlink") as mock_unlink:
+        with (
+            patch("src.visualization.Path.exists", return_value=True) as mock_exists,
+            patch("src.visualization.Path.unlink") as mock_unlink,
+        ):
             # Create the visualization to save
             fig, _ = create_visualization(
                 self.plot_data, 1.0, 2023, self.SENSOR_COLUMN, self.column_mappings
@@ -132,11 +138,13 @@ class TestVisualization(unittest.TestCase):
 
     def test_insufficient_numeric_data(self) -> None:
         """Test insufficient numeric data in create_visualization()."""
-        insufficient_data = DataFrame({
-            self.TIME_COLUMN: [0],
-            self.HYDROGRAPH_COLUMN: [10],
-            self.SENSOR_COLUMN: [15],
-        })  # Only one data point
+        insufficient_data = DataFrame(
+            {
+                self.TIME_COLUMN: [0],
+                self.HYDROGRAPH_COLUMN: [10],
+                self.SENSOR_COLUMN: [15],
+            }
+        )  # Only one data point
         with self.assertRaises(DataVisualizationError):
             create_visualization(
                 insufficient_data, 1.0, 2023, self.SENSOR_COLUMN, self.column_mappings

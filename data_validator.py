@@ -1,7 +1,9 @@
 import logging
-from pathlib import Path
 import os
+from pathlib import Path
+
 import pandas as pd
+
 from src.hydrograph_seatek_analysis.core.config import Config
 from utils.security import validate_file_size
 
@@ -12,11 +14,12 @@ def get_project_root() -> Path:
 
     # Look for project markers
     while current_path.name:
-        if (current_path / '.git').exists() or \
-                (current_path / 'setup.py').exists() or \
-                (current_path / 'pyproject.toml').exists() or \
-                current_path.name == (
-                    'Hydrograph_Versus_Seatek_Sensors_Project'):
+        if (
+            (current_path / ".git").exists()
+            or (current_path / "setup.py").exists()
+            or (current_path / "pyproject.toml").exists()
+            or current_path.name == ("Hydrograph_Versus_Seatek_Sensors_Project")
+        ):
             return current_path
         parent = current_path.parent
         if parent == current_path:
@@ -32,8 +35,7 @@ def validate_data_files():
     try:
         # Setup logging
         logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s'
+            level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
         )
 
         # Get project root using absolute path
@@ -50,10 +52,10 @@ def validate_data_files():
         # Log directory structure
         logging.info("\nDirectory structure:")
         for root, dirs, files in os.walk(project_root):
-            level = root.replace(str(project_root), '').count(os.sep)
-            indent = ' ' * 4 * level
+            level = root.replace(str(project_root), "").count(os.sep)
+            indent = " " * 4 * level
             logging.info(f"{indent}{os.path.basename(root)}/")
-            subindent = ' ' * 4 * (level + 1)
+            subindent = " " * 4 * (level + 1)
             for f in files:
                 logging.info(f"{subindent}{f}")
 
@@ -82,8 +84,7 @@ def validate_data_files():
                 validate_file_size(path, MAX_FILE_SIZE_BYTES)
                 with pd.ExcelFile(path) as xlsx:
                     sheets = xlsx.sheet_names
-                    logging.info(
-                        f"Available sheets in Hydrograph data: {sheets}")
+                    logging.info(f"Available sheets in Hydrograph data: {sheets}")
 
                     for sheet in sheets:
                         validate_file_size(path, MAX_FILE_SIZE_BYTES)

@@ -1,1 +1,130 @@
-import pandas as pdimport numpy as npimport matplotlib.pyplot as pltimport seaborn as snsfrom pathlib import Pathfrom scipy.stats import pearsonr# ConstantsMAX_DISCHARGE = 10000MAX_SENSOR_READING = 5000OUTPUT_DIR = Path("output/")# Data Cleaningdef clean_data(df):"""Cleans the dataset by applying various filtering criteria."""df = _filter_positive_values(df, 'discharge')df = _filter_positive_values(df, 'sensor_reading')df = _filter_upper_bound(df, 'discharge', MAX_DISCHARGE)df = _filter_upper_bound(df, 'sensor_reading', MAX_SENSOR_READING)return dfdef _filter_positive_values(df, column):"""Filters out non-positive values from the specified column."""return df[df[column] > 0]def _filter_upper_bound(df, column, max_value):"""Filters out values exceeding the specified maximum in the given column."""return df[df[column] <= max_value]# Statistical Analysisdef calculate_pearson_correlation(df, x_col, y_col):"""Calculates the Pearson correlation coefficient for two columns."""if df.empty or len(df) < 2:raise ValueError("Not enough data points to calculate correlation.")r, _ = pearsonr(df[x_col], df[y_col])return r# Visualizationdef generate_visualization(df, river_mile, year):"""Creates and saves a dual-axis plot for hydrograph discharge and Seatek sensor readings."""fig, ax1 = plt.subplots(figsize=(10, 6))    # Plot discharge    color = 'tab:blue'    ax1.set_xlabel('Time')    ax1.set_ylabel('Discharge (gpm)', color=color)    ax1.scatter(df.index, df['discharge'], label="Discharge", color=color, alpha=0.7)    ax1.tick_params(axis='y', labelcolor=color)    # Plot sensor readings on the second y-axis    ax2 = ax1.twinx()    color = 'tab:orange'    ax2.set_ylabel('Sensor Readings (mm)', color=color)    ax2.plot(df.index, df['sensor_reading'], label="Sensor Reading", color=color, marker='o', alpha=0.7)    ax2.tick_params(axis='y', labelcolor=color)    # Add title, legend, and save the figure    plt.title(f'River Mile {river_mile} - Year {year} Correlation Analysis')    fig.tight_layout()        output_path = OUTPUT_DIR / f"RM_{river_mile}" / f"Year_{year}.png"    output_path.parent.mkdir(parents=True, exist_ok=True)    plt.savefig(output_path, dpi=300)    plt.close()# Data Processingdef process_river_mile_data(river_mile_file):"""Processes a single river mile Excel file for analysis."""try:# Read Excel filedf = pd.read_excel(river_mile_file)        # Clean data        df = clean_data(df)                # Organize by year        years = df['year'].unique()        results = []                for year in years:            year_data = df[df['year'] == year]                        # Calculate correlation            r = calculate_pearson_correlation(year_data, 'discharge', 'sensor_reading')                        # Generate visualization            generate_visualization(year_data, river_mile_file.stem, year)                        # Collect results            results.append({                "river_mile": river_mile_file.stem,                "year": year,                "correlation_coefficient": r,                "n_points": len(year_data)            })                return results        except Exception as e:        print(f"Error processing {river_mile_file}: {e}")        return None# Main Driverdef main():"""Main function to orchestrate the analysis workflow."""input_dir = Path("data/")river_mile_files = input_dir.glob("RM_*.xlsx")summary_results = []    for river_mile_file in river_mile_files:        results = process_river_mile_data(river_mile_file)        if results:            summary_results.extend(results)        # Summarize results    if summary_results:        summary_df = pd.DataFrame(summary_results)        summary_df.to_excel(OUTPUT_DIR / "Summary_Results.xlsx", index=False)        print("Analysis complete. Summary results saved.")if __name__ == "__main__":main()
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from pathlib import Path
+from scipy.stats import pearsonr
+
+# Constants
+
+MAX_DISCHARGE = 10000
+MAX_SENSOR_READING = 5000
+OUTPUT_DIR = Path("output/")
+
+# Data Cleaning
+
+def clean_data(df):
+"""Cleans the dataset by applying various filtering criteria."""
+df = \_filter_positive_values(df, 'discharge')
+df = \_filter_positive_values(df, 'sensor_reading')
+df = \_filter_upper_bound(df, 'discharge', MAX_DISCHARGE)
+df = \_filter_upper_bound(df, 'sensor_reading', MAX_SENSOR_READING)
+return df
+
+def \_filter_positive_values(df, column):
+"""Filters out non-positive values from the specified column."""
+return df[df[column] > 0]
+
+def \_filter_upper_bound(df, column, max_value):
+"""Filters out values exceeding the specified maximum in the given column."""
+return df[df[column] <= max_value]
+
+# Statistical Analysis
+
+def calculate*pearson_correlation(df, x_col, y_col):
+"""Calculates the Pearson correlation coefficient for two columns."""
+if df.empty or len(df) < 2:
+raise ValueError("Not enough data points to calculate correlation.")
+r, * = pearsonr(df[x_col], df[y_col])
+return r
+
+# Visualization
+
+def generate_visualization(df, river_mile, year):
+"""Creates and saves a dual-axis plot for hydrograph discharge and Seatek sensor readings."""
+fig, ax1 = plt.subplots(figsize=(10, 6))
+
+    # Plot discharge
+    color = 'tab:blue'
+    ax1.set_xlabel('Time')
+    ax1.set_ylabel('Discharge (gpm)', color=color)
+    ax1.scatter(df.index, df['discharge'], label="Discharge", color=color, alpha=0.7)
+    ax1.tick_params(axis='y', labelcolor=color)
+
+    # Plot sensor readings on the second y-axis
+    ax2 = ax1.twinx()
+    color = 'tab:orange'
+    ax2.set_ylabel('Sensor Readings (mm)', color=color)
+    ax2.plot(df.index, df['sensor_reading'], label="Sensor Reading", color=color, marker='o', alpha=0.7)
+    ax2.tick_params(axis='y', labelcolor=color)
+
+    # Add title, legend, and save the figure
+    plt.title(f'River Mile {river_mile} - Year {year} Correlation Analysis')
+    fig.tight_layout()
+
+    output_path = OUTPUT_DIR / f"RM_{river_mile}" / f"Year_{year}.png"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(output_path, dpi=300)
+    plt.close()
+
+# Data Processing
+
+def process_river_mile_data(river_mile_file):
+"""Processes a single river mile Excel file for analysis."""
+try:
+
+# Read Excel file
+
+df = pd.read_excel(river_mile_file)
+
+        # Clean data
+        df = clean_data(df)
+
+        # Organize by year
+        years = df['year'].unique()
+        results = []
+
+        for year in years:
+            year_data = df[df['year'] == year]
+
+            # Calculate correlation
+            r = calculate_pearson_correlation(year_data, 'discharge', 'sensor_reading')
+
+            # Generate visualization
+            generate_visualization(year_data, river_mile_file.stem, year)
+
+            # Collect results
+            results.append({
+                "river_mile": river_mile_file.stem,
+                "year": year,
+                "correlation_coefficient": r,
+                "n_points": len(year_data)
+            })
+
+        return results
+
+    except Exception as e:
+        print(f"Error processing {river_mile_file}: {e}")
+        return None
+
+# Main Driver
+
+def main():
+"""Main function to orchestrate the analysis workflow."""
+input*dir = Path("data/")
+river_mile_files = input_dir.glob("RM*\*.xlsx")
+summary_results = []
+
+    for river_mile_file in river_mile_files:
+        results = process_river_mile_data(river_mile_file)
+        if results:
+            summary_results.extend(results)
+
+    # Summarize results
+    if summary_results:
+        summary_df = pd.DataFrame(summary_results)
+        summary_df.to_excel(OUTPUT_DIR / "Summary_Results.xlsx", index=False)
+        print("Analysis complete. Summary results saved.")
+
+if **name** == "**main**":
+main()

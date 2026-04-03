@@ -3,9 +3,11 @@
 ## Excel File Structure
 
 ### Summary Sheet
+
 The first sheet contains metadata about all river mile locations.
 
 #### Required Columns
+
 ```python
 {
     'River_Mile': float,      # e.g., 54.0, 53.0
@@ -17,15 +19,18 @@ The first sheet contains metadata about all river mile locations.
 ```
 
 Example row:
+
 ```
 River_Mile  | Num_Sensors | Start_Year   | End_Year     | Notes
 54.0       | 2          | 1995 (Y01)   | 2014 (Y20)   | 1, 2
 ```
 
 ### River Mile Sheets
+
 Each river mile has its own sheet named `RM_{river_mile}` (e.g., `RM_54.0`)
 
 #### Required Columns
+
 ```python
 {
     'Time (Seconds)': float,  # Time since start of measurement
@@ -36,6 +41,7 @@ Each river mile has its own sheet named `RM_{river_mile}` (e.g., `RM_54.0`)
 ```
 
 Example data:
+
 ```
 Time (Seconds) | Year | Sensor_1 | Sensor_2
 0             | 1    | 150.23   | 148.45
@@ -45,15 +51,18 @@ Time (Seconds) | Year | Sensor_1 | Sensor_2
 ## Data Validation Rules
 
 ### Time Values
+
 - Must be non-negative
 - Must be in seconds
 - Should be monotonically increasing within each year
 
 ### Year Values
+
 - Integer values from 1 to 20
 - Corresponds to calendar years 1995 (Y01) to 2014 (Y20)
 
 ### Sensor Readings
+
 - Must be positive numbers
 - Measured in millimeters (mm)
 - NaN or empty values are excluded during processing
@@ -62,10 +71,12 @@ Time (Seconds) | Year | Sensor_1 | Sensor_2
 ## Sheet Naming Convention
 
 ### Summary Sheet
+
 - Must be the first sheet in the workbook
 - Name should match standard Excel default (Sheet1)
 
 ### River Mile Sheets
+
 ```
 Format: RM_{river_mile}
 Example: RM_54.0, RM_53.0
@@ -76,18 +87,21 @@ Example: RM_54.0, RM_53.0
 The script performs the following validations:
 
 1. **Summary Sheet Validation**
+
 ```python
 required_columns = ['River_Mile', 'Num_Sensors', 'Start_Year', 'End_Year']
 assert all(col in df.columns for col in required_columns)
 ```
 
 2. **River Mile Sheet Validation**
+
 ```python
 required_columns = ['Time (Seconds)', 'Year', 'Sensor_1', 'Sensor_2']
 assert all(col in df.columns for col in required_columns)
 ```
 
 3. **Data Type Validation**
+
 ```python
 # Time must be numeric and non-negative
 assert (df['Time (Seconds)'] >= 0).all()
@@ -148,12 +162,14 @@ Example: Hydrograph_Seatek_Data (Series 26 - Trial Runs).xlsx
 ## Common Issues and Solutions
 
 1. **Missing Data**
+
    ```python
    # Handled by excluding NaN values
    data = data.dropna(subset=['Sensor_1', 'Sensor_2'])
    ```
 
 2. **Invalid Readings**
+
    ```python
    # Filtered out during validation
    data = data[data['Sensor_1'] > 0]

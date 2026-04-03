@@ -4,18 +4,24 @@ This module implements decoupled filtering for sensor and hydrograph values,
 and merges the two streams using a full outer join so that all valid sensor readings
 (as well as all valid lagged hydrograph measurements) are preserved.
 """
-from utils.security import validate_file_size
+
 import logging
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
-import pandas as pd
+
 import numpy as np
+import pandas as pd
+
+from utils.security import validate_file_size
+
 logger = logging.getLogger(__name__)
+
 
 @dataclass
 class ProcessingMetrics:
     """Metrics for data processing operations."""
+
     original_rows: int = 0
     invalid_rows: int = 0
     zero_values: int = 0
@@ -24,7 +30,10 @@ class ProcessingMetrics:
 
     def log_metrics(self) -> None:
         """Log processing metrics."""
-        logger.info(f'Data processing metrics:\n  Original rows: {self.original_rows}\n  Invalid rows: {self.invalid_rows}\n  Zero values: {self.zero_values}\n  Null values: {self.null_values}\n  Valid rows: {self.valid_rows}')
+        logger.info(
+            f"Data processing metrics:\n  Original rows: {self.original_rows}\n  Invalid rows: {self.invalid_rows}\n  Zero values: {self.zero_values}\n  Null values: {self.null_values}\n  Valid rows: {self.valid_rows}"
+        )
+
 
 class RiverMileData:
     """Container for river mile–specific data and metadata."""
@@ -40,55 +49,65 @@ class RiverMileData:
     def _extract_river_mile(self) -> float:
         """Extract river mile from the filename."""
         try:
-            rm_str = self.file_path.stem.split('_')[1]
+            rm_str = self.file_path.stem.split("_")[1]
             return float(rm_str)
         except (IndexError, ValueError) as e:
-            raise ValueError(f'Invalid river mile file name: {self.file_path.name}') from e
+            raise ValueError(
+                f"Invalid river mile file name: {self.file_path.name}"
+            ) from e
 
     def load_data(self) -> None:
         """Load and validate data from the Excel file."""
         try:
             validate_file_size(self.file_path, 100 * 1024 * 1024)
-            required_cols = {'Time (Seconds)', 'Year'}
+            required_cols = {"Time (Seconds)", "Year"}
 
             # ⚡ Bolt Optimization: load columns dynamically and load in a single pass
             # This dramatically reduces memory allocations by skipping unnecessary columns
             seen_cols = []
+
             def filter_cols(col):
                 seen_cols.append(col)
-                return col in required_cols or str(col).startswith('Sensor_') or col == 'Hydrograph (Lagged)'
+                return (
+                    col in required_cols
+                    or str(col).startswith("Sensor_")
+                    or col == "Hydrograph (Lagged)"
+                )
 
             self.data = pd.read_excel(self.file_path, usecols=filter_cols)
 
             missing_cols = required_cols - set(seen_cols)
             if missing_cols:
-                raise ValueError(f'Missing required columns: {missing_cols}')
+                raise ValueError(f"Missing required columns: {missing_cols}")
 
             self._validate_data()
             self._setup_sensors()
 
             # ⚡ Bolt Optimization: Pre-calculate Time (Minutes) once during data loading
             # to avoid redundantly dividing Time (Seconds) by 60 for every sensor and year combination
-            self.data['Time (Minutes)'] = self.data['Time (Seconds)'] / 60.0
+            self.data["Time (Minutes)"] = self.data["Time (Seconds)"] / 60.0
 
             # Optimization: Pre-group data by year to avoid O(N) boolean masking
-            self.year_data_cache = {int(year): df for year, df in self.data.groupby('Year', sort=False)}
+            self.year_data_cache = {
+                int(year): df for year, df in self.data.groupby("Year", sort=False)
+            }
         except Exception as e:
-            logger.error(f'Error loading {self.file_path.name}: {str(e)}')
+            logger.error(f"Error loading {self.file_path.name}: {str(e)}")
             raise
 
     def _validate_data(self) -> None:
         """Ensure that required columns exist."""
-        required_cols = {'Time (Seconds)', 'Year'}
+        required_cols = {"Time (Seconds)", "Year"}
         missing = required_cols - set(self.data.columns)
         if missing:
-            raise ValueError(f'Missing required columns: {missing}')
+            raise ValueError(f"Missing required columns: {missing}")
 
     def _setup_sensors(self) -> None:
         """Identify available sensor columns (those whose names begin with 'Sensor_')."""
-        self.sensors = [col for col in self.data.columns if col.startswith('Sensor_')]
+        self.sensors = [col for col in self.data.columns if col.startswith("Sensor_")]
         if not self.sensors:
-            raise ValueError('No sensor columns found')
+            raise ValueError("No sensor columns found")
+
 
 class SeatekDataProcessor:
     """Handles Seatek sensor data processing and conversion to NAVD88,
@@ -111,9 +130,11 @@ class SeatekDataProcessor:
 
     def _setup_offsets(self) -> None:
         """Setup Y_Offset values for each river mile from the summary data."""
-        self.offsets = self.summary_data.set_index('River_Mile')['Y_Offset'].to_dict()
+        self.offsets = self.summary_data.set_index("River_Mile")["Y_Offset"].to_dict()
 
-    def convert_to_navd88(self, data: pd.DataFrame, sensor: str, river_mile: float) -> pd.DataFrame:
+    def convert_to_navd88(
+        self, data: pd.DataFrame, sensor: str, river_mile: float
+    ) -> pd.DataFrame:
         """Convert Seatek sensor readings to NAVD88 elevation using the
         river mile–specific offset, and convert time from seconds to minutes.
         """
@@ -121,14 +142,17 @@ class SeatekDataProcessor:
         y_offset = self.offsets.get(river_mile, 0)
 
         # ⚡ Bolt Optimization: Ensure Time (Minutes) is calculated if missing.
-        if 'Time (Minutes)' not in processed.columns and 'Time (Seconds)' in processed.columns:
-            processed['Time (Minutes)'] = processed['Time (Seconds)'] / 60.0
+        if (
+            "Time (Minutes)" not in processed.columns
+            and "Time (Seconds)" in processed.columns
+        ):
+            processed["Time (Minutes)"] = processed["Time (Seconds)"] / 60.0
 
         # Optimization: Avoid pd.to_numeric if the column is already numeric.
         if pd.api.types.is_numeric_dtype(processed[sensor]):
             raw_data = processed[sensor]
         else:
-            raw_data = pd.to_numeric(processed[sensor], errors='coerce')
+            raw_data = pd.to_numeric(processed[sensor], errors="coerce")
 
         # Optimization: Pre-calculate scalar coefficients to minimize memory allocations
         # and array operations. Math simplification:
@@ -139,7 +163,9 @@ class SeatekDataProcessor:
         processed[sensor] = raw_data * m + b
         return processed
 
-    def process_data(self, river_mile: float, year: int, sensor: str) -> Tuple[pd.DataFrame, ProcessingMetrics]:
+    def process_data(
+        self, river_mile: float, year: int, sensor: str
+    ) -> Tuple[pd.DataFrame, ProcessingMetrics]:
         """
         Process data for a given river mile, year, and sensor with fully decoupled filtering.
 
@@ -155,7 +181,7 @@ class SeatekDataProcessor:
           • Finally, recalculate the time in minutes (if needed), sort by time, and update metrics.
         """
         if river_mile not in self.river_mile_data:
-            raise ValueError(f'No data loaded for River Mile {river_mile}')
+            raise ValueError(f"No data loaded for River Mile {river_mile}")
         rm_data = self.river_mile_data[river_mile]
 
         # Optimization: Use pre-grouped year data cache instead of O(N) boolean masking
@@ -165,9 +191,9 @@ class SeatekDataProcessor:
         else:
             # Optimization: Only extract the required columns (Time, current sensor, and Hydrograph)
             # to avoid redundantly copying all other sensor columns on every iteration.
-            cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
-            if 'Hydrograph (Lagged)' in cached_year_data.columns:
-                cols.append('Hydrograph (Lagged)')
+            cols = ["Time (Seconds)", "Time (Minutes)", sensor]
+            if "Hydrograph (Lagged)" in cached_year_data.columns:
+                cols.append("Hydrograph (Lagged)")
             year_data = cached_year_data[cols]
 
         metrics = ProcessingMetrics(original_rows=len(year_data))
@@ -185,7 +211,7 @@ class SeatekDataProcessor:
         metrics.null_values = sensor_isna.sum()
         metrics.zero_values = sensor_iszero.sum()
 
-        has_hydro = 'Hydrograph (Lagged)' in processed.columns
+        has_hydro = "Hydrograph (Lagged)" in processed.columns
 
         # Optimization: Use boolean masking instead of expensive outer pd.merge.
         # Create masks for valid data (nonzero and non-null) for each stream.
@@ -194,7 +220,7 @@ class SeatekDataProcessor:
         sensor_mask_arr = ~(sensor_isna | sensor_iszero)
 
         if has_hydro:
-            hydro_vals = processed['Hydrograph (Lagged)'].values
+            hydro_vals = processed["Hydrograph (Lagged)"].values
             hydro_mask_arr = ~pd.isna(hydro_vals) & (hydro_vals != 0)
             keep_mask_arr = sensor_mask_arr | hydro_mask_arr
         else:
@@ -204,9 +230,18 @@ class SeatekDataProcessor:
         # If no valid readings exist for both streams, return appropriate early empty df.
         if not keep_mask_arr.any():
             if has_hydro:
-                merged = pd.DataFrame(columns=['Time (Seconds)', sensor, 'Time (Minutes)', 'Hydrograph (Lagged)'])
+                merged = pd.DataFrame(
+                    columns=[
+                        "Time (Seconds)",
+                        sensor,
+                        "Time (Minutes)",
+                        "Hydrograph (Lagged)",
+                    ]
+                )
             else:
-                merged = pd.DataFrame(columns=['Time (Seconds)', 'Time (Minutes)', sensor])
+                merged = pd.DataFrame(
+                    columns=["Time (Seconds)", "Time (Minutes)", sensor]
+                )
         else:
             # Filter processed data using the union mask
             merged = processed[keep_mask_arr].copy()
@@ -218,28 +253,45 @@ class SeatekDataProcessor:
             # Nullify values that are not valid in their respective streams
             if has_hydro:
                 if not sensor_keep_arr.all():
-                    merged.loc[~sensor_keep_arr, sensor] = (pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan)
+                    merged.loc[~sensor_keep_arr, sensor] = (
+                        pd.NA
+                        if pd.api.types.is_object_dtype(merged[sensor])
+                        else np.nan
+                    )
                 if not hydro_keep_arr.all():
-                    merged.loc[~hydro_keep_arr, 'Hydrograph (Lagged)'] = (pd.NA if pd.api.types.is_object_dtype(merged['Hydrograph (Lagged)']) else np.nan)
+                    merged.loc[~hydro_keep_arr, "Hydrograph (Lagged)"] = (
+                        pd.NA
+                        if pd.api.types.is_object_dtype(merged["Hydrograph (Lagged)"])
+                        else np.nan
+                    )
 
                 # If no valid sensor readings exist but hydrograph data exist, force hydrograph to 0
                 if not sensor_mask_arr.any() and hydro_mask_arr.any():
-                    merged['Hydrograph (Lagged)'] = 0
+                    merged["Hydrograph (Lagged)"] = 0
 
                 # Select and order columns identical to original pd.merge output
                 if not sensor_mask_arr.any():
-                    cols = ['Time (Seconds)', 'Time (Minutes)', 'Hydrograph (Lagged)']
+                    cols = ["Time (Seconds)", "Time (Minutes)", "Hydrograph (Lagged)"]
                 elif not hydro_mask_arr.any():
-                    cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
+                    cols = ["Time (Seconds)", "Time (Minutes)", sensor]
                 else:
-                    cols = ['Time (Seconds)', sensor, 'Time (Minutes)', 'Hydrograph (Lagged)']
+                    cols = [
+                        "Time (Seconds)",
+                        sensor,
+                        "Time (Minutes)",
+                        "Hydrograph (Lagged)",
+                    ]
             else:
                 if not sensor_keep_arr.all():
-                    merged.loc[~sensor_keep_arr, sensor] = (pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan)
-                cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
+                    merged.loc[~sensor_keep_arr, sensor] = (
+                        pd.NA
+                        if pd.api.types.is_object_dtype(merged[sensor])
+                        else np.nan
+                    )
+                cols = ["Time (Seconds)", "Time (Minutes)", sensor]
 
             merged = merged[cols]
-            merged.sort_values('Time (Minutes)', inplace=True)
+            merged.sort_values("Time (Minutes)", inplace=True)
         metrics.valid_rows = len(merged)
         metrics.invalid_rows = metrics.original_rows - len(processed)
         metrics.log_metrics()
@@ -250,22 +302,22 @@ class SeatekDataProcessor:
         try:
             rm_files = self._find_river_mile_files()
             if not rm_files:
-                raise FileNotFoundError('No valid river mile files found')
+                raise FileNotFoundError("No valid river mile files found")
             for file_path in rm_files:
                 try:
                     rm_data = RiverMileData(file_path)
                     rm_data.load_data()
                     self.river_mile_data[rm_data.river_mile] = rm_data
-                    logger.info(f'Loaded data for River Mile {rm_data.river_mile}')
+                    logger.info(f"Loaded data for River Mile {rm_data.river_mile}")
                 except Exception as e:
-                    logger.error(f'Error loading {file_path.name}: {str(e)}')
+                    logger.error(f"Error loading {file_path.name}: {str(e)}")
         except Exception as e:
-            logger.error(f'Error loading data: {str(e)}')
+            logger.error(f"Error loading data: {str(e)}")
             raise
 
     def _find_river_mile_files(self) -> List[Path]:
         """Find all Excel files in the data directory with names starting with 'RM_'."""
         if not self.data_dir.exists():
-            raise FileNotFoundError(f'Data directory not found: {self.data_dir}')
-        rm_files = list(self.data_dir.glob('RM_*.xlsx'))
+            raise FileNotFoundError(f"Data directory not found: {self.data_dir}")
+        rm_files = list(self.data_dir.glob("RM_*.xlsx"))
         return sorted(rm_files)

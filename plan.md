@@ -1,11 +1,13 @@
 1. **Optimize DataFrame subsetting in Processor**
    - In `src/hydrograph_seatek_analysis/data/processor.py` and `utils/processor.py`, when extracting `year_data` from `cached_year_data`, replace `year_data = cached_year_data[cols].copy()` with `year_data = cached_year_data.loc[:, cols].copy()` or explicitly extract columns before `.copy()`. Note: I am currently observing the optimization strategy that requires extracting a subset of data explicitly before calling copy (`cols = ['Time', sensor]; processed = df[cols].copy()`). Wait, the codebase currently already has:
+
    ```python
    cols = ['Time (Seconds)', sensor]
    if 'Hydrograph (Lagged)' in cached_year_data.columns:
        cols.append('Hydrograph (Lagged)')
    year_data = cached_year_data[cols].copy()
    ```
+
    So this is already implemented!
 
 2. **Wait, let's look closely at `hydrograph_seatek_analysis/data/processor.py` for other optimizations.**
