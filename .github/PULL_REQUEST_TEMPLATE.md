@@ -1,7 +1,7 @@
 ## Description
 
-Provide a summary of the changes, including the motivation and the issue fixed (if applicable). Highlight any *
-*dependencies** introduced or required for this change.
+Provide a summary of the changes, including the motivation and the issue fixed (if applicable). Highlight any \*
+\*dependencies\*\* introduced or required for this change.
 
 - **Motivation**: Why is this change necessary?
 - **Fixes Issue**: # (link the issue)

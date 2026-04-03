@@ -6,26 +6,26 @@ through the contribution process.
 ## Quick Setup
 
 1. **Fork and Clone**:
-    - Fork the repository on GitHub.
-    - Clone your fork locally:
-      ```bash
-      git clone https://github.com/<your-username>/Hydrograph_Versus_Seatek_Sensors_Project.git
-      cd Hydrograph_Versus_Seatek_Sensors_Project
-      ```
+   - Fork the repository on GitHub.
+   - Clone your fork locally:
+     ```bash
+     git clone https://github.com/<your-username>/Hydrograph_Versus_Seatek_Sensors_Project.git
+     cd Hydrograph_Versus_Seatek_Sensors_Project
+     ```
 2. **Create a New Branch**:
-    - Use a meaningful branch name:
-      ```bash
-      git checkout -b <feature-or-bugfix-branch>
-      ```
+   - Use a meaningful branch name:
+     ```bash
+     git checkout -b <feature-or-bugfix-branch>
+     ```
 3. **Make Your Changes**:
-    - Commit with clear, descriptive messages.
-    - Follow preconfigured code style and guidelines (see below).
+   - Commit with clear, descriptive messages.
+   - Follow preconfigured code style and guidelines (see below).
 4. **Push and Submit**:
-    - Push to your fork:
-      ```bash
-      git push origin <feature-or-bugfix-branch>
-      ```
-    - Open a pull request against the main repository.
+   - Push to your fork:
+     ```bash
+     git push origin <feature-or-bugfix-branch>
+     ```
+   - Open a pull request against the main repository.
 
 ## Code Guidelines
 

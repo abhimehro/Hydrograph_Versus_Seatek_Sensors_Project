@@ -1,14 +1,14 @@
 ---
 name: Bug Report
 about: Report bugs to help us improve the application
-title: '[Bug] Short summary of the issue'
-labels: 'bug, needs-triage'
-assignees: ''
+title: "[Bug] Short summary of the issue"
+labels: "bug, needs-triage"
+assignees: ""
 ---
 
 ### **Bug Description**
 
-*A clear and concise description of what the bug is.*
+_A clear and concise description of what the bug is._
 
 ---
 
@@ -25,7 +25,7 @@ List the steps to reproduce the behavior:
 
 ### **Expected Behavior**
 
-*A clear and concise description of what you expected to happen instead.*
+_A clear and concise description of what you expected to happen instead._
 
 ---
 
@@ -54,4 +54,4 @@ If applicable, add screenshots to help explain the problem.
 
 ### **Additional Context**
 
-*Add any other context about the problem here (scripts, logs, custom settings, etc.).*
+_Add any other context about the problem here (scripts, logs, custom settings, etc.)._

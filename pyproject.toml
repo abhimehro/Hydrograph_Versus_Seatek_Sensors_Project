@@ -4,7 +4,7 @@ version = "1.0.0"
 description = "Analysis of hydrograph and Seatek sensor data for river morphology studies"
 authors = ["Abhi Mehrotra <abhimhrtr@pm.me>"]
 readme = "README.md"
-packages = [{include = "src"}]
+packages = [{ include = "src" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"

@@ -6,6 +6,7 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
+
 def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
     """
     Validate that a file exists and does not exceed the maximum allowed size.

@@ -1,10 +1,13 @@
 # Sensor Analysis Documentation
 
 ## Overview
+
 The sensor analysis module provides comprehensive time series analysis and visualization for Seatek sensor data. This guide covers the technical details, configuration options, and best practices.
 
 ## Data Structure
+
 Each sensor's data follows this schema:
+
 ```python
 {
     'Time (Seconds)': float,  # Measurement timestamp
@@ -15,6 +18,7 @@ Each sensor's data follows this schema:
 ```
 
 ## Directory Structure
+
 ```
 output/
 ├── RM_54.0/
@@ -29,18 +33,21 @@ output/
 ## Visualization Features
 
 ### Time Series Analysis
+
 - Temporal distribution of readings
 - Automatic time conversion (seconds to hours)
 - Trend line analysis with slope calculation
 - Color-coded data points by value
 
 ### Statistical Metrics
+
 - Mean sensor readings
 - Standard deviation calculation
 - Range analysis (min/max values)
 - Point density visualization
 
 ### Professional Formatting
+
 - High-resolution output (300 DPI)
 - Publication-ready styling
 - Clear statistical annotations
@@ -49,6 +56,7 @@ output/
 ## Configuration
 
 ### Basic Configuration
+
 ```python
 # In src/sensor-visualization_v2.py
 VISUALIZATION_CONFIG = {
@@ -64,6 +72,7 @@ VISUALIZATION_CONFIG = {
 ```
 
 ### Advanced Options
+
 ```python
 # Custom styling configuration
 STYLE_CONFIG = {
@@ -84,6 +93,7 @@ STYLE_CONFIG = {
 ## Performance Optimization
 
 ### Memory Management
+
 ```python
 # Enable memory-efficient processing
 PROCESSING_CONFIG = {
@@ -95,28 +105,31 @@ PROCESSING_CONFIG = {
 ```
 
 ### Efficiency Features
+
 - Skip processing for insufficient data
 - Avoid regenerating existing visualizations
 - Parallel processing support
 - Memory-efficient data handling
 
 ## Error Handling
+
 The module implements comprehensive error handling:
+
 ```python
 try:
     # Process data for specific year and sensor
     year_data = data[data["Year"] == year].copy()
-    
+
     # Validate data sufficiency
     if len(year_data) < 2:
         logging.warning(f"Insufficient data: RM {river_mile}, Year {year}")
         return False
-        
+
     # Check for existing visualization
     if os.path.exists(output_path):
         logging.info(f"Visualization exists: {output_path}")
         return True
-        
+
 except Exception as e:
     logging.error(f"Processing error: {str(e)}")
     return False
@@ -125,18 +138,21 @@ except Exception as e:
 ## Best Practices
 
 ### Data Validation
+
 - Verify data types and ranges
 - Check for missing values
 - Validate time sequences
 - Ensure sufficient data points
 
 ### Output Management
+
 - Use consistent naming conventions
 - Maintain directory structure
 - Implement version control
 - Regular backup procedures
 
 ### Performance Monitoring
+
 - Track processing times
 - Monitor memory usage
 - Log error frequencies
@@ -145,6 +161,7 @@ except Exception as e:
 ## Troubleshooting
 
 ### Common Issues
+
 1. **Insufficient Data**
    - Check input file completeness
    - Verify year ranges
@@ -161,6 +178,7 @@ except Exception as e:
    - Validate time sequences
 
 ## Advanced Usage
+
 ```python
 # Key improvements that made it work
 plot_data = data.copy()  # Create a copy to avoid modifying original
@@ -176,6 +194,7 @@ scatter = ax.scatter(
 ```
 
 ### Custom Analysis
+
 ```python
 # Example: Custom trend analysis
 def analyze_trend(data, sensor):
@@ -189,6 +208,7 @@ def analyze_trend(data, sensor):
 ```
 
 ### Extended Statistics
+
 ```python
 # Example: Advanced statistical analysis
 def compute_statistics(data, sensor):
