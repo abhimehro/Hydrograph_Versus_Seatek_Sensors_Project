@@ -1,5 +1,4 @@
 from pathlib import Path
-import os
 
 
 def test_paths():
@@ -18,9 +17,9 @@ def test_paths():
     print("\nWalking up directory tree:")
     while current.name:
         print(f"Checking: {current}")
-        if (current / '.git').exists():
+        if (current / ".git").exists():
             print(f"Found .git in: {current}")
-        if current.name == 'Hydrograph_Versus_Seatek_Sensors_Project':
+        if current.name == "Hydrograph_Versus_Seatek_Sensors_Project":
             print(f"Found project directory: {current}")
         current = current.parent
 
@@ -30,7 +29,7 @@ def test_paths():
     paths_to_check = [
         project_root / "data/raw/Data_Summary.xlsx",
         project_root / "data/raw/Hydrograph_Seatek_Data.xlsx",
-        project_root / "data/processed/RM_54.0.xlsx"
+        project_root / "data/processed/RM_54.0.xlsx",
     ]
 
     for path in paths_to_check:

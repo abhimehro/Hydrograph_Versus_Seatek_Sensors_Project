@@ -1,11 +1,9 @@
 """Tests for the data validator module."""
 
-import tempfile
 from pathlib import Path
 from unittest import mock
 
 import pandas as pd
-import pytest
 
 from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.data.validator import DataValidator
@@ -212,17 +210,17 @@ def test_validate_processed_files_missing_columns(mock_read_excel):
 
     assert len(results) == 1
     res = results[0]
-    assert res['river_mile'] == 54.0
-    assert res['rows'] == 2
-    assert res['required_columns_present'] is False
-    assert res['sensor_columns'] == []
-    assert res['year_range'] is None
-    assert res['time_range'] is None
+    assert res["river_mile"] == 54.0
+    assert res["rows"] == 2
+    assert res["required_columns_present"] is False
+    assert res["sensor_columns"] == []
+    assert res["year_range"] is None
+    assert res["time_range"] is None
 
 
-@mock.patch.object(DataValidator, 'validate_summary_file')
-@mock.patch.object(DataValidator, 'validate_hydro_file')
-@mock.patch.object(DataValidator, 'validate_processed_files')
+@mock.patch.object(DataValidator, "validate_summary_file")
+@mock.patch.object(DataValidator, "validate_hydro_file")
+@mock.patch.object(DataValidator, "validate_processed_files")
 def test_run_validation_success(mock_processed, mock_hydro, mock_summary):
     """Test run_validation when all files are valid and consistent."""
     mock_summary.return_value = {"river_miles": [54.0, 53.0]}
@@ -244,9 +242,9 @@ def test_run_validation_success(mock_processed, mock_hydro, mock_summary):
     assert set(result["river_mile_consistency"]["extra_processed_rms"]) == set()
 
 
-@mock.patch.object(DataValidator, 'validate_summary_file')
-@mock.patch.object(DataValidator, 'validate_hydro_file')
-@mock.patch.object(DataValidator, 'validate_processed_files')
+@mock.patch.object(DataValidator, "validate_summary_file")
+@mock.patch.object(DataValidator, "validate_hydro_file")
+@mock.patch.object(DataValidator, "validate_processed_files")
 def test_run_validation_inconsistent(mock_processed, mock_hydro, mock_summary):
     """Test run_validation when files are valid but river miles are inconsistent."""
     mock_summary.return_value = {"river_miles": [54.0, 53.0]}
@@ -264,9 +262,9 @@ def test_run_validation_inconsistent(mock_processed, mock_hydro, mock_summary):
     assert set(result["river_mile_consistency"]["extra_processed_rms"]) == {55.0}
 
 
-@mock.patch.object(DataValidator, 'validate_summary_file')
-@mock.patch.object(DataValidator, 'validate_hydro_file')
-@mock.patch.object(DataValidator, 'validate_processed_files')
+@mock.patch.object(DataValidator, "validate_summary_file")
+@mock.patch.object(DataValidator, "validate_hydro_file")
+@mock.patch.object(DataValidator, "validate_processed_files")
 def test_run_validation_failure(mock_processed, mock_hydro, mock_summary):
     """Test run_validation when files are invalid."""
     mock_summary.return_value = None

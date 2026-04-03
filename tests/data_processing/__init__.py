@@ -4,16 +4,16 @@ import sys
 from typing import Dict, Tuple
 
 import matplotlib.pyplot as plt
-from utils.security import sanitize_filename
 import numpy as np
 import pandas as pd
 import seaborn as sns
 from matplotlib.figure import Figure
 
+from utils.security import sanitize_filename
+
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
 
@@ -28,7 +28,9 @@ class DataProcessor:
         try:
             # Read the summary sheet
             self.summary_data = pd.read_excel(self.file_path, sheet_name=0)
-            logging.info(f"Loaded summary data with {len(self.summary_data)} river miles")
+            logging.info(
+                f"Loaded summary data with {len(self.summary_data)} river miles"
+            )
 
             # Read all sheets for river mile data
             excel_file = pd.ExcelFile(self.file_path)
@@ -36,7 +38,7 @@ class DataProcessor:
 
             # Process each river mile sheet
             for sheet_name in sheet_names[1:]:  # Skip the summary sheet
-                if sheet_name.startswith('RM_'):
+                if sheet_name.startswith("RM_"):
                     rm_data = pd.read_excel(excel_file, sheet_name=sheet_name)
                     self.river_mile_data[sheet_name] = rm_data
                     logging.info(f"Loaded data for {sheet_name}")
@@ -53,32 +55,34 @@ class Visualizer:
     @staticmethod
     def setup_plot_style() -> None:
         """Set up the plot style using seaborn."""
-        sns.set_style("whitegrid", {
-            "grid.linestyle": "--",
-            "grid.alpha": 0.3,
-            "axes.edgecolor": "0.2",
-            "axes.linewidth": 1.2,
-            "grid.color": "0.8",
-        })
-        plt.rcParams.update({
-            "font.family": "sans-serif",
-            "font.sans-serif": ["Arial"],
-            "font.size": 10,
-            "axes.titleweight": "bold",
-            "axes.titlesize": 14,
-            "axes.labelsize": 12,
-            "figure.titlesize": 16,
-            "figure.dpi": 100,
-            "savefig.bbox": "tight",
-            "figure.figsize": (12, 8),
-        })
+        sns.set_style(
+            "whitegrid",
+            {
+                "grid.linestyle": "--",
+                "grid.alpha": 0.3,
+                "axes.edgecolor": "0.2",
+                "axes.linewidth": 1.2,
+                "grid.color": "0.8",
+            },
+        )
+        plt.rcParams.update(
+            {
+                "font.family": "sans-serif",
+                "font.sans-serif": ["Arial"],
+                "font.size": 10,
+                "axes.titleweight": "bold",
+                "axes.titlesize": 14,
+                "axes.labelsize": 12,
+                "figure.titlesize": 16,
+                "figure.dpi": 100,
+                "savefig.bbox": "tight",
+                "figure.figsize": (12, 8),
+            }
+        )
 
     @staticmethod
     def create_visualization(
-            data: pd.DataFrame,
-            river_mile: float,
-            year: int,
-            sensor: str
+        data: pd.DataFrame, river_mile: float, year: int, sensor: str
     ) -> Tuple[Figure, Dict[str, float]]:
         """Create a visualization for sensor data."""
         try:
@@ -93,9 +97,9 @@ class Visualizer:
                 time_hours,
                 data[sensor],
                 c=data[sensor],
-                cmap='viridis',
+                cmap="viridis",
                 alpha=0.7,
-                s=50
+                s=50,
             )
 
             # Add sensor statistics
@@ -103,21 +107,23 @@ class Visualizer:
                 "mean": data[sensor].mean(),
                 "std": data[sensor].std(),
                 "min": data[sensor].min(),
-                "max": data[sensor].max()
+                "max": data[sensor].max(),
             }
 
             # Add colorbar
             plt.colorbar(scatter_plot, ax=ax, label=f"{sensor} Value [mm]")
 
             # Add trend line
-            trend_coefficients = np.polyfit(time_hours, data[sensor], 1)  # Fit a linear trend line
+            trend_coefficients = np.polyfit(
+                time_hours, data[sensor], 1
+            )  # Fit a linear trend line
             trend_equation = np.poly1d(trend_coefficients)
             ax.plot(
                 time_hours,
                 trend_equation(time_hours),
                 "r--",
                 alpha=0.8,
-                label=f"Trend Line (slope: {trend_coefficients[0]:.2e})"
+                label=f"Trend Line (slope: {trend_coefficients[0]:.2e})",
             )
 
             # Customize plot appearance
@@ -151,7 +157,7 @@ class DataAnalyzer:
         """Process and visualize data for all river miles."""
         try:
             for rm_sheet, rm_data in self.data_processor.river_mile_data.items():
-                river_mile = float(rm_sheet.split('_')[1])
+                river_mile = float(rm_sheet.split("_")[1])
                 self._process_river_mile(river_mile, rm_data)
 
         except Exception as e:
@@ -168,11 +174,7 @@ class DataAnalyzer:
                 self._process_year_data(river_mile, data, year, sensor)
 
     def _process_year_data(
-            self,
-            river_mile: float,
-            data: pd.DataFrame,
-            year: int,
-            sensor: str
+        self, river_mile: float, data: pd.DataFrame, year: int, sensor: str
     ) -> bool:
         """
         Process and visualize data for a specific year and sensor.
@@ -184,9 +186,9 @@ class DataAnalyzer:
 
             # Check for sufficient valid data
             valid_data = year_data[
-                year_data[sensor].notna() &
-                (year_data[sensor] > 0) &
-                (year_data[sensor] != float("inf"))
+                year_data[sensor].notna()
+                & (year_data[sensor] > 0)
+                & (year_data[sensor] != float("inf"))
             ]
 
             if len(valid_data) < 2:
@@ -202,8 +204,7 @@ class DataAnalyzer:
             safe_year = sanitize_filename(str(year))
             safe_sensor = sanitize_filename(str(sensor))
             output_path = os.path.join(
-                output_dir,
-                f"RM_{safe_river_mile}_Year_{safe_year}_{safe_sensor}.png"
+                output_dir, f"RM_{safe_river_mile}_Year_{safe_year}_{safe_sensor}.png"
             )
 
             if os.path.exists(output_path):
@@ -262,7 +263,7 @@ def main():
         "..",
         "data",
         "processed",
-        "Hydrograph_Seatek_Data (Series 26 - Trial Runs).xlsx"
+        "Hydrograph_Seatek_Data (Series 26 - Trial Runs).xlsx",
     )
 
     # Use the default path or accept a command-line argument

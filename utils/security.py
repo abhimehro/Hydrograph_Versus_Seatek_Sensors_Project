@@ -6,6 +6,7 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
+
 def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
     """
     Validate that a file exists and does not exceed the maximum allowed size.
@@ -15,16 +16,23 @@ def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
         max_size_bytes: Maximum allowed file size in bytes.
 
     Raises:
-        ValueError: If the file size exceeds the maximum limit.
+        ValueError: If the file size exceeds the maximum limit, or if the file is a symbolic link.
         FileNotFoundError: If the file does not exist.
     """
+    if file_path.is_symlink():
+        raise ValueError(f"File is a symbolic link: {file_path}")
+
     if not file_path.exists():
         raise FileNotFoundError(f"File not found: {file_path}")
 
     file_size = file_path.stat().st_size
     if file_size > max_size_bytes:
-        logger.error(f"File {file_path.name} size ({file_size} bytes) exceeds maximum limit ({max_size_bytes} bytes)")
-        raise ValueError(f"File {file_path.name} exceeds maximum size of {max_size_bytes} bytes")
+        logger.error(
+            f"File {file_path.name} size ({file_size} bytes) exceeds maximum limit ({max_size_bytes} bytes)"
+        )
+        raise ValueError(
+            f"File {file_path.name} exceeds maximum size of {max_size_bytes} bytes"
+        )
 
 
 def sanitize_filename(filename: str, max_length: int = 200) -> str:

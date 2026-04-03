@@ -5,16 +5,15 @@ Main application module for Seatek and Hydrograph data processing.
 import logging
 import sys
 from pathlib import Path
-from typing import Optional, List, Tuple, Dict
+from typing import Optional
 
-import pandas as pd
+from utils.security import sanitize_filename
 
 from .core.config import Config
 from .core.logger import configure_root_logger
 from .data.data_loader import DataLoader
 from .data.processor import SeatekDataProcessor
 from .visualization.chart_generator import ChartGenerator
-from utils.security import sanitize_filename
 
 
 class Application:
@@ -152,7 +151,9 @@ class Application:
                                 )
 
                                 # Construct metadata for a11y
-                                sensor_num = sensor.split("_")[1] if "_" in sensor else sensor
+                                sensor_num = (
+                                    sensor.split("_")[1] if "_" in sensor else sensor
+                                )
                                 metadata = {
                                     "Title": (
                                         f"River Mile {rm_data.river_mile:.1f} - Year {year} "
@@ -167,7 +168,9 @@ class Application:
                                     "Author": "Hydrograph vs Seatek Sensors Analysis Project",
                                 }
 
-                                if self.chart_generator.save_chart(chart, output_path, metadata=metadata):
+                                if self.chart_generator.save_chart(
+                                    chart, output_path, metadata=metadata
+                                ):
                                     success_count += 1
                                 else:
                                     error_count += 1

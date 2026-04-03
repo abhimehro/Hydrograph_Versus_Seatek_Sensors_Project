@@ -5,9 +5,9 @@
 We, as members, contributors, and leaders, pledge to:
 
 - Make participation in our community a **harassment-free experience** for everyone, regardless of:
-    - Age, body size, visible or invisible disability, ethnicity, sex characteristics
-    - Gender identity and expression, level of experience, education, socio-economic status
-    - Nationality, personal appearance, race, religion, or sexual identity and orientation
+  - Age, body size, visible or invisible disability, ethnicity, sex characteristics
+  - Gender identity and expression, level of experience, education, socio-economic status
+  - Nationality, personal appearance, race, religion, or sexual identity and orientation
 - Act and interact in ways that contribute to an **open, welcoming, diverse, inclusive, and healthy community**.
 
 ## Our Standards
@@ -68,22 +68,22 @@ Community leaders will follow these guidelines to determine the **Community Impa
 
 - **Impact**: Single violation or multiple incidents
 - **Consequence**:
-    - A written warning with clear consequences for continued behavior
-    - No interaction with those involved (including unsolicited communication) for a set period
-    - Additional violations may lead to a ban
+  - A written warning with clear consequences for continued behavior
+  - No interaction with those involved (including unsolicited communication) for a set period
+  - Additional violations may lead to a ban
 
 ### 3. Temporary Ban
 
 - **Impact**: Serious violation, including repeated inappropriate behavior
 - **Consequence**:
-    - Temporary ban from community interaction for a specified period
-    - No communication with enforcement personnel or affected parties during this time
+  - Temporary ban from community interaction for a specified period
+  - No communication with enforcement personnel or affected parties during this time
 
 ### 4. Permanent Ban
 
 - **Impact**: Sustained inappropriate behavior or severe violations (e.g., harassment, aggression, or discrimination)
 - **Consequence**:
-    - Permanent ban from all community interactions
+  - Permanent ban from all community interactions
 
 ## Attribution
 

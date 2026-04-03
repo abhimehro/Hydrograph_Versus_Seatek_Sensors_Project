@@ -11,8 +11,8 @@ Modules:
     - chart_generator: Chart generation utilities
 """
 
-from pathlib import Path
 import logging
+from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
 
 # Version information
@@ -24,32 +24,28 @@ __email__ = "your.email@example.com"  # Replace with your email
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
+from utils.chart_generator import ChartGenerator
+
 # Import main classes and functions for easier access
 from utils.config import Config
 from utils.data_loader import DataLoader
-from utils.processor import (
-    ProcessingMetrics,
-    RiverMileData,
-    SeatekDataProcessor
-)
+from utils.processor import ProcessingMetrics, RiverMileData, SeatekDataProcessor
 from utils.visualizer import SeatekVisualizer
-from utils.chart_generator import ChartGenerator
 
 # Define what should be imported with "from utils import *"
 __all__ = [
     # Classes
-    'Config',
-    'DataLoader',
-    'ProcessingMetrics',
-    'RiverMileData',
-    'SeatekDataProcessor',
-    'SeatekVisualizer',
-    'ChartGenerator',
-
+    "Config",
+    "DataLoader",
+    "ProcessingMetrics",
+    "RiverMileData",
+    "SeatekDataProcessor",
+    "SeatekVisualizer",
+    "ChartGenerator",
     # Version info
-    '__version__',
-    '__author__',
-    '__email__'
+    "__version__",
+    "__author__",
+    "__email__",
 ]
 
 # Package metadata
@@ -69,8 +65,7 @@ def get_version() -> str:
 
 
 def setup_logging(
-        level: int = logging.INFO,
-        log_file: Optional[Union[str, Path]] = None
+    level: int = logging.INFO, log_file: Optional[Union[str, Path]] = None
 ) -> None:
     """
     Setup logging configuration for the package.
@@ -80,7 +75,7 @@ def setup_logging(
         log_file: Optional path to log file
     """
     formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
 
     # Configure root logger
@@ -109,13 +104,13 @@ def get_package_info() -> Dict[str, str]:
         Dict containing package metadata
     """
     return {
-        'version': __version__,
-        'author': __author__,
-        'email': __email__,
-        'package_root': str(PACKAGE_ROOT),
-        'data_dir': str(DATA_DIR),
-        'output_dir': str(OUTPUT_DIR),
-        'logs_dir': str(LOGS_DIR)
+        "version": __version__,
+        "author": __author__,
+        "email": __email__,
+        "package_root": str(PACKAGE_ROOT),
+        "data_dir": str(DATA_DIR),
+        "output_dir": str(OUTPUT_DIR),
+        "logs_dir": str(LOGS_DIR),
     }
 
 
@@ -129,18 +124,14 @@ def validate_environment() -> Tuple[bool, List[str]]:
     errors = []
 
     # Check required directories
-    required_dirs = {
-        'data': DATA_DIR,
-        'output': OUTPUT_DIR,
-        'logs': LOGS_DIR
-    }
+    required_dirs = {"data": DATA_DIR, "output": OUTPUT_DIR, "logs": LOGS_DIR}
 
     for name, path in required_dirs.items():
         if not path.exists():
             errors.append(f"Missing required directory: {name} ({path})")
 
     # Check data subdirectories
-    required_data_dirs = ['raw', 'processed']
+    required_data_dirs = ["raw", "processed"]
     for subdir in required_data_dirs:
         path = DATA_DIR / subdir
         if not path.exists():
@@ -161,8 +152,8 @@ except Exception as e:
 
 
 def get_processor(
-        data_dir: Optional[Union[str, Path]] = None,
-        summary_data: Optional['pd.DataFrame'] = None
+    data_dir: Optional[Union[str, Path]] = None,
+    summary_data: Optional["pd.DataFrame"] = None,
 ) -> SeatekDataProcessor:
     """
     Convenience function to create a configured SeatekDataProcessor instance.
@@ -175,7 +166,7 @@ def get_processor(
         Configured SeatekDataProcessor instance
     """
     if data_dir is None:
-        data_dir = DATA_DIR / 'processed'
+        data_dir = DATA_DIR / "processed"
 
     if summary_data is None:
         config = Config()

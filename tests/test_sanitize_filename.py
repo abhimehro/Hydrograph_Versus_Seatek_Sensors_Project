@@ -1,15 +1,16 @@
 import sys
 from unittest import mock
-sys.modules['pandas'] = mock.MagicMock()
-sys.modules['numpy'] = mock.MagicMock()
-sys.modules['matplotlib'] = mock.MagicMock()
-sys.modules['matplotlib.pyplot'] = mock.MagicMock()
-sys.modules['matplotlib.figure'] = mock.MagicMock()
-sys.modules['matplotlib.axes'] = mock.MagicMock()
-sys.modules['matplotlib.lines'] = mock.MagicMock()
-sys.modules['seaborn'] = mock.MagicMock()
-sys.modules['matplotlib.dates'] = mock.MagicMock()
-sys.modules['matplotlib.ticker'] = mock.MagicMock()
+
+sys.modules["pandas"] = mock.MagicMock()
+sys.modules["numpy"] = mock.MagicMock()
+sys.modules["matplotlib"] = mock.MagicMock()
+sys.modules["matplotlib.pyplot"] = mock.MagicMock()
+sys.modules["matplotlib.figure"] = mock.MagicMock()
+sys.modules["matplotlib.axes"] = mock.MagicMock()
+sys.modules["matplotlib.lines"] = mock.MagicMock()
+sys.modules["seaborn"] = mock.MagicMock()
+sys.modules["matplotlib.dates"] = mock.MagicMock()
+sys.modules["matplotlib.ticker"] = mock.MagicMock()
 
 from utils.security import sanitize_filename
 

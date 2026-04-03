@@ -10,11 +10,8 @@ import pandas as pd
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('data_inspection.log'),
-        logging.StreamHandler()
-    ]
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("data_inspection.log"), logging.StreamHandler()],
 )
 
 logger = logging.getLogger(__name__)
@@ -67,16 +64,18 @@ def inspect_sheet(excel: pd.ExcelFile, sheet_name: str) -> None:
             logger.info(f"{col}: {df[col].dtype}")
 
         # Check for sensor columns
-        sensor_cols = [col for col in df.columns if 'Sensor' in col]
+        sensor_cols = [col for col in df.columns if "Sensor" in col]
         if sensor_cols:
             logger.info("\nSensor columns found:")
             for col in sensor_cols:
                 non_null = df[col].notna().sum()
                 unique_vals = df[col].nunique()
-                logger.info(f"{col}: {non_null} non-null values, {unique_vals} unique values")
+                logger.info(
+                    f"{col}: {non_null} non-null values, {unique_vals} unique values"
+                )
 
         # Check time data if present
-        time_cols = [col for col in df.columns if 'Time' in col]
+        time_cols = [col for col in df.columns if "Time" in col]
         if time_cols:
             logger.info("\nTime columns found:")
             for col in time_cols:
@@ -99,7 +98,7 @@ def main():
         data_files = [
             project_root / "data/processed/RM_54.0.xlsx",
             project_root / "data/raw/Data_Summary.xlsx",
-            project_root / "data/raw/Hydrograph_Seatek_Data.xlsx"
+            project_root / "data/raw/Hydrograph_Seatek_Data.xlsx",
         ]
 
         # Inspect each file

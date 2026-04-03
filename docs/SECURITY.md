@@ -5,8 +5,8 @@
 Below are the versions of the software currently supported. Ensure your system is updated to receive necessary security
 updates.
 
-| Version | Status        |
-|---------|---------------|
+| Version | Status         |
+| ------- | -------------- |
 | 1.0.x   | ✅ Supported   |
 | < 1.0   | ❌ Unsupported |
 
@@ -19,4 +19,4 @@ All security vulnerabilities will be reviewed and addressed promptly.
 
 ---
 
-*Thank you for helping keep our software secure.*
+_Thank you for helping keep our software secure._

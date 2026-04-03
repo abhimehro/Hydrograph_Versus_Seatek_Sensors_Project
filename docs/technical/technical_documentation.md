@@ -37,7 +37,7 @@ The `Config` class manages all application settings using dataclasses for strong
 @dataclass
 class Config:
     """Configuration settings for the Seatek data processing pipeline."""
-    
+
     # Base directory can be overridden via environment variable
     base_dir: Path = field(default_factory=lambda: Path(
         os.environ.get("HYDROGRAPH_BASE_DIR", Path.cwd())
@@ -93,7 +93,7 @@ configure_root_logger(
 
 # Create a module-specific logger
 logger = setup_logger(
-    "data_processor", 
+    "data_processor",
     level=logging.DEBUG,
     log_file="logs/processor.log"
 )
@@ -118,7 +118,7 @@ class DataLoader:
     def __init__(self, config: Config):
         """Initialize the data loader with configuration."""
         self.config = config
-        
+
     def load_all_data(self) -> Tuple[pd.DataFrame, Dict[str, pd.DataFrame]]:
         """Load all required data files."""
         # Implementation...
@@ -186,11 +186,11 @@ The `DataValidator` class provides data validation utilities to ensure data file
 ```python
 class DataValidator:
     """Validates data files and structure."""
-    
+
     def __init__(self, config: Config):
         """Initialize validator with configuration."""
         self.config = config
-        
+
     def run_validation(self) -> Dict[str, Any]:
         """Run full validation on all data files."""
         # Implementation...
@@ -266,12 +266,12 @@ The `Application` class (`app.py`) ties everything together, providing a high-le
 ```python
 class Application:
     """Main application class for Seatek data processing."""
-    
+
     def __init__(self, config: Optional[Config] = None):
         """Initialize application with optional config."""
         self.config = config or Config()
         # Initialize components...
-        
+
     def run(self) -> bool:
         """Run the full processing pipeline."""
         # Implementation...
@@ -302,17 +302,17 @@ if app.setup() and app.load_data():
 
 The summary data file (`Data_Summary.xlsx`) contains river mile metadata:
 
-| River_Mile | Num_Sensors | Start_Year | End_Year | Y_Offset | Notes |
-|------------|-------------|------------|----------|----------|-------|
-| 54.0       | 2           | 1995 (Y01) | 2014 (Y20) | 10.5   | Example notes |
-| 53.0       | 2           | 1995 (Y01) | 2014 (Y20) | 11.2   | Example notes |
+| River_Mile | Num_Sensors | Start_Year | End_Year   | Y_Offset | Notes         |
+| ---------- | ----------- | ---------- | ---------- | -------- | ------------- |
+| 54.0       | 2           | 1995 (Y01) | 2014 (Y20) | 10.5     | Example notes |
+| 53.0       | 2           | 1995 (Y01) | 2014 (Y20) | 11.2     | Example notes |
 
 ### River Mile Data
 
 Each river mile file (`RM_*.xlsx`) contains sensor readings and hydrograph data:
 
 | Time (Seconds) | Year | Sensor_1 | Sensor_2 | Hydrograph (Lagged) |
-|----------------|------|----------|----------|---------------------|
+| -------------- | ---- | -------- | -------- | ------------------- |
 | 0              | 1    | 5.2      | 5.4      | 150                 |
 | 60             | 1    | 5.3      | 5.5      | 155                 |
 | 120            | 1    | 5.4      | 5.6      | 160                 |
@@ -326,6 +326,7 @@ NAVD88_value = -(raw_data + offset_a - offset_b) * scale_factor + y_offset
 ```
 
 Where:
+
 - `raw_data`: The original sensor reading
 - `offset_a`: Standard offset (default: 1.9)
 - `offset_b`: Standard offset correction (default: 0.32)
@@ -337,6 +338,7 @@ Where:
 The application implements comprehensive error handling at multiple levels:
 
 1. **Function-level try/except blocks**:
+
    ```python
    try:
        result = function_that_may_fail()
@@ -346,6 +348,7 @@ The application implements comprehensive error handling at multiple levels:
    ```
 
 2. **Component-level error handling**:
+
    ```python
    def process_data(self, river_mile, year, sensor):
        try:

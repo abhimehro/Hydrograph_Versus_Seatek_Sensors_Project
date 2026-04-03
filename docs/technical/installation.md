@@ -5,6 +5,7 @@ This guide provides detailed instructions for installing and setting up the Hydr
 ## System Requirements
 
 ### Hardware Requirements
+
 ```
 - CPU: Multi-core processor recommended
 - RAM: 8GB minimum, 16GB recommended
@@ -13,6 +14,7 @@ This guide provides detailed instructions for installing and setting up the Hydr
 ```
 
 ### Software Requirements
+
 ```
 - Python 3.10 or higher
 - Operating System: Windows 10/11, macOS 10.15+, Linux (Ubuntu 20.04+)
@@ -26,12 +28,14 @@ You can install the project using one of the following methods:
 ### Method 1: Direct Installation (Recommended)
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project.git
    cd Hydrograph_Versus_Seatek_Sensors_Project
    ```
 
 2. Create and activate a virtual environment:
+
    ```bash
    # Create a virtual environment
    python -m venv venv
@@ -44,6 +48,7 @@ You can install the project using one of the following methods:
    ```
 
 3. Install the project in development mode:
+
    ```bash
    pip install -e .
    ```
@@ -53,12 +58,14 @@ You can install the project using one of the following methods:
 ### Method 2: Using pip with requirements.txt
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project.git
    cd Hydrograph_Versus_Seatek_Sensors_Project
    ```
 
 2. Create and activate a virtual environment:
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
@@ -74,17 +81,20 @@ You can install the project using one of the following methods:
 [Poetry](https://python-poetry.org/) is a modern Python package and dependency manager.
 
 1. Install Poetry if you don't have it:
+
    ```bash
    curl -sSL https://install.python-poetry.org | python3 -
    ```
 
 2. Clone the repository:
+
    ```bash
    git clone https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project.git
    cd Hydrograph_Versus_Seatek_Sensors_Project
    ```
 
 3. Install the project and its dependencies:
+
    ```bash
    poetry install
    ```
@@ -150,6 +160,7 @@ The project supports the following environment variables:
 - `HYDROGRAPH_BASE_DIR`: Override the base directory for data files. By default, the current working directory is used.
 
 Example:
+
 ```bash
 # Set the base directory to a specific path
 export HYDROGRAPH_BASE_DIR=/path/to/data
@@ -241,6 +252,7 @@ If you see errors about missing data files, check that you've placed the require
 If you encounter issues with matplotlib or visualization:
 
 1. Check that you have a functioning backend:
+
    ```bash
    python -c "import matplotlib.pyplot as plt; plt.figure(); plt.close()"
    ```

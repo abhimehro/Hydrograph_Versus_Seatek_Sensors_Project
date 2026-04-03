@@ -1,17 +1,21 @@
 import os
 import unittest
-import pandas as pd
+
 import matplotlib.pyplot as plt
+import pandas as pd
 from src.data_processing import Visualizer
+
 
 class TestVisualizer(unittest.TestCase):
     def setUp(self):
         self.visualizer = Visualizer()
-        self.test_data = pd.DataFrame({
-            "Time (Seconds)": [0, 3600, 7200, 10800],
-            "Sensor_1": [1.0, 2.5, 3.0, 4.5],
-            "Year": [2020, 2020, 2020, 2020]
-        })
+        self.test_data = pd.DataFrame(
+            {
+                "Time (Seconds)": [0, 3600, 7200, 10800],
+                "Sensor_1": [1.0, 2.5, 3.0, 4.5],
+                "Year": [2020, 2020, 2020, 2020],
+            }
+        )
         self.output_dir = "tests/visualization/output"
         os.makedirs(self.output_dir, exist_ok=True)
 
@@ -32,6 +36,7 @@ class TestVisualizer(unittest.TestCase):
         plt.close(fig)
         self.assertTrue(os.path.exists(output_path))
         self.assertGreater(stats["mean"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()

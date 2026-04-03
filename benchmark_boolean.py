@@ -1,6 +1,7 @@
-import pandas as pd
-import numpy as np
 import time
+
+import numpy as np
+import pandas as pd
 
 # Create dummy data
 n = 1_000_000
