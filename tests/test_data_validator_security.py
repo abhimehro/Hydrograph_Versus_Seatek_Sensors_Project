@@ -15,14 +15,16 @@ from data_validator import validate_data_files
 class TestDataValidatorSecurity(unittest.TestCase):
     @patch("data_validator.Config")
     @patch("data_validator.pd.read_excel")
+    @patch("data_validator.Path.is_symlink")
     @patch("data_validator.Path.exists")
     @patch("data_validator.Path.stat")
     @patch("data_validator.os.walk")
     def test_summary_path_size_exceeds(
-        self, mock_walk, mock_stat, mock_exists, mock_read_excel, mock_config_cls
+        self, mock_walk, mock_stat, mock_exists, mock_is_symlink, mock_read_excel, mock_config_cls
     ):
         mock_walk.return_value = []
         mock_exists.return_value = True
+        mock_is_symlink.return_value = False
 
         mock_config = MagicMock()
         mock_config.max_file_size_bytes = 100 * 1024 * 1024
@@ -40,6 +42,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch("data_validator.Config")
     @patch("data_validator.pd.read_excel")
     @patch("data_validator.pd.ExcelFile")
+    @patch("data_validator.Path.is_symlink")
     @patch("data_validator.Path.exists")
     @patch("data_validator.Path.stat")
     @patch("data_validator.os.walk")
@@ -48,12 +51,14 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_walk,
         mock_stat,
         mock_exists,
+        mock_is_symlink,
         mock_excel_file,
         mock_read_excel,
         mock_config_cls,
     ):
         mock_walk.return_value = []
         mock_exists.return_value = True
+        mock_is_symlink.return_value = False
 
         mock_config = MagicMock()
         mock_config.max_file_size_bytes = 100 * 1024 * 1024
@@ -85,6 +90,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch("data_validator.Config")
     @patch("data_validator.pd.read_excel")
     @patch("data_validator.pd.ExcelFile")
+    @patch("data_validator.Path.is_symlink")
     @patch("data_validator.Path.exists")
     @patch("data_validator.Path.stat")
     @patch("data_validator.os.walk")
@@ -93,12 +99,14 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_walk,
         mock_stat,
         mock_exists,
+        mock_is_symlink,
         mock_excel_file,
         mock_read_excel,
         mock_config_cls,
     ):
         mock_walk.return_value = []
         mock_exists.return_value = True
+        mock_is_symlink.return_value = False
 
         mock_config = MagicMock()
         mock_config.max_file_size_bytes = 100 * 1024 * 1024
