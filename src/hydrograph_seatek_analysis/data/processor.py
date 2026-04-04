@@ -320,24 +320,14 @@ class SeatekDataProcessor:
             hydro_mask_arr = np.zeros(len(processed), dtype=bool)
             keep_mask_arr = sensor_mask_arr
 
+        has_sensor_data = bool(sensor_mask_arr.any())
+        has_hydro_data = bool(hydro_mask_arr.any())
+
         # If no valid readings exist for both streams, return appropriate early empty df.
         if not keep_mask_arr.any():
-            if has_hydro:
-                # Select and order columns identical to original pd.merge output
-                if not sensor_mask_arr.any():
-                    cols = ["Time (Seconds)", "Time (Minutes)", "Hydrograph (Lagged)"]
-                elif not hydro_mask_arr.any():
-                    cols = ["Time (Seconds)", "Time (Minutes)", sensor]
-                else:
-                    cols = [
-                        "Time (Seconds)",
-                        sensor,
-                        "Time (Minutes)",
-                        "Hydrograph (Lagged)",
-                    ]
-            else:
-                cols = ["Time (Seconds)", "Time (Minutes)", sensor]
-
+            cols = self._get_output_columns(
+                sensor, has_hydro, has_sensor_data, has_hydro_data
+            )
             merged = pd.DataFrame(columns=cols)
         else:
             # Filter processed data using the union mask
@@ -363,26 +353,15 @@ class SeatekDataProcessor:
                     )
 
                 # If no valid sensor readings exist but hydrograph data exist, force hydrograph to 0
-                if not sensor_mask_arr.any() and hydro_mask_arr.any():
+                if not has_sensor_data and has_hydro_data:
                     merged["Hydrograph (Lagged)"] = 0
-
-                # Select and order columns identical to original pd.merge output
-                if not sensor_mask_arr.any():
-                    cols = ["Time (Seconds)", "Time (Minutes)", "Hydrograph (Lagged)"]
-                elif not hydro_mask_arr.any():
-                    cols = ["Time (Seconds)", "Time (Minutes)", sensor]
-                else:
-                    cols = [
-                        "Time (Seconds)",
-                        sensor,
-                        "Time (Minutes)",
-                        "Hydrograph (Lagged)",
-                    ]
             else:
                 if not sensor_keep_arr.all():
                     merged.loc[~sensor_keep_arr, sensor] = np.nan
-                cols = ["Time (Seconds)", "Time (Minutes)", sensor]
 
+            cols = self._get_output_columns(
+                sensor, has_hydro, has_sensor_data, has_hydro_data
+            )
             merged = merged[cols]
 
             # ⚡ Bolt Optimization: Before calling an expensive O(N log N) sort, check
@@ -395,6 +374,28 @@ class SeatekDataProcessor:
         metrics.log_metrics()
 
         return merged, metrics
+
+    def _get_output_columns(
+        self,
+        sensor: str,
+        has_hydro: bool,
+        has_sensor_data: bool,
+        has_hydro_data: bool,
+    ) -> list:
+        """Determine output columns based on data presence."""
+        if has_hydro:
+            if not has_sensor_data:
+                return ["Time (Seconds)", "Time (Minutes)", "Hydrograph (Lagged)"]
+            elif not has_hydro_data:
+                return ["Time (Seconds)", "Time (Minutes)", sensor]
+            else:
+                return [
+                    "Time (Seconds)",
+                    sensor,
+                    "Time (Minutes)",
+                    "Hydrograph (Lagged)",
+                ]
+        return ["Time (Seconds)", "Time (Minutes)", sensor]
 
     def load_data(self) -> None:
         """
