@@ -16,8 +16,9 @@ def test_validator_initialization():
     assert validator.config == config
 
 
+@mock.patch.object(Path, "is_symlink", return_value=False)
 @mock.patch("pandas.read_excel")
-def test_validate_summary_file(mock_read_excel):
+def test_validate_summary_file(mock_read_excel, mock_is_symlink):
     """Test validate_summary_file with mocked Excel file."""
     mock_df = pd.DataFrame(
         {"River_Mile": [54.0, 53.0], "Y_Offset": [10.5, 11.2], "Num_Sensors": [2, 2]}
@@ -50,8 +51,9 @@ def test_validate_summary_file(mock_read_excel):
     assert result["river_miles"] == [54.0, 53.0]
 
 
+@mock.patch.object(Path, "is_symlink", return_value=False)
 @mock.patch("pandas.read_excel")
-def test_validate_summary_file_missing_columns(mock_read_excel):
+def test_validate_summary_file_missing_columns(mock_read_excel, mock_is_symlink):
     """Test validate_summary_file with missing columns."""
     mock_df = pd.DataFrame(
         {
@@ -84,8 +86,9 @@ def test_validate_summary_file_missing_columns(mock_read_excel):
 
 
 @mock.patch("pandas.ExcelFile")
+@mock.patch.object(Path, "is_symlink", return_value=False)
 @mock.patch("pandas.read_excel")
-def test_validate_hydro_file(mock_read_excel, mock_excel_file_cls):
+def test_validate_hydro_file(mock_read_excel, mock_is_symlink, mock_excel_file_cls):
     """Test validate_hydro_file with mocked Excel file."""
     # Create mock ExcelFile instance
     mock_excel_file = mock.MagicMock()
@@ -136,8 +139,9 @@ def test_validate_hydro_file(mock_read_excel, mock_excel_file_cls):
 
 
 @mock.patch("pandas.ExcelFile")
+@mock.patch.object(Path, "is_symlink", return_value=False)
 @mock.patch("pandas.read_excel")
-def test_validate_hydro_file_missing_columns(mock_read_excel, mock_excel_file_cls):
+def test_validate_hydro_file_missing_columns(mock_read_excel, mock_is_symlink, mock_excel_file_cls):
     """Test validate_hydro_file behavior when required columns are absent."""
     mock_excel_file = mock.MagicMock()
     mock_excel_file.sheet_names = ["RM_54.0"]
@@ -178,8 +182,9 @@ def test_validate_hydro_file_missing_columns(mock_read_excel, mock_excel_file_cl
     assert sheet1["time_range"] is None
 
 
+@mock.patch.object(Path, "is_symlink", return_value=False)
 @mock.patch("pandas.read_excel")
-def test_validate_processed_files_missing_columns(mock_read_excel):
+def test_validate_processed_files_missing_columns(mock_read_excel, mock_is_symlink):
     """Test validate_processed_files behavior when required and sensor columns are absent."""
     df_missing = pd.DataFrame({"RandomData": [1.0, 2.0], "MoreRandomData": [3.0, 4.0]})
 
@@ -200,6 +205,7 @@ def test_validate_processed_files_missing_columns(mock_read_excel):
     mock_file.name = "RM_54.0.xlsx"
     mock_file.stem = "RM_54.0"
     mock_file.stat.return_value.st_size = 1000
+    mock_file.is_symlink.return_value = False
 
     with (
         mock.patch.object(Path, "exists", return_value=True),
