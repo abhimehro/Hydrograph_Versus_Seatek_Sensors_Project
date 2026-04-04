@@ -67,7 +67,3 @@
 
 **Learning:** Wrapping boolean numpy arrays into `pd.Series` inside tight nested loops just to perform logical `OR` operations (`|`) incurs unnecessary object allocation and index alignment overhead.
 **Action:** Perform boolean mask combinations (e.g., `sensor_mask_arr | hydro_mask_arr`) directly on the underlying numpy arrays and use them directly for filtering (`processed[keep_mask_arr]`) and `.loc` assignment. This entirely avoids intermediate Pandas Series allocations.
-
-## 2025-03-24 - Avoid $O(N \log N)$ DataFrame sorting if already monotonic
-**Learning:** Calling `merged.sort_values(inplace=True)` at the end of data processing loops unconditionally imposes an $O(N \log N)$ sorting overhead. Since time series data loaded sequentially is almost always naturally sorted, sorting every time is wasteful.
-**Action:** Use pandas' built-in fast $O(N)$ index check `is_monotonic_increasing` to verify if the series is already sorted, and only apply `sort_values` if it evaluates to `False`. This allows the application to skip the sorting overhead in the common case.
