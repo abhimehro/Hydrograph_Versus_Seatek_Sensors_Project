@@ -205,6 +205,7 @@ def test_validate_processed_files_missing_columns(mock_read_excel, mock_is_symli
     mock_file.name = "RM_54.0.xlsx"
     mock_file.stem = "RM_54.0"
     mock_file.stat.return_value.st_size = 1000
+    mock_file.exists.return_value = True
     mock_file.is_symlink.return_value = False
 
     with (
