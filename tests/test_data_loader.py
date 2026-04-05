@@ -61,8 +61,9 @@ def test_get_available_river_miles_empty():
         assert result == []
 
 
+@mock.patch.object(Path, "is_symlink", return_value=False)
 @mock.patch("pandas.read_excel")
-def test_load_summary_data(mock_read_excel):
+def test_load_summary_data(mock_read_excel, mock_is_symlink):
     """Test _load_summary_data with mocked Excel file."""
     mock_df = pd.DataFrame(
         {"River_Mile": [54.0, 53.0], "Y_Offset": [10.5, 11.2], "Num_Sensors": [2, 2]}
@@ -94,9 +95,10 @@ def test_load_summary_data(mock_read_excel):
 
 
 @mock.patch("pandas.ExcelFile")
+@mock.patch.object(Path, "is_symlink", return_value=False)
 @mock.patch("pandas.read_excel")
 def test_load_hydro_data_skips_invalid_sheet_value_error(
-    mock_read_excel, mock_excel_file_cls, caplog
+    mock_read_excel, mock_is_symlink, mock_excel_file_cls, caplog
 ):
     """Test _load_hydro_data skips sheets that raise a parsing ValueError."""
     mock_excel_file = mock.MagicMock()
