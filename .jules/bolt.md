@@ -67,3 +67,8 @@
 
 **Learning:** Wrapping boolean numpy arrays into `pd.Series` inside tight nested loops just to perform logical `OR` operations (`|`) incurs unnecessary object allocation and index alignment overhead.
 **Action:** Perform boolean mask combinations (e.g., `sensor_mask_arr | hydro_mask_arr`) directly on the underlying numpy arrays and use them directly for filtering (`processed[keep_mask_arr]`) and `.loc` assignment. This entirely avoids intermediate Pandas Series allocations.
+
+## 2026-03-24 - Avoid unconditional O(N log N) pd.DataFrame.sort_values overhead
+
+**Learning:** Unconditionally calling `.sort_values()` on a Pandas DataFrame inside nested loops incurs an expensive O(N log N) sorting cost, even if the data is already sorted chronologically.
+**Action:** Always verify if a series is already sorted by checking the O(N) `.is_monotonic_increasing` property before applying `.sort_values()`. If true, the sorting operation can be skipped entirely.

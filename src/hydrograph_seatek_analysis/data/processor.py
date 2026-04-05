@@ -187,6 +187,29 @@ class SeatekDataProcessor:
         """Setup Y_Offset values for each river mile from the summary data."""
         self.offsets = self.summary_data.set_index("River_Mile")["Y_Offset"].to_dict()
 
+    @staticmethod
+    def _get_merged_columns(
+        has_hydro: bool,
+        has_sensor_data: bool,
+        has_hydro_data: bool,
+        sensor: str,
+    ) -> List[str]:
+        """Helper to determine correct column ordering for merged output."""
+        if not has_hydro:
+            return ["Time (Seconds)", "Time (Minutes)", sensor]
+
+        if not has_sensor_data:
+            return ["Time (Seconds)", "Time (Minutes)", "Hydrograph (Lagged)"]
+        if not has_hydro_data:
+            return ["Time (Seconds)", "Time (Minutes)", sensor]
+
+        return [
+            "Time (Seconds)",
+            sensor,
+            "Time (Minutes)",
+            "Hydrograph (Lagged)",
+        ]
+
     def convert_to_navd88(
         self, data: pd.DataFrame, sensor: str, river_mile: float, copy: bool = True
     ) -> pd.DataFrame:
@@ -322,22 +345,9 @@ class SeatekDataProcessor:
 
         # If no valid readings exist for both streams, return appropriate early empty df.
         if not keep_mask_arr.any():
-            if has_hydro:
-                # Select and order columns identical to original pd.merge output
-                if not sensor_mask_arr.any():
-                    cols = ["Time (Seconds)", "Time (Minutes)", "Hydrograph (Lagged)"]
-                elif not hydro_mask_arr.any():
-                    cols = ["Time (Seconds)", "Time (Minutes)", sensor]
-                else:
-                    cols = [
-                        "Time (Seconds)",
-                        sensor,
-                        "Time (Minutes)",
-                        "Hydrograph (Lagged)",
-                    ]
-            else:
-                cols = ["Time (Seconds)", "Time (Minutes)", sensor]
-
+            cols = self._get_merged_columns(
+                has_hydro, sensor_mask_arr.any(), hydro_mask_arr.any(), sensor
+            )
             merged = pd.DataFrame(columns=cols)
         else:
             # Filter processed data using the union mask
@@ -365,26 +375,17 @@ class SeatekDataProcessor:
                 # If no valid sensor readings exist but hydrograph data exist, force hydrograph to 0
                 if not sensor_mask_arr.any() and hydro_mask_arr.any():
                     merged["Hydrograph (Lagged)"] = 0
-
-                # Select and order columns identical to original pd.merge output
-                if not sensor_mask_arr.any():
-                    cols = ["Time (Seconds)", "Time (Minutes)", "Hydrograph (Lagged)"]
-                elif not hydro_mask_arr.any():
-                    cols = ["Time (Seconds)", "Time (Minutes)", sensor]
-                else:
-                    cols = [
-                        "Time (Seconds)",
-                        sensor,
-                        "Time (Minutes)",
-                        "Hydrograph (Lagged)",
-                    ]
             else:
                 if not sensor_keep_arr.all():
                     merged.loc[~sensor_keep_arr, sensor] = np.nan
-                cols = ["Time (Seconds)", "Time (Minutes)", sensor]
 
+            cols = self._get_merged_columns(
+                has_hydro, sensor_mask_arr.any(), hydro_mask_arr.any(), sensor
+            )
             merged = merged[cols]
-            merged.sort_values("Time (Minutes)", inplace=True)
+            # ⚡ Bolt Optimization: Avoid O(N log N) sorting overhead if data is already chronologically sorted
+            if not merged["Time (Minutes)"].is_monotonic_increasing:
+                merged.sort_values("Time (Minutes)", inplace=True)
 
         metrics.valid_rows = len(merged)
         metrics.invalid_rows = metrics.original_rows - len(processed)
