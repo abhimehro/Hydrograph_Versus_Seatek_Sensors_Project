@@ -17,6 +17,7 @@ setup(
         "numpy>=1.21.0",
         "colorlog>=6.7.0",
         "pyyaml>=6.0.0",
+        "defusedxml>=0.7.1",
     ],
     entry_points={
         "console_scripts": [
