@@ -48,7 +48,7 @@ automation:
         timeout_seconds: 1800
     commands:
       - name: pytest suite
-        run: python3 -m pytest --ignore=tests/data_processing --ignore=tests/utils --ignore=tests/visualization --ignore=tests/enhanced_test_suite.py
+        run: python3 -m pytest
         optional: false
         timeout_seconds: 2400
       - name: pre-commit hygiene
