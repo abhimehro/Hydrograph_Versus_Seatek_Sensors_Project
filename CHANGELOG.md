@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- ⚡ Bolt: Optimize already-sorted dataframe sorting overhead [\#108](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/108) ([abhimehro](https://github.com/abhimehro))
 - 🔒 \[HIGH\] Fix XXE Vulnerability with defusedxml [\#107](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/107) ([abhimehro](https://github.com/abhimehro))
 - 🔒 Sentinel: \[MEDIUM\] Add defusedxml dependency to prevent XXE [\#104](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/104) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[security improvement\] Reject symlinks in file size validation [\#100](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/100) ([abhimehro](https://github.com/abhimehro))
