@@ -1,13 +1,5 @@
 # Runtime dependencies
-pandas>=1.5.0
-matplotlib>=3.5.0
-seaborn>=0.11.0
-openpyxl>=3.0.0
-numpy>=1.21.0
-colorlog>=6.7.0
-pyyaml>=6.0.0
-defusedxml>=0.7.1
-scipy>=1.9.0
+-r requirements.txt
 
 # CI / test dependencies
 pytest>=8.0.0
