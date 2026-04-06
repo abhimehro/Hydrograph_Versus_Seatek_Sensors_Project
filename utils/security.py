@@ -4,7 +4,13 @@ import logging
 import re
 from pathlib import Path
 
+import defusedxml
+
 logger = logging.getLogger(__name__)
+
+# SECURITY: Patch standard library XML parsers to prevent XXE and entity expansion DoS attacks
+# This ensures that any downstream libraries (like openpyxl/pandas) are also protected.
+defusedxml.defuse_stdlib()
 
 
 def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
