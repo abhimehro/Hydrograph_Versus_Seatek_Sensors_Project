@@ -1,22 +1,9 @@
 """Tests for the Application class."""
 
-import sys
 import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
-
-# Mock pandas, matplotlib and other missing libraries in the sandbox
-sys.modules["pandas"] = mock.MagicMock()
-sys.modules["matplotlib"] = mock.MagicMock()
-sys.modules["matplotlib.pyplot"] = mock.MagicMock()
-sys.modules["matplotlib.figure"] = mock.MagicMock()
-sys.modules["matplotlib.axes"] = mock.MagicMock()
-sys.modules["matplotlib.lines"] = mock.MagicMock()
-sys.modules["seaborn"] = mock.MagicMock()
-sys.modules["matplotlib.dates"] = mock.MagicMock()
-sys.modules["matplotlib.ticker"] = mock.MagicMock()
-sys.modules["numpy"] = mock.MagicMock()
 
 from src.hydrograph_seatek_analysis.app import Application
 from src.hydrograph_seatek_analysis.core.config import Config
