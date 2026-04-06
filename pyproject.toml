@@ -48,3 +48,8 @@ disallow_untyped_defs = true
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-ra -q"
+norecursedirs = [
+    "tests/data_processing",
+    "tests/utils",
+    "tests/visualization",
+]
