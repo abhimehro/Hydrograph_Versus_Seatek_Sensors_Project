@@ -67,3 +67,8 @@
 
 **Learning:** Wrapping boolean numpy arrays into `pd.Series` inside tight nested loops just to perform logical `OR` operations (`|`) incurs unnecessary object allocation and index alignment overhead.
 **Action:** Perform boolean mask combinations (e.g., `sensor_mask_arr | hydro_mask_arr`) directly on the underlying numpy arrays and use them directly for filtering (`processed[keep_mask_arr]`) and `.loc` assignment. This entirely avoids intermediate Pandas Series allocations.
+
+## 2026-04-06 - Avoid redundant sorting of already sorted time-series data
+
+**Learning:** Calling `pd.DataFrame.sort_values(inplace=True)` on data that is often already chronologically sorted (which is common for time-series logs or merged sensor streams) forces Pandas to undergo an expensive $O(N \log N)$ operation to construct argsort arrays and reconstruct block managers.
+**Action:** Before executing `sort_values()`, verify if the series is already properly ordered using the highly optimized Cython-backed $O(N)$ property `df['col'].is_monotonic_increasing`. If it is already sorted, simply skip the `sort_values` step entirely to save compute cycles.
