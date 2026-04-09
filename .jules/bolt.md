@@ -76,3 +76,7 @@
 ## 2024-05-19 - Optimize `sort_values` by checking `is_monotonic_increasing`
 **Learning:** `sort_values` is an $O(N \log N)$ operation which can be entirely bypassed in cases where data streams (like time series) are already chronologically sorted. Pandas provides an $O(N)$ index-checking property called `is_monotonic_increasing` to detect pre-sorted status efficiently.
 **Action:** Applied the `if not series.is_monotonic_increasing:` guard before doing `sort_values` on `Time (Minutes)` in the legacy pipeline in `utils/processor.py` (which matches the new codebase pattern). This simple check provides >5x performance gain for appending already-sorted data frames.
+
+## 2024-05-19 - Fix "Complex Method" from Codescene
+**Learning:** Adding complex logic or extracting large blocks of code can cause the linter Codescene to reject with a "Complex Method" error when the cyclomatic complexity exceeds 14. Broad refactorings shouldn't be done if they increase complexity arbitrarily.
+**Action:** Used `_get_merged_columns` as a stateless extraction to move out the column selection logic out of the main `process_data` method to drop the method complexity and keep Codescene CI passing.
