@@ -291,7 +291,10 @@ class SeatekDataProcessor:
                 cols = ["Time (Seconds)", "Time (Minutes)", sensor]
 
             merged = merged[cols]
-            merged.sort_values("Time (Minutes)", inplace=True)
+
+            # Optimization: Check if already sorted (O(N)) before doing O(N log N) sort
+            if not merged["Time (Minutes)"].is_monotonic_increasing:
+                merged.sort_values("Time (Minutes)", inplace=True)
         metrics.valid_rows = len(merged)
         metrics.invalid_rows = metrics.original_rows - len(processed)
         metrics.log_metrics()

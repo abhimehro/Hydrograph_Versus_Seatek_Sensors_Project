@@ -36,6 +36,7 @@ def test_river_mile_data_load():
     # Mock stat for security check
     p_mock = MagicMock()
     p_mock.stat.return_value.st_size = 1000
+    p_mock.is_symlink.return_value = False
     p_mock.stem = "RM_55"
     p_mock.name = "RM_55.xlsx"
     p_mock.exists.return_value = True
