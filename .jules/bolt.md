@@ -72,3 +72,8 @@
 
 **Learning:** Calling `pd.DataFrame.sort_values(inplace=True)` on data that is often already chronologically sorted (which is common for time-series logs or merged sensor streams) forces Pandas to undergo an expensive $O(N \log N)$ operation to construct argsort arrays and reconstruct block managers.
 **Action:** Before executing `sort_values()`, verify if the series is already properly ordered using the highly optimized Cython-backed $O(N)$ property `df['col'].is_monotonic_increasing`. If it is already sorted, simply skip the `sort_values` step entirely to save compute cycles.
+
+## 2026-04-10 - Avoid redundant sorting of already sorted time-series data
+
+**Learning:** Calling `pd.DataFrame.sort_values(inplace=True)` on data that is often already chronologically sorted (which is common for time-series logs or merged sensor streams) forces Pandas to undergo an expensive $O(N \log N)$ operation to construct argsort arrays and reconstruct block managers.
+**Action:** Before executing `sort_values()`, verify if the series is already properly ordered using the highly optimized Cython-backed $O(N)$ property `df['col'].is_monotonic_increasing`. If it is already sorted, simply skip the `sort_values` step entirely to save compute cycles. This applies to files like `utils/processor.py`.
