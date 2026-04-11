@@ -39,6 +39,7 @@ def test_river_mile_data_load():
     p_mock.stem = "RM_55"
     p_mock.name = "RM_55.xlsx"
     p_mock.exists.return_value = True
+    p_mock.is_symlink.return_value = False
 
     rmd = RiverMileData(p_mock)
     rmd.load_data()
