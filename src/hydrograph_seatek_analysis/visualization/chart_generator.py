@@ -99,10 +99,10 @@ class ChartGenerator:
 
             # Calculate metrics
             metrics.sensor_count = (
-                data[sensor].notna().sum() if sensor in data.columns else 0
+                data[sensor].count() if sensor in data.columns else 0
             )
             metrics.hydro_count = (
-                data[HYDROGRAPH_COL].notna().sum()
+                data[HYDROGRAPH_COL].count()
                 if HYDROGRAPH_COL in data.columns
                 else 0
             )
