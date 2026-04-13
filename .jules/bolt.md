@@ -77,3 +77,8 @@
 
 **Learning:** Calling `pd.DataFrame.sort_values(inplace=True)` on data that is often already chronologically sorted (which is common for time-series logs or merged sensor streams) forces Pandas to undergo an expensive $O(N \log N)$ operation to construct argsort arrays and reconstruct block managers.
 **Action:** Before executing `sort_values()`, verify if the series is already properly ordered using the highly optimized Cython-backed $O(N)$ property `df['col'].is_monotonic_increasing`. If it is already sorted, simply skip the `sort_values` step entirely to save compute cycles. This applies to files like `utils/processor.py`.
+
+## 2026-05-15 - Optimize pandas series missing value counting
+
+**Learning:** Replacing `df[col].notna().sum()` directly with `df[col].count()` avoids the allocation of temporary intermediate boolean mask Series objects in memory. This reduces memory allocations and utilizes optimized Cython routines.
+**Action:** Always use `.count()` to evaluate the number of valid values instead of manually calculating boolean masks (`.notna()`) and summing the matches.
