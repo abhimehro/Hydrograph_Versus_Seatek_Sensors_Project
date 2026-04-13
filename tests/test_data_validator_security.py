@@ -59,12 +59,14 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_config_cls.return_value = mock_config
 
         def stat_side_effect():
-            # The order of checks: summary_path, hydro_path, rm_path
-            # First stat call is for summary_path
-            yield MagicMock(st_size=100)  # Passes
-            # Second stat call is for hydro_path
-            yield MagicMock(st_size=100)  # Passes general check
-            yield MagicMock(st_size=100 * 1024 * 1024 + 1)  # Fails specific check
+            # summary_path general check
+            yield MagicMock(st_size=100)
+            # summary_path specific check
+            yield MagicMock(st_size=100)
+            # hydro_path checks path.stat() before general check
+            yield MagicMock(st_size=100)
+            # hydro_path checks path.stat() before specific check
+            yield MagicMock(st_size=100 * 1024 * 1024 + 1)
 
         mock_stat.side_effect = stat_side_effect()
 
