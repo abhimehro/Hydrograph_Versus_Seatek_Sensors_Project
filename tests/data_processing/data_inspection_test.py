@@ -68,7 +68,7 @@ def inspect_sheet(excel: pd.ExcelFile, sheet_name: str) -> None:
         if sensor_cols:
             logger.info("\nSensor columns found:")
             for col in sensor_cols:
-                non_null = df[col].notna().sum()
+                non_null = df[col].count()
                 unique_vals = df[col].nunique()
                 logger.info(
                     f"{col}: {non_null} non-null values, {unique_vals} unique values"

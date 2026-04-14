@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 SEATEK_COLOR = "#A63600"
 HYDRO_COLOR = "#0E5A8A"
+HYDROGRAPH_COL = "Hydrograph (Lagged)"
 MARKER_EDGE_COLOR = "white"
 MARKER_EDGE_LINEWIDTH = 0.5
 
@@ -99,10 +100,10 @@ class ChartGenerator:
 
             # Calculate metrics
             metrics.sensor_count = (
-                data[sensor].notna().sum() if sensor in data.columns else 0
+                data[sensor].count() if sensor in data.columns else 0
             )
             metrics.hydro_count = (
-                data[HYDROGRAPH_COL].notna().sum()
+                data[HYDROGRAPH_COL].count()
                 if HYDROGRAPH_COL in data.columns
                 else 0
             )
