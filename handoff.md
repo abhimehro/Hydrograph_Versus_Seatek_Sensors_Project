@@ -62,3 +62,11 @@
   - Implement an equivalent `max_file_size_bytes` check before calling `pd.read_excel`.
 
 **📌 Rationale:** This guard was added as a security and resilience measure to mitigate resource exhaustion risks from extremely large `.xlsx` files (malicious or accidental). Keeping the documentation, tests, and loader implementation aligned ensures this protection remains effective over time.
+
+# Security Handoff: Missing File Size Validation Before pd.read_excel in tests/data_processing/__init__.py
+
+## 🛡️ Sentinel: [security improvement]
+**💡 What:** Implemented `validate_file_size` from `utils.security` before loading excel files via `pd.read_excel` in `tests/data_processing/__init__.py`.
+**🎯 Why:** Prevent potential Denial-of-Service (DoS) via memory exhaustion in test data processing scripts that are vulnerable to loading massively large unvalidated Excel files.
+**📊 Impact:** Ensures memory is protected across all environments including legacy testing modules.
+**🧪 Measurement:** Passing test cases and `pytest tests/` green check.

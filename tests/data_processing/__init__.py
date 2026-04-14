@@ -26,6 +26,9 @@ class DataProcessor:
     def load_data(self) -> None:
         """Load all data from the Excel file."""
         try:
+            from utils.security import validate_file_size
+            from pathlib import Path
+            validate_file_size(Path(self.file_path), 100 * 1024 * 1024)
             # Read the summary sheet
             self.summary_data = pd.read_excel(self.file_path, sheet_name=0)
             logging.info(
@@ -39,6 +42,7 @@ class DataProcessor:
             # Process each river mile sheet
             for sheet_name in sheet_names[1:]:  # Skip the summary sheet
                 if sheet_name.startswith("RM_"):
+                    validate_file_size(Path(self.file_path), 100 * 1024 * 1024)
                     rm_data = pd.read_excel(excel_file, sheet_name=sheet_name)
                     self.river_mile_data[sheet_name] = rm_data
                     logging.info(f"Loaded data for {sheet_name}")
