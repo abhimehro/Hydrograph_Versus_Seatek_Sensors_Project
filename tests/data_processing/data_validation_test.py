@@ -36,7 +36,7 @@ def check_excel_structure(file_path: Path) -> None:
                 sensor_cols = [col for col in df.columns if col.startswith("Sensor_")]
                 if sensor_cols:
                     for col in sensor_cols:
-                        non_null = df[col].notna().sum()
+                        non_null = df[col].count()
                         zeros = df[col].eq(0).sum()
                         logger.info(
                             f"{col}: {non_null} non-null values, "
