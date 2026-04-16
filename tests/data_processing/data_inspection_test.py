@@ -6,6 +6,7 @@ import logging
 from pathlib import Path
 
 import pandas as pd
+from utils.security import validate_file_size
 
 # Configure logging
 logging.basicConfig(
@@ -26,6 +27,9 @@ def inspect_excel_file(file_path: Path) -> None:
     """
     try:
         logger.info(f"\nInspecting file: {file_path}")
+
+        # SECURITY: Limit file size to prevent memory exhaustion
+        validate_file_size(file_path, 100 * 1024 * 1024)
 
         # Load Excel file
         excel = pd.ExcelFile(str(file_path))
