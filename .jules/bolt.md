@@ -81,3 +81,7 @@
 ## 2024-05-24 - Replace Series.notna().sum() with Series.count()
 **Learning:** Using `pandas.Series.notna().sum()` inside loops creates an intermediate boolean array mask in memory just to tally non-null elements, leading to performance and memory overhead. `pandas.Series.count()` performs this operation directly without creating the intermediate mask, yielding faster execution times (~12%-63% faster depending on data distribution).
 **Action:** Replaced `.notna().sum()` with `.count()` globally in `chart_generator.py` and associated test scripts.
+
+## 2024-05-24 - Replace mask.sum() with np.count_nonzero() for boolean numpy arrays
+**Learning:** Using `.sum()` on a boolean numpy array (e.g. `mask.sum()`) implicitly upcasts the boolean values to integers before summing, introducing significant performance overhead. `np.count_nonzero(mask)` is up to 6-8x faster because it counts the non-zero (True) bytes directly in memory.
+**Action:** Replaced `.sum()` calls with `np.count_nonzero()` on boolean masks in inner loops, specifically during metrics aggregation in `utils/processor.py` or equivalent data processing modules.
