@@ -227,8 +227,8 @@ class SeatekDataProcessor:
         sensor_isna = pd.isna(sensor_vals)
         sensor_iszero = sensor_vals == 0
 
-        metrics.null_values = sensor_isna.sum()
-        metrics.zero_values = sensor_iszero.sum()
+        metrics.null_values = np.count_nonzero(sensor_isna)
+        metrics.zero_values = np.count_nonzero(sensor_iszero)
 
         has_hydro = "Hydrograph (Lagged)" in processed.columns
 

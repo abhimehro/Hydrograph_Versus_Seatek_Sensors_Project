@@ -85,3 +85,7 @@
 ## 2024-05-24 - Replace mask.sum() with np.count_nonzero() for boolean numpy arrays
 **Learning:** Using `.sum()` on a boolean numpy array (e.g. `mask.sum()`) implicitly upcasts the boolean values to integers before summing, introducing significant performance overhead. `np.count_nonzero(mask)` is up to 6-8x faster because it counts the non-zero (True) bytes directly in memory.
 **Action:** Replaced `.sum()` calls with `np.count_nonzero()` on boolean masks in inner loops, specifically during metrics aggregation in `utils/processor.py` or equivalent data processing modules.
+
+## 2024-05-24 - Replace Series.sum() > 0 with Series.any()
+**Learning:** Using `.sum() > 0` on a Pandas Series forces full accumulation over the entire array, which is inefficient. Using `.any()` avoids accumulation overhead and evaluates much faster since it performs direct $O(N)$ short-circuiting on boolean or integer logic.
+**Action:** Replaced `missing_values.sum() > 0` with `missing_values.any()` inside `src/hydrograph_seatek_analysis/data/validator.py` or equivalent data validation logic.
