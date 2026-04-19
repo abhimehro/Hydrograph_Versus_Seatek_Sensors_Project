@@ -85,7 +85,7 @@ class DataValidator:
 
             # Check for missing values
             missing_values = df[list(required_cols)].isna().sum()
-            if missing_values.sum() > 0:
+            if missing_values.any():
                 logger.warning(
                     f"Missing values detected in summary data: {missing_values}"
                 )
