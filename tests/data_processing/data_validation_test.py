@@ -6,6 +6,7 @@ import logging
 from pathlib import Path
 
 import pandas as pd
+from utils.security import validate_file_size
 
 
 def check_excel_structure(file_path: Path) -> None:
@@ -19,6 +20,9 @@ def check_excel_structure(file_path: Path) -> None:
 
     try:
         logger.info(f"Checking file: {file_path}")
+
+        # SECURITY: Prevent memory exhaustion (DoS) by validating file size
+        validate_file_size(file_path, 100 * 1024 * 1024)
 
         with pd.ExcelFile(file_path) as excel:
             # Check sheets
