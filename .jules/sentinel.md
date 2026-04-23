@@ -47,3 +47,8 @@
 **Vulnerability:** Memory exhaustion (DoS) vulnerability in `tests/data_processing/__init__.py` where `pd.read_excel()` was called without prior file size validation, exposing the module to processing excessively large malicious or malformed test files.
 **Learning:** Security validations (e.g., file size checks) must be consistently applied across the entire codebase, including utility and testing scripts that process external files, as malicious actors can exploit secondary entry points if they remain unprotected.
 **Prevention:** Always implement `validate_file_size(file_path, max_size)` from `utils.security` before any instantiation of `pd.read_excel()` or `pd.ExcelFile()`, even in `tests/` directories or secondary utility modules.
+
+## 2024-05-20 - Legacy Visualizer Path Traversal Guard
+**Vulnerability:** Path traversal and path-length Denial of Service (DoS) vulnerability in legacy visualization tools (`tests/data_processing/__init__.py`) where untrusted string variables (`year`, `river_mile`, and `sensor` from parsed Excel data) were passed directly to `os.path.join` and `f-strings` to generate output directories and filenames.
+**Learning:** Even scripts outside of the primary production path (`src/`) often generate artifacts. If these scripts process external data files and construct file paths dynamically based on the contents, they are vulnerable to arbitrary file write or DoS if sanitization is omitted.
+**Prevention:** Always implement `sanitize_filename` from `utils.security` on dynamic components (e.g., `river_mile`, `sensor`, `year`) before using them in file path constructions, including inside test or utility scripts.
