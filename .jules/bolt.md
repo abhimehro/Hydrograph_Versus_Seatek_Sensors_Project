@@ -85,3 +85,7 @@
 ## 2024-05-24 - Replace mask.sum() with np.count_nonzero() for boolean numpy arrays
 **Learning:** Using `.sum()` on a boolean numpy array (e.g. `mask.sum()`) implicitly upcasts the boolean values to integers before summing, introducing significant performance overhead. `np.count_nonzero(mask)` is up to 6-8x faster because it counts the non-zero (True) bytes directly in memory.
 **Action:** Replaced `.sum()` calls with `np.count_nonzero()` on boolean masks in inner loops, specifically during metrics aggregation in `utils/processor.py` or equivalent data processing modules.
+
+## 2024-05-25 - Replace mask.sum() with np.count_nonzero() for numpy arrays
+**Learning:** When passing Pandas Series into np.count_nonzero(), there is overhead, and passing DataFrames can change logic (scalar vs series). When optimizing mask.sum() to np.count_nonzero(), always ensure you are passing a numpy array.
+**Action:** When replacing `.sum()` with `np.count_nonzero()` on boolean masks, verify the target is actually an underlying numpy array (e.g. from `.values`) and not a Pandas DataFrame to ensure logic remains identical and optimization is maximized.
