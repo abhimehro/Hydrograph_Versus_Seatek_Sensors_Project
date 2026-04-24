@@ -54,9 +54,15 @@ class RiverMileData:
         except (IndexError, ValueError) as e:
             raise ValueError(f"Invalid river mile file name: {self.file_path.name}") from e
 
-    def load_data(self) -> None:
+    def load_data(self, max_file_size_bytes: int = 100 * 1024 * 1024) -> None:
         """Load and validate data from the Excel file."""
         try:
+            # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+            if self.file_path.exists() and \
+                    self.file_path.stat().st_size > max_file_size_bytes:
+                raise ValueError(f"File size exceeds maximum allowed size "
+                                 f"({max_file_size_bytes} bytes): {self.file_path}")
+
             self.data = pd.read_excel(self.file_path)
             self._validate_data()
             self._setup_sensors()
@@ -199,9 +205,14 @@ class SeatekDataProcessor:
 
         return merged, metrics
 
-    def load_data(self) -> None:
+    def load_data(self, max_file_size_bytes: Optional[int] = None) -> None:
         """Load data from all river mile Excel files present in the data directory."""
         try:
+            # Use value from config if available, else use default from RiverMileData.load_data
+            load_kwargs = {}
+            if max_file_size_bytes is not None:
+                load_kwargs['max_file_size_bytes'] = max_file_size_bytes
+
             rm_files = self._find_river_mile_files()
 
             if not rm_files:
@@ -210,7 +221,7 @@ class SeatekDataProcessor:
             for file_path in rm_files:
                 try:
                     rm_data = RiverMileData(file_path)
-                    rm_data.load_data()
+                    rm_data.load_data(**load_kwargs)
                     self.river_mile_data[rm_data.river_mile] = rm_data
                     logger.info(f"Loaded data for River Mile {rm_data.river_mile}")
                 except Exception as e:

@@ -28,6 +28,9 @@ class Config:
             'scale_factor': 400 / 30.48
         }
 
+        # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+        self.max_file_size_bytes = 100 * 1024 * 1024  # 100 MB
+
         # Visualization settings
         self.chart_settings = {
             'dpi': 300,

@@ -105,7 +105,7 @@ def main() -> None:
 
         # Process data
         logger.info("Processing data...")
-        processor.load_data()
+        processor.load_data(max_file_size_bytes=config.max_file_size_bytes)
 
         # Generate visualizations
         logger.info("Generating visualizations...")

@@ -31,6 +31,14 @@ class DataLoader:
         """Load and validate summary data."""
         try:
             logger.debug(f"Loading summary data from: {self.config.summary_file}")
+
+            # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+            if self.config.summary_file.exists() and \
+                    self.config.summary_file.stat().st_size > self.config.max_file_size_bytes:
+                raise ValueError(f"File size exceeds maximum allowed size "
+                                 f"({self.config.max_file_size_bytes} bytes): "
+                                 f"{self.config.summary_file}")
+
             df = pd.read_excel(self.config.summary_file)
             required_cols = {'River_Mile', 'Y_Offset', 'Num_Sensors'}
 
@@ -49,6 +57,14 @@ class DataLoader:
         """Load and validate hydrograph data."""
         try:
             logger.debug(f"Loading hydrograph data from: {self.config.hydro_file}")
+
+            # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+            if self.config.hydro_file.exists() and \
+                    self.config.hydro_file.stat().st_size > self.config.max_file_size_bytes:
+                raise ValueError(f"File size exceeds maximum allowed size "
+                                 f"({self.config.max_file_size_bytes} bytes): "
+                                 f"{self.config.hydro_file}")
+
             hydro_data = {}
             excel_file = pd.ExcelFile(self.config.hydro_file)
 
