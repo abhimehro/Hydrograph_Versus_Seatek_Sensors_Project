@@ -69,6 +69,72 @@ def verify_environment() -> bool:
         return False
 
 
+def _generate_single_visualization(
+    processor: SeatekDataProcessor,
+    chart_generator: ChartGenerator,
+    config: Config,
+    rm_data: RiverMileData,
+    sensor: str,
+    year: int
+) -> None:
+    """Generate and save a single chart for a given river mile, sensor, and year."""
+    logger = logging.getLogger(__name__)
+    try:
+        processed_data, metrics = processor.process_data(
+            rm_data.river_mile,
+            year,
+            sensor
+        )
+
+        if processed_data.empty:
+            return
+
+        chart = chart_generator.create_chart(
+            processed_data,
+            rm_data.river_mile,
+            year,
+            sensor
+        )
+
+        if chart:
+            output_path = (config.output_dir /
+                           f"RM_{rm_data.river_mile:.1f}" /
+                           f"Year_{year}_{sensor}.png")
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            chart.savefig(output_path, dpi=300, bbox_inches='tight')
+            plt.close(chart)  # Free memory
+            logger.info(f"Generated: {output_path}")
+        else:
+            logger.error(f"Failed to create chart for RM {rm_data.river_mile}, "
+                         f"Year {year}, Sensor {sensor}")
+
+    except Exception as e:
+        logger.error(f"Error processing RM {rm_data.river_mile} "
+                     f"Year {year} Sensor {sensor}: {str(e)}")
+
+
+def generate_visualizations(
+    processor: SeatekDataProcessor,
+    chart_generator: ChartGenerator,
+    config: Config
+) -> None:
+    """Generate visualizations for all loaded river mile data."""
+    logger = logging.getLogger(__name__)
+    logger.info("Generating visualizations...")
+
+    for rm_data in processor.river_mile_data.values():
+        for sensor in rm_data.sensors:
+            for year in sorted(rm_data.data['Year'].unique()):
+                _generate_single_visualization(
+                    processor,
+                    chart_generator,
+                    config,
+                    rm_data,
+                    sensor,
+                    year
+                )
+
+
 def main() -> None:
     """Main execution function."""
     logger = logging.getLogger(__name__)
@@ -108,40 +174,7 @@ def main() -> None:
         processor.load_data(max_file_size_bytes=config.max_file_size_bytes)
 
         # Generate visualizations
-        logger.info("Generating visualizations...")
-        for rm_data in processor.river_mile_data.values():
-            for sensor in rm_data.sensors:
-                for year in sorted(rm_data.data['Year'].unique()):
-                    try:
-                        processed_data, metrics = processor.process_data(
-                            rm_data.river_mile,
-                            year,
-                            sensor
-                        )
-
-                        if not processed_data.empty:
-                            chart = chart_generator.create_chart(
-                                processed_data,
-                                rm_data.river_mile,
-                                year,
-                                sensor
-                            )
-
-                            if chart:
-                                output_path = (config.output_dir /
-                                               f"RM_{rm_data.river_mile:.1f}" /
-                                               f"Year_{year}_{sensor}.png")
-                                output_path.parent.mkdir(parents=True, exist_ok=True)
-                                chart.savefig(output_path, dpi=300, bbox_inches='tight')
-                                plt.close(chart)  # Free memory
-                                logger.info(f"Generated: {output_path}")
-                            else:
-                                logger.error(f"Failed to create chart for RM {rm_data.river_mile}, Year {year}, Sensor {sensor}")
-
-                    except Exception as e:
-                        logger.error(f"Error processing RM {rm_data.river_mile} "
-                                     f"Year {year} Sensor {sensor}: {str(e)}")
-                        continue
+        generate_visualizations(processor, chart_generator, config)
 
         logger.info("Processing completed successfully")
 

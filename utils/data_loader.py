@@ -69,18 +69,9 @@ class DataLoader:
             excel_file = pd.ExcelFile(self.config.hydro_file)
 
             for sheet_name in excel_file.sheet_names:
-                if not sheet_name.startswith('RM_'):
-                    continue
-
-                df = pd.read_excel(excel_file, sheet_name=sheet_name)
-                required_cols = {'Time (Seconds)', 'Year'}
-
-                if not all(col in df.columns for col in required_cols):
-                    logger.warning(f"Skipping sheet {sheet_name}: Missing required columns")
-                    continue
-
-                hydro_data[sheet_name] = df
-                logger.debug(f"Loaded sheet {sheet_name}. Shape: {df.shape}")
+                df = self._load_hydro_sheet(excel_file, sheet_name)
+                if df is not None:
+                    hydro_data[sheet_name] = df
 
             if not hydro_data:
                 raise ValueError("No valid hydrograph data sheets found")
@@ -90,3 +81,22 @@ class DataLoader:
         except Exception as e:
             logger.error(f"Error loading hydrograph data: {str(e)}")
             raise
+
+    def _load_hydro_sheet(self, excel_file: pd.ExcelFile, sheet_name: str) -> Optional[pd.DataFrame]:
+        """Load and validate a single hydrograph data sheet."""
+        if not sheet_name.startswith('RM_'):
+            return None
+
+        try:
+            df = pd.read_excel(excel_file, sheet_name=sheet_name)
+            required_cols = {'Time (Seconds)', 'Year'}
+
+            if not all(col in df.columns for col in required_cols):
+                logger.warning(f"Skipping sheet {sheet_name}: Missing required columns")
+                return None
+
+            logger.debug(f"Loaded sheet {sheet_name}. Shape: {df.shape}")
+            return df
+        except Exception as e:
+            logger.warning(f"Error loading sheet {sheet_name}: {str(e)}")
+            return None
