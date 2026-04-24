@@ -24,7 +24,14 @@ class ProcessingMetrics:
 
     def log_metrics(self) -> None:
         """Log processing metrics."""
-        logger.info(f'Data processing metrics:\n  Original rows: {self.original_rows}\n  Invalid rows: {self.invalid_rows}\n  Zero values: {self.zero_values}\n  Null values: {self.null_values}\n  Valid rows: {self.valid_rows}')
+        logger.info(
+            "Data processing metrics:\n"
+            f"  Original rows: {self.original_rows}\n"
+            f"  Invalid rows: {self.invalid_rows}\n"
+            f"  Zero values: {self.zero_values}\n"
+            f"  Null values: {self.null_values}\n"
+            f"  Valid rows: {self.valid_rows}"
+        )
 
 class RiverMileData:
     """Container for river mile–specific data and metadata."""
@@ -208,9 +215,13 @@ class SeatekDataProcessor:
             # Nullify values that are not valid in their respective streams
             if has_hydro:
                 if not sensor_keep.all():
-                    merged.loc[~sensor_keep, sensor] = (pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan)
+                    merged.loc[~sensor_keep, sensor] = (
+                        pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan
+                    )
                 if not hydro_keep.all():
-                    merged.loc[~hydro_keep, 'Hydrograph (Lagged)'] = (pd.NA if pd.api.types.is_object_dtype(merged['Hydrograph (Lagged)']) else np.nan)
+                    merged.loc[~hydro_keep, 'Hydrograph (Lagged)'] = (
+                        pd.NA if pd.api.types.is_object_dtype(merged['Hydrograph (Lagged)']) else np.nan
+                    )
 
                 # If no valid sensor readings exist but hydrograph data exist, force hydrograph to 0
                 if not sensor_mask.any() and hydro_mask.any():
@@ -225,7 +236,9 @@ class SeatekDataProcessor:
                     cols = ['Time (Seconds)', sensor, 'Time (Minutes)', 'Hydrograph (Lagged)']
             else:
                 if not sensor_keep.all():
-                    merged.loc[~sensor_keep, sensor] = (pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan)
+                    merged.loc[~sensor_keep, sensor] = (
+                        pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan
+                    )
                 cols = ['Time (Seconds)', 'Time (Minutes)', sensor]
 
             merged = merged[cols]
