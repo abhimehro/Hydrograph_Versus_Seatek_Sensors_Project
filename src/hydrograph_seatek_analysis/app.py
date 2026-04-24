@@ -5,9 +5,7 @@ Main application module for Seatek and Hydrograph data processing.
 import logging
 import sys
 from pathlib import Path
-from typing import Optional, List, Tuple, Dict
-
-import pandas as pd
+from typing import Optional
 
 from .core.config import Config
 from .core.logger import configure_root_logger
