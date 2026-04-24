@@ -27,24 +27,24 @@ class DataLoader:
             logger.error(f"Error loading data: {str(e)}")
             raise
 
+    def _validate_file_size(self, file_path: Path) -> None:
+        """Check if file size is within the configured limit."""
+        if file_path.exists() and \
+                file_path.stat().st_size > self.config.max_file_size_bytes:
+            raise ValueError(f"File size exceeds maximum allowed size "
+                             f"({self.config.max_file_size_bytes} bytes): "
+                             f"{file_path}")
+
     def _load_summary_data(self) -> pd.DataFrame:
         """Load and validate summary data."""
         try:
             logger.debug(f"Loading summary data from: {self.config.summary_file}")
 
             # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-            if self.config.summary_file.exists() and \
-                    self.config.summary_file.stat().st_size > self.config.max_file_size_bytes:
-                raise ValueError(f"File size exceeds maximum allowed size "
-                                 f"({self.config.max_file_size_bytes} bytes): "
-                                 f"{self.config.summary_file}")
+            self._validate_file_size(self.config.summary_file)
 
             df = pd.read_excel(self.config.summary_file)
-            required_cols = {'River_Mile', 'Y_Offset', 'Num_Sensors'}
-
-            if not all(col in df.columns for col in required_cols):
-                missing_cols = required_cols - set(df.columns)
-                raise ValueError(f"Missing required columns in summary data: {missing_cols}")
+            self._validate_summary_columns(df)
 
             logger.debug(f"Summary data loaded successfully. Shape: {df.shape}")
             return df
@@ -59,11 +59,7 @@ class DataLoader:
             logger.debug(f"Loading hydrograph data from: {self.config.hydro_file}")
 
             # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-            if self.config.hydro_file.exists() and \
-                    self.config.hydro_file.stat().st_size > self.config.max_file_size_bytes:
-                raise ValueError(f"File size exceeds maximum allowed size "
-                                 f"({self.config.max_file_size_bytes} bytes): "
-                                 f"{self.config.hydro_file}")
+            self._validate_file_size(self.config.hydro_file)
 
             hydro_data = {}
             excel_file = pd.ExcelFile(self.config.hydro_file)
@@ -81,6 +77,13 @@ class DataLoader:
         except Exception as e:
             logger.error(f"Error loading hydrograph data: {str(e)}")
             raise
+
+    def _validate_summary_columns(self, df: pd.DataFrame) -> None:
+        """Ensure that summary data has the required columns."""
+        required_cols = {'River_Mile', 'Y_Offset', 'Num_Sensors'}
+        if not all(col in df.columns for col in required_cols):
+            missing_cols = required_cols - set(df.columns)
+            raise ValueError(f"Missing required columns in summary data: {missing_cols}")
 
     def _load_hydro_sheet(self, excel_file: pd.ExcelFile, sheet_name: str) -> Optional[pd.DataFrame]:
         """Load and validate a single hydrograph data sheet."""

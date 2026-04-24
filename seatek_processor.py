@@ -28,7 +28,7 @@ import matplotlib.pyplot as plt
 from utils.chart_generator import ChartGenerator
 from utils.config import Config
 from utils.data_loader import DataLoader
-from utils.processor import SeatekDataProcessor
+from utils.processor import SeatekDataProcessor, RiverMileData
 
 
 def setup_logging() -> None:
@@ -70,15 +70,17 @@ def verify_environment() -> bool:
 
 
 def _generate_single_visualization(
-    processor: SeatekDataProcessor,
-    chart_generator: ChartGenerator,
-    config: Config,
+    components: dict,
     rm_data: RiverMileData,
     sensor: str,
     year: int
 ) -> None:
     """Generate and save a single chart for a given river mile, sensor, and year."""
     logger = logging.getLogger(__name__)
+    processor = components['processor']
+    chart_generator = components['chart_generator']
+    config = components['config']
+
     try:
         processed_data, metrics = processor.process_data(
             rm_data.river_mile,
@@ -122,13 +124,17 @@ def generate_visualizations(
     logger = logging.getLogger(__name__)
     logger.info("Generating visualizations...")
 
+    components = {
+        'processor': processor,
+        'chart_generator': chart_generator,
+        'config': config
+    }
+
     for rm_data in processor.river_mile_data.values():
         for sensor in rm_data.sensors:
             for year in sorted(rm_data.data['Year'].unique()):
                 _generate_single_visualization(
-                    processor,
-                    chart_generator,
-                    config,
+                    components,
                     rm_data,
                     sensor,
                     year
