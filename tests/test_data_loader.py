@@ -144,6 +144,31 @@ def test_load_hydro_data_skips_invalid_sheet_value_error(
     assert "Skipping sheet RM_invalid: No columns to parse from file" in caplog.text
 
 
+@mock.patch('pandas.ExcelFile')
+def test_load_hydro_data_exception(mock_excel_file_cls, caplog):
+    """Test _load_hydro_data with an exception during ExcelFile initialization.
+
+    Salvaged from PR #145. Asserts that _load_hydro_data correctly propagates
+    a RuntimeError from pandas.ExcelFile (e.g. corrupted workbook) rather than
+    silently swallowing it, and that a sanitized error line is logged.
+    """
+    mock_excel_file_cls.side_effect = RuntimeError("Test error")
+
+    config = Config()
+    data_loader = DataLoader(config)
+
+    with (
+        mock.patch.object(Path, 'is_symlink', return_value=False),
+        mock.patch.object(Path, 'exists', return_value=True),
+        mock.patch.object(Path, 'stat') as mock_stat,
+    ):
+        mock_stat.return_value.st_size = 1000
+        with pytest.raises(RuntimeError, match="Test error"):
+            data_loader._load_hydro_data()
+
+    assert "Error loading hydrograph data: Test error" in caplog.text
+
+
 @mock.patch.object(DataLoader, "_load_hydro_data")
 @mock.patch.object(DataLoader, "_load_summary_data")
 def test_load_all_data_success(mock_load_summary, mock_load_hydro):
