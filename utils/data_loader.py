@@ -1,7 +1,7 @@
 """Data loading utilities for Seatek processing."""
 
 import logging
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Optional
 
 import pandas as pd
 
