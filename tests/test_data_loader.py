@@ -144,7 +144,7 @@ def test_load_hydro_data_skips_invalid_sheet_value_error(
     assert "Skipping sheet RM_invalid: No columns to parse from file" in caplog.text
 
 
-@mock.patch('pandas.ExcelFile')
+@mock.patch("pandas.ExcelFile")
 def test_load_hydro_data_exception(mock_excel_file_cls, caplog):
     """Test _load_hydro_data with an exception during ExcelFile initialization.
 
