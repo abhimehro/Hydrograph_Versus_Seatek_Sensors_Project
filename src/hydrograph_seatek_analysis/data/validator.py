@@ -16,16 +16,16 @@ logger = logging.getLogger(__name__)
 
 class DataValidator:
     """Validates data files and structure."""
-    
+
     def __init__(self, config: Config):
         """
         Initialize validator with configuration.
-        
+
         Args:
             config: Application configuration
         """
         self.config = config
-    
+
     def _create_stateful_col_filter(
         self, keep_condition: Callable[[Any], bool]
     ) -> Tuple[Callable[[Any], bool], List[str]]:
@@ -42,20 +42,23 @@ class DataValidator:
     def validate_summary_file(self) -> Optional[Dict[str, Any]]:
         """
         Validate summary data file.
-        
+
         Returns:
             Dictionary with validation results or None if validation fails
         """
         summary_file = self.config.summary_file
-        
+
         try:
             if not summary_file.exists():
                 logger.error(f"Summary file not found: {summary_file}")
                 return None
-                
+
             # SECURITY: Limit file size to prevent memory exhaustion (DoS)
             if summary_file.stat().st_size > self.config.max_file_size_bytes:
-                logger.error(f"Summary file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {summary_file}")
+                logger.error(
+                f"Summary file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): "
+                f"{summary_file}"
+            )
                 return None
 
             required_cols = {'River_Mile', 'Y_Offset', 'Num_Sensors'}
@@ -77,18 +80,18 @@ class DataValidator:
             # Check data types
             if not pd.api.types.is_numeric_dtype(df['River_Mile']):
                 logger.warning("River_Mile column is not numeric")
-                
+
             if not pd.api.types.is_numeric_dtype(df['Y_Offset']):
                 logger.warning("Y_Offset column is not numeric")
-                
+
             if not pd.api.types.is_numeric_dtype(df['Num_Sensors']):
                 logger.warning("Num_Sensors column is not numeric")
-                
+
             # Check for missing values
             missing_values = df[list(required_cols)].isna().sum()
             if missing_values.sum() > 0:
                 logger.warning(f"Missing values detected in summary data: {missing_values}")
-                
+
             return {
                 "file": summary_file.name,
                 "columns": list(df.columns),
@@ -97,41 +100,44 @@ class DataValidator:
                 "river_miles": df['River_Mile'].tolist(),
                 "missing_values": missing_values.to_dict()
             }
-            
+
         except Exception as e:
             logger.error(f"Error validating summary file: {str(e)}")
             return None
-    
+
     def validate_hydro_file(self) -> Optional[Dict[str, Any]]:
         """
         Validate hydrograph data file.
-        
+
         Returns:
             Dictionary with validation results or None if validation fails
         """
         hydro_file = self.config.hydro_file
-        
+
         try:
             if not hydro_file.exists():
                 logger.error(f"Hydrograph file not found: {hydro_file}")
                 return None
-                
+
             # SECURITY: Limit file size to prevent memory exhaustion (DoS)
             if hydro_file.stat().st_size > self.config.max_file_size_bytes:
-                logger.error(f"Hydrograph file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {hydro_file}")
+                logger.error(
+                f"Hydrograph file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): "
+                f"{hydro_file}"
+            )
                 return None
 
             with pd.ExcelFile(hydro_file) as excel:
                 sheets = excel.sheet_names
                 rm_sheets = [s for s in sheets if s.startswith('RM_')]
-                
+
                 if not rm_sheets:
                     logger.error("No river mile sheets found in hydrograph file")
                     return None
-                    
+
                 sheet_info = []
                 required_cols = {'Time (Seconds)', 'Year'}
-                
+
                 for sheet in rm_sheets:
 
                     # Optimization: check headers and conditionally load only required in single pass.
@@ -140,55 +146,61 @@ class DataValidator:
 
                     # SECURITY: Limit file size to prevent memory exhaustion (DoS)
                     if hydro_file.stat().st_size > self.config.max_file_size_bytes:
-                        raise ValueError(f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {hydro_file}")
+                        raise ValueError(
+                    f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): "
+                    f"{hydro_file}"
+                )
 
                     df = pd.read_excel(excel, sheet_name=sheet, usecols=filter_cols)
                     columns = list(seen_cols)
 
                     missing = [col for col in required_cols if col not in columns]
-                    
+
                     sheet_info.append({
                         "name": sheet,
                         "columns": columns,
                         "rows": len(df),
                         "required_columns_present": len(missing) == 0,
                         "years": sorted(df['Year'].dropna().unique().astype(int).tolist()) if 'Year' in df.columns and df['Year'].notna().any() else None,
-                        "time_range": [df['Time (Seconds)'].dropna().min(), df['Time (Seconds)'].dropna().max()] 
+                        "time_range": [df['Time (Seconds)'].dropna().min(), df['Time (Seconds)'].dropna().max()]
                             if 'Time (Seconds)' in df.columns and df['Time (Seconds)'].notna().any() else None
                     })
-                    
+
                 return {
                     "file": hydro_file.name,
                     "sheets": sheet_info,
                     "river_mile_sheets": rm_sheets
                 }
-                
+
         except Exception as e:
             logger.error(f"Error validating hydrograph file: {str(e)}")
             return None
-    
+
     def validate_processed_files(self) -> List[Dict[str, Any]]:
         """
         Validate processed river mile files.
-        
+
         Returns:
             List of dictionaries with validation results for each file
         """
         results = []
         processed_dir = self.config.processed_dir
-        
+
         if not processed_dir.exists():
             logger.error(f"Processed directory not found: {processed_dir}")
             return results
-        
+
         rm_files = list(processed_dir.glob("RM_*.xlsx"))
         required_cols = {'Time (Seconds)', 'Year'}
-        
+
         for file_path in rm_files:
             try:
                 # SECURITY: Limit file size to prevent memory exhaustion (DoS)
                 if file_path.stat().st_size > self.config.max_file_size_bytes:
-                    logger.error(f"Processed file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {file_path}")
+                    logger.error(
+                    f"Processed file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): "
+                    f"{file_path}"
+                )
                     results.append({
                         "file": file_path.name,
                         "error": f"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes)"
@@ -202,8 +214,8 @@ class DataValidator:
                 except (IndexError, ValueError):
                     logger.warning(f"Invalid river mile file name: {file_path.name}")
                     river_mile = None
-                
-                
+
+
                 # Optimization: load columns dynamically and load in a single pass.
                 # First column is unconditionally included as an anchor so df may include a column that is neither required nor a Sensor_ column.
                 filter_cols, seen_cols = self._create_stateful_col_filter(
@@ -215,17 +227,17 @@ class DataValidator:
 
                 missing = [col for col in required_cols if col not in columns]
                 sensor_cols = [col for col in columns if str(col).startswith('Sensor_')]
-                
+
                 # Check data range
                 year_range = None
                 time_range = None
-                
+
                 if 'Year' in df.columns and len(df['Year']) > 0:
                     year_range = [int(df['Year'].min()), int(df['Year'].max())]
-                    
+
                 if 'Time (Seconds)' in df.columns and len(df['Time (Seconds)']) > 0:
                     time_range = [float(df['Time (Seconds)'].min()), float(df['Time (Seconds)'].max())]
-                
+
                 results.append({
                     "file": file_path.name,
                     "river_mile": river_mile,
@@ -236,50 +248,50 @@ class DataValidator:
                     "year_range": year_range,
                     "time_range": time_range
                 })
-                
+
             except Exception as e:
                 logger.error(f"Error validating processed file {file_path.name}: {str(e)}")
                 results.append({
                     "file": file_path.name,
                     "error": str(e)
                 })
-        
+
         return results
-    
+
     def run_validation(self) -> Dict[str, Any]:
         """
         Run full validation on all data files.
-        
+
         Returns:
             Dictionary with validation results
         """
         logger.info("Running data validation")
-        
+
         summary_validation = self.validate_summary_file()
         hydro_validation = self.validate_hydro_file()
         processed_validation = self.validate_processed_files()
-        
+
         # Check for consistency between summary and processed files
         river_mile_consistency = None
-        
+
         if summary_validation and processed_validation:
             # Extract river miles from summary and processed files
             summary_rms = set(summary_validation.get("river_miles", []))
             processed_rms = {
-                r.get("river_mile") for r in processed_validation 
+                r.get("river_mile") for r in processed_validation
                 if r.get("river_mile") is not None
             }
-            
+
             # Check for consistency
             missing_rms = summary_rms - processed_rms
             extra_rms = processed_rms - summary_rms
-            
+
             river_mile_consistency = {
                 "all_summary_rms_processed": len(missing_rms) == 0,
                 "missing_processed_rms": list(missing_rms),
                 "extra_processed_rms": list(extra_rms)
             }
-        
+
         return {
             "summary": summary_validation,
             "hydrograph": hydro_validation,

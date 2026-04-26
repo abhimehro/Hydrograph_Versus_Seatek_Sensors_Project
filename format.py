@@ -60,6 +60,52 @@ def format_file(filepath):
          "        )")
     )
 
+    # 6. Fix long ValueError for file size in data_loader.py and processor.py
+    content = content.replace(
+        "raise ValueError(f\"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {summary_file}\")",
+        ("raise ValueError(\n"
+         "                    f\"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): \"\n"
+         "                    f\"{summary_file}\"\n"
+         "                )")
+    )
+    content = content.replace(
+        "raise ValueError(f\"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {hydro_file}\")",
+        ("raise ValueError(\n"
+         "                    f\"File size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): \"\n"
+         "                    f\"{hydro_file}\"\n"
+         "                )")
+    )
+    content = content.replace(
+        "raise ValueError(f\"File size exceeds maximum allowed size ({max_file_size_bytes} bytes): {self.file_path}\")",
+        ("raise ValueError(\n"
+         "                f\"File size exceeds maximum allowed size ({max_file_size_bytes} bytes): \"\n"
+         "                f\"{self.file_path}\"\n"
+         "            )")
+    )
+
+    # 7. Fix long logger.error for file size in validator.py
+    content = content.replace(
+        "logger.error(f\"Summary file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {summary_file}\")",
+        ("logger.error(\n"
+         "                f\"Summary file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): \"\n"
+         "                f\"{summary_file}\"\n"
+         "            )")
+    )
+    content = content.replace(
+        "logger.error(f\"Hydrograph file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {hydro_file}\")",
+        ("logger.error(\n"
+         "                f\"Hydrograph file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): \"\n"
+         "                f\"{hydro_file}\"\n"
+         "            )")
+    )
+    content = content.replace(
+        "logger.error(f\"Processed file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): {file_path}\")",
+        ("logger.error(\n"
+         "                    f\"Processed file size exceeds maximum allowed size ({self.config.max_file_size_bytes} bytes): \"\n"
+         "                    f\"{file_path}\"\n"
+         "                )")
+    )
+
     if not content.endswith('\n'):
         content += '\n'
 
@@ -70,6 +116,8 @@ def format_file(filepath):
 if __name__ == "__main__":
     target_files = [
         'src/hydrograph_seatek_analysis/data/processor.py',
+        'src/hydrograph_seatek_analysis/data/data_loader.py',
+        'src/hydrograph_seatek_analysis/data/validator.py',
         'utils/processor.py'
     ]
 
