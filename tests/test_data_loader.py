@@ -157,14 +157,12 @@ def test_load_hydro_data_exception(mock_excel_file_cls, caplog):
     config = Config()
     data_loader = DataLoader(config)
 
-    with (
-        mock.patch.object(Path, 'is_symlink', return_value=False),
-        mock.patch.object(Path, 'exists', return_value=True),
-        mock.patch.object(Path, 'stat') as mock_stat,
-    ):
-        mock_stat.return_value.st_size = 1000
-        with pytest.raises(RuntimeError, match="Test error"):
-            data_loader._load_hydro_data()
+    with mock.patch.object(Path, "is_symlink", return_value=False):
+        with mock.patch.object(Path, "exists", return_value=True):
+            with mock.patch.object(Path, "stat") as mock_stat:
+                mock_stat.return_value.st_size = 1000
+                with pytest.raises(RuntimeError, match="Test error"):
+                    data_loader._load_hydro_data()
 
     assert "Error loading hydrograph data: Test error" in caplog.text
 
