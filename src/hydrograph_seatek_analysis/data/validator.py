@@ -110,6 +110,42 @@ class DataValidator:
             logger.error(f"Error validating summary file: {str(e)}")
             return None
 
+    def _validate_hydro_sheet(self, excel: pd.ExcelFile, sheet: str, required_cols: set, max_size: int, hydro_file: "Path") -> Dict[str, Any]:
+        """Helper to validate a single sheet in the hydrograph file."""
+        # Optimization: check headers and conditionally load only required in single pass.
+        # First column is unconditionally included as an anchor to guarantee a non-empty dataframe for row-count retrieval.
+        filter_cols, seen_cols = self._create_stateful_col_filter(
+            lambda c: c in required_cols
+        )
+
+        # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+        validate_file_size(hydro_file, max_size)
+
+        df = pd.read_excel(excel, sheet_name=sheet, usecols=filter_cols)
+        columns = list(seen_cols)
+
+        missing = [col for col in required_cols if col not in columns]
+
+        years = None
+        if "Year" in df.columns and df["Year"].notna().any():
+            years = sorted(df["Year"].dropna().unique().astype(int).tolist())
+
+        time_range = None
+        if "Time (Seconds)" in df.columns and df["Time (Seconds)"].notna().any():
+            time_range = [
+                df["Time (Seconds)"].dropna().min(),
+                df["Time (Seconds)"].dropna().max(),
+            ]
+
+        return {
+            "name": sheet,
+            "columns": columns,
+            "rows": len(df),
+            "required_columns_present": len(missing) == 0,
+            "years": years,
+            "time_range": time_range,
+        }
+
     def validate_hydro_file(self) -> Optional[Dict[str, Any]]:
         """
         Validate hydrograph data file.
@@ -139,45 +175,8 @@ class DataValidator:
                 required_cols = {"Time (Seconds)", "Year"}
 
                 for sheet in rm_sheets:
-
-                    # Optimization: check headers and conditionally load only required in single pass.
-                    # First column is unconditionally included as an anchor to guarantee a non-empty dataframe for row-count retrieval.
-                    filter_cols, seen_cols = self._create_stateful_col_filter(
-                        lambda c: c in required_cols
-                    )
-
-                    # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-                    validate_file_size(hydro_file, self.config.max_file_size_bytes)
-
-                    df = pd.read_excel(excel, sheet_name=sheet, usecols=filter_cols)
-                    columns = list(seen_cols)
-
-                    missing = [col for col in required_cols if col not in columns]
-
-                    sheet_info.append(
-                        {
-                            "name": sheet,
-                            "columns": columns,
-                            "rows": len(df),
-                            "required_columns_present": len(missing) == 0,
-                            "years": (
-                                sorted(
-                                    df["Year"].dropna().unique().astype(int).tolist()
-                                )
-                                if "Year" in df.columns and df["Year"].notna().any()
-                                else None
-                            ),
-                            "time_range": (
-                                [
-                                    df["Time (Seconds)"].dropna().min(),
-                                    df["Time (Seconds)"].dropna().max(),
-                                ]
-                                if "Time (Seconds)" in df.columns
-                                and df["Time (Seconds)"].notna().any()
-                                else None
-                            ),
-                        }
-                    )
+                    info = self._validate_hydro_sheet(excel, sheet, required_cols, self.config.max_file_size_bytes, hydro_file)
+                    sheet_info.append(info)
 
                 return {
                     "file": hydro_file.name,
