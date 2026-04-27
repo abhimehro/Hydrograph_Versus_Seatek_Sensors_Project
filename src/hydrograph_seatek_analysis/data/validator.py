@@ -44,6 +44,12 @@ class DataValidator:
         """Helper to count missing values to reduce method complexity."""
         return pd.Series({col: np.count_nonzero(pd.isna(df[col].values)) for col in columns})
 
+    def _log_numeric_warnings(self, df: pd.DataFrame, columns: list) -> None:
+        """Helper to log warnings if specified columns are not numeric."""
+        for col in columns:
+            if not pd.api.types.is_numeric_dtype(df[col]):
+                logger.warning(f"{col} column is not numeric")
+
     def validate_summary_file(self) -> Optional[Dict[str, Any]]:
         """
         Validate summary data file.
@@ -79,14 +85,7 @@ class DataValidator:
                 return None
 
             # Check data types
-            if not pd.api.types.is_numeric_dtype(df["River_Mile"]):
-                logger.warning("River_Mile column is not numeric")
-
-            if not pd.api.types.is_numeric_dtype(df["Y_Offset"]):
-                logger.warning("Y_Offset column is not numeric")
-
-            if not pd.api.types.is_numeric_dtype(df["Num_Sensors"]):
-                logger.warning("Num_Sensors column is not numeric")
+            self._log_numeric_warnings(df, ["River_Mile", "Y_Offset", "Num_Sensors"])
 
             # Check for missing values
             # ⚡ Bolt Optimization: Replace df.isna().sum() with pd.Series + np.count_nonzero() over columns
@@ -190,6 +189,55 @@ class DataValidator:
             logger.error(f"Error validating hydrograph file: {str(e)}")
             return None
 
+    def _validate_single_processed_file(self, file_path, required_cols: set) -> Dict[str, Any]:
+        """Helper to validate a single processed file."""
+        # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+        validate_file_size(file_path, self.config.max_file_size_bytes)
+
+        # Extract river mile
+        try:
+            rm_str = file_path.stem.split("_")[1]
+            river_mile = float(rm_str)
+        except (IndexError, ValueError):
+            logger.warning(f"Invalid river mile file name: {file_path.name}")
+            river_mile = None
+
+        # Optimization: load columns dynamically and load in a single pass.
+        # First column is unconditionally included as an anchor so df may include a column that is neither required nor a Sensor_ column.
+        filter_cols, seen_cols = self._create_stateful_col_filter(
+            lambda c: c in required_cols or str(c).startswith("Sensor_")
+        )
+
+        df = pd.read_excel(file_path, usecols=filter_cols)
+        columns = list(seen_cols)
+
+        missing = [col for col in required_cols if col not in columns]
+        sensor_cols = [col for col in columns if str(col).startswith("Sensor_")]
+
+        # Check data range
+        year_range = None
+        time_range = None
+
+        if "Year" in df.columns and len(df["Year"]) > 0:
+            year_range = [int(df["Year"].min()), int(df["Year"].max())]
+
+        if "Time (Seconds)" in df.columns and len(df["Time (Seconds)"]) > 0:
+            time_range = [
+                float(df["Time (Seconds)"].min()),
+                float(df["Time (Seconds)"].max()),
+            ]
+
+        return {
+            "file": file_path.name,
+            "river_mile": river_mile,
+            "columns": columns,
+            "rows": len(df),
+            "required_columns_present": len(missing) == 0,
+            "sensor_columns": sensor_cols,
+            "year_range": year_range,
+            "time_range": time_range,
+        }
+
     def validate_processed_files(self) -> List[Dict[str, Any]]:
         """
         Validate processed river mile files.
@@ -209,64 +257,13 @@ class DataValidator:
 
         for file_path in rm_files:
             try:
-                # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-                try:
-                    validate_file_size(file_path, self.config.max_file_size_bytes)
-                except (ValueError, FileNotFoundError) as e:
-                    logger.error(str(e))
-                    results.append({"file": file_path.name, "error": str(e)})
-                    continue
-
-                # Extract river mile
-                try:
-                    rm_str = file_path.stem.split("_")[1]
-                    river_mile = float(rm_str)
-                except (IndexError, ValueError):
-                    logger.warning(f"Invalid river mile file name: {file_path.name}")
-                    river_mile = None
-
-                # Optimization: load columns dynamically and load in a single pass.
-                # First column is unconditionally included as an anchor so df may include a column that is neither required nor a Sensor_ column.
-                filter_cols, seen_cols = self._create_stateful_col_filter(
-                    lambda c: c in required_cols or str(c).startswith("Sensor_")
-                )
-
-                df = pd.read_excel(file_path, usecols=filter_cols)
-                columns = list(seen_cols)
-
-                missing = [col for col in required_cols if col not in columns]
-                sensor_cols = [col for col in columns if str(col).startswith("Sensor_")]
-
-                # Check data range
-                year_range = None
-                time_range = None
-
-                if "Year" in df.columns and len(df["Year"]) > 0:
-                    year_range = [int(df["Year"].min()), int(df["Year"].max())]
-
-                if "Time (Seconds)" in df.columns and len(df["Time (Seconds)"]) > 0:
-                    time_range = [
-                        float(df["Time (Seconds)"].min()),
-                        float(df["Time (Seconds)"].max()),
-                    ]
-
-                results.append(
-                    {
-                        "file": file_path.name,
-                        "river_mile": river_mile,
-                        "columns": columns,
-                        "rows": len(df),
-                        "required_columns_present": len(missing) == 0,
-                        "sensor_columns": sensor_cols,
-                        "year_range": year_range,
-                        "time_range": time_range,
-                    }
-                )
-
+                result = self._validate_single_processed_file(file_path, required_cols)
+                results.append(result)
+            except (ValueError, FileNotFoundError) as e:
+                logger.error(str(e))
+                results.append({"file": file_path.name, "error": str(e)})
             except Exception as e:
-                logger.error(
-                    f"Error validating processed file {file_path.name}: {str(e)}"
-                )
+                logger.error(f"Error validating processed file {file_path.name}: {str(e)}")
                 results.append({"file": file_path.name, "error": str(e)})
 
         return results
