@@ -40,6 +40,10 @@ class DataValidator:
 
         return filter_func, seen_cols
 
+    def _count_missing_values(self, df: pd.DataFrame, columns: set) -> pd.Series:
+        """Helper to count missing values to reduce method complexity."""
+        return pd.Series({col: np.count_nonzero(pd.isna(df[col].values)) for col in columns})
+
     def validate_summary_file(self) -> Optional[Dict[str, Any]]:
         """
         Validate summary data file.
@@ -88,7 +92,7 @@ class DataValidator:
             # ⚡ Bolt Optimization: Replace df.isna().sum() with pd.Series + np.count_nonzero() over columns
             # to avoid implicitly upcasting boolean values to integers and intermediate object overhead.
             # Using dict comprehension is faster than .apply() for this operation.
-            missing_values = pd.Series({col: np.count_nonzero(pd.isna(df[col].values)) for col in required_cols})
+            missing_values = self._count_missing_values(df, required_cols)
             if missing_values.any():
                 logger.warning(
                     f"Missing values detected in summary data: {missing_values}"
