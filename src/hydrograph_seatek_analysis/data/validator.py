@@ -8,7 +8,6 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 import numpy as np
 import pandas as pd
 
-
 from utils.security import validate_file_size
 
 from ..core.config import Config
@@ -27,15 +26,6 @@ class DataValidator:
             config: Application configuration
         """
         self.config = config
-
-    @staticmethod
-    def _count_missing_values(df: pd.DataFrame, required_cols: set) -> pd.Series:
-        """Helper to efficiently count missing values in a dataframe."""
-        # ⚡ Bolt Optimization: Replace df[cols].isna().sum() with np.count_nonzero for performance
-        return pd.Series({
-            col: np.count_nonzero(pd.isna(df[col].values))
-            for col in required_cols if col in df.columns
-        })
 
     def _create_stateful_col_filter(
         self, keep_condition: Callable[[Any], bool]
@@ -95,7 +85,11 @@ class DataValidator:
                 logger.warning("Num_Sensors column is not numeric")
 
             # Check for missing values
-            missing_values = DataValidator._count_missing_values(df, required_cols)
+            # ⚡ Bolt Optimization: Replace df[cols].isna().sum() with np.count_nonzero for performance
+            present_cols = [c for c in required_cols if c in df.columns]
+            missing_values = pd.Series({
+                col: np.count_nonzero(pd.isna(df[col].values)) for col in present_cols
+            })
             if missing_values.any():
                 logger.warning(
                     f"Missing values detected in summary data: {missing_values}"
