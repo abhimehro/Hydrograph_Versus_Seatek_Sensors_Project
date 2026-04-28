@@ -27,17 +27,6 @@ class DataValidator:
         """
         self.config = config
 
-
-    @staticmethod
-    def _get_missing_columns(required_cols: set, available_cols: List[str]) -> List[str]:
-        """Extract missing column list generation to reduce cyclomatic complexity."""
-        return [col for col in required_cols if col not in available_cols]
-
-    @staticmethod
-    def _get_present_columns(required_cols: set, available_cols: List[str]) -> List[str]:
-        """Extract column selection logic to reduce cyclomatic complexity."""
-        return [col for col in required_cols if col in available_cols]
-
     def _create_stateful_col_filter(
         self, keep_condition: Callable[[Any], bool]
     ) -> Tuple[Callable[[Any], bool], List[str]]:
@@ -80,7 +69,7 @@ class DataValidator:
             df = pd.read_excel(summary_file, usecols=filter_cols)
             columns = list(seen_cols)
 
-            missing = DataValidator._get_missing_columns(required_cols, columns)
+            missing = list(required_cols - set(columns))
             if missing:
                 logger.error(f"Missing required columns in summary data: {missing}")
                 return None
@@ -97,7 +86,7 @@ class DataValidator:
 
             # Check for missing values
             # ⚡ Bolt Optimization: Replace df[cols].isna().sum() with np.count_nonzero for performance
-            present_cols = DataValidator._get_present_columns(required_cols, df.columns)
+            present_cols = required_cols.intersection(df.columns)
             missing_values = pd.Series({
                 col: np.count_nonzero(pd.isna(df[col].values)) for col in present_cols
             })
@@ -161,7 +150,7 @@ class DataValidator:
                     df = pd.read_excel(excel, sheet_name=sheet, usecols=filter_cols)
                     columns = list(seen_cols)
 
-                    missing = DataValidator._get_missing_columns(required_cols, columns)
+                    missing = list(required_cols - set(columns))
 
                     sheet_info.append(
                         {
@@ -242,7 +231,7 @@ class DataValidator:
                 df = pd.read_excel(file_path, usecols=filter_cols)
                 columns = list(seen_cols)
 
-                missing = DataValidator._get_missing_columns(required_cols, columns)
+                missing = list(required_cols - set(columns))
                 sensor_cols = [col for col in columns if str(col).startswith("Sensor_")]
 
                 # Check data range
