@@ -6,6 +6,7 @@ import logging
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import pandas as pd
+import numpy as np
 
 from utils.security import validate_file_size
 
@@ -84,7 +85,11 @@ class DataValidator:
                 logger.warning("Num_Sensors column is not numeric")
 
             # Check for missing values
-            missing_values = df[list(required_cols)].isna().sum()
+            # ⚡ Bolt Optimization: Replace df[cols].isna().sum() with np.count_nonzero for performance
+            missing_values = pd.Series({
+                col: np.count_nonzero(pd.isna(df[col].values))
+                for col in required_cols if col in df.columns
+            })
             if missing_values.any():
                 logger.warning(
                     f"Missing values detected in summary data: {missing_values}"
