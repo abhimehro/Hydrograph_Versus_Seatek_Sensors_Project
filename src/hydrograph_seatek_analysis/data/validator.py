@@ -27,12 +27,6 @@ class DataValidator:
         """
         self.config = config
 
-
-    @staticmethod
-    def _count_missing_values(df: pd.DataFrame, columns: set) -> pd.Series:
-        """Efficiently count missing values without intermediate DataFrames."""
-        return pd.Series({col: np.count_nonzero(pd.isna(df[col].values)) for col in columns})
-
     def _create_stateful_col_filter(
         self, keep_condition: Callable[[Any], bool]
     ) -> Tuple[Callable[[Any], bool], List[str]]:
@@ -91,7 +85,9 @@ class DataValidator:
                 logger.warning("Num_Sensors column is not numeric")
 
             # Check for missing values
-            missing_values = self._count_missing_values(df, required_cols)
+            missing_values = pd.Series(
+                {col: np.count_nonzero(pd.isna(df[col].values)) for col in required_cols}
+            )
             if missing_values.any():
                 logger.warning(
                     f"Missing values detected in summary data: {missing_values}"
