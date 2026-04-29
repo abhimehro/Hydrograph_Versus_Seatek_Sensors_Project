@@ -84,14 +84,14 @@ class DataValidator:
             if not pd.api.types.is_numeric_dtype(df["Num_Sensors"]):
                 logger.warning("Num_Sensors column is not numeric")
 
-            # Check for missing values
-            missing_values = pd.Series(
-                {col: np.count_nonzero(pd.isna(df[col].values)) for col in required_cols}
-            )
+            # Check for missing values using count() to avoid intermediate allocations
+            missing_dict = {}
+            for col in required_cols:
+                missing_dict[col] = len(df) - df[col].count()
+
+            missing_values = pd.Series(missing_dict)
             if missing_values.any():
-                logger.warning(
-                    f"Missing values detected in summary data: {missing_values}"
-                )
+                logger.warning(f"Missing values detected in summary data: {missing_values}")
 
             return {
                 "file": summary_file.name,
