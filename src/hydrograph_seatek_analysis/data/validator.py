@@ -112,6 +112,26 @@ class DataValidator:
             return None
 
 
+
+    def _extract_hydro_years(self, df: pd.DataFrame) -> Optional[List[int]]:
+        """Helper to extract years safely."""
+        if "Year" not in df.columns or len(df) == 0:
+            return None
+        if not df["Year"].notna().any():
+            return None
+        return sorted(df["Year"].dropna().unique().astype(int).tolist())
+
+    def _extract_hydro_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
+        """Helper to extract time range safely."""
+        if "Time (Seconds)" not in df.columns or len(df) == 0:
+            return None
+        if not df["Time (Seconds)"].notna().any():
+            return None
+        return [
+            df["Time (Seconds)"].dropna().min(),
+            df["Time (Seconds)"].dropna().max(),
+        ]
+
     def _process_hydro_sheet(self, excel, hydro_file, sheet: str) -> Dict[str, Any]:
         """Process a single hydrograph sheet."""
         required_cols = {"Time (Seconds)", "Year"}
@@ -129,16 +149,8 @@ class DataValidator:
         columns = list(seen_cols)
         missing = [col for col in required_cols if col not in columns]
 
-        years = None
-        if "Year" in df.columns and len(df) > 0 and df["Year"].notna().any():
-             years = sorted(df["Year"].dropna().unique().astype(int).tolist())
-
-        time_range = None
-        if "Time (Seconds)" in df.columns and len(df) > 0 and df["Time (Seconds)"].notna().any():
-             time_range = [
-                 df["Time (Seconds)"].dropna().min(),
-                 df["Time (Seconds)"].dropna().max(),
-             ]
+        years = self._extract_hydro_years(df)
+        time_range = self._extract_hydro_time_range(df)
 
         return {
             "name": sheet,
@@ -190,6 +202,20 @@ class DataValidator:
             return None
 
 
+
+    def _extract_processed_year_range(self, df: pd.DataFrame) -> Optional[List[int]]:
+        if "Year" not in df.columns or len(df) == 0:
+            return None
+        return [int(df["Year"].min()), int(df["Year"].max())]
+
+    def _extract_processed_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
+        if "Time (Seconds)" not in df.columns or len(df) == 0:
+            return None
+        return [
+            float(df["Time (Seconds)"].min()),
+            float(df["Time (Seconds)"].max()),
+        ]
+
     def _process_processed_file(self, file_path, required_cols) -> Dict[str, Any]:
         """Process a single processed river mile file."""
         # Extract river mile
@@ -213,17 +239,8 @@ class DataValidator:
         sensor_cols = [col for col in columns if str(col).startswith("Sensor_")]
 
         # Check data range
-        year_range = None
-        time_range = None
-
-        if "Year" in df.columns and len(df) > 0:
-            year_range = [int(df["Year"].min()), int(df["Year"].max())]
-
-        if "Time (Seconds)" in df.columns and len(df) > 0:
-            time_range = [
-                float(df["Time (Seconds)"].min()),
-                float(df["Time (Seconds)"].max()),
-            ]
+        year_range = self._extract_processed_year_range(df)
+        time_range = self._extract_processed_time_range(df)
 
         return {
             "file": file_path.name,
