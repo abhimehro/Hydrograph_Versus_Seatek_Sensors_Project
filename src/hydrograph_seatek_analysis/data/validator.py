@@ -40,18 +40,6 @@ class DataValidator:
 
         return filter_func, seen_cols
 
-    def _calculate_missing_values(self, df: pd.DataFrame, required_cols: set) -> pd.Series:
-        """
-        Calculate missing values using underlying numpy arrays for performance.
-        """
-        # ⚡ Bolt Optimization: Replace .isna().sum() with dictionary comprehension
-        # utilizing np.count_nonzero to avoid intermediate Pandas DataFrame overhead
-        # and prevent implicit upcasting of boolean values to integers.
-        return pd.Series({
-            col: np.count_nonzero(pd.isna(df[col].values))
-            for col in required_cols
-        })
-
     def validate_summary_file(self) -> Optional[Dict[str, Any]]:
         """
         Validate summary data file.
@@ -97,7 +85,10 @@ class DataValidator:
                 logger.warning("Num_Sensors column is not numeric")
 
             # Check for missing values
-            missing_values = self._calculate_missing_values(df, required_cols)
+            # ⚡ Bolt Optimization: Replace .isna().sum() with dictionary comprehension
+            missing_values = pd.Series(
+                {c: np.count_nonzero(pd.isna(df[c].values)) for c in required_cols}
+            )
             if missing_values.any():
                 logger.warning(
                     f"Missing values detected in summary data: {missing_values}"
