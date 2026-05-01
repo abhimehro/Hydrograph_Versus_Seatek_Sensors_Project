@@ -40,6 +40,10 @@ class DataValidator:
 
         return filter_func, seen_cols
 
+    def _get_missing_cols(self, required: set, current: list) -> list:
+        """Returns required columns that are missing from current columns."""
+        return [col for col in required if col not in current]
+
     def validate_summary_file(self) -> Optional[Dict[str, Any]]:
         """
         Validate summary data file.
@@ -69,7 +73,7 @@ class DataValidator:
             df = pd.read_excel(summary_file, usecols=filter_cols)
             columns = list(seen_cols)
 
-            missing = [col for col in required_cols if col not in columns]
+            missing = self._get_missing_cols(required_cols, columns)
             if missing:
                 logger.error(f"Missing required columns in summary data: {missing}")
                 return None
@@ -149,7 +153,7 @@ class DataValidator:
                     df = pd.read_excel(excel, sheet_name=sheet, usecols=filter_cols)
                     columns = list(seen_cols)
 
-                    missing = [col for col in required_cols if col not in columns]
+                    missing = self._get_missing_cols(required_cols, columns)
 
                     sheet_info.append(
                         {
@@ -230,7 +234,7 @@ class DataValidator:
                 df = pd.read_excel(file_path, usecols=filter_cols)
                 columns = list(seen_cols)
 
-                missing = [col for col in required_cols if col not in columns]
+                missing = self._get_missing_cols(required_cols, columns)
                 sensor_cols = [col for col in columns if str(col).startswith("Sensor_")]
 
                 # Check data range
