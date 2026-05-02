@@ -6,6 +6,7 @@ import logging
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import pandas as pd
+import numpy as np
 
 from utils.security import validate_file_size
 
@@ -38,6 +39,13 @@ class DataValidator:
             return keep_condition(col) or is_first
 
         return filter_func, seen_cols
+
+
+    def _calculate_missing_values(self, df: pd.DataFrame, columns: set) -> pd.Series:
+        """Helper to calculate missing values efficiently."""
+        # ⚡ Bolt Optimization: Replace df[cols].isna().sum() with dictionary comprehension and np.count_nonzero
+        # to avoid the overhead of creating an intermediate boolean DataFrame in memory and implicit type casting.
+        return pd.Series({col: np.count_nonzero(pd.isna(df[col].values)) for col in columns})
 
     def validate_summary_file(self) -> Optional[Dict[str, Any]]:
         """
@@ -84,7 +92,7 @@ class DataValidator:
                 logger.warning("Num_Sensors column is not numeric")
 
             # Check for missing values
-            missing_values = df[list(required_cols)].isna().sum()
+            missing_values = self._calculate_missing_values(df, required_cols)
             if missing_values.any():
                 logger.warning(
                     f"Missing values detected in summary data: {missing_values}"
@@ -102,6 +110,56 @@ class DataValidator:
         except Exception as e:
             logger.error(f"Error validating summary file: {str(e)}")
             return None
+
+
+
+    def _extract_hydro_years(self, df: pd.DataFrame) -> Optional[List[int]]:
+        """Helper to extract years safely."""
+        if "Year" not in df.columns or len(df) == 0:
+            return None
+        if not df["Year"].notna().any():
+            return None
+        return sorted(df["Year"].dropna().unique().astype(int).tolist())
+
+    def _extract_hydro_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
+        """Helper to extract time range safely."""
+        if "Time (Seconds)" not in df.columns or len(df) == 0:
+            return None
+        if not df["Time (Seconds)"].notna().any():
+            return None
+        return [
+            df["Time (Seconds)"].dropna().min(),
+            df["Time (Seconds)"].dropna().max(),
+        ]
+
+    def _process_hydro_sheet(self, excel, hydro_file, sheet: str) -> Dict[str, Any]:
+        """Process a single hydrograph sheet."""
+        required_cols = {"Time (Seconds)", "Year"}
+
+        # Optimization: check headers and conditionally load only required in single pass.
+        # First column is unconditionally included as an anchor to guarantee a non-empty dataframe for row-count retrieval.
+        filter_cols, seen_cols = self._create_stateful_col_filter(
+            lambda c: c in required_cols
+        )
+
+        # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+        validate_file_size(hydro_file, self.config.max_file_size_bytes)
+
+        df = pd.read_excel(excel, sheet_name=sheet, usecols=filter_cols)
+        columns = list(seen_cols)
+        missing = [col for col in required_cols if col not in columns]
+
+        years = self._extract_hydro_years(df)
+        time_range = self._extract_hydro_time_range(df)
+
+        return {
+            "name": sheet,
+            "columns": columns,
+            "rows": len(df),
+            "required_columns_present": len(missing) == 0,
+            "years": years,
+            "time_range": time_range,
+        }
 
     def validate_hydro_file(self) -> Optional[Dict[str, Any]]:
         """
@@ -128,49 +186,10 @@ class DataValidator:
                     logger.error("No river mile sheets found in hydrograph file")
                     return None
 
-                sheet_info = []
-                required_cols = {"Time (Seconds)", "Year"}
-
-                for sheet in rm_sheets:
-
-                    # Optimization: check headers and conditionally load only required in single pass.
-                    # First column is unconditionally included as an anchor to guarantee a non-empty dataframe for row-count retrieval.
-                    filter_cols, seen_cols = self._create_stateful_col_filter(
-                        lambda c: c in required_cols
-                    )
-
-                    # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-                    validate_file_size(hydro_file, self.config.max_file_size_bytes)
-
-                    df = pd.read_excel(excel, sheet_name=sheet, usecols=filter_cols)
-                    columns = list(seen_cols)
-
-                    missing = [col for col in required_cols if col not in columns]
-
-                    sheet_info.append(
-                        {
-                            "name": sheet,
-                            "columns": columns,
-                            "rows": len(df),
-                            "required_columns_present": len(missing) == 0,
-                            "years": (
-                                sorted(
-                                    df["Year"].dropna().unique().astype(int).tolist()
-                                )
-                                if "Year" in df.columns and df["Year"].notna().any()
-                                else None
-                            ),
-                            "time_range": (
-                                [
-                                    df["Time (Seconds)"].dropna().min(),
-                                    df["Time (Seconds)"].dropna().max(),
-                                ]
-                                if "Time (Seconds)" in df.columns
-                                and df["Time (Seconds)"].notna().any()
-                                else None
-                            ),
-                        }
-                    )
+                sheet_info = [
+                    self._process_hydro_sheet(excel, hydro_file, sheet)
+                    for sheet in rm_sheets
+                ]
 
                 return {
                     "file": hydro_file.name,
@@ -181,6 +200,58 @@ class DataValidator:
         except Exception as e:
             logger.error(f"Error validating hydrograph file: {str(e)}")
             return None
+
+
+
+    def _extract_processed_year_range(self, df: pd.DataFrame) -> Optional[List[int]]:
+        if "Year" not in df.columns or len(df) == 0:
+            return None
+        return [int(df["Year"].min()), int(df["Year"].max())]
+
+    def _extract_processed_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
+        if "Time (Seconds)" not in df.columns or len(df) == 0:
+            return None
+        return [
+            float(df["Time (Seconds)"].min()),
+            float(df["Time (Seconds)"].max()),
+        ]
+
+    def _process_processed_file(self, file_path, required_cols) -> Dict[str, Any]:
+        """Process a single processed river mile file."""
+        # Extract river mile
+        try:
+            rm_str = file_path.stem.split("_")[1]
+            river_mile = float(rm_str)
+        except (IndexError, ValueError):
+            logger.warning(f"Invalid river mile file name: {file_path.name}")
+            river_mile = None
+
+        # Optimization: load columns dynamically and load in a single pass.
+        # First column is unconditionally included as an anchor so df may include a column that is neither required nor a Sensor_ column.
+        filter_cols, seen_cols = self._create_stateful_col_filter(
+            lambda c: c in required_cols or str(c).startswith("Sensor_")
+        )
+
+        df = pd.read_excel(file_path, usecols=filter_cols)
+        columns = list(seen_cols)
+
+        missing = [col for col in required_cols if col not in columns]
+        sensor_cols = [col for col in columns if str(col).startswith("Sensor_")]
+
+        # Check data range
+        year_range = self._extract_processed_year_range(df)
+        time_range = self._extract_processed_time_range(df)
+
+        return {
+            "file": file_path.name,
+            "river_mile": river_mile,
+            "columns": columns,
+            "rows": len(df),
+            "required_columns_present": len(missing) == 0,
+            "sensor_columns": sensor_cols,
+            "year_range": year_range,
+            "time_range": time_range,
+        }
 
     def validate_processed_files(self) -> List[Dict[str, Any]]:
         """
@@ -209,51 +280,8 @@ class DataValidator:
                     results.append({"file": file_path.name, "error": str(e)})
                     continue
 
-                # Extract river mile
-                try:
-                    rm_str = file_path.stem.split("_")[1]
-                    river_mile = float(rm_str)
-                except (IndexError, ValueError):
-                    logger.warning(f"Invalid river mile file name: {file_path.name}")
-                    river_mile = None
-
-                # Optimization: load columns dynamically and load in a single pass.
-                # First column is unconditionally included as an anchor so df may include a column that is neither required nor a Sensor_ column.
-                filter_cols, seen_cols = self._create_stateful_col_filter(
-                    lambda c: c in required_cols or str(c).startswith("Sensor_")
-                )
-
-                df = pd.read_excel(file_path, usecols=filter_cols)
-                columns = list(seen_cols)
-
-                missing = [col for col in required_cols if col not in columns]
-                sensor_cols = [col for col in columns if str(col).startswith("Sensor_")]
-
-                # Check data range
-                year_range = None
-                time_range = None
-
-                if "Year" in df.columns and len(df["Year"]) > 0:
-                    year_range = [int(df["Year"].min()), int(df["Year"].max())]
-
-                if "Time (Seconds)" in df.columns and len(df["Time (Seconds)"]) > 0:
-                    time_range = [
-                        float(df["Time (Seconds)"].min()),
-                        float(df["Time (Seconds)"].max()),
-                    ]
-
-                results.append(
-                    {
-                        "file": file_path.name,
-                        "river_mile": river_mile,
-                        "columns": columns,
-                        "rows": len(df),
-                        "required_columns_present": len(missing) == 0,
-                        "sensor_columns": sensor_cols,
-                        "year_range": year_range,
-                        "time_range": time_range,
-                    }
-                )
+                res = self._process_processed_file(file_path, required_cols)
+                results.append(res)
 
             except Exception as e:
                 logger.error(

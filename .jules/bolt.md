@@ -89,3 +89,7 @@
 ## 2024-05-25 - Replace mask.sum() with np.count_nonzero() for numpy arrays
 **Learning:** When passing Pandas Series into np.count_nonzero(), there is overhead, and passing DataFrames can change logic (scalar vs series). When optimizing mask.sum() to np.count_nonzero(), always ensure you are passing a numpy array.
 **Action:** When replacing `.sum()` with `np.count_nonzero()` on boolean masks, verify the target is actually an underlying numpy array (e.g. from `.values`) and not a Pandas DataFrame to ensure logic remains identical and optimization is maximized.
+
+## 2024-05-25 - Replace df[cols].isna().sum() with dictionary comprehension and np.count_nonzero
+**Learning:** Using `df[cols].isna().sum()` inside loops creates an intermediate boolean dataframe mask in memory, and then aggregates it over the columns, leading to implicit upcasting of booleans to integers and significant memory allocation overhead. Replacing it with `pd.Series({col: np.count_nonzero(pd.isna(df[col].values)) for col in cols})` bypasses intermediate Pandas DataFrame overhead and utilizes optimized Cython/numpy routines, making the operation significantly faster.
+**Action:** Replaced `df[cols].isna().sum()` with `pd.Series({col: np.count_nonzero(pd.isna(df[col].values)) for col in cols})` to avoid intermediate object creation and utilize optimized cython numpy routines. Ensure `numpy` is imported.
