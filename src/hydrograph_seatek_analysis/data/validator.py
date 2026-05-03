@@ -119,7 +119,8 @@ class DataValidator:
             return None
         if not df["Year"].notna().any():
             return None
-        return sorted([int(y) for y in df["Year"].unique() if not pd.isna(y)])
+        years = df["Year"].unique()
+        return sorted(years[pd.notna(years)].astype(int).tolist())
 
     def _extract_hydro_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
         """Helper to extract time range safely."""
