@@ -35,6 +35,8 @@
 
 **Merged pull requests:**
 
+- Add GitHub Actions workflow testing skill [\#162](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/162) ([abhimehro](https://github.com/abhimehro))
+- ci: pass changelog token via environment [\#161](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/161) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[CRITICAL/HIGH\] Fix Path Traversal in utils/utils.py [\#157](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/157) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Replace df.isna\(\).sum\(\) with optimized np.count\_nonzero\(\) [\#155](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/155) ([abhimehro](https://github.com/abhimehro))
 - test\(data\_loader\): add exception-path test for \_load\_hydro\_data \(salvages \#145\) [\#148](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/148) ([abhimehro](https://github.com/abhimehro))
