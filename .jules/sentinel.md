@@ -52,3 +52,9 @@
 **Vulnerability:** Path traversal and path-length Denial of Service (DoS) vulnerability in legacy visualization tools (`tests/data_processing/__init__.py`) where untrusted string variables (`year`, `river_mile`, and `sensor` from parsed Excel data) were passed directly to `os.path.join` and `f-strings` to generate output directories and filenames.
 **Learning:** Even scripts outside of the primary production path (`src/`) often generate artifacts. If these scripts process external data files and construct file paths dynamically based on the contents, they are vulnerable to arbitrary file write or DoS if sanitization is omitted.
 **Prevention:** Always implement `sanitize_filename` from `utils.security` on dynamic components (e.g., `river_mile`, `sensor`, `year`) before using them in file path constructions, including inside test or utility scripts.
+
+## 2026-04-05 - Path Traversal Vulnerability in utils/utils.py
+
+**Vulnerability:** Path traversal and path-length Denial of Service (DoS) vulnerability in legacy visualization tools (`utils/utils.py`) where an untrusted variable (`rm` from data) was passed directly to an `f-string` and concatenated to a `pathlib.Path` to generate output directories.
+**Learning:** Even scripts outside of the primary production path (`src/`) often generate artifacts. If these scripts process external data files and construct file paths dynamically based on the contents, they are vulnerable to arbitrary file write or DoS if sanitization is omitted.
+**Prevention:** Always implement `sanitize_filename` from `utils.security` on dynamic components (e.g., `rm`, `river_mile`, `sensor`, `year`) before using them in file path constructions, including inside test or utility scripts.
