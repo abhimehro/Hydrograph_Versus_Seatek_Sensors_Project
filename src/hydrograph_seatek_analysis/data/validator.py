@@ -119,7 +119,7 @@ class DataValidator:
             return None
         if not df["Year"].notna().any():
             return None
-        return sorted(df["Year"].dropna().unique().astype(int).tolist())
+        return sorted([int(y) for y in df["Year"].unique() if not pd.isna(y)])
 
     def _extract_hydro_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
         """Helper to extract time range safely."""
@@ -128,8 +128,8 @@ class DataValidator:
         if not df["Time (Seconds)"].notna().any():
             return None
         return [
-            df["Time (Seconds)"].dropna().min(),
-            df["Time (Seconds)"].dropna().max(),
+            df["Time (Seconds)"].min(),
+            df["Time (Seconds)"].max(),
         ]
 
     def _process_hydro_sheet(self, excel, hydro_file, sheet: str) -> Dict[str, Any]:
