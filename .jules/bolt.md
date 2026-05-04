@@ -93,3 +93,7 @@
 ## 2024-05-25 - Replace df[cols].isna().sum() with dictionary comprehension and np.count_nonzero
 **Learning:** Using `df[cols].isna().sum()` inside loops creates an intermediate boolean dataframe mask in memory, and then aggregates it over the columns, leading to implicit upcasting of booleans to integers and significant memory allocation overhead. Replacing it with `pd.Series({col: np.count_nonzero(pd.isna(df[col].values)) for col in cols})` bypasses intermediate Pandas DataFrame overhead and utilizes optimized Cython/numpy routines, making the operation significantly faster.
 **Action:** Replaced `df[cols].isna().sum()` with `pd.Series({col: np.count_nonzero(pd.isna(df[col].values)) for col in cols})` to avoid intermediate object creation and utilize optimized cython numpy routines. Ensure `numpy` is imported.
+
+## 2025-02-20 - [Pandas DataFrame Empty Checks]
+**Learning:** Checking DataFrame or column emptiness via `len(df['col']) > 0` or `df.empty` incurs unexpected overhead. `len(df['col'])` requires dictionary lookup and Series instantiation, while `df.empty` has implicit getter property overhead.
+**Action:** Always use `len(df) == 0` (or `len(df) > 0`) directly for checking DataFrame emptiness. It is the fastest, avoiding both column retrieval and getter property overhead.
