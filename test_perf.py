@@ -1,8 +1,6 @@
-import sys
-from unittest.mock import MagicMock
-
-sys.modules["pandas"] = MagicMock()
-sys.modules["numpy"] = MagicMock()
-import src.hydrograph_seatek_analysis.data.processor as p
-
-print(p)
+import pandas as pd
+import numpy as np
+df = pd.DataFrame({'Year': [2020.0, 2021.0, np.nan, 2020.0]})
+years = df["Year"].unique()
+valid_years = years[pd.notna(years)]
+print(sorted(valid_years.astype(int).tolist()))

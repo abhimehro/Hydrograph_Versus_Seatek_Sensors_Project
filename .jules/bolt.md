@@ -93,3 +93,7 @@
 ## 2024-05-25 - Replace df[cols].isna().sum() with dictionary comprehension and np.count_nonzero
 **Learning:** Using `df[cols].isna().sum()` inside loops creates an intermediate boolean dataframe mask in memory, and then aggregates it over the columns, leading to implicit upcasting of booleans to integers and significant memory allocation overhead. Replacing it with `pd.Series({col: np.count_nonzero(pd.isna(df[col].values)) for col in cols})` bypasses intermediate Pandas DataFrame overhead and utilizes optimized Cython/numpy routines, making the operation significantly faster.
 **Action:** Replaced `df[cols].isna().sum()` with `pd.Series({col: np.count_nonzero(pd.isna(df[col].values)) for col in cols})` to avoid intermediate object creation and utilize optimized cython numpy routines. Ensure `numpy` is imported.
+
+## 2024-05-25 - Avoid dropna() before min(), max(), and unique() for Pandas Series
+**Learning:** Calling `dropna()` before `min()` or `max()` creates an unnecessary intermediate Series object in memory, as Pandas native `.min()` and `.max()` methods already ignore NaNs by default. Similarly, `dropna().unique()` creates a full Series copy just to find unique values.
+**Action:** Remove `dropna()` before `min()` and `max()`. For `unique()`, extract unique values first and filter out NaNs (e.g., using `[int(y) for y in s.unique() if not pd.isna(y)]`).
