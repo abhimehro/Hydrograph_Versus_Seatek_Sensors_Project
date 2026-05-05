@@ -108,17 +108,17 @@ class ChartGenerator:
                 else 0
             )
 
-            if "Time (Minutes)" in data.columns and len(data["Time (Minutes)"]) > 0:
+            if "Time (Minutes)" in data.columns and len(data) > 0:  # ⚡ Bolt: Use len(data) to avoid column retrieval overhead
                 metrics.time_range_min = data["Time (Minutes)"].min()
                 metrics.time_range_max = data["Time (Minutes)"].max()
 
-            if sensor in data.columns and len(data[sensor]) > 0:
+            if sensor in data.columns and len(data) > 0:  # ⚡ Bolt: Use len(data) to avoid column retrieval overhead
                 metrics.sensor_min = data[sensor].min()
                 metrics.sensor_max = data[sensor].max()
 
             if (
                 "Hydrograph (Lagged)" in data.columns
-                and len(data["Hydrograph (Lagged)"]) > 0
+                and len(data) > 0  # ⚡ Bolt: Use len(data) to avoid column retrieval overhead
             ):
                 metrics.hydro_min = data["Hydrograph (Lagged)"].min()
                 metrics.hydro_max = data["Hydrograph (Lagged)"].max()

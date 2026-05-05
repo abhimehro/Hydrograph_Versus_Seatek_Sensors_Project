@@ -97,3 +97,7 @@
 ## 2024-05-25 - Avoid dropna() before min(), max(), and unique() for Pandas Series
 **Learning:** Calling `dropna()` before `min()` or `max()` creates an unnecessary intermediate Series object in memory, as Pandas native `.min()` and `.max()` methods already ignore NaNs by default. Similarly, `dropna().unique()` creates a full Series copy just to find unique values.
 **Action:** Remove `dropna()` before `min()` and `max()`. For `unique()`, extract unique values first and filter out NaNs (e.g., using `[int(y) for y in s.unique() if not pd.isna(y)]`).
+
+## 2025-02-20 - [Pandas DataFrame Empty Checks]
+**Learning:** Checking DataFrame or column emptiness via `len(df['col']) > 0` or `df.empty` incurs unexpected overhead. `len(df['col'])` requires dictionary lookup and Series instantiation, while `df.empty` has implicit getter property overhead.
+**Action:** Always use `len(df) == 0` (or `len(df) > 0`) directly for checking DataFrame emptiness. It is the fastest, avoiding both column retrieval and getter property overhead.
