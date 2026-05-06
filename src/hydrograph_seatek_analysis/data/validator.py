@@ -113,24 +113,37 @@ class DataValidator:
 
 
 
+    def _get_non_empty_hydro_series(
+        self, df: pd.DataFrame, column: str
+    ) -> Optional[pd.Series]:
+        """Return a hydrograph series only when the column has at least one value."""
+        if column not in df.columns or len(df) == 0:
+            return None
+
+        series = df[column]
+        if series.isna().all():
+            return None
+
+        return series
+
     def _extract_hydro_years(self, df: pd.DataFrame) -> Optional[List[int]]:
         """Helper to extract years safely."""
-        if "Year" not in df.columns or len(df) == 0:
+        years_series = self._get_non_empty_hydro_series(df, "Year")
+        if years_series is None:
             return None
-        if df["Year"].isna().all():  # ⚡ Bolt: Use isna().all() to avoid intermediate series allocation
-            return None
-        years = df["Year"].unique()
+
+        years = years_series.unique()
         return sorted(years[pd.notna(years)].astype(int).tolist())
 
     def _extract_hydro_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
         """Helper to extract time range safely."""
-        if "Time (Seconds)" not in df.columns or len(df) == 0:
+        time_series = self._get_non_empty_hydro_series(df, "Time (Seconds)")
+        if time_series is None:
             return None
-        if df["Time (Seconds)"].isna().all():  # ⚡ Bolt: Use isna().all() to avoid intermediate series allocation
-            return None
+
         return [
-            df["Time (Seconds)"].min(),
-            df["Time (Seconds)"].max(),
+            time_series.min(),
+            time_series.max(),
         ]
 
     def _process_hydro_sheet(self, excel, hydro_file, sheet: str) -> Dict[str, Any]:
