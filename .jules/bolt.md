@@ -97,3 +97,7 @@
 ## 2024-05-25 - Avoid dropna() before min(), max(), and unique() for Pandas Series
 **Learning:** Calling `dropna()` before `min()` or `max()` creates an unnecessary intermediate Series object in memory, as Pandas native `.min()` and `.max()` methods already ignore NaNs by default. Similarly, `dropna().unique()` creates a full Series copy just to find unique values.
 **Action:** Remove `dropna()` before `min()` and `max()`. For `unique()`, extract unique values first and filter out NaNs (e.g., using `[int(y) for y in s.unique() if not pd.isna(y)]`).
+
+## 2026-05-06 - Replace notna().any() with isna().all()
+**Learning:** Using `not df['col'].notna().any()` inside loops creates an intermediate boolean array mask in memory to tally non-null elements, then evaluates `any()`, and then applies a Python `not`. `df['col'].isna().all()` performs this mathematically equivalent operation faster by avoiding the intermediate boolean Series allocation and the Python `not` evaluation overhead.
+**Action:** Replaced `not df['col'].notna().any()` with `df['col'].isna().all()` in `validator.py`.
