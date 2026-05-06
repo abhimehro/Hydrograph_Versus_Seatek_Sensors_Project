@@ -112,7 +112,7 @@ class ChartGenerator:
                 metrics.time_range_min = data["Time (Minutes)"].min()
                 metrics.time_range_max = data["Time (Minutes)"].max()
 
-            if sensor in data.columns and len(data) > 0:  # ⚡ Bolt: Use len(data) to avoid column retrieval overhead
+            if metrics.sensor_count > 0:
                 metrics.sensor_min = data[sensor].min()
                 metrics.sensor_max = data[sensor].max()
 
