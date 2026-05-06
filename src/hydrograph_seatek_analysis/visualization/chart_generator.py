@@ -116,12 +116,9 @@ class ChartGenerator:
                 metrics.sensor_min = data[sensor].min()
                 metrics.sensor_max = data[sensor].max()
 
-            if (
-                "Hydrograph (Lagged)" in data.columns
-                and len(data) > 0  # ⚡ Bolt: Use len(data) to avoid column retrieval overhead
-            ):
-                metrics.hydro_min = data["Hydrograph (Lagged)"].min()
-                metrics.hydro_max = data["Hydrograph (Lagged)"].max()
+            if metrics.hydro_count > 0:
+                metrics.hydro_min = data[HYDROGRAPH_COL].min()
+                metrics.hydro_max = data[HYDROGRAPH_COL].max()
 
             # Create figure
             fig, ax1 = plt.subplots(figsize=self.chart_settings.figure_size)

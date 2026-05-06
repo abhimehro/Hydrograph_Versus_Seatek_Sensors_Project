@@ -1,4 +1,4 @@
-1.  **Refactor `df['col'].notna().any()` checks**: Replace `not df['col'].notna().any()` with `df['col'].isna().all()` for performance. This is faster because it avoids intermediate `notna` series and `any` calls.
+1.  **Refactor `df['col'].notna().any()` checks**: Replace `not df['col'].notna().any()` with `df['col'].count() == 0` for performance. `Series.count()` returns the number of non-null values without allocating an intermediate boolean mask, unlike `isna()` or `notna()`, which both materialise a boolean Series first.
     *   I will use `run_in_bash_session` to run a python script that will use `str.replace` to replace the lines in `src/hydrograph_seatek_analysis/data/validator.py`: lines 120, 128.
 2.  **Refactor `len(df['col']) > 0` checks**: Replace `len(df['col']) > 0` with `len(df) > 0` for performance. This avoids series creation overhead and column retrieval overhead.
     *   I will use `run_in_bash_session` to run a python script that will use `str.replace` to replace the lines in `src/hydrograph_seatek_analysis/visualization/chart_generator.py`: lines 111, 115, 121.
