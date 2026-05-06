@@ -117,17 +117,20 @@ class DataValidator:
         """Helper to extract years safely."""
         if "Year" not in df.columns or len(df) == 0:
             return None
-        # ⚡ Bolt Optimization: Replace `not notna().any()` with `isna().all()` for faster evaluation.
+
         if df["Year"].isna().all():
             return None
-        years = df["Year"].unique()
-        return sorted(years[pd.notna(years)].astype(int).tolist())
+        # extract unique values first and filter out NaNs
+        # ⚡ Bolt Optimization: Avoid dropna() before unique() to prevent intermediate series allocations
+        years = [int(y) for y in df["Year"].unique() if not pd.isna(y)]
+        return sorted(years)
+
 
     def _extract_hydro_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
         """Helper to extract time range safely."""
         if "Time (Seconds)" not in df.columns or len(df) == 0:
             return None
-        # ⚡ Bolt Optimization: Replace `not notna().any()` with `isna().all()` for faster evaluation.
+
         if df["Time (Seconds)"].isna().all():
             return None
         return [
