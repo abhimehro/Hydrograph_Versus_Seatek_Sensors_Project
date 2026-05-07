@@ -117,7 +117,8 @@ class DataValidator:
         """Helper to extract years safely."""
         if "Year" not in df.columns or len(df) == 0:
             return None
-        if not df["Year"].notna().any():
+        # ⚡ Bolt Optimization: Replace not df["Year"].notna().any() with df["Year"].isna().all() to avoid intermediate boolean Series allocations
+        if df["Year"].isna().all():
             return None
         years = df["Year"].unique()
         return sorted(years[pd.notna(years)].astype(int).tolist())
@@ -126,7 +127,8 @@ class DataValidator:
         """Helper to extract time range safely."""
         if "Time (Seconds)" not in df.columns or len(df) == 0:
             return None
-        if not df["Time (Seconds)"].notna().any():
+        # ⚡ Bolt Optimization: Replace not df["Time (Seconds)"].notna().any() with df["Time (Seconds)"].isna().all() to avoid intermediate boolean Series allocations
+        if df["Time (Seconds)"].isna().all():
             return None
         return [
             df["Time (Seconds)"].min(),

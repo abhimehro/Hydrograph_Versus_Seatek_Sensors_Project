@@ -97,3 +97,11 @@
 ## 2024-05-25 - Avoid dropna() before min(), max(), and unique() for Pandas Series
 **Learning:** Calling `dropna()` before `min()` or `max()` creates an unnecessary intermediate Series object in memory, as Pandas native `.min()` and `.max()` methods already ignore NaNs by default. Similarly, `dropna().unique()` creates a full Series copy just to find unique values.
 **Action:** Remove `dropna()` before `min()` and `max()`. For `unique()`, extract unique values first and filter out NaNs (e.g., using `[int(y) for y in s.unique() if not pd.isna(y)]`).
+
+## 2024-05-25 - Avoid Pandas getter property and object overhead during DataFrame length checks
+**Learning:** Using `len(df['col']) > 0` is slower than `len(df) > 0` because checking a specific column incurs dictionary lookup overhead and implicitly instantiates a Pandas Series object just to verify length.
+**Action:** Replace `len(df['col']) > 0` with `len(df) > 0` to directly evaluate the underlying DataFrame length without unnecessary object creation overhead.
+
+## 2024-05-25 - Replace not df['col'].notna().any() with df['col'].isna().all()
+**Learning:** Evaluating `not df['col'].notna().any()` is mathematically equivalent to `df['col'].isna().all()`. The former involves intermediate boolean Series object allocation from `notna` and Python `not` evaluation overhead, whereas the latter is highly optimized and avoids intermediate object creation, yielding measurable performance improvements.
+**Action:** Replace `not df['col'].notna().any()` with `df['col'].isna().all()` across data processing modules to reduce allocation overhead and leverage Cython optimizations.
