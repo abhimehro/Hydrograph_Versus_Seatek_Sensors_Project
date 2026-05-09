@@ -108,17 +108,20 @@ class ChartGenerator:
                 else 0
             )
 
-            if "Time (Minutes)" in data.columns and len(data["Time (Minutes)"]) > 0:
+            # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
+            if "Time (Minutes)" in data.columns and len(data) > 0:
                 metrics.time_range_min = data["Time (Minutes)"].min()
                 metrics.time_range_max = data["Time (Minutes)"].max()
 
-            if sensor in data.columns and len(data[sensor]) > 0:
+            # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
+            if sensor in data.columns and len(data) > 0:
                 metrics.sensor_min = data[sensor].min()
                 metrics.sensor_max = data[sensor].max()
 
             if (
                 "Hydrograph (Lagged)" in data.columns
-                and len(data["Hydrograph (Lagged)"]) > 0
+                # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
+                and len(data) > 0
             ):
                 metrics.hydro_min = data["Hydrograph (Lagged)"].min()
                 metrics.hydro_max = data["Hydrograph (Lagged)"].max()
@@ -197,6 +200,7 @@ class ChartGenerator:
         """
         sensor_data = data[data[sensor].notna()]
 
+        # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
         if len(sensor_data) > 0:
             ax1.scatter(
                 sensor_data["Time (Minutes)"],
@@ -225,6 +229,7 @@ class ChartGenerator:
             ax2 = ax1.twinx()
             hydro_data = data[data["Hydrograph (Lagged)"].notna()]
 
+            # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
             if len(hydro_data) > 0:
                 ax2.scatter(
                     hydro_data["Time (Minutes)"],
