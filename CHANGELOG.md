@@ -36,6 +36,7 @@
 
 **Merged pull requests:**
 
+- ⚡ Bolt: Optimize Pandas property evaluations and missing data checks [\#172](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/172) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Remove dropna\(\) overhead before min, max, and unique [\#163](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/163) ([abhimehro](https://github.com/abhimehro))
 - Add GitHub Actions workflow testing skill [\#162](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/162) ([abhimehro](https://github.com/abhimehro))
 - ci: pass changelog token via environment [\#161](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/161) ([abhimehro](https://github.com/abhimehro))
