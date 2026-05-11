@@ -42,7 +42,7 @@ def check_excel_structure(file_path: Path) -> None:
                 if sensor_cols:
                     for col in sensor_cols:
                         non_null = df[col].count()
-                        zeros = np.count_nonzero(df[col].values == 0)  # ⚡ Bolt Optimization: Replace df[col].eq(0).sum() with np.count_nonzero(df[col].values == 0) for faster boolean evaluation
+                        zeros = np.count_nonzero(df[col].values == 0)
                         logger.info(
                             f"{col}: {non_null} non-null values, "
                             f"{zeros} zero values"
