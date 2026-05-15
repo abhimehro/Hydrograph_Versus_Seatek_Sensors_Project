@@ -109,3 +109,7 @@
 ## 2024-05-25 - Replace df[col].eq(0).sum() with np.count_nonzero(df[col].values == 0)
 **Learning:** Using `df[col].eq(0).sum()` creates an intermediate boolean Pandas Series, and using `.sum()` on it implicitly upcasts the booleans to integers before calculating the sum. Replacing this with `np.count_nonzero(df[col].values == 0)` operates directly on the underlying numpy array, bypassing Pandas object allocation overhead and index alignment, and counts True bytes directly, making it significantly faster.
 **Action:** Replaced `df[col].eq(0).sum()` with `np.count_nonzero(df[col].values == 0)` in test scripts like `data_validation_test.py` for faster boolean counting. Ensure `numpy` is imported when doing this.
+
+## 2024-05-25 - Avoid dropna() before min(), max(), and unique() for Pandas Series
+**Learning:** Calling `dropna()` before `min()` or `max()` creates an unnecessary intermediate Series object in memory, as Pandas native `.min()` and `.max()` methods already ignore NaNs by default. Similarly, `dropna().unique()` creates a full Series copy just to find unique values.
+**Action:** Remove `dropna()` before `min()` and `max()`. For `unique()`, extract unique values first and filter out NaNs (e.g., using `[int(y) for y in s.unique() if not pd.isna(y)]`).
