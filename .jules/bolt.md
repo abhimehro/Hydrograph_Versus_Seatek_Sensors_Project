@@ -105,3 +105,7 @@
 ## 2024-05-25 - Replace not df['col'].notna().any() with df['col'].isna().all()
 **Learning:** Evaluating `not df['col'].notna().any()` is mathematically equivalent to `df['col'].isna().all()`. The former involves intermediate boolean Series object allocation from `notna` and Python `not` evaluation overhead, whereas the latter is highly optimized and avoids intermediate object creation, yielding measurable performance improvements.
 **Action:** Replace `not df['col'].notna().any()` with `df['col'].isna().all()` across data processing modules to reduce allocation overhead and leverage Cython optimizations.
+
+## 2024-05-25 - Replace df[col].eq(0).sum() with np.count_nonzero(df[col].values == 0)
+**Learning:** Using `df[col].eq(0).sum()` creates an intermediate boolean Pandas Series, and using `.sum()` on it implicitly upcasts the booleans to integers before calculating the sum. Replacing this with `np.count_nonzero(df[col].values == 0)` operates directly on the underlying numpy array, bypassing Pandas object allocation overhead and index alignment, and counts True bytes directly, making it significantly faster.
+**Action:** Replaced `df[col].eq(0).sum()` with `np.count_nonzero(df[col].values == 0)` in test scripts like `data_validation_test.py` for faster boolean counting. Ensure `numpy` is imported when doing this.

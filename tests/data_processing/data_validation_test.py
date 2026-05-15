@@ -5,6 +5,7 @@ Test script to verify data loading and structure.
 import logging
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 from utils.security import validate_file_size
 
@@ -41,7 +42,7 @@ def check_excel_structure(file_path: Path) -> None:
                 if sensor_cols:
                     for col in sensor_cols:
                         non_null = df[col].count()
-                        zeros = df[col].eq(0).sum()
+                        zeros = np.count_nonzero(df[col].values == 0)
                         logger.info(
                             f"{col}: {non_null} non-null values, "
                             f"{zeros} zero values"
