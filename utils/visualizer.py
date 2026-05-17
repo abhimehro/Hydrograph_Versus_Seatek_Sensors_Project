@@ -202,7 +202,9 @@ class SeatekVisualizer:
                 if len(fig.axes) > 1:
                     ax2 = fig.axes[1]
                     if hasattr(ax2, "yaxis"):
-                        hydro_vals = data["Hydrograph (Lagged)"].dropna()
+                        hydro_vals = data[
+                            "Hydrograph (Lagged)"
+                        ]  # ⚡ Bolt Optimization: Avoid unnecessary .dropna() before .max() aggregation
                         max_frac = (hydro_vals - hydro_vals.round()).abs().max()
                         if pd.notna(max_frac) and max_frac < 1e-6:
                             ax2.yaxis.set_major_formatter(
