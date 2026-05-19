@@ -40,7 +40,6 @@ class DataValidator:
 
         return filter_func, seen_cols
 
-
     def _calculate_missing_values(self, df: pd.DataFrame, columns: set) -> pd.Series:
         """Helper to calculate missing values efficiently."""
         # ⚡ Bolt Optimization: Replace df[cols].isna().sum() with dictionary comprehension and np.count_nonzero
@@ -110,8 +109,6 @@ class DataValidator:
         except Exception as e:
             logger.error(f"Error validating summary file: {str(e)}")
             return None
-
-
 
     def _extract_hydro_years(self, df: pd.DataFrame) -> Optional[List[int]]:
         """Helper to extract years safely."""
@@ -203,8 +200,6 @@ class DataValidator:
         except Exception as e:
             logger.error(f"Error validating hydrograph file: {str(e)}")
             return None
-
-
 
     def _extract_processed_year_range(self, df: pd.DataFrame) -> Optional[List[int]]:
         if "Year" not in df.columns or len(df) == 0:
