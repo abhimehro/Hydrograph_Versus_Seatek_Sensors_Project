@@ -46,6 +46,7 @@
 
 **Merged pull requests:**
 
+- ⚡ Bolt: Remove unnecessary dropna before max aggregation [\#187](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/187) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Replace eq\(0\).sum\(\) with np.count\_nonzero\(\) for zero-value counting [\#177](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/177) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize Pandas property evaluations and missing data checks [\#172](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/172) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Remove dropna\(\) overhead before min, max, and unique [\#163](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/163) ([abhimehro](https://github.com/abhimehro))
