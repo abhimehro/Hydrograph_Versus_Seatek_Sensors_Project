@@ -46,6 +46,7 @@
 
 **Merged pull requests:**
 
+- fix\(lint\): remove extra blank lines in validator.py \(E303\) [\#190](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/190) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Remove unnecessary dropna before max aggregation [\#187](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/187) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Replace eq\(0\).sum\(\) with np.count\_nonzero\(\) for zero-value counting [\#177](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/177) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize Pandas property evaluations and missing data checks [\#172](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/172) ([abhimehro](https://github.com/abhimehro))
