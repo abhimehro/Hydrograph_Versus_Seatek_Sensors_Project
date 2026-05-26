@@ -116,3 +116,6 @@
 ## 2024-05-25 - Replace df.set_index().to_dict() with dict(zip())
 **Learning:** Using `df.set_index("ColA")["ColB"].to_dict()` creates an intermediate Pandas DataFrame and a new Pandas Index just to generate a simple dictionary mapping. This object allocation overhead makes the operation significantly slower than it needs to be.
 **Action:** Replaced `.set_index().to_dict()` with `dict(zip(df["ColA"], df["ColB"]))` to map two columns into a dictionary directly, bypassing intermediate Pandas Index and DataFrame creations, yielding a roughly ~35% performance improvement.
+## 2024-05-26 - Optimize offset mapping to dict
+**Learning:** In Pandas, creating a dictionary mapping from two columns by using `df.set_index('col1')['col2'].to_dict()` is inefficient because it unnecessarily creates a new Pandas DataFrame and Index object.
+**Action:** Use Python's built-in `dict(zip(df['col1'], df['col2']))` instead. This bypasses the Pandas overhead, drastically reducing memory allocations and improving performance for dictionary creation, while maintaining correct mapping behavior including "last seen wins" for duplicate keys.

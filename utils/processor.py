@@ -130,7 +130,7 @@ class SeatekDataProcessor:
 
     def _setup_offsets(self) -> None:
         """Setup Y_Offset values for each river mile from the summary data."""
-        self.offsets = self.summary_data.set_index("River_Mile")["Y_Offset"].to_dict()
+        self.offsets = dict(zip(self.summary_data["River_Mile"], self.summary_data["Y_Offset"]))  # ⚡ Bolt Optimization: Use dict(zip(...)) instead of .set_index().to_dict() to avoid intermediate Pandas DataFrame and Index overhead
 
     def convert_to_navd88(
         self, data: pd.DataFrame, sensor: str, river_mile: float
