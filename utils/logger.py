@@ -1,6 +1,5 @@
 import logging
 
-import colorlog
 
 try:
     import colorlog
