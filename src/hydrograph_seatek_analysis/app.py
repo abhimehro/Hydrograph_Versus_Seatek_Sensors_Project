@@ -117,10 +117,12 @@ class Application:
 
             # Process each river mile, year, and sensor
             for rm_data in self.processor.river_mile_data.values():
+                # Optimization: Extract unique years from the pre-grouped dictionary cache
+                # and sort them once per river mile rather than repeatedly calling
+                # sorted() inside the sensor loop.
+                sorted_years = sorted(rm_data.year_data_cache.keys())
                 for sensor in rm_data.sensors:
-                    # Optimization: Extract unique years from the pre-grouped dictionary cache
-                    # keys rather than repeatedly calling .unique() on the entire DataFrame.
-                    for year in sorted(rm_data.year_data_cache.keys()):
+                    for year in sorted_years:
                         try:
                             # Process data
                             processed_data, metrics = self.processor.process_data(
