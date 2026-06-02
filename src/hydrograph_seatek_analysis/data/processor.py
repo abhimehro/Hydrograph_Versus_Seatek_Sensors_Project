@@ -331,31 +331,25 @@ class SeatekDataProcessor:
         # pd.Series wrapper allocations entirely for boolean logic combinations.
         sensor_mask_arr = ~(sensor_isna | sensor_iszero)
 
+        sensor_any = sensor_mask_arr.any()
+
         if has_hydro:
             hydro_vals = processed["Hydrograph (Lagged)"].values
             hydro_mask_arr = ~pd.isna(hydro_vals) & (hydro_vals != 0)
+            hydro_any = hydro_mask_arr.any()
             keep_mask_arr = sensor_mask_arr | hydro_mask_arr
-        else:
-            hydro_mask_arr = np.zeros(len(processed), dtype=bool)
-            keep_mask_arr = sensor_mask_arr
+            keep_any = sensor_any or hydro_any
 
-        # If no valid readings exist for both streams, return appropriate early empty df.
-        if not keep_mask_arr.any():
-            hydro_any = hydro_mask_arr.any() if has_hydro else False
-            cols = self._get_merged_columns(
-                has_hydro, sensor_mask_arr.any(), hydro_any, sensor
-            )
-            merged = pd.DataFrame(columns=cols)
-        else:
-            # Filter processed data using the union mask
-            merged = processed[keep_mask_arr].copy()
+            if not keep_any:
+                cols = self._get_merged_columns(
+                    has_hydro, False, False, sensor
+                )
+                merged = pd.DataFrame(columns=cols)
+            else:
+                merged = processed[keep_mask_arr].copy()
+                sensor_keep_arr = sensor_mask_arr[keep_mask_arr]
+                hydro_keep_arr = hydro_mask_arr[keep_mask_arr]
 
-            # Sub-masks on the filtered data
-            sensor_keep_arr = sensor_mask_arr[keep_mask_arr]
-            hydro_keep_arr = hydro_mask_arr[keep_mask_arr]
-
-            # Nullify values that are not valid in their respective streams
-            if has_hydro:
                 if not sensor_keep_arr.all():
                     merged.loc[~sensor_keep_arr, sensor] = (
                         pd.NA
@@ -369,17 +363,27 @@ class SeatekDataProcessor:
                         else np.nan
                     )
 
-                # If no valid sensor readings exist but hydrograph data exist, force hydrograph to 0
-                if not sensor_mask_arr.any() and hydro_mask_arr.any():
+                if not sensor_any and hydro_any:
                     merged["Hydrograph (Lagged)"] = 0
 
+        else:
+            hydro_any = False
+            keep_mask_arr = sensor_mask_arr
+            keep_any = sensor_any
+
+            if not keep_any:
+                cols = self._get_merged_columns(
+                    has_hydro, sensor_any, hydro_any, sensor
+                )
+                merged = pd.DataFrame(columns=cols)
             else:
+                merged = processed[keep_mask_arr].copy()
+                sensor_keep_arr = sensor_mask_arr[keep_mask_arr]
+
                 if not sensor_keep_arr.all():
                     merged.loc[~sensor_keep_arr, sensor] = np.nan
-
-            hydro_any = hydro_mask_arr.any() if has_hydro else False
             cols = self._get_merged_columns(
-                has_hydro, sensor_mask_arr.any(), hydro_any, sensor
+                has_hydro, sensor_any, hydro_any, sensor
             )
             merged = merged[cols]
 

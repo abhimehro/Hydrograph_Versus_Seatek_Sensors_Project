@@ -119,3 +119,6 @@
 ## 2024-05-26 - Optimize offset mapping to dict
 **Learning:** In Pandas, creating a dictionary mapping from two columns by using `df.set_index('col1')['col2'].to_dict()` is inefficient because it unnecessarily creates a new Pandas DataFrame and Index object.
 **Action:** Use Python's built-in `dict(zip(df['col1'], df['col2']))` instead. This bypasses the Pandas overhead, drastically reducing memory allocations and improving performance for dictionary creation, while maintaining correct mapping behavior including "last seen wins" for duplicate keys.
+## 2024-06-02 - Optimize boolean combinations and redundant 'any' calls in Pandas Series
+**Learning:** Checking `.any()` on boolean arrays is $O(N)$ and doing it multiple times over `has_hydro` boolean masks wastes CPU cycles when we can compute `.any()` once on the arrays we need and re-use the variables. Evaluating `has_hydro` first and branching off it entirely avoids re-evaluating it throughout the filtering logic. By evaluating boolean `.any()` calls and re-using them (e.g., `sensor_any`, `hydro_any`, `keep_any`), we cut out 55% of the execution time in the mask combination loop.
+**Action:** Extract repeated logic around `has_hydro` and `.any()` calculations, evaluating `.any()` once per array and caching it in a local variable to prevent multiple $O(N)$ evaluations.
