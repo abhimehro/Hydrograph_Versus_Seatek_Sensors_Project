@@ -96,6 +96,24 @@ class Application:
             self.logger.error(f"❌ Error loading data: {e}")
             return False
 
+    @staticmethod
+    def _create_chart_metadata(river_mile: float, year: int, sensor: str) -> dict:
+        """Create metadata for chart accessibility."""
+        sensor_num = sensor.split("_")[1] if "_" in sensor else sensor
+        return {
+            "Title": (
+                f"River Mile {river_mile:.1f} - Year {year} "
+                f"Sensor {sensor_num}"
+            ),
+            "Description": (
+                "Chart showing Seatek "
+                f"Sensor {sensor_num} data (NAVD88) and "
+                "Hydrograph flow (GPM) over time for "
+                f"River Mile {river_mile:.1f} in Year {year}."
+            ),
+            "Author": "Hydrograph vs Seatek Sensors Analysis Project",
+        }
+
     def process_data(self) -> bool:
         """
         Process data and generate visualizations.
@@ -153,22 +171,9 @@ class Application:
                                 )
 
                                 # Construct metadata for a11y
-                                sensor_num = (
-                                    sensor.split("_")[1] if "_" in sensor else sensor
+                                metadata = self._create_chart_metadata(
+                                    rm_data.river_mile, year, sensor
                                 )
-                                metadata = {
-                                    "Title": (
-                                        f"River Mile {rm_data.river_mile:.1f} - Year {year} "
-                                        f"Sensor {sensor_num}"
-                                    ),
-                                    "Description": (
-                                        "Chart showing Seatek "
-                                        f"Sensor {sensor_num} data (NAVD88) and "
-                                        "Hydrograph flow (GPM) over time for "
-                                        f"River Mile {rm_data.river_mile:.1f} in Year {year}."
-                                    ),
-                                    "Author": "Hydrograph vs Seatek Sensors Analysis Project",
-                                }
 
                                 if self.chart_generator.save_chart(
                                     chart, output_path, metadata=metadata
