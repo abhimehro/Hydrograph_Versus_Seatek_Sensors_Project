@@ -119,3 +119,6 @@
 ## 2024-05-26 - Optimize offset mapping to dict
 **Learning:** In Pandas, creating a dictionary mapping from two columns by using `df.set_index('col1')['col2'].to_dict()` is inefficient because it unnecessarily creates a new Pandas DataFrame and Index object.
 **Action:** Use Python's built-in `dict(zip(df['col1'], df['col2']))` instead. This bypasses the Pandas overhead, drastically reducing memory allocations and improving performance for dictionary creation, while maintaining correct mapping behavior including "last seen wins" for duplicate keys.
+## 2026-06-02 - Optimize stateful usecols in pandas read_excel
+**Learning:** Passing a stateful callable to `usecols` (e.g., appending to a list to track seen columns) introduces overhead and side effects. Instead, using a stateless lambda (e.g., `usecols=lambda col: col in required_cols`) and determining missing columns by checking `df.columns` after loading is mathematically equivalent and slightly faster.
+**Action:** Replaced stateful `filter_cols` functions with stateless lambdas in `data_loader.py` and calculated `missing_cols` against `df.columns` instead of a manually populated list.
