@@ -119,3 +119,7 @@
 ## 2024-05-26 - Optimize offset mapping to dict
 **Learning:** In Pandas, creating a dictionary mapping from two columns by using `df.set_index('col1')['col2'].to_dict()` is inefficient because it unnecessarily creates a new Pandas DataFrame and Index object.
 **Action:** Use Python's built-in `dict(zip(df['col1'], df['col2']))` instead. This bypasses the Pandas overhead, drastically reducing memory allocations and improving performance for dictionary creation, while maintaining correct mapping behavior including "last seen wins" for duplicate keys.
+
+## 2024-06-02 - Optimize nested loop sorting
+**Learning:** Calling `sorted()` on a dictionary's keys inside a nested loop when the keys are invariant across iterations leads to redundant O(N log N) operations. Moving the sort outside the inner loop significantly reduces overhead.
+**Action:** Extract invariant operations outside inner loops, especially sorting and unique value extraction.
