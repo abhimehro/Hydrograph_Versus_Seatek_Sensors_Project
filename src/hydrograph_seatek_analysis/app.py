@@ -96,24 +96,6 @@ class Application:
             self.logger.error(f"❌ Error loading data: {e}")
             return False
 
-    @staticmethod
-    def _create_chart_metadata(river_mile: float, year: int, sensor: str) -> dict:
-        """Create metadata for chart accessibility."""
-        sensor_num = sensor.split("_")[1] if "_" in sensor else sensor
-        return {
-            "Title": (
-                f"River Mile {river_mile:.1f} - Year {year} "
-                f"Sensor {sensor_num}"
-            ),
-            "Description": (
-                "Chart showing Seatek "
-                f"Sensor {sensor_num} data (NAVD88) and "
-                "Hydrograph flow (GPM) over time for "
-                f"River Mile {river_mile:.1f} in Year {year}."
-            ),
-            "Author": "Hydrograph vs Seatek Sensors Analysis Project",
-        }
-
     def process_data(self) -> bool:
         """
         Process data and generate visualizations.
@@ -135,12 +117,10 @@ class Application:
 
             # Process each river mile, year, and sensor
             for rm_data in self.processor.river_mile_data.values():
-                # Optimization: Extract unique years from the pre-grouped dictionary cache
-                # and sort them once per river mile rather than repeatedly calling
-                # sorted() inside the sensor loop.
-                sorted_years = sorted(rm_data.year_data_cache.keys())
                 for sensor in rm_data.sensors:
-                    for year in sorted_years:
+                    # Optimization: Extract unique years from the pre-grouped dictionary cache
+                    # keys rather than repeatedly calling .unique() on the entire DataFrame.
+                    for year in sorted(rm_data.year_data_cache.keys()):
                         try:
                             # Process data
                             processed_data, metrics = self.processor.process_data(
@@ -171,9 +151,22 @@ class Application:
                                 )
 
                                 # Construct metadata for a11y
-                                metadata = self._create_chart_metadata(
-                                    rm_data.river_mile, year, sensor
+                                sensor_num = (
+                                    sensor.split("_")[1] if "_" in sensor else sensor
                                 )
+                                metadata = {
+                                    "Title": (
+                                        f"River Mile {rm_data.river_mile:.1f} - Year {year} "
+                                        f"Sensor {sensor_num}"
+                                    ),
+                                    "Description": (
+                                        "Chart showing Seatek "
+                                        f"Sensor {sensor_num} data (NAVD88) and "
+                                        "Hydrograph flow (GPM) over time for "
+                                        f"River Mile {rm_data.river_mile:.1f} in Year {year}."
+                                    ),
+                                    "Author": "Hydrograph vs Seatek Sensors Analysis Project",
+                                }
 
                                 if self.chart_generator.save_chart(
                                     chart, output_path, metadata=metadata
