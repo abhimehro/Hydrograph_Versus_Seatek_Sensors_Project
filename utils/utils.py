@@ -53,8 +53,8 @@ def clean_data(data: DataFrame, required_columns: List[str]) -> DataFrame:
 
 
 def format_sensor_name(sensor: str) -> str:
-    """Format the sensor name for display in the plot."""
-    return sensor.replace("_", " ").title()
+    """Format sensor name for display."""
+    return f"Sensor {sensor.split('_')[1]}" if "_" in sensor else sensor
 
 
 def load_excel_file(file_path: Path) -> DataFrame:
