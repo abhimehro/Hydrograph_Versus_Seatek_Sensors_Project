@@ -204,3 +204,29 @@ def test_load_all_data_exception(mock_load_summary, mock_load_hydro):
 
     mock_load_summary.assert_called_once()
     mock_load_hydro.assert_not_called()
+
+def test_get_available_river_miles_dir_not_found():
+    """Test get_available_river_miles raises FileNotFoundError if dir doesn't exist."""
+    with pytest.raises(FileNotFoundError, match="Processed data directory not found"):
+        DataLoader.get_available_river_miles(Path("/nonexistent/path/that/should/not/exist"))
+
+
+def test_get_available_river_miles_invalid_format(caplog):
+    """Test get_available_river_miles with invalid river mile file formats."""
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_path = Path(temp_dir)
+
+        # Valid file
+        (temp_path / "RM_54.0.xlsx").touch()
+        # Invalid value for float conversion
+        (temp_path / "RM_invalid.xlsx").touch()
+        # Edge case: empty string after RM_
+        (temp_path / "RM_.xlsx").touch()
+
+        result = DataLoader.get_available_river_miles(temp_path)
+
+        # Only the valid file should be parsed
+        assert result == [54.0]
+        # Check that warnings were logged
+        assert "Skipping invalid river mile file: RM_invalid.xlsx" in caplog.text
+        assert "Skipping invalid river mile file: RM_.xlsx" in caplog.text
