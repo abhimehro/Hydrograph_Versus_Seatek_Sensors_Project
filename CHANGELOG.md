@@ -6,9 +6,19 @@
 
 **Closed issues:**
 
+- Daily QA Check - 2026-06-03 [\#225](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/225)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-02 [\#216](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/216)
+- Daily QA & Agentic Review — 2026-06-01 [\#215](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/215)
+- Daily QA & Agentic Review — 2026-05-31 [\#214](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/214)
+- Daily QA & Agentic Review — 2026-05-30 [\#213](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/213)
+- Daily QA & Agentic Review — 2026-05-29 [\#212](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/212)
+- \[repo-automation\] Daily Status Report - 2026-05-28 [\#211](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/211)
 - Daily QA & Agentic Review — 2026-05-28 [\#210](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/210)
+- \[repo-automation\] Daily Status Report - 2026-05-27 [\#209](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/209)
 - Daily QA & Agentic Review — 2026-05-27 [\#208](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/208)
+- \[repo-automation\] Daily Status Report - 2026-05-26 [\#207](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/207)
 - Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-26 [\#205](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/205)
+- \[repo-automation\] Daily Status Report - 2026-05-25 [\#204](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/204)
 - Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-25 [\#203](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/203)
 - \[repo-automation\] Daily Status Report - 2026-05-24 [\#202](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/202)
 - Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-24 [\#201](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/201)
@@ -67,6 +77,11 @@
 
 **Merged pull requests:**
 
+- 🧪 \[testing improvement\] Add missing error path test for Application.load\_data [\#222](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/222) ([abhimehro](https://github.com/abhimehro))
+- 🧪 Add tests for format\_sensor\_name in utils/utils.py [\#221](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/221) ([abhimehro](https://github.com/abhimehro))
+- 🧪 \[testing improvement\] Add edge case tests for get\_available\_river\_miles [\#220](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/220) ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize nested year sorting loop [\#219](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/219) ([abhimehro](https://github.com/abhimehro))
+- 🧹 Fix unused import in logger.py [\#218](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/218) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: optimize summary offsets dictionary mapping [\#206](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/206) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Replace set\_index\(\).to\_dict\(\) with dict\(zip\(\)\) [\#199](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/199) ([abhimehro](https://github.com/abhimehro))
 - fix\(lint\): remove unused os and sys imports \(F401\) [\#195](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/195) ([abhimehro](https://github.com/abhimehro))
