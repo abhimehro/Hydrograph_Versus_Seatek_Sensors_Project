@@ -245,6 +245,12 @@ class SeatekDataProcessor:
     def _get_na_value(self, series: pd.Series) -> Any:
         return pd.NA if pd.api.types.is_object_dtype(series) else np.nan
 
+    def _create_empty_merged(
+        self, has_hydro: bool, sensor_any: bool, hydro_any: bool, sensor: str
+    ) -> pd.DataFrame:
+        cols = self._get_merged_columns(has_hydro, sensor_any, hydro_any, sensor)
+        return pd.DataFrame(columns=cols)
+
     def _get_merged_columns(
         self, has_hydro: bool, sensor_any: bool, hydro_any: bool, sensor: str
     ) -> List[str]:
@@ -338,55 +344,48 @@ class SeatekDataProcessor:
 
         sensor_any = sensor_mask_arr.any()
 
+        hydro_any = False
+        keep_mask_arr = sensor_mask_arr
+
         if has_hydro:
             hydro_vals = processed["Hydrograph (Lagged)"].values
             hydro_mask_arr = ~pd.isna(hydro_vals) & (hydro_vals != 0)
             hydro_any = hydro_mask_arr.any()
             keep_mask_arr = sensor_mask_arr | hydro_mask_arr
-            keep_any = sensor_any or hydro_any
 
-            if not keep_any:
-                cols = self._get_merged_columns(has_hydro, False, False, sensor)
-                merged = pd.DataFrame(columns=cols)
-            else:
-                merged = processed[keep_mask_arr].copy()
-                sensor_keep_arr = sensor_mask_arr[keep_mask_arr]
-                hydro_keep_arr = hydro_mask_arr[keep_mask_arr]
+        keep_any = sensor_any or hydro_any
 
-                if not sensor_keep_arr.all():
-                    merged.loc[~sensor_keep_arr, sensor] = self._get_na_value(
-                        merged[sensor]
-                    )
-                if not hydro_keep_arr.all():
-                    merged.loc[~hydro_keep_arr, "Hydrograph (Lagged)"] = (
-                        self._get_na_value(merged["Hydrograph (Lagged)"])
-                    )
+        if not keep_any:
+            merged = self._create_empty_merged(has_hydro, sensor_any, hydro_any, sensor)
+            metrics.valid_rows = 0
+            metrics.invalid_rows = metrics.original_rows - len(processed)
+            metrics.log_metrics()
+            return merged, metrics
 
-                if not sensor_any and hydro_any:
-                    merged["Hydrograph (Lagged)"] = 0
+        merged = processed[keep_mask_arr].copy()
+        sensor_keep_arr = sensor_mask_arr[keep_mask_arr]
 
-        else:
-            hydro_any = False
-            keep_mask_arr = sensor_mask_arr
-            keep_any = sensor_any
+        if not sensor_keep_arr.all():
+            merged.loc[~sensor_keep_arr, sensor] = (
+                self._get_na_value(merged[sensor]) if has_hydro else np.nan
+            )
 
-            if not keep_any:
-                cols = self._get_merged_columns(
-                    has_hydro, sensor_any, hydro_any, sensor
+        if has_hydro:
+            hydro_keep_arr = hydro_mask_arr[keep_mask_arr]
+            if not hydro_keep_arr.all():
+                merged.loc[~hydro_keep_arr, "Hydrograph (Lagged)"] = self._get_na_value(
+                    merged["Hydrograph (Lagged)"]
                 )
-                merged = pd.DataFrame(columns=cols)
-            else:
-                merged = processed[keep_mask_arr].copy()
-                sensor_keep_arr = sensor_mask_arr[keep_mask_arr]
 
-                if not sensor_keep_arr.all():
-                    merged.loc[~sensor_keep_arr, sensor] = np.nan
-            cols = self._get_merged_columns(has_hydro, sensor_any, hydro_any, sensor)
-            merged = merged[cols]
+            if not sensor_any and hydro_any:
+                merged["Hydrograph (Lagged)"] = 0
 
-            # Optimization: Check if already sorted (O(N)) before doing O(N log N) sort
-            if not merged["Time (Minutes)"].is_monotonic_increasing:
-                merged.sort_values("Time (Minutes)", inplace=True)
+        cols = self._get_merged_columns(has_hydro, sensor_any, hydro_any, sensor)
+        merged = merged[cols]
+
+        # Optimization: Check if already sorted (O(N)) before doing O(N log N) sort
+        if not merged["Time (Minutes)"].is_monotonic_increasing:
+            merged.sort_values("Time (Minutes)", inplace=True)
 
         metrics.valid_rows = len(merged)
         metrics.invalid_rows = metrics.original_rows - len(processed)

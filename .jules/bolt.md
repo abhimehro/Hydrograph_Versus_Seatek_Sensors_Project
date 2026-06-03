@@ -122,3 +122,6 @@
 ## 2024-06-02 - Optimize boolean combinations and redundant 'any' calls in Pandas Series
 **Learning:** Checking `.any()` on boolean arrays is $O(N)$ and doing it multiple times over `has_hydro` boolean masks wastes CPU cycles when we can compute `.any()` once on the arrays we need and re-use the variables. Evaluating `has_hydro` first and branching off it entirely avoids re-evaluating it throughout the filtering logic. By evaluating boolean `.any()` calls and re-using them (e.g., `sensor_any`, `hydro_any`, `keep_any`), we cut out 55% of the execution time in the mask combination loop.
 **Action:** Extract repeated logic around `has_hydro` and `.any()` calculations, evaluating `.any()` once per array and caching it in a local variable to prevent multiple $O(N)$ evaluations.
+## 2024-06-03 - Further reduce CodeScene complexity via early return
+**Learning:** Extracting code logic to a helper function removes structural duplication. When an `if` block covers large portions of a function's remaining execution logic and requires an `else` branch, simplifying it into an "early return" eliminates nested complexity points that anger CodeScene.
+**Action:** Extract stateless logic (`_create_empty_merged`) and refactor conditionals from `if X: block else: block` to `if X: return ... block`.

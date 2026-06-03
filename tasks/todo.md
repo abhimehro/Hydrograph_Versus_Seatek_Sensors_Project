@@ -1,2 +1,2 @@
-- [x] Refactor process_data to optimize boolean mask combinations.
 - [ ] Fix CodeScene complex method / bumpy road failure in `process_data`
+- [x] Fix CodeScene complex method / bumpy road failure in `process_data`
