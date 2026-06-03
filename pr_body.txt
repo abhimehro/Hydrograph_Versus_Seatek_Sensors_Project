@@ -1,0 +1,13 @@
+🎯 **What:** The code health issue addressed
+Removed the unused `colorlog` import from `utils/logger.py` (which triggered a `pyflakes` warning due to redundant imports).
+
+💡 **Why:** How this improves maintainability
+Removing unused imports clears up static analysis warnings, makes the code cleaner, and slightly reduces initialization overhead.
+
+✅ **Verification:** How you confirmed the change is safe
+- Checked `src/hydrograph_seatek_analysis/data/processor.py` to confirm the prompt's mentioned unused `Union` and `Any` imports were already removed.
+- Ran `pyflakes` to verify all unused imports are gone.
+- Executed the full `pytest` suite ensuring everything passes.
+
+✨ **Result:** The improvement achieved
+A clean codebase with no unused imports reported by `pyflakes`.
