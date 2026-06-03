@@ -5,8 +5,8 @@ Data validation utilities for Seatek sensor data.
 import logging
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from utils.security import validate_file_size
 
@@ -44,7 +44,9 @@ class DataValidator:
         """Helper to calculate missing values efficiently."""
         # ⚡ Bolt Optimization: Replace df[cols].isna().sum() with dictionary comprehension and np.count_nonzero
         # to avoid the overhead of creating an intermediate boolean DataFrame in memory and implicit type casting.
-        return pd.Series({col: np.count_nonzero(pd.isna(df[col].values)) for col in columns})
+        return pd.Series(
+            {col: np.count_nonzero(pd.isna(df[col].values)) for col in columns}
+        )
 
     def validate_summary_file(self) -> Optional[Dict[str, Any]]:
         """

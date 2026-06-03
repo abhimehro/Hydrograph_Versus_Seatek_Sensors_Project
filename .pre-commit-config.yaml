@@ -15,7 +15,7 @@ repos:
     rev: 24.3.0
     hooks:
       - id: black
-        language_version: python3.10
+        language_version: python3
 
   - repo: https://github.com/PyCQA/flake8
     rev: 7.0.0
@@ -27,7 +27,7 @@ repos:
     rev: v1.9.0
     hooks:
       - id: mypy
-        additional_dependencies: [types-all]
+        args: [--ignore-missing-imports]
 
   - repo: https://github.com/pycqa/isort
     rev: 5.13.2

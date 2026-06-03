@@ -8,7 +8,7 @@ and merges the two streams using a full outer join so that all valid sensor read
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
@@ -185,7 +185,9 @@ class SeatekDataProcessor:
 
     def _setup_offsets(self) -> None:
         """Setup Y_Offset values for each river mile from the summary data."""
-        self.offsets = dict(zip(self.summary_data["River_Mile"], self.summary_data["Y_Offset"]))
+        self.offsets = dict(
+            zip(self.summary_data["River_Mile"], self.summary_data["Y_Offset"])
+        )
 
     def convert_to_navd88(
         self, data: pd.DataFrame, sensor: str, river_mile: float, copy: bool = True
@@ -239,6 +241,9 @@ class SeatekDataProcessor:
         processed[sensor] = raw_data * m + b
 
         return processed
+
+    def _get_na_value(self, series: pd.Series) -> Any:
+        return pd.NA if pd.api.types.is_object_dtype(series) else np.nan
 
     def _get_merged_columns(
         self, has_hydro: bool, sensor_any: bool, hydro_any: bool, sensor: str
@@ -341,9 +346,7 @@ class SeatekDataProcessor:
             keep_any = sensor_any or hydro_any
 
             if not keep_any:
-                cols = self._get_merged_columns(
-                    has_hydro, False, False, sensor
-                )
+                cols = self._get_merged_columns(has_hydro, False, False, sensor)
                 merged = pd.DataFrame(columns=cols)
             else:
                 merged = processed[keep_mask_arr].copy()
@@ -351,16 +354,12 @@ class SeatekDataProcessor:
                 hydro_keep_arr = hydro_mask_arr[keep_mask_arr]
 
                 if not sensor_keep_arr.all():
-                    merged.loc[~sensor_keep_arr, sensor] = (
-                        pd.NA
-                        if pd.api.types.is_object_dtype(merged[sensor])
-                        else np.nan
+                    merged.loc[~sensor_keep_arr, sensor] = self._get_na_value(
+                        merged[sensor]
                     )
                 if not hydro_keep_arr.all():
                     merged.loc[~hydro_keep_arr, "Hydrograph (Lagged)"] = (
-                        pd.NA
-                        if pd.api.types.is_object_dtype(merged["Hydrograph (Lagged)"])
-                        else np.nan
+                        self._get_na_value(merged["Hydrograph (Lagged)"])
                     )
 
                 if not sensor_any and hydro_any:
@@ -382,9 +381,7 @@ class SeatekDataProcessor:
 
                 if not sensor_keep_arr.all():
                     merged.loc[~sensor_keep_arr, sensor] = np.nan
-            cols = self._get_merged_columns(
-                has_hydro, sensor_any, hydro_any, sensor
-            )
+            cols = self._get_merged_columns(has_hydro, sensor_any, hydro_any, sensor)
             merged = merged[cols]
 
             # Optimization: Check if already sorted (O(N)) before doing O(N log N) sort

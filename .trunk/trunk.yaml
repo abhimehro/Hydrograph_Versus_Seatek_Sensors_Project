@@ -32,7 +32,7 @@ lint:
     - isort@8.0.1
     - markdownlint@0.48.0
     - mypy@2.1.0
-    - osv-scanner@2.3.5 
+    - osv-scanner@2.3.5
     - ruff@0.15.15
     - taplo@0.10.0
     - trufflehog@3.94.2
