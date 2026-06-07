@@ -17,6 +17,6 @@ jobs:
         with:
           pr_number: ${{ github.event.issue.number }}
           command: ${{ github.event.comment.body }}
-          model: 'google/gemini-flash-latest'
+          model: 'gemini-flash-latest'
           codescene_token: ${{ secrets.CODESCENE_ACCESS_TOKEN }}
           GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
