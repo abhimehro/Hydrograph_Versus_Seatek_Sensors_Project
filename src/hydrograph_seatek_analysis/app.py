@@ -164,9 +164,10 @@ class Application:
                                 safe_year = sanitize_filename(str(year))
                                 safe_sensor = sanitize_filename(str(sensor))
 
+                                safe_rm = sanitize_filename(f"{rm_data.river_mile:.1f}")
                                 output_path = (
                                     self.config.output_dir
-                                    / f"RM_{rm_data.river_mile:.1f}"
+                                    / f"RM_{safe_rm}"
                                     / f"Year_{safe_year}_{safe_sensor}.png"
                                 )
 
