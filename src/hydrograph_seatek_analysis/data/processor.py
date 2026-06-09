@@ -243,6 +243,14 @@ class SeatekDataProcessor:
         return processed
 
     def _get_na_value(self, series: pd.Series) -> Any:
+        """Return the appropriate NA sentinel for the series dtype.
+
+        Args:
+            series: The pandas Series to check.
+
+        Returns:
+            ``pd.NA`` for object-dtype series, ``np.nan`` otherwise.
+        """
         return pd.NA if pd.api.types.is_object_dtype(series) else np.nan
 
     def _create_empty_merged(
