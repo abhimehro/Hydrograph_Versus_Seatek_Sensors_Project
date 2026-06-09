@@ -121,7 +121,11 @@ class DataLoader:
                     df = pd.read_excel(
                         excel_file,
                         sheet_name=sheet_name,
-                        usecols=lambda col: col in required_cols or str(col).startswith("Sensor_") or col == "Hydrograph (Lagged)",
+                        usecols=lambda col: (
+                            col in required_cols
+                            or str(col).startswith("Sensor_")
+                            or col == "Hydrograph (Lagged)"
+                        ),
                     )
                 except ValueError as exc:
                     logger.warning(f"Skipping sheet {sheet_name}: {exc}")
