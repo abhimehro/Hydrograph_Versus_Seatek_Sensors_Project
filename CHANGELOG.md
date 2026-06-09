@@ -82,6 +82,7 @@
 
 **Merged pull requests:**
 
+- chore\(actions\): consolidate workflow automation [\#239](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/239) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[security improvement\] Add path sanitization to river\_mile output path [\#237](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/237) ([abhimehro](https://github.com/abhimehro))
 - 🧪 \[testing improvement\] Add missing error path test for Application.load\_data [\#222](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/222) ([abhimehro](https://github.com/abhimehro))
 - 🧪 Add tests for format\_sensor\_name in utils/utils.py [\#221](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/221) ([abhimehro](https://github.com/abhimehro))
