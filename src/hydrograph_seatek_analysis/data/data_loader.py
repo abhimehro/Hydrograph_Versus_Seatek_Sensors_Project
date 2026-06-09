@@ -68,15 +68,9 @@ class DataLoader:
 
             # Optimize: load columns dynamically to avoid checking headers and reloading
             # This is an optimization for reading excel files in a single pass
-            seen_cols = []
+            df = pd.read_excel(summary_file, usecols=lambda col: col in required_cols)
 
-            def filter_cols(col):
-                seen_cols.append(col)
-                return col in required_cols
-
-            df = pd.read_excel(summary_file, usecols=filter_cols)
-
-            missing_cols = [col for col in required_cols if col not in seen_cols]
+            missing_cols = [col for col in required_cols if col not in df.columns]
             if missing_cols:
                 raise ValueError(
                     f"Missing required columns in summary data: {missing_cols}"
@@ -120,16 +114,6 @@ class DataLoader:
                     continue
 
                 # Optimize: Load only required columns and sensor/hydrograph columns to reduce memory usage and speed up loading
-                seen_cols = []
-
-                def filter_cols(col):
-                    seen_cols.append(col)
-                    return (
-                        col in required_cols
-                        or str(col).startswith("Sensor_")
-                        or col == "Hydrograph (Lagged)"
-                    )
-
                 try:
                     # SECURITY: Limit file size to prevent memory exhaustion (DoS)
                     validate_file_size(hydro_file, self.config.max_file_size_bytes)
@@ -137,13 +121,17 @@ class DataLoader:
                     df = pd.read_excel(
                         excel_file,
                         sheet_name=sheet_name,
-                        usecols=filter_cols,
+                        usecols=lambda col: (
+                            col in required_cols
+                            or str(col).startswith("Sensor_")
+                            or col == "Hydrograph (Lagged)"
+                        ),
                     )
                 except ValueError as exc:
                     logger.warning(f"Skipping sheet {sheet_name}: {exc}")
                     continue
 
-                missing_cols = [col for col in required_cols if col not in seen_cols]
+                missing_cols = [col for col in required_cols if col not in df.columns]
                 if missing_cols:
                     logger.warning(
                         f"Skipping sheet {sheet_name}: Missing required columns in sheet {sheet_name}: {missing_cols}"
