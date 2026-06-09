@@ -248,6 +248,17 @@ class SeatekDataProcessor:
     def _create_empty_merged(
         self, has_hydro: bool, sensor_any: bool, hydro_any: bool, sensor: str
     ) -> pd.DataFrame:
+        """Create an empty DataFrame with the correct merged column order.
+
+        Args:
+            has_hydro: Whether hydrograph data is present.
+            sensor_any: Whether any valid sensor readings exist.
+            hydro_any: Whether any valid hydrograph readings exist.
+            sensor: Name of the sensor column.
+
+        Returns:
+            An empty DataFrame with the appropriate columns.
+        """
         cols = self._get_merged_columns(has_hydro, sensor_any, hydro_any, sensor)
         return pd.DataFrame(columns=cols)
 
