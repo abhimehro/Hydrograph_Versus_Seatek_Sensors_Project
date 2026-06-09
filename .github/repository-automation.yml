@@ -24,7 +24,10 @@ automation:
     weekly_issue_prefix: "[repo-automation] Weekly Retrospective"
   workflow_updater:
     enabled: true
-    create_draft_pr: true
+    # SHA-pinned actions are intentionally not auto-updated: the updater is not
+    # SHA-aware yet, so draft PR creation is disabled to avoid reverting pins.
+    # It still runs and reports available updates as a (non-failing) warning.
+    create_draft_pr: false
     branch_prefix: automation/workflow-updates
     commit_message: "chore(actions): consolidate and refresh workflow dependencies"
     pr_title: "chore(actions): consolidate workflow automation"
