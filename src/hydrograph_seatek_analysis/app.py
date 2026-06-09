@@ -114,6 +114,28 @@ class Application:
             "Author": "Hydrograph vs Seatek Sensors Analysis Project",
         }
 
+
+    def _save_generated_chart(self, chart, rm_data, year: int, sensor: str) -> bool:
+        """Helper to safely save a generated chart."""
+        safe_year = sanitize_filename(str(year))
+        safe_sensor = sanitize_filename(str(sensor))
+        safe_rm = sanitize_filename(f"{rm_data.river_mile:.1f}")
+
+        output_path = (
+            self.config.output_dir
+            / f"RM_{safe_rm}"
+            / f"Year_{safe_year}_{safe_sensor}.png"
+        )
+
+        # Construct metadata for a11y
+        metadata = self._create_chart_metadata(
+            rm_data.river_mile, year, sensor
+        )
+
+        return self.chart_generator.save_chart(
+            chart, output_path, metadata=metadata
+        )
+
     def process_data(self) -> bool:
         """
         Process data and generate visualizations.
@@ -160,24 +182,7 @@ class Application:
                             )
 
                             if chart:
-                                # Save chart
-                                safe_year = sanitize_filename(str(year))
-                                safe_sensor = sanitize_filename(str(sensor))
-
-                                output_path = (
-                                    self.config.output_dir
-                                    / f"RM_{rm_data.river_mile:.1f}"
-                                    / f"Year_{safe_year}_{safe_sensor}.png"
-                                )
-
-                                # Construct metadata for a11y
-                                metadata = self._create_chart_metadata(
-                                    rm_data.river_mile, year, sensor
-                                )
-
-                                if self.chart_generator.save_chart(
-                                    chart, output_path, metadata=metadata
-                                ):
+                                if self._save_generated_chart(chart, rm_data, year, sensor):
                                     success_count += 1
                                 else:
                                     error_count += 1

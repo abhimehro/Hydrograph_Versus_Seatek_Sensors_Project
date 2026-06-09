@@ -58,3 +58,9 @@
 **Vulnerability:** Path traversal and path-length Denial of Service (DoS) vulnerability in legacy visualization tools (`utils/utils.py`) where an untrusted variable (`rm` from data) was passed directly to an `f-string` and concatenated to a `pathlib.Path` to generate output directories.
 **Learning:** Even scripts outside of the primary production path (`src/`) often generate artifacts. If these scripts process external data files and construct file paths dynamically based on the contents, they are vulnerable to arbitrary file write or DoS if sanitization is omitted.
 **Prevention:** Always implement `sanitize_filename` from `utils.security` on dynamic components (e.g., `rm`, `river_mile`, `sensor`, `year`) before using them in file path constructions, including inside test or utility scripts.
+
+## 2024-06-08 - Added explicitly path traversal sanitization on integer fields to prevent potential injection
+
+**Vulnerability:** Although numerical fields formatted securely (e.g. `rm_data.river_mile:.1f`) prevent arbitrary string inputs from passing through to file creation, removing `sanitize_filename()` breaks defense-in-depth principles. Without explicit sanitization, if future changes allow those inputs to become arbitrary strings, it might lead to arbitrary file creation or path traversal vulnerabilities.
+**Learning:** Removing path traversal protections on inputs originally believed to be numbers is considered a direct security downgrade.
+**Prevention:** Apply path traversal protections (like `sanitize_filename`) consistently to all variables used in file path construction, even those explicitly type-hinted and validated as numerical types (e.g., floats like `river_mile`).
