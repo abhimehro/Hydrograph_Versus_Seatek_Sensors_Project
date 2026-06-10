@@ -196,6 +196,14 @@ For more of the above visualizations, check the respective directories in the `o
 
 Contributions are welcome! Please read our [Contributing Guide](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/CONTRIBUTING.md) and [Code of Conduct](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/CODE_OF_CONDUCT.md).
 
+If CodeScene fails on a PR during review/salvage sessions, post:
+
+```bash
+/cs-agent skill:fix-code-health-degradations
+```
+
+Then continue salvage verification after that run finishes.
+
 ## Changelog
 
 CHANGELOG.md is auto-updated via GitHub Actions.

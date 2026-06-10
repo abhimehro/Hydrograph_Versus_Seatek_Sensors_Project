@@ -33,7 +33,7 @@ lint:
     - git-diff-check
     - isort@8.0.1
     - mypy@2.1.0
-    - osv-scanner@2.3.5
+    - osv-scanner@2.3.8
     - ruff@0.15.16
     - taplo@0.10.0
     - trufflehog@3.94.2
