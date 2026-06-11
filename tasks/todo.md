@@ -1,5 +1,3 @@
-# T3 - Debug / Add Missing Tests
-
-[x] Add missing error path tests for Application.load_data
-[x] Run pytest on test_app.py
-[x] Pre-commit hook validations
+- [x] Run full test suite and verify no regressions
+- [x] Pre-commit validations (py_compile, run modified tests)
+- [ ] Submit PR
