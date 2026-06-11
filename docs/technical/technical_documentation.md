@@ -74,8 +74,8 @@ The logging system provides structured, color-coded logs with rotation capabilit
 def setup_logger(
     name: str,
     level: int = logging.INFO,
-    log_file: Optional[Union[str, Path]] = None,
-    console: bool = True
+    console: bool = True,
+    file_config: Optional[FileLogConfig] = None,
 ) -> logging.Logger:
     """Create a configured logger with color support (if available)."""
     # Implementation...
