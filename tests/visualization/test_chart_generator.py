@@ -1,5 +1,3 @@
-from unittest.mock import patch
-
 import pytest
 import pandas as pd
 from matplotlib.figure import Figure
@@ -26,18 +24,17 @@ def sample_data():
         "Hydrograph (Lagged)": [100.0, 150.0, 130.0, 160.0]
     })
 
+def helper_create_chart(chart_generator, data, river_mile=10.0, year=2022, sensor="Sensor_1"):
+    """Helper to reduce duplication across tests."""
+    return chart_generator.create_chart(data=data, river_mile=river_mile, year=year, sensor=sensor)
+
 def test_chart_generator_init(chart_generator_with_config):
     assert chart_generator_with_config.config is not None
     assert chart_generator_with_config.chart_settings.figure_size == (12, 8)
     assert chart_generator_with_config.chart_settings.dpi == 150
 
 def test_create_chart_success(chart_generator, sample_data):
-    fig, metrics = chart_generator.create_chart(
-        data=sample_data,
-        river_mile=10.5,
-        year=2023,
-        sensor="Sensor_1"
-    )
+    fig, metrics = helper_create_chart(chart_generator, sample_data, river_mile=10.5, year=2023)
 
     assert isinstance(fig, Figure)
     assert isinstance(metrics, ChartMetrics)
@@ -66,12 +63,7 @@ def test_create_chart_no_hydrograph(chart_generator):
         "Sensor_2": [5.0, 6.0, 7.0]
     })
 
-    fig, metrics = chart_generator.create_chart(
-        data=data,
-        river_mile=12.0,
-        year=2024,
-        sensor="Sensor_2"
-    )
+    fig, metrics = helper_create_chart(chart_generator, data, sensor="Sensor_2")
 
     assert isinstance(fig, Figure)
     assert metrics.sensor_count == 3
@@ -84,12 +76,7 @@ def test_create_chart_no_hydrograph(chart_generator):
 def test_create_chart_empty_data(chart_generator):
     data = pd.DataFrame(columns=["Time (Minutes)", "Sensor_1", "Hydrograph (Lagged)"])
 
-    fig, metrics = chart_generator.create_chart(
-        data=data,
-        river_mile=10.0,
-        year=2022,
-        sensor="Sensor_1"
-    )
+    fig, metrics = helper_create_chart(chart_generator, data)
 
     assert isinstance(fig, Figure)
     assert metrics.sensor_count == 0
@@ -100,29 +87,18 @@ def test_create_chart_missing_columns(chart_generator):
         "RandomCol": [1, 2, 3]
     })
 
-    fig, metrics = chart_generator.create_chart(
-        data=data,
-        river_mile=10.0,
-        year=2022,
-        sensor="Sensor_1"
-    )
+    fig, metrics = helper_create_chart(chart_generator, data)
 
     assert isinstance(fig, Figure)
     assert metrics.sensor_count == 0
     assert metrics.time_range_max == 0
 
-def test_create_chart_exception_handling(chart_generator):
+def test_create_chart_exception_handling(chart_generator, mocker):
+    mocker.patch("matplotlib.pyplot.subplots", side_effect=Exception("Test Error"))
+
     data = pd.DataFrame({"Time (Minutes)": [1.0], "Sensor_1": [1.0]})
 
-    with patch(
-        "matplotlib.pyplot.subplots", side_effect=Exception("Test Error")
-    ):
-        fig, metrics = chart_generator.create_chart(
-            data=data,
-            river_mile=10.0,
-            year=2022,
-            sensor="Sensor_1",
-        )
+    fig, metrics = helper_create_chart(chart_generator, data)
 
     assert fig is None
     assert isinstance(metrics, ChartMetrics)
