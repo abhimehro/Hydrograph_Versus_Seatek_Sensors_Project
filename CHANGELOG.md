@@ -6,6 +6,8 @@
 
 **Closed issues:**
 
+- Daily QA & Agentic Review — 2026-06-11 [\#244](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/244)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-10 [\#242](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/242)
 - Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-09 [\#238](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/238)
 - Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-08 [\#235](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/235)
 - Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-07 [\#233](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/233)
@@ -82,6 +84,7 @@
 
 **Merged pull requests:**
 
+- docs: document HYDROGRAPH\_BASE\_DIR end-to-end run path in AGENTS.md [\#247](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/247) ([abhimehro](https://github.com/abhimehro))
 - perf\(data\): Bolt optimizations v2 \(salvages \#223, \#224; supersedes \#227\) [\#241](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/241) ([abhimehro](https://github.com/abhimehro))
 - chore\(actions\): consolidate workflow automation [\#239](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/239) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[security improvement\] Add path sanitization to river\_mile output path [\#237](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/237) ([abhimehro](https://github.com/abhimehro))
