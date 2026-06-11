@@ -74,10 +74,8 @@ class ChartSettings:
 def setup_logger(
     name: str,
     level: int = logging.INFO,
-    log_file: Optional[Union[str, Path]] = None,
     console: bool = True,
-    file_size_limit: int = 10_000_000,  # 10MB
-    backup_count: int = 5
+    file_config: Optional[FileLogConfig] = None,
 ) -> logging.Logger:
     """Create a configured logger with color support (if available)."""
 

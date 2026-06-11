@@ -7,6 +7,7 @@ from pathlib import Path
 from src.hydrograph_seatek_analysis.core.logger import (
     configure_root_logger,
     setup_logger,
+    FileLogConfig,
 )
 
 
@@ -25,7 +26,7 @@ def test_setup_logger_with_file():
     """Test that setup_logger creates a logger with a file handler."""
     with tempfile.TemporaryDirectory() as temp_dir:
         log_file = Path(temp_dir) / "test.log"
-        logger = setup_logger("test_logger", log_file=log_file)
+        logger = setup_logger("test_logger", file_config=FileLogConfig(path=log_file))
 
         assert logger.name == "test_logger"
         assert len(logger.handlers) == 2  # Console handler and file handler

@@ -4,6 +4,15 @@ import logging
 import logging.handlers
 from pathlib import Path
 from typing import Optional, Union
+from dataclasses import dataclass
+
+@dataclass
+class FileLogConfig:
+    """Configuration for file-based logging."""
+    path: Union[str, Path]
+    size_limit: int = 10_000_000  # 10MB
+    backup_count: int = 5
+
 
 # Try to import colorlog, but provide fallback if not available
 try:
@@ -17,10 +26,8 @@ except ImportError:
 def setup_logger(
     name: str,
     level: int = logging.INFO,
-    log_file: Optional[Union[str, Path]] = None,
     console: bool = True,
-    file_size_limit: int = 10_000_000,  # 10MB
-    backup_count: int = 5,
+    file_config: Optional[FileLogConfig] = None,
 ) -> logging.Logger:
     """
     Create a configured logger with color support (if available).
@@ -28,10 +35,8 @@ def setup_logger(
     Args:
         name: Logger name
         level: Logging level
-        log_file: Optional path to log file
         console: Whether to log to console
-        file_size_limit: Max file size before rotation
-        backup_count: Number of backup files to keep
+        file_config: Optional configuration for file logging
 
     Returns:
         Configured logger instance
@@ -75,13 +80,13 @@ def setup_logger(
         console_handler.setFormatter(console_formatter)
         logger.addHandler(console_handler)
 
-    # Create file handler if log_file is provided
-    if log_file:
-        log_path = Path(log_file)
+    # Create file handler if file_config is provided
+    if file_config:
+        log_path = Path(file_config.path)
         log_path.parent.mkdir(parents=True, exist_ok=True)
 
         file_handler = logging.handlers.RotatingFileHandler(
-            log_path, maxBytes=file_size_limit, backupCount=backup_count
+            log_path, maxBytes=file_config.size_limit, backupCount=file_config.backup_count
         )
         file_handler.setFormatter(file_formatter)
         logger.addHandler(file_handler)
@@ -109,4 +114,5 @@ def configure_root_logger(
         log_file = log_path / log_filename
 
     # Configure the root logger
-    setup_logger(name="", level=level, log_file=log_file)  # Root logger
+    file_config = FileLogConfig(path=log_file) if log_file else None
+    setup_logger(name="", level=level, file_config=file_config)  # Root logger
