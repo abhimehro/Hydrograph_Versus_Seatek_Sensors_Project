@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import pytest
 import pandas as pd
 from matplotlib.figure import Figure
@@ -109,17 +111,18 @@ def test_create_chart_missing_columns(chart_generator):
     assert metrics.sensor_count == 0
     assert metrics.time_range_max == 0
 
-def test_create_chart_exception_handling(chart_generator, mocker):
-    mocker.patch("matplotlib.pyplot.subplots", side_effect=Exception("Test Error"))
-
+def test_create_chart_exception_handling(chart_generator):
     data = pd.DataFrame({"Time (Minutes)": [1.0], "Sensor_1": [1.0]})
 
-    fig, metrics = chart_generator.create_chart(
-        data=data,
-        river_mile=10.0,
-        year=2022,
-        sensor="Sensor_1"
-    )
+    with patch(
+        "matplotlib.pyplot.subplots", side_effect=Exception("Test Error")
+    ):
+        fig, metrics = chart_generator.create_chart(
+            data=data,
+            river_mile=10.0,
+            year=2022,
+            sensor="Sensor_1",
+        )
 
     assert fig is None
     assert isinstance(metrics, ChartMetrics)
