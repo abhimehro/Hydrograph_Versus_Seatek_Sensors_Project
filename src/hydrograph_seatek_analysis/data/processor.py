@@ -314,7 +314,7 @@ class SeatekDataProcessor:
 
     def _compute_validity_masks(
         self, processed: pd.DataFrame, sensor: str
-    ) -> Tuple[np.ndarray, bool, Optional[np.ndarray], bool, np.ndarray, int, int]:
+    ) -> Tuple[np.ndarray, Optional[np.ndarray], int, int]:
         sensor_vals = processed[sensor].values
         sensor_isna = pd.isna(sensor_vals)
         sensor_iszero = sensor_vals == 0
@@ -323,25 +323,17 @@ class SeatekDataProcessor:
         zero_values = np.count_nonzero(sensor_iszero)
 
         sensor_mask_arr = ~(sensor_isna | sensor_iszero)
-        sensor_any = sensor_mask_arr.any()
 
-        hydro_any = False
         hydro_mask_arr = None
-        keep_mask_arr = sensor_mask_arr
 
         has_hydro = "Hydrograph (Lagged)" in processed.columns
         if has_hydro:
             hydro_vals = processed["Hydrograph (Lagged)"].values
             hydro_mask_arr = ~pd.isna(hydro_vals) & (hydro_vals != 0)
-            hydro_any = hydro_mask_arr.any()
-            keep_mask_arr = sensor_mask_arr | hydro_mask_arr
 
         return (
             sensor_mask_arr,
-            sensor_any,
             hydro_mask_arr,
-            hydro_any,
-            keep_mask_arr,
             null_values,
             zero_values,
         )
@@ -351,12 +343,17 @@ class SeatekDataProcessor:
         processed: pd.DataFrame,
         sensor: str,
         sensor_mask_arr: np.ndarray,
-        sensor_any: bool,
         hydro_mask_arr: Optional[np.ndarray],
-        hydro_any: bool,
-        keep_mask_arr: np.ndarray,
     ) -> pd.DataFrame:
         has_hydro = "Hydrograph (Lagged)" in processed.columns
+        sensor_any = sensor_mask_arr.any()
+
+        keep_mask_arr = sensor_mask_arr
+        hydro_any = False
+
+        if has_hydro and hydro_mask_arr is not None:
+            hydro_any = hydro_mask_arr.any()
+            keep_mask_arr = sensor_mask_arr | hydro_mask_arr
 
         merged = processed[keep_mask_arr].copy()
         sensor_keep_arr = sensor_mask_arr[keep_mask_arr]
@@ -425,16 +422,18 @@ class SeatekDataProcessor:
 
         (
             sensor_mask_arr,
-            sensor_any,
             hydro_mask_arr,
-            hydro_any,
-            keep_mask_arr,
             null_vals,
             zero_vals,
         ) = self._compute_validity_masks(processed, sensor)
 
         metrics.null_values = null_vals
         metrics.zero_values = zero_vals
+
+        sensor_any = sensor_mask_arr.any()
+        hydro_any = False
+        if hydro_mask_arr is not None:
+            hydro_any = hydro_mask_arr.any()
 
         keep_any = sensor_any or hydro_any
         has_hydro = "Hydrograph (Lagged)" in processed.columns
@@ -450,10 +449,7 @@ class SeatekDataProcessor:
             processed,
             sensor,
             sensor_mask_arr,
-            sensor_any,
             hydro_mask_arr,
-            hydro_any,
-            keep_mask_arr,
         )
 
         # Optimization: Check if already sorted (O(N)) before doing O(N log N) sort
