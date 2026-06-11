@@ -108,3 +108,20 @@ def test_convert_to_navd88():
 
     for i, val in enumerate(test_data["Sensor_1"]):
         assert processed["Sensor_1"].iloc[i] == pytest.approx(expected_formula(val))
+
+def test_setup_sensors_error():
+    """Test _setup_sensors raises ValueError when no sensor columns are present."""
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_path = Path(temp_dir) / "RM_42.5.xlsx"
+
+        river_mile_data = RiverMileData(temp_path)
+
+        # Manually set data missing any "Sensor_" columns
+        river_mile_data.data = pd.DataFrame({
+            "Time (Seconds)": [0, 1],
+            "Year": [2023, 2023],
+            "Hydrograph (Lagged)": [1.0, 2.0]
+        })
+
+        with pytest.raises(ValueError, match="No sensor columns found"):
+            river_mile_data._setup_sensors()
