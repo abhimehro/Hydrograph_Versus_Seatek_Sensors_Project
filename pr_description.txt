@@ -1,9 +1,0 @@
-🧪 [testing improvement] Add edge case tests for get_available_river_miles
-
-🎯 What: Added tests for the `get_available_river_miles` method in `DataLoader` to cover missing edge cases, such as handling a missing processed directory and ignoring files with invalid formats (e.g., `RM_invalid.xlsx`, `RM_.xlsx`).
-
-📊 Coverage:
-- Added `test_get_available_river_miles_dir_not_found` to ensure a `FileNotFoundError` is raised when the provided directory does not exist.
-- Added `test_get_available_river_miles_invalid_format` to verify that files with invalid names are safely ignored, a warning is logged, and valid files are still successfully processed.
-
-✨ Result: Improved test coverage and reliability for river mile data loading by ensuring robust handling of unexpected file system states and invalid file formats.

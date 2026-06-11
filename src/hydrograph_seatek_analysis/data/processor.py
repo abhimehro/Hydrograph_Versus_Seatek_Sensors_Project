@@ -289,34 +289,9 @@ class SeatekDataProcessor:
                 "Hydrograph (Lagged)",
             ]
 
-    def process_data(
+    def _extract_year_data(
         self, river_mile: float, year: int, sensor: str
     ) -> Tuple[pd.DataFrame, ProcessingMetrics]:
-        """
-        Process data for a given river mile, year, and sensor with fully decoupled filtering.
-
-        Steps:
-        • Extract data for the specified year.
-        • Convert time and sensor readings (to NAVD88); this also creates a "Time (Minutes)" column.
-        • Independently filter the hydrograph stream: keep only rows where "Hydrograph (Lagged)" is nonzero and non-null.
-        • Independently filter the sensor stream: keep only rows where the sensor value is nonzero and non-null.
-        • Update processing metrics (based on the sensor column).
-        • (Optionally) – if sensor data are entirely missing but hydrograph data exist, force hydrograph values to 0.
-        • Merge the two streams using an outer join on "Time (Seconds)" so that all valid sensor points and all
-          valid hydrograph points are retained.
-        • Finally, recalculate the time in minutes (if needed), sort by time, and update metrics.
-
-        Args:
-            river_mile: River mile to process
-            year: Year to process
-            sensor: Sensor column to process
-
-        Returns:
-            Tuple containing processed DataFrame and processing metrics
-
-        Raises:
-            ValueError: If no data is loaded for the specified river mile
-        """
         if river_mile not in self.river_mile_data:
             raise ValueError(f"No data loaded for River Mile {river_mile}")
 
@@ -333,53 +308,55 @@ class SeatekDataProcessor:
             if "Hydrograph (Lagged)" in cached_year_data.columns:
                 cols.append("Hydrograph (Lagged)")
             year_data = cached_year_data[cols].copy()
+
         metrics = ProcessingMetrics(original_rows=len(year_data))
+        return year_data, metrics
 
-        if len(year_data) == 0:
-            return pd.DataFrame(), metrics
-
-        # Convert the sensor values.
-        processed = self.convert_to_navd88(year_data, sensor, river_mile, copy=False)
-
-        # ⚡ Bolt Optimization: Extract the underlying numpy arrays (.values) before applying
-        # boolean operations to avoid intermediate Pandas Series allocations and index overhead.
-        # Also pre-calculate isna/==0 masks to avoid redundant iterations over large arrays.
+    def _compute_validity_masks(
+        self, processed: pd.DataFrame, sensor: str
+    ) -> Tuple[np.ndarray, bool, Optional[np.ndarray], bool, np.ndarray, int, int]:
         sensor_vals = processed[sensor].values
         sensor_isna = pd.isna(sensor_vals)
         sensor_iszero = sensor_vals == 0
 
-        # Update processing metrics from the cached numpy masks
-        metrics.null_values = np.count_nonzero(sensor_isna)
-        metrics.zero_values = np.count_nonzero(sensor_iszero)
+        null_values = np.count_nonzero(sensor_isna)
+        zero_values = np.count_nonzero(sensor_iszero)
 
-        has_hydro = "Hydrograph (Lagged)" in processed.columns
-
-        # Optimization: Use boolean masking instead of expensive outer pd.merge.
-        # Create masks for valid data (nonzero and non-null) for each stream.
-        # ⚡ Bolt: Apply De Morgan's Law and reuse the cached numpy boolean masks
-        # to skip redundant iterations over large arrays. Avoid intermediate
-        # pd.Series wrapper allocations entirely for boolean logic combinations.
         sensor_mask_arr = ~(sensor_isna | sensor_iszero)
-
         sensor_any = sensor_mask_arr.any()
 
         hydro_any = False
+        hydro_mask_arr = None
         keep_mask_arr = sensor_mask_arr
 
+        has_hydro = "Hydrograph (Lagged)" in processed.columns
         if has_hydro:
             hydro_vals = processed["Hydrograph (Lagged)"].values
             hydro_mask_arr = ~pd.isna(hydro_vals) & (hydro_vals != 0)
             hydro_any = hydro_mask_arr.any()
             keep_mask_arr = sensor_mask_arr | hydro_mask_arr
 
-        keep_any = sensor_any or hydro_any
+        return (
+            sensor_mask_arr,
+            sensor_any,
+            hydro_mask_arr,
+            hydro_any,
+            keep_mask_arr,
+            null_values,
+            zero_values,
+        )
 
-        if not keep_any:
-            merged = self._create_empty_merged(has_hydro, sensor_any, hydro_any, sensor)
-            metrics.valid_rows = 0
-            metrics.invalid_rows = metrics.original_rows - len(processed)
-            metrics.log_metrics()
-            return merged, metrics
+    def _apply_sentinels_and_merge(
+        self,
+        processed: pd.DataFrame,
+        sensor: str,
+        sensor_mask_arr: np.ndarray,
+        sensor_any: bool,
+        hydro_mask_arr: Optional[np.ndarray],
+        hydro_any: bool,
+        keep_mask_arr: np.ndarray,
+    ) -> pd.DataFrame:
+        has_hydro = "Hydrograph (Lagged)" in processed.columns
 
         merged = processed[keep_mask_arr].copy()
         sensor_keep_arr = sensor_mask_arr[keep_mask_arr]
@@ -389,7 +366,7 @@ class SeatekDataProcessor:
                 self._get_na_value(merged[sensor]) if has_hydro else np.nan
             )
 
-        if has_hydro:
+        if has_hydro and hydro_mask_arr is not None:
             hydro_keep_arr = hydro_mask_arr[keep_mask_arr]
             if not hydro_keep_arr.all():
                 merged.loc[~hydro_keep_arr, "Hydrograph (Lagged)"] = self._get_na_value(
@@ -401,6 +378,83 @@ class SeatekDataProcessor:
 
         cols = self._get_merged_columns(has_hydro, sensor_any, hydro_any, sensor)
         merged = merged[cols]
+
+        return merged
+
+    def process_data(
+        self, river_mile: float, year: int, sensor: str
+    ) -> Tuple[pd.DataFrame, ProcessingMetrics]:
+        """
+        Process data for a given river mile, year, and sensor with decoupled filtering.
+
+        Steps:
+        • Extract data for the specified year.
+        • Convert time and sensor readings (to NAVD88); this also creates a
+          "Time (Minutes)" column.
+        • Independently filter the hydrograph stream: keep only rows where
+          "Hydrograph (Lagged)" is nonzero and non-null.
+        • Independently filter the sensor stream: keep only rows where the
+          sensor value is nonzero and non-null.
+        • Update processing metrics (based on the sensor column).
+        • (Optionally) – if sensor data are entirely missing but hydrograph
+          data exist, force hydrograph values to 0.
+        • Merge the two streams using an outer join on "Time (Seconds)"
+          so that all valid sensor points and all valid hydrograph
+          points are retained.
+        • Finally, recalculate the time in minutes (if needed), sort by
+          time, and update metrics.
+
+        Args:
+            river_mile: River mile to process
+            year: Year to process
+            sensor: Sensor column to process
+
+        Returns:
+            Tuple containing processed DataFrame and processing metrics
+
+        Raises:
+            ValueError: If no data is loaded for the specified river mile
+        """
+        year_data, metrics = self._extract_year_data(river_mile, year, sensor)
+
+        if len(year_data) == 0:
+            return pd.DataFrame(), metrics
+
+        # Convert the sensor values.
+        processed = self.convert_to_navd88(year_data, sensor, river_mile, copy=False)
+
+        (
+            sensor_mask_arr,
+            sensor_any,
+            hydro_mask_arr,
+            hydro_any,
+            keep_mask_arr,
+            null_vals,
+            zero_vals,
+        ) = self._compute_validity_masks(processed, sensor)
+
+        metrics.null_values = null_vals
+        metrics.zero_values = zero_vals
+
+        keep_any = sensor_any or hydro_any
+        has_hydro = "Hydrograph (Lagged)" in processed.columns
+
+        if not keep_any:
+            merged = self._create_empty_merged(has_hydro, sensor_any, hydro_any, sensor)
+            metrics.valid_rows = 0
+            metrics.invalid_rows = metrics.original_rows - len(processed)
+            metrics.log_metrics()
+            return merged, metrics
+
+        merged = self._apply_sentinels_and_merge(
+            processed,
+            sensor,
+            sensor_mask_arr,
+            sensor_any,
+            hydro_mask_arr,
+            hydro_any,
+            keep_mask_arr,
+        )
 
         # Optimization: Check if already sorted (O(N)) before doing O(N log N) sort
         if not merged["Time (Minutes)"].is_monotonic_increasing:
