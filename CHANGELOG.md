@@ -85,6 +85,7 @@
 
 **Merged pull requests:**
 
+- test\(app\): add main execution path coverage \(salvages \#245\) [\#252](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/252) ([abhimehro](https://github.com/abhimehro))
 - 🧹 Refactor process\_data to fix 'Overly Long Function' code health issue [\#250](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/250) ([abhimehro](https://github.com/abhimehro))
 - 🧪 Add comprehensive tests for ChartGenerator.create\_chart [\#249](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/249) ([abhimehro](https://github.com/abhimehro))
 - 🧹 Refactor setup\_logger to reduce function parameters using FileLogConfig dataclass [\#248](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/248) ([abhimehro](https://github.com/abhimehro))
