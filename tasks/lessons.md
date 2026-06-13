@@ -1,0 +1,3 @@
+
+## Test Pollution via Mock Mutation
+When testing properties or simulating AttributeError using `unittest.mock.PropertyMock`, **do not assign it to `type(mock_obj)` if `mock_obj` is a generic `MagicMock` or `Mock` instance**. Since `type(MagicMock())` evaluates to the global `unittest.mock.MagicMock` class, this mutates the global class itself, permanently breaking any subsequent test that utilizes a `MagicMock`. Instead, to trigger an AttributeError on an object attribute, simply delete it using `del mock_obj.attribute_name` (after instantiating a regular `Mock`), or subclass the `Mock` for a safe target.
