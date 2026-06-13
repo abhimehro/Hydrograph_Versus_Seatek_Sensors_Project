@@ -1,0 +1,16 @@
+🧪 [test] Add unit tests for Application.process_data()
+
+🎯 What
+Added missing tests for the `process_data()` method in `src/hydrograph_seatek_analysis/app.py`.
+
+📊 Coverage
+Added unit tests covering the `Application.process_data()` method:
+- No processor initialized error
+- Successful processing happy path
+- Empty data scenario (no exception but warning logged)
+- Chart generation failure handling
+- Chart saving failure handling
+- Exception during processing handling
+
+✨ Result
+Improved test coverage and reliability for the main application logic, which was previously untested. Tests will ensure the main application successfully processes the underlying data properly and gracefully catches potential faults.

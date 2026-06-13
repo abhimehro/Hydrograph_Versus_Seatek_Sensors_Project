@@ -58,6 +58,255 @@ class TestApplication(unittest.TestCase):
 
 
 
+
+    def test_process_data_no_processor(self) -> None:
+        """Test process_data when processor is not initialized."""
+        app = Application(config=self.temp_config)
+        with mock.patch.object(app.logger, "error") as mock_logger:
+            self.assertFalse(app.process_data())
+            mock_logger.assert_called_once()
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
+    def test_process_data_success(self, mock_chart_gen_class: mock.MagicMock) -> None:
+        """Test successful data processing."""
+        app = Application(config=self.temp_config)
+        app.processor = mock.MagicMock()
+
+        # Setup mock river mile data
+        rm_data = mock.MagicMock()
+        rm_data.river_mile = 12.3
+        rm_data.year_data_cache = {2020: {}}
+        rm_data.sensors = ["sensor_1"]
+        app.processor.river_mile_data = {"12.3": rm_data}
+
+        # Setup processor to return data
+        app.processor.process_data.return_value = (mock.MagicMock(spec=list), {})
+
+        # Need to ensure the returned processed_data has length > 0
+        app.processor.process_data.return_value[0].__len__.return_value = 1
+
+        # Setup chart generator
+        app.chart_generator = mock_chart_gen_class.return_value
+        app.chart_generator.create_chart.return_value = (mock.MagicMock(), {})
+
+        with mock.patch.object(app, "_save_generated_chart", return_value=True) as mock_save:
+            self.assertTrue(app.process_data())
+            mock_save.assert_called_once()
+
+    def test_process_data_empty_data(self) -> None:
+        """Test process_data when processor returns empty data."""
+        app = Application(config=self.temp_config)
+        app.processor = mock.MagicMock()
+
+        rm_data = mock.MagicMock()
+        rm_data.river_mile = 12.3
+        rm_data.year_data_cache = {2020: {}}
+        rm_data.sensors = ["sensor_1"]
+        app.processor.river_mile_data = {"12.3": rm_data}
+
+        # Return empty list
+        app.processor.process_data.return_value = ([], {})
+
+        with mock.patch.object(app.logger, "warning") as mock_warning:
+            self.assertTrue(app.process_data())
+            mock_warning.assert_called_once()
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
+    def test_process_data_chart_generation_failure(self, mock_chart_gen_class: mock.MagicMock) -> None:
+        """Test process_data when chart generation fails."""
+        app = Application(config=self.temp_config)
+        app.processor = mock.MagicMock()
+
+        rm_data = mock.MagicMock()
+        rm_data.river_mile = 12.3
+        rm_data.year_data_cache = {2020: {}}
+        rm_data.sensors = ["sensor_1"]
+        app.processor.river_mile_data = {"12.3": rm_data}
+
+        # Mock process data to return something
+        mock_data = mock.MagicMock(spec=list)
+        mock_data.__len__.return_value = 1
+        app.processor.process_data.return_value = (mock_data, {})
+
+        # Fail chart generation
+        app.chart_generator = mock_chart_gen_class.return_value
+        app.chart_generator.create_chart.return_value = (None, None)
+
+        with mock.patch.object(app.logger, "error") as mock_error:
+            self.assertFalse(app.process_data())
+            mock_error.assert_called_once()
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
+    def test_process_data_save_chart_failure(self, mock_chart_gen_class: mock.MagicMock) -> None:
+        """Test process_data when saving chart fails."""
+        app = Application(config=self.temp_config)
+        app.processor = mock.MagicMock()
+
+        rm_data = mock.MagicMock()
+        rm_data.river_mile = 12.3
+        rm_data.year_data_cache = {2020: {}}
+        rm_data.sensors = ["sensor_1"]
+        app.processor.river_mile_data = {"12.3": rm_data}
+
+        mock_data = mock.MagicMock(spec=list)
+        mock_data.__len__.return_value = 1
+        app.processor.process_data.return_value = (mock_data, {})
+
+        app.chart_generator = mock_chart_gen_class.return_value
+        app.chart_generator.create_chart.return_value = (mock.MagicMock(), {})
+
+        with mock.patch.object(app, "_save_generated_chart", return_value=False):
+            self.assertFalse(app.process_data())
+
+    def test_process_data_exception_during_processing(self) -> None:
+        """Test process_data when processor raises exception."""
+        app = Application(config=self.temp_config)
+        app.processor = mock.MagicMock()
+
+        rm_data = mock.MagicMock()
+        rm_data.river_mile = 12.3
+        rm_data.year_data_cache = {2020: {}}
+        rm_data.sensors = ["sensor_1"]
+        app.processor.river_mile_data = {"12.3": rm_data}
+
+        app.processor.process_data.side_effect = Exception("Test Exception")
+
+        with mock.patch.object(app.logger, "error") as mock_error:
+            self.assertFalse(app.process_data())
+            mock_error.assert_called()
+
+
+
+    def test_process_data_no_processor(self) -> None:
+        """Test process_data when processor is not initialized."""
+        app = Application(config=self.temp_config)
+        with mock.patch.object(app.logger, "error") as mock_logger:
+            self.assertFalse(app.process_data())
+            mock_logger.assert_called_once()
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
+    def test_process_data_success(self, mock_chart_gen_class: mock.MagicMock) -> None:
+        """Test successful data processing."""
+        app = Application(config=self.temp_config)
+        app.processor = mock.MagicMock()
+
+        # Setup mock river mile data
+        rm_data = mock.MagicMock()
+        rm_data.river_mile = 12.3
+        rm_data.year_data_cache = {2020: {}}
+        rm_data.sensors = ["sensor_1"]
+        app.processor.river_mile_data = {"12.3": rm_data}
+
+        # Setup processor to return data
+        app.processor.process_data.return_value = (mock.MagicMock(spec=list), {})
+
+        # Need to ensure the returned processed_data has length > 0
+        app.processor.process_data.return_value[0].__len__.return_value = 1
+
+        # Setup chart generator
+        app.chart_generator = mock_chart_gen_class.return_value
+        app.chart_generator.create_chart.return_value = (mock.MagicMock(), {})
+
+        with mock.patch.object(app, "_save_generated_chart", return_value=True) as mock_save:
+            self.assertTrue(app.process_data())
+            mock_save.assert_called_once()
+
+    def test_process_data_empty_data(self) -> None:
+        """Test process_data when processor returns empty data."""
+        app = Application(config=self.temp_config)
+        app.processor = mock.MagicMock()
+
+        rm_data = mock.MagicMock()
+        rm_data.river_mile = 12.3
+        rm_data.year_data_cache = {2020: {}}
+        rm_data.sensors = ["sensor_1"]
+        app.processor.river_mile_data = {"12.3": rm_data}
+
+        # Return empty list
+        app.processor.process_data.return_value = ([], {})
+
+        with mock.patch.object(app.logger, "warning") as mock_warning:
+            self.assertTrue(app.process_data())
+            mock_warning.assert_called_once()
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
+    def test_process_data_chart_generation_failure(self, mock_chart_gen_class: mock.MagicMock) -> None:
+        """Test process_data when chart generation fails."""
+        app = Application(config=self.temp_config)
+        app.processor = mock.MagicMock()
+
+        rm_data = mock.MagicMock()
+        rm_data.river_mile = 12.3
+        rm_data.year_data_cache = {2020: {}}
+        rm_data.sensors = ["sensor_1"]
+        app.processor.river_mile_data = {"12.3": rm_data}
+
+        # Mock process data to return something
+        mock_data = mock.MagicMock(spec=list)
+        mock_data.__len__.return_value = 1
+        app.processor.process_data.return_value = (mock_data, {})
+
+        # Fail chart generation
+        app.chart_generator = mock_chart_gen_class.return_value
+        app.chart_generator.create_chart.return_value = (None, None)
+
+        with mock.patch.object(app.logger, "error") as mock_error:
+            self.assertFalse(app.process_data())
+            mock_error.assert_called_once()
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
+    def test_process_data_save_chart_failure(self, mock_chart_gen_class: mock.MagicMock) -> None:
+        """Test process_data when saving chart fails."""
+        app = Application(config=self.temp_config)
+        app.processor = mock.MagicMock()
+
+        rm_data = mock.MagicMock()
+        rm_data.river_mile = 12.3
+        rm_data.year_data_cache = {2020: {}}
+        rm_data.sensors = ["sensor_1"]
+        app.processor.river_mile_data = {"12.3": rm_data}
+
+        mock_data = mock.MagicMock(spec=list)
+        mock_data.__len__.return_value = 1
+        app.processor.process_data.return_value = (mock_data, {})
+
+        app.chart_generator = mock_chart_gen_class.return_value
+        app.chart_generator.create_chart.return_value = (mock.MagicMock(), {})
+
+        with mock.patch.object(app, "_save_generated_chart", return_value=False):
+            self.assertFalse(app.process_data())
+
+    def test_process_data_exception_during_processing(self) -> None:
+        """Test process_data when processor raises exception."""
+        app = Application(config=self.temp_config)
+        app.processor = mock.MagicMock()
+
+        rm_data = mock.MagicMock()
+        rm_data.river_mile = 12.3
+        rm_data.year_data_cache = {2020: {}}
+        rm_data.sensors = ["sensor_1"]
+        app.processor.river_mile_data = {"12.3": rm_data}
+
+        app.processor.process_data.side_effect = Exception("Test Exception")
+
+        with mock.patch.object(app.logger, "error") as mock_error:
+            self.assertFalse(app.process_data())
+            mock_error.assert_called()
+
+    def test_process_data_exception_overall(self) -> None:
+        """Test process_data when an unexpected overall exception occurs."""
+        app = Application(config=self.temp_config)
+
+        # We can trigger the outer except block by mocking the processor to raise an attribute error
+        # However, to be safe, we can use a property mock on processor.river_mile_data
+        app.processor = mock.MagicMock()
+        type(app.processor).river_mile_data = mock.PropertyMock(side_effect=Exception("Outer exception"))
+
+        with mock.patch.object(app.logger, "error") as mock_error:
+            self.assertFalse(app.process_data())
+            mock_error.assert_called_once()
+
+
 class TestMain(unittest.TestCase):
     """Tests for the main function."""
 
