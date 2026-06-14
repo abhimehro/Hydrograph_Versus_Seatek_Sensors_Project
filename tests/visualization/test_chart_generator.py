@@ -1,7 +1,7 @@
 import pytest
 import pandas as pd
 from matplotlib.figure import Figure
-import matplotlib.pyplot as plt
+
 from src.hydrograph_seatek_analysis.visualization.chart_generator import ChartGenerator, ChartMetrics
 from src.hydrograph_seatek_analysis.core.config import Config
 
