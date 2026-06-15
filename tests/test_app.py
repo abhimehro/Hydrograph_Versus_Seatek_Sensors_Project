@@ -57,14 +57,15 @@ class TestApplication(unittest.TestCase):
         self.assertFalse(app.load_data())
 
 
-
 class TestMain(unittest.TestCase):
     """Tests for the main function."""
 
     @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
     @mock.patch("src.hydrograph_seatek_analysis.app.Application")
     @mock.patch("src.hydrograph_seatek_analysis.app.Path")
-    def test_main_success(self, mock_path, mock_app_class, mock_configure_logger) -> None:
+    def test_main_success(
+        self, mock_path, mock_app_class, mock_configure_logger
+    ) -> None:
         """Test main execution returning 0 on success."""
         mock_app_instance = mock.MagicMock()
         mock_app_instance.run.return_value = True
@@ -80,7 +81,9 @@ class TestMain(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
     @mock.patch("src.hydrograph_seatek_analysis.app.Application")
     @mock.patch("src.hydrograph_seatek_analysis.app.Path")
-    def test_main_failure(self, mock_path, mock_app_class, mock_configure_logger) -> None:
+    def test_main_failure(
+        self, mock_path, mock_app_class, mock_configure_logger
+    ) -> None:
         """Test main execution returning 1 on app failure."""
         mock_app_instance = mock.MagicMock()
         mock_app_instance.run.return_value = False
@@ -97,11 +100,15 @@ class TestMain(unittest.TestCase):
         """Test main execution returning 1 on exception."""
         mock_configure_logger.side_effect = Exception("Test Exception")
 
-        with mock.patch("src.hydrograph_seatek_analysis.app.logging.error") as mock_logging_error:
+        with mock.patch(
+            "src.hydrograph_seatek_analysis.app.logging.error"
+        ) as mock_logging_error:
             exit_code = main()
 
         self.assertEqual(exit_code, 1)
-        mock_logging_error.assert_called_once_with("Fatal error in main execution: Test Exception")
+        mock_logging_error.assert_called_once_with(
+            "Fatal error in main execution: Test Exception"
+        )
 
 
 if __name__ == "__main__":

@@ -270,7 +270,7 @@ extract_toml_array_items() {
     echo "$content" | grep -oE '"[^"]+"|'"'"'[^'"'"']+'"'" | sed 's/^["'"'"']//;s/["'"'"']$//' || true
 }
 
-# Parse TOML file and extract mount paths from top-level mount_paths field 
+# Parse TOML file and extract mount paths from top-level mount_paths field
 # Returns newline-separated list of mount paths
 # Returns empty string (but exit code 0) if mount_paths = []
 # Returns exit code 1 if mount_paths field doesn't exist

@@ -2,13 +2,15 @@
 
 import logging
 import logging.handlers
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Union
-from dataclasses import dataclass
+
 
 @dataclass
 class FileLogConfig:
     """Configuration for file-based logging."""
+
     path: Union[str, Path]
     size_limit: int = 10_000_000  # 10MB
     backup_count: int = 5
@@ -86,7 +88,9 @@ def setup_logger(
         log_path.parent.mkdir(parents=True, exist_ok=True)
 
         file_handler = logging.handlers.RotatingFileHandler(
-            log_path, maxBytes=file_config.size_limit, backupCount=file_config.backup_count
+            log_path,
+            maxBytes=file_config.size_limit,
+            backupCount=file_config.backup_count,
         )
         file_handler.setFormatter(file_formatter)
         logger.addHandler(file_handler)

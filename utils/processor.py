@@ -130,7 +130,9 @@ class SeatekDataProcessor:
 
     def _setup_offsets(self) -> None:
         """Setup Y_Offset values for each river mile from the summary data."""
-        self.offsets = dict(zip(self.summary_data["River_Mile"], self.summary_data["Y_Offset"]))  # ⚡ Bolt Optimization: Use dict(zip(...)) instead of .set_index().to_dict() to avoid intermediate Pandas DataFrame and Index overhead
+        self.offsets = dict(
+            zip(self.summary_data["River_Mile"], self.summary_data["Y_Offset"])
+        )  # ⚡ Bolt Optimization: Use dict(zip(...)) instead of .set_index().to_dict() to avoid intermediate Pandas DataFrame and Index overhead
 
     def convert_to_navd88(
         self, data: pd.DataFrame, sensor: str, river_mile: float
@@ -300,7 +302,9 @@ class SeatekDataProcessor:
                     )
 
             hydro_any = hydro_mask_arr.any() if has_hydro else False
-            cols = self._get_merged_columns(has_hydro, sensor_mask_arr.any(), hydro_any, sensor)
+            cols = self._get_merged_columns(
+                has_hydro, sensor_mask_arr.any(), hydro_any, sensor
+            )
             merged = merged[cols]
             # Optimization: Check if already sorted (O(N)) before doing O(N log N) sort
             if not merged["Time (Minutes)"].is_monotonic_increasing:

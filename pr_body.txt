@@ -1,4 +1,18 @@
-🎯 **What:** Extracted sub-tasks of `process_data` into helper methods `_extract_year_data`, `_compute_validity_masks`, and `_apply_sentinels_and_merge`.
-💡 **Why:** Splitting this overly long function into smaller, logical blocks improves readability and maintainability.
-✅ **Verification:** Ran `pytest tests/` and `flake8` to confirm functionality is preserved and styles meet standards.
-✨ **Result:** Improved code health, completely removed the "Overly Long Function" and "Complex Method" violations in CodeScene for this method.
+**QA Check Complete**
+
+- Code builds correctly.
+- All tests passing (`pytest tests/ -v`).
+- Automated pre-commit hooks (Black/Isort) applied successfully to enforce repository style conventions.
+
+**Commands Executed:**
+```bash
+python3 -m pytest tests/ -v
+pre-commit run --all-files
+```
+
+═════════ ELIR ═════════
+PURPOSE: Applied code formatting (black/isort) across the codebase.
+SECURITY: N/A, format changes only.
+FAILS IF: Linter rules conflict with formatting.
+VERIFY: Tests pass and code looks properly styled.
+MAINTAIN: Run pre-commit before committing future code changes.

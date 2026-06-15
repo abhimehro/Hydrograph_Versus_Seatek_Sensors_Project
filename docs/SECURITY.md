@@ -14,7 +14,7 @@ updates.
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability, please report it by emailing **[security team](mailto:<security-email>)**.  
+If you discover a security vulnerability, please report it by emailing **[security team](mailto:<security-email>)**.
 All security vulnerabilities will be reviewed and addressed promptly.
 
 ---

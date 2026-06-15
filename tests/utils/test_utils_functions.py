@@ -1,5 +1,7 @@
 import unittest
+
 from utils.utils import format_sensor_name
+
 
 class TestUtilsFunctions(unittest.TestCase):
     def test_format_sensor_name(self):
@@ -20,6 +22,7 @@ class TestUtilsFunctions(unittest.TestCase):
         self.assertEqual(format_sensor_name(""), "")
         self.assertEqual(format_sensor_name("_"), "Sensor ")
         self.assertEqual(format_sensor_name(" "), " ")
+
 
 if __name__ == "__main__":
     unittest.main()

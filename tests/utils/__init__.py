@@ -12,9 +12,10 @@ Modules:
 """
 
 import logging
-import pandas as pd
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
+
+import pandas as pd
 
 # Version information
 __version__ = "2.0.0"
