@@ -629,7 +629,7 @@ extract_toml_array_items() {
     echo "$content" | grep -oE '"[^"]+"|'"'"'[^'"'"']+'"'" | sed 's/^["'"'"']//;s/["'"'"']$//' || true
 }
 
-# Parse TOML file and extract mount paths from top-level mount_paths field 
+# Parse TOML file and extract mount paths from top-level mount_paths field
 # Returns newline-separated list of mount paths
 # Returns empty string (but exit code 0) if mount_paths = []
 # Returns exit code 1 if mount_paths field doesn't exist
@@ -2079,7 +2079,7 @@ extract_toml_array_items() {
     echo "$content" | grep -oE '"[^"]+"|'"'"'[^'"'"']+'"'" | sed 's/^["'"'"']//;s/["'"'"']$//' || true
 }
 
-# Parse TOML file and extract mount paths from top-level mount_paths field 
+# Parse TOML file and extract mount paths from top-level mount_paths field
 # Returns newline-separated list of mount paths
 # Returns empty string (but exit code 0) if mount_paths = []
 # Returns exit code 1 if mount_paths field doesn't exist
@@ -3529,7 +3529,7 @@ extract_toml_array_items() {
     echo "$content" | grep -oE '"[^"]+"|'"'"'[^'"'"']+'"'" | sed 's/^["'"'"']//;s/["'"'"']$//' || true
 }
 
-# Parse TOML file and extract mount paths from top-level mount_paths field 
+# Parse TOML file and extract mount paths from top-level mount_paths field
 # Returns newline-separated list of mount paths
 # Returns empty string (but exit code 0) if mount_paths = []
 # Returns exit code 1 if mount_paths field doesn't exist
@@ -7375,7 +7375,7 @@ extract_toml_array_items() {
     echo "$content" | grep -oE '"[^"]+"|'"'"'[^'"'"']+'"'" | sed 's/^["'"'"']//;s/["'"'"']$//' || true
 }
 
-# Parse TOML file and extract mount paths from top-level mount_paths field 
+# Parse TOML file and extract mount paths from top-level mount_paths field
 # Returns newline-separated list of mount paths
 # Returns empty string (but exit code 0) if mount_paths = []
 # Returns exit code 1 if mount_paths field doesn't exist
@@ -10303,10 +10303,10 @@ Community leaders will follow these guidelines to determine the **Community Impa
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.0.  
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.0.
 Impact Guidelines were inspired by [Mozilla's code of conduct enforcement ladder](https://github.com/mozilla/diversity).
 
-For FAQs, visit: https://www.contributor-covenant.org/faq.  
+For FAQs, visit: https://www.contributor-covenant.org/faq.
 For translations, visit: https://www.contributor-covenant.org/translations.
 
 </file>
@@ -10381,8 +10381,8 @@ By contributing, you agree to its terms.
 <file path="docs/LICENSE.md" size="1.2 KB" language="markdown">
 # Software Metadata
 
-Software: Hydrograph Versus Seatek Sensors Project  
-Version: 1.0.0  
+Software: Hydrograph Versus Seatek Sensors Project
+Version: 1.0.0
 Contact: abhimhrtr@pm.me
 
 ---
@@ -10428,7 +10428,7 @@ updates.
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability, please report it by emailing **[security team](mailto:<security-email>)**.  
+If you discover a security vulnerability, please report it by emailing **[security team](mailto:<security-email>)**.
 All security vulnerabilities will be reviewed and addressed promptly.
 
 ---

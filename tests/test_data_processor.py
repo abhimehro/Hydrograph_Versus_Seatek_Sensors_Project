@@ -109,6 +109,7 @@ def test_convert_to_navd88():
     for i, val in enumerate(test_data["Sensor_1"]):
         assert processed["Sensor_1"].iloc[i] == pytest.approx(expected_formula(val))
 
+
 def test_setup_sensors_error():
     """Test _setup_sensors raises ValueError when no sensor columns are present."""
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -117,36 +118,54 @@ def test_setup_sensors_error():
         river_mile_data = RiverMileData(temp_path)
 
         # Manually set data missing any "Sensor_" columns
-        river_mile_data.data = pd.DataFrame({
-            "Time (Seconds)": [0, 1],
-            "Year": [2023, 2023],
-            "Hydrograph (Lagged)": [1.0, 2.0]
-        })
+        river_mile_data.data = pd.DataFrame(
+            {
+                "Time (Seconds)": [0, 1],
+                "Year": [2023, 2023],
+                "Hydrograph (Lagged)": [1.0, 2.0],
+            }
+        )
 
         with pytest.raises(ValueError, match="No sensor columns found"):
             river_mile_data._setup_sensors()
 
+
 def test_process_data_missing_river_mile():
     """Test that process_data raises ValueError for an unknown river mile."""
     config = Config()
-    summary_data = pd.DataFrame({"River_Mile": [54.0], "Y_Offset": [10.5], "Num_Sensors": [2]})
-    processor = SeatekDataProcessor(data_dir=config.processed_dir, summary_data=summary_data, config=config)
+    summary_data = pd.DataFrame(
+        {"River_Mile": [54.0], "Y_Offset": [10.5], "Num_Sensors": [2]}
+    )
+    processor = SeatekDataProcessor(
+        data_dir=config.processed_dir, summary_data=summary_data, config=config
+    )
 
     with pytest.raises(ValueError, match="No data loaded for River Mile 99.0"):
         processor.process_data(99.0, 2023, "Sensor_1")
 
+
 def test_process_data_internal_error():
     """Test that internal errors during processing propagate properly."""
     config = Config()
-    summary_data = pd.DataFrame({"River_Mile": [54.0], "Y_Offset": [10.5], "Num_Sensors": [2]})
-    processor = SeatekDataProcessor(data_dir=config.processed_dir, summary_data=summary_data, config=config)
+    summary_data = pd.DataFrame(
+        {"River_Mile": [54.0], "Y_Offset": [10.5], "Num_Sensors": [2]}
+    )
+    processor = SeatekDataProcessor(
+        data_dir=config.processed_dir, summary_data=summary_data, config=config
+    )
 
     rm_data = mock.Mock()
     rm_data.year_data_cache = {
-        2023: pd.DataFrame({"Time (Seconds)": [0], "Time (Minutes)": [0], "Sensor_1": [1.0]})
+        2023: pd.DataFrame(
+            {"Time (Seconds)": [0], "Time (Minutes)": [0], "Sensor_1": [1.0]}
+        )
     }
     processor.river_mile_data[54.0] = rm_data
 
-    with mock.patch.object(processor, 'convert_to_navd88', side_effect=RuntimeError("Dataframe processing failed")):
+    with mock.patch.object(
+        processor,
+        "convert_to_navd88",
+        side_effect=RuntimeError("Dataframe processing failed"),
+    ):
         with pytest.raises(RuntimeError, match="Dataframe processing failed"):
             processor.process_data(54.0, 2023, "Sensor_1")

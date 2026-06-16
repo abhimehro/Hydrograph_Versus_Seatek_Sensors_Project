@@ -1,7 +1,7 @@
 # Software Metadata
 
-Software: Hydrograph Versus Seatek Sensors Project  
-Version: 1.0.0  
+Software: Hydrograph Versus Seatek Sensors Project
+Version: 1.0.0
 Contact: abhimhrtr@pm.me
 
 ---

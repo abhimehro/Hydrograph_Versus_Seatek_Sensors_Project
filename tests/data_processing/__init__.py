@@ -26,8 +26,10 @@ class DataProcessor:
     def load_data(self) -> None:
         """Load all data from the Excel file."""
         try:
-            from utils.security import validate_file_size
             from pathlib import Path
+
+            from utils.security import validate_file_size
+
             validate_file_size(Path(self.file_path), 100 * 1024 * 1024)
             # Read the summary sheet
             self.summary_data = pd.read_excel(self.file_path, sheet_name=0)

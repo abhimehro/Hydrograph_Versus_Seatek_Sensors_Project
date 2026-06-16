@@ -102,8 +102,7 @@ class Application:
         sensor_num = sensor.split("_")[1] if "_" in sensor else sensor
         return {
             "Title": (
-                f"River Mile {river_mile:.1f} - Year {year} "
-                f"Sensor {sensor_num}"
+                f"River Mile {river_mile:.1f} - Year {year} " f"Sensor {sensor_num}"
             ),
             "Description": (
                 "Chart showing Seatek "
@@ -113,7 +112,6 @@ class Application:
             ),
             "Author": "Hydrograph vs Seatek Sensors Analysis Project",
         }
-
 
     def _save_generated_chart(self, chart, rm_data, year: int, sensor: str) -> bool:
         """Helper to safely save a generated chart."""
@@ -128,13 +126,9 @@ class Application:
         )
 
         # Construct metadata for a11y
-        metadata = self._create_chart_metadata(
-            rm_data.river_mile, year, sensor
-        )
+        metadata = self._create_chart_metadata(rm_data.river_mile, year, sensor)
 
-        return self.chart_generator.save_chart(
-            chart, output_path, metadata=metadata
-        )
+        return self.chart_generator.save_chart(chart, output_path, metadata=metadata)
 
     def process_data(self) -> bool:
         """
@@ -182,7 +176,9 @@ class Application:
                             )
 
                             if chart:
-                                if self._save_generated_chart(chart, rm_data, year, sensor):
+                                if self._save_generated_chart(
+                                    chart, rm_data, year, sensor
+                                ):
                                     success_count += 1
                                 else:
                                     error_count += 1

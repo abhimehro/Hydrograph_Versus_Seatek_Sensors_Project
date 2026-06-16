@@ -87,8 +87,8 @@ Community leaders will follow these guidelines to determine the **Community Impa
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.0.  
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.0.
 Impact Guidelines were inspired by [Mozilla's code of conduct enforcement ladder](https://github.com/mozilla/diversity).
 
-For FAQs, visit: https://www.contributor-covenant.org/faq.  
+For FAQs, visit: https://www.contributor-covenant.org/faq.
 For translations, visit: https://www.contributor-covenant.org/translations.

@@ -5,7 +5,7 @@ from typing import List
 
 from pandas import DataFrame, ExcelFile, Series, read_excel
 
-from utils.security import validate_file_size, sanitize_filename
+from utils.security import sanitize_filename, validate_file_size
 
 
 class DataVisualizationError(Exception):

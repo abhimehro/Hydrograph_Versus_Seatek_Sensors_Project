@@ -99,13 +99,9 @@ class ChartGenerator:
             logger.debug(f"Data shape: {data.shape}")
 
             # Calculate metrics
-            metrics.sensor_count = (
-                data[sensor].count() if sensor in data.columns else 0
-            )
+            metrics.sensor_count = data[sensor].count() if sensor in data.columns else 0
             metrics.hydro_count = (
-                data[HYDROGRAPH_COL].count()
-                if HYDROGRAPH_COL in data.columns
-                else 0
+                data[HYDROGRAPH_COL].count() if HYDROGRAPH_COL in data.columns else 0
             )
 
             # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks

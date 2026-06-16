@@ -1,6 +1,5 @@
 import logging
 
-
 try:
     import colorlog
 except ImportError:
