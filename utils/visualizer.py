@@ -121,7 +121,7 @@ class SeatekVisualizer:
         self, ax1: plt.Axes, ax2: plt.Axes, data: pd.DataFrame
     ) -> None:
         """Add hydrograph data to the plot."""
-        hydro_data = data[data["Hydrograph (Lagged)"].notna()]
+        hydro_data = data.dropna(subset=["Hydrograph (Lagged)"])  # ⚡ Bolt Optimization: Use dropna instead of boolean indexing to avoid intermediate Series allocation overhead
 
         if len(hydro_data) > 0:
             ax2.scatter(
