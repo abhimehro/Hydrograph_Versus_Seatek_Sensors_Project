@@ -133,7 +133,7 @@ class ChartGenerator:
         """Add hydrograph data to the plot."""
         try:
             ax2 = ax1.twinx()
-            hydro_data = data[data["Hydrograph (Lagged)"].notna()]
+            hydro_data = data.dropna(subset=["Hydrograph (Lagged)"])  # ⚡ Bolt Optimization: Use dropna instead of boolean indexing to avoid intermediate Series allocation overhead
 
             if len(hydro_data) > 0:
                 ax2.scatter(

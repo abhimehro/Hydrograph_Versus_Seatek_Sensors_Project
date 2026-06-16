@@ -198,7 +198,7 @@ class ChartGenerator:
             data: DataFrame containing sensor data
             sensor: Name of the sensor column
         """
-        sensor_data = data[data[sensor].notna()]
+        sensor_data = data.dropna(subset=[sensor])  # ⚡ Bolt Optimization: Use dropna instead of boolean indexing to avoid intermediate Series allocation overhead
 
         # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
         if len(sensor_data) > 0:
@@ -227,7 +227,7 @@ class ChartGenerator:
         """
         try:
             ax2 = ax1.twinx()
-            hydro_data = data[data["Hydrograph (Lagged)"].notna()]
+            hydro_data = data.dropna(subset=["Hydrograph (Lagged)"])  # ⚡ Bolt Optimization: Use dropna instead of boolean indexing to avoid intermediate Series allocation overhead
 
             # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
             if len(hydro_data) > 0:
