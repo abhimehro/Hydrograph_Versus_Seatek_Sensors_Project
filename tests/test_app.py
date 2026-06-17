@@ -56,6 +56,97 @@ class TestApplication(unittest.TestCase):
         # Test loading data failure
         self.assertFalse(app.load_data())
 
+    def _setup_mock_processor(self, app: Application) -> mock.MagicMock:
+        """Helper to set up a mock processor with basic river mile data."""
+        app.processor = mock.MagicMock()
+        rm_data = mock.MagicMock()
+        rm_data.river_mile = 12.3
+        rm_data.year_data_cache = {2020: {}}
+        rm_data.sensors = ["sensor_1"]
+        app.processor.river_mile_data = {"12.3": rm_data}
+        return app.processor
+
+    def _setup_processing_test(self, mock_chart_gen_class: mock.MagicMock) -> tuple[Application, mock.MagicMock]:
+        """Helper to set up Application, processor and chart generator mocks for processing tests."""
+        app = Application(config=self.temp_config)
+        self._setup_mock_processor(app)
+        app.processor.process_data.return_value = ([1], {})
+        app.chart_generator = mock_chart_gen_class.return_value
+        return app, app.chart_generator
+
+    def test_process_data_no_processor(self) -> None:
+        """Test process_data when processor is not initialized."""
+        app = Application(config=self.temp_config)
+        with mock.patch.object(app.logger, "error") as mock_logger:
+            self.assertFalse(app.process_data())
+            mock_logger.assert_called_once()
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
+    def test_process_data_success(self, mock_chart_gen_class: mock.MagicMock) -> None:
+        """Test successful data processing."""
+        app, chart_gen = self._setup_processing_test(mock_chart_gen_class)
+        chart_gen.create_chart.return_value = (mock.MagicMock(), {})
+
+        with mock.patch.object(app, "_save_generated_chart", return_value=True) as mock_save:
+            self.assertTrue(app.process_data())
+            mock_save.assert_called_once()
+
+    def test_process_data_empty_data(self) -> None:
+        """Test process_data when processor returns empty data."""
+        app = Application(config=self.temp_config)
+        self._setup_mock_processor(app)
+
+        # Return empty list
+        app.processor.process_data.return_value = ([], {})
+
+        with mock.patch.object(app.logger, "warning") as mock_warning:
+            self.assertTrue(app.process_data())
+            mock_warning.assert_called_once()
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
+    def test_process_data_chart_generation_failure(self, mock_chart_gen_class: mock.MagicMock) -> None:
+        """Test process_data when chart generation fails."""
+        app, chart_gen = self._setup_processing_test(mock_chart_gen_class)
+        chart_gen.create_chart.return_value = (None, None)
+
+        with mock.patch.object(app.logger, "error") as mock_error:
+            self.assertFalse(app.process_data())
+            mock_error.assert_called_once()
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
+    def test_process_data_save_chart_failure(self, mock_chart_gen_class: mock.MagicMock) -> None:
+        """Test process_data when saving chart fails."""
+        app, chart_gen = self._setup_processing_test(mock_chart_gen_class)
+        chart_gen.create_chart.return_value = (mock.MagicMock(), {})
+
+        with mock.patch.object(app, "_save_generated_chart", return_value=False):
+            self.assertFalse(app.process_data())
+
+    def test_process_data_exception_during_processing(self) -> None:
+        """Test process_data when processor raises exception."""
+        app = Application(config=self.temp_config)
+        self._setup_mock_processor(app)
+
+        app.processor.process_data.side_effect = Exception("Test Exception")
+
+        with mock.patch.object(app.logger, "error") as mock_error:
+            self.assertFalse(app.process_data())
+            mock_error.assert_called()
+
+    def test_process_data_exception_overall(self) -> None:
+        """Test process_data when an unexpected overall exception occurs."""
+        app = Application(config=self.temp_config)
+
+        # Safe way to trigger the outer except block:
+        # We mock processor with a regular Mock (not MagicMock) and delete the
+        # river_mile_data attribute to trigger an AttributeError when accessed.
+        app.processor = mock.Mock()
+        del app.processor.river_mile_data
+
+        with mock.patch.object(app.logger, "error") as mock_error:
+            self.assertFalse(app.process_data())
+            mock_error.assert_called_once()
+
 
 class TestMain(unittest.TestCase):
     """Tests for the main function."""
@@ -63,9 +154,7 @@ class TestMain(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
     @mock.patch("src.hydrograph_seatek_analysis.app.Application")
     @mock.patch("src.hydrograph_seatek_analysis.app.Path")
-    def test_main_success(
-        self, mock_path, mock_app_class, mock_configure_logger
-    ) -> None:
+    def test_main_success(self, mock_path, mock_app_class, mock_configure_logger) -> None:
         """Test main execution returning 0 on success."""
         mock_app_instance = mock.MagicMock()
         mock_app_instance.run.return_value = True
@@ -81,9 +170,7 @@ class TestMain(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
     @mock.patch("src.hydrograph_seatek_analysis.app.Application")
     @mock.patch("src.hydrograph_seatek_analysis.app.Path")
-    def test_main_failure(
-        self, mock_path, mock_app_class, mock_configure_logger
-    ) -> None:
+    def test_main_failure(self, mock_path, mock_app_class, mock_configure_logger) -> None:
         """Test main execution returning 1 on app failure."""
         mock_app_instance = mock.MagicMock()
         mock_app_instance.run.return_value = False
@@ -100,15 +187,11 @@ class TestMain(unittest.TestCase):
         """Test main execution returning 1 on exception."""
         mock_configure_logger.side_effect = Exception("Test Exception")
 
-        with mock.patch(
-            "src.hydrograph_seatek_analysis.app.logging.error"
-        ) as mock_logging_error:
+        with mock.patch("src.hydrograph_seatek_analysis.app.logging.error") as mock_logging_error:
             exit_code = main()
 
         self.assertEqual(exit_code, 1)
-        mock_logging_error.assert_called_once_with(
-            "Fatal error in main execution: Test Exception"
-        )
+        mock_logging_error.assert_called_once_with("Fatal error in main execution: Test Exception")
 
 
 if __name__ == "__main__":
