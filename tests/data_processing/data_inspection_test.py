@@ -6,6 +6,7 @@ import logging
 from pathlib import Path
 
 import pandas as pd
+import numpy as np
 
 from utils.security import validate_file_size
 
@@ -73,7 +74,7 @@ def inspect_sheet(excel: pd.ExcelFile, sheet_name: str) -> None:
         if sensor_cols:
             logger.info("\nSensor columns found:")
             for col in sensor_cols:
-                non_null = df[col].count()
+                non_null = len(df) - np.count_nonzero(pd.isna(df[col].values))  # ⚡ Bolt Optimization: Use numpy for faster non-null counting
                 unique_vals = df[col].nunique()
                 logger.info(
                     f"{col}: {non_null} non-null values, {unique_vals} unique values"
