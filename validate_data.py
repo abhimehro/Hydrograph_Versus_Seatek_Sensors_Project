@@ -156,7 +156,7 @@ def _print_consistency_results(consistency: Optional[dict]) -> None:
             )
 
 
-def _print_human_readable_results(results, config):
+def _print_human_readable_results(results: dict, config: Config) -> None:
     """Print human-readable results of validation."""
     print("\n" + "=" * 10 + " ✨ DATA VALIDATION RESULTS ✨ " + "=" * 10 + "\n")
 
