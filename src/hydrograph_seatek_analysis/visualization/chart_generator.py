@@ -8,6 +8,7 @@ from typing import Optional, Tuple
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import pandas as pd
+import numpy as np
 import seaborn as sns
 from matplotlib.figure import Figure
 
@@ -99,9 +100,9 @@ class ChartGenerator:
             logger.debug(f"Data shape: {data.shape}")
 
             # Calculate metrics
-            metrics.sensor_count = data[sensor].count() if sensor in data.columns else 0
+            metrics.sensor_count = (len(data) - np.count_nonzero(pd.isna(data[sensor].values))) if sensor in data.columns else 0  # ⚡ Bolt Optimization: Use numpy for faster non-null counting
             metrics.hydro_count = (
-                data[HYDROGRAPH_COL].count() if HYDROGRAPH_COL in data.columns else 0
+                (len(data) - np.count_nonzero(pd.isna(data[HYDROGRAPH_COL].values))) if HYDROGRAPH_COL in data.columns else 0  # ⚡ Bolt Optimization: Use numpy for faster non-null counting
             )
 
             # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
