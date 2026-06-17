@@ -61,7 +61,7 @@ def _print_summary_results(summary: Optional[dict], config: Config) -> None:
         )
 
 
-def _print_hydrograph_results(hydrograph, config):
+def _print_hydrograph_results(hydrograph: Optional[dict], config: Config) -> None:
     """Print hydrograph file validation results."""
     print("\n" + " 🌊 HYDROGRAPH FILE ".center(51, "="))
     if hydrograph:
