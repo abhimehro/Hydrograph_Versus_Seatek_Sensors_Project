@@ -1,3 +1,7 @@
+## 2024-05-24 - Pandas Boolean Mask Optimization
+**Learning:** When applying multiple boolean filters to a Pandas Series (like removing NaNs, zeros, negatives, and infinities), each chained condition `&` creates a full intermediate boolean Series in memory. However, conditions like `data > 0` naturally evaluate to `False` for `NaN`, `0`, and `-inf`.
+**Action:** Remove redundant checks like `.notna()`, `!= 0`, and `!= float('-inf')` when possible. For strictly positive finite numbers, use `(data > 0) & (data < float("inf"))` instead of explicitly chaining five separate filters. This avoids unnecessary memory allocations and significantly speeds up filtering.
+
 ## 2024-03-07 - Optimize Excel validation empty fallback loading
 
 **Learning:** Using `pd.read_excel` with `usecols=callable` requires traversing the file's structure. If the callable returns no columns (e.g., required columns are missing), the dataframe is empty. In `src/hydrograph_seatek_analysis/data/validator.py`, a fallback was checking for an empty dataframe and re-loading the file just to retrieve the first column to determine the row count, resulting in two complete reads of the Excel file for invalid/empty datasets.

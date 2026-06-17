@@ -21,13 +21,8 @@ def get_project_root() -> Path:
 
 def validate_numeric_data(data: Series) -> Series:
     """Validate and clean numeric data in a pandas Series."""
-    return data[
-        data.notna()
-        & (data != 0)
-        & (data > 0)
-        & (data != float("inf"))
-        & (data != float("-inf"))
-    ]
+    # ⚡ Bolt Optimization: Replace redundant boolean checks with (data > 0) & (data < inf) to avoid allocating multiple intermediate Pandas Series
+    return data[(data > 0) & (data < float("inf"))]
 
 
 def clean_data(data: DataFrame, required_columns: List[str]) -> DataFrame:
