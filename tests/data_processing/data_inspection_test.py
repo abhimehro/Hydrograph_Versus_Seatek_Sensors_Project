@@ -5,8 +5,8 @@ Script to inspect Excel data structure and content.
 import logging
 from pathlib import Path
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from utils.security import validate_file_size
 
