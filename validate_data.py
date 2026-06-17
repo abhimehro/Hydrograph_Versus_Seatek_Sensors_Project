@@ -129,7 +129,7 @@ def _print_processed_results(processed: Optional[list]) -> None:
         )
 
 
-def _print_consistency_results(consistency):
+def _print_consistency_results(consistency: Optional[dict]) -> None:
     """Print consistency validation results."""
     if consistency:
         print("\n" + " 🔗 RIVER MILE CONSISTENCY ".center(51, "="))
