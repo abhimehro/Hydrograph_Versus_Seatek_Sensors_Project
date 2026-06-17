@@ -92,7 +92,7 @@ def _print_hydrograph_results(hydrograph: Optional[dict], config: Config) -> Non
         )
 
 
-def _print_processed_results(processed):
+def _print_processed_results(processed: Optional[list]) -> None:
     """Print processed files validation results."""
     print("\n" + " ⚙️  PROCESSED FILES ".center(51, "="))
     if processed:
