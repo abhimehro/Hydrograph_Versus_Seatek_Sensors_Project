@@ -40,7 +40,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def _print_summary_results(summary, config):
+def _print_summary_results(summary: Optional[dict], config: Config) -> None:
     """Print summary file validation results."""
     print(" 📋 SUMMARY FILE ".center(51, "="))
     if summary:
