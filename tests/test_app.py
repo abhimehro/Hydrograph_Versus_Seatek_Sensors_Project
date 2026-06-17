@@ -56,9 +56,6 @@ class TestApplication(unittest.TestCase):
         # Test loading data failure
         self.assertFalse(app.load_data())
 
-
-
-
     def _setup_mock_processor(self, app: Application) -> mock.MagicMock:
         """Helper to set up a mock processor with basic river mile data."""
         app.processor = mock.MagicMock()
@@ -68,6 +65,14 @@ class TestApplication(unittest.TestCase):
         rm_data.sensors = ["sensor_1"]
         app.processor.river_mile_data = {"12.3": rm_data}
         return app.processor
+
+    def _setup_processing_test(self, mock_chart_gen_class: mock.MagicMock) -> tuple[Application, mock.MagicMock]:
+        """Helper to set up Application, processor and chart generator mocks for processing tests."""
+        app = Application(config=self.temp_config)
+        self._setup_mock_processor(app)
+        app.processor.process_data.return_value = ([1], {})
+        app.chart_generator = mock_chart_gen_class.return_value
+        return app, app.chart_generator
 
     def test_process_data_no_processor(self) -> None:
         """Test process_data when processor is not initialized."""
@@ -79,15 +84,8 @@ class TestApplication(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
     def test_process_data_success(self, mock_chart_gen_class: mock.MagicMock) -> None:
         """Test successful data processing."""
-        app = Application(config=self.temp_config)
-        self._setup_mock_processor(app)
-
-        # Setup processor to return data
-        app.processor.process_data.return_value = ([1], {})
-
-        # Setup chart generator
-        app.chart_generator = mock_chart_gen_class.return_value
-        app.chart_generator.create_chart.return_value = (mock.MagicMock(), {})
+        app, chart_gen = self._setup_processing_test(mock_chart_gen_class)
+        chart_gen.create_chart.return_value = (mock.MagicMock(), {})
 
         with mock.patch.object(app, "_save_generated_chart", return_value=True) as mock_save:
             self.assertTrue(app.process_data())
@@ -108,15 +106,8 @@ class TestApplication(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
     def test_process_data_chart_generation_failure(self, mock_chart_gen_class: mock.MagicMock) -> None:
         """Test process_data when chart generation fails."""
-        app = Application(config=self.temp_config)
-        self._setup_mock_processor(app)
-
-        # Mock process data to return something
-        app.processor.process_data.return_value = ([1], {})
-
-        # Fail chart generation
-        app.chart_generator = mock_chart_gen_class.return_value
-        app.chart_generator.create_chart.return_value = (None, None)
+        app, chart_gen = self._setup_processing_test(mock_chart_gen_class)
+        chart_gen.create_chart.return_value = (None, None)
 
         with mock.patch.object(app.logger, "error") as mock_error:
             self.assertFalse(app.process_data())
@@ -125,13 +116,8 @@ class TestApplication(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
     def test_process_data_save_chart_failure(self, mock_chart_gen_class: mock.MagicMock) -> None:
         """Test process_data when saving chart fails."""
-        app = Application(config=self.temp_config)
-        self._setup_mock_processor(app)
-
-        app.processor.process_data.return_value = ([1], {})
-
-        app.chart_generator = mock_chart_gen_class.return_value
-        app.chart_generator.create_chart.return_value = (mock.MagicMock(), {})
+        app, chart_gen = self._setup_processing_test(mock_chart_gen_class)
+        chart_gen.create_chart.return_value = (mock.MagicMock(), {})
 
         with mock.patch.object(app, "_save_generated_chart", return_value=False):
             self.assertFalse(app.process_data())

@@ -75,6 +75,121 @@ class ChartGenerator:
             }
         )
 
+    def _calculate_chart_metrics(self, data: pd.DataFrame, sensor: str) -> ChartMetrics:
+        """
+        Calculate metrics for the given data and sensor.
+
+        Args:
+            data: DataFrame containing processed data
+            sensor: Sensor name
+
+        Returns:
+            ChartMetrics object with calculated values
+        """
+        metrics = ChartMetrics()
+        metrics.sensor_count = (
+            data[sensor].count() if sensor in data.columns else 0
+        )
+        metrics.hydro_count = (
+            data[HYDROGRAPH_COL].count()
+            if HYDROGRAPH_COL in data.columns
+            else 0
+        )
+
+        # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
+        if "Time (Minutes)" in data.columns and len(data) > 0:
+            metrics.time_range_min = data["Time (Minutes)"].min()
+            metrics.time_range_max = data["Time (Minutes)"].max()
+
+        # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
+        if sensor in data.columns and len(data) > 0:
+            metrics.sensor_min = data[sensor].min()
+            metrics.sensor_max = data[sensor].max()
+
+        if (
+            "Hydrograph (Lagged)" in data.columns
+            # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
+            and len(data) > 0
+        ):
+            metrics.hydro_min = data["Hydrograph (Lagged)"].min()
+            metrics.hydro_max = data["Hydrograph (Lagged)"].max()
+
+        return metrics
+
+    def _create_and_configure_plot(
+        self, data: pd.DataFrame, sensor: str, metrics: ChartMetrics, plot_info: Tuple[float, int]
+    ) -> Figure:
+        """
+        Create and configure the chart figure and axes.
+
+        Args:
+            data: DataFrame containing processed data
+            sensor: Sensor name
+            metrics: Calculated chart metrics
+            plot_info: A tuple of (river_mile, year)
+
+        Returns:
+            Configured Figure object
+        """
+        river_mile, year = plot_info
+
+        # Create figure
+        fig, ax1 = plt.subplots(figsize=self.chart_settings.figure_size)
+        fig.patch.set_facecolor("white")
+
+        # Plot Seatek data if present
+        if sensor in data.columns and metrics.sensor_count > 0:
+            self._add_sensor_data(ax1, data, sensor)
+
+        # Configure primary axis
+        ax1.set_xlabel("Time (Minutes)", fontsize=12, labelpad=10)
+        ax1.set_ylabel(
+            "Seatek Sensor Reading (NAVD88)", color=SEATEK_COLOR, fontsize=12
+        )
+        ax1.tick_params(axis="y", labelcolor=SEATEK_COLOR)
+        ax1.grid(True, alpha=0.2, linestyle=":")
+
+        # Format NAVD88 axis ticks with decimal precision
+        ax1.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
+
+        # Format X-axis to have comma separators for large numbers
+        ax1.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
+
+        # Add hydrograph if available
+        ax2 = None
+        if "Hydrograph (Lagged)" in data.columns and metrics.hydro_count > 0:
+            ax2 = self._add_hydrograph(ax1, data)
+
+        # Collect legend handles and labels
+        lines, labels = ax1.get_legend_handles_labels()
+        if ax2 is not None:
+            lines2, labels2 = ax2.get_legend_handles_labels()
+            lines.extend(lines2)
+            labels.extend(labels2)
+
+        if lines:
+            ax1.legend(
+                lines,
+                labels,
+                loc="upper center",
+                bbox_to_anchor=(0.5, -0.15),
+                framealpha=1.0,
+                edgecolor="#333333",
+                ncol=2,
+                fontsize=11,
+            )
+
+        # Set title and format plot
+        sensor_num = sensor.split("_")[1] if "_" in sensor else sensor
+        title_text = f"River Mile {river_mile:.1f} - Year {year}\nSeatek Sensor {sensor_num} Data"
+        if ax2 is not None:
+            title_text += " with Hydrograph"
+
+        plt.title(title_text, pad=20, fontsize=14)
+
+        plt.tight_layout()
+        return fig
+
     def create_chart(
         self, data: pd.DataFrame, river_mile: float, year: int, sensor: str
     ) -> Tuple[Optional[Figure], ChartMetrics]:
@@ -90,102 +205,20 @@ class ChartGenerator:
         Returns:
             Tuple containing Figure object and ChartMetrics
         """
-        metrics = ChartMetrics()
-
         try:
             logger.debug(
                 f"Creating chart for RM {river_mile}, Year {year}, Sensor {sensor}"
             )
             logger.debug(f"Data shape: {data.shape}")
 
-            # Calculate metrics
-            metrics.sensor_count = (
-                data[sensor].count() if sensor in data.columns else 0
-            )
-            metrics.hydro_count = (
-                data[HYDROGRAPH_COL].count()
-                if HYDROGRAPH_COL in data.columns
-                else 0
-            )
-
-            # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
-            if "Time (Minutes)" in data.columns and len(data) > 0:
-                metrics.time_range_min = data["Time (Minutes)"].min()
-                metrics.time_range_max = data["Time (Minutes)"].max()
-
-            # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
-            if sensor in data.columns and len(data) > 0:
-                metrics.sensor_min = data[sensor].min()
-                metrics.sensor_max = data[sensor].max()
-
-            if (
-                "Hydrograph (Lagged)" in data.columns
-                # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
-                and len(data) > 0
-            ):
-                metrics.hydro_min = data["Hydrograph (Lagged)"].min()
-                metrics.hydro_max = data["Hydrograph (Lagged)"].max()
-
-            # Create figure
-            fig, ax1 = plt.subplots(figsize=self.chart_settings.figure_size)
-            fig.patch.set_facecolor("white")
-
-            # Plot Seatek data if present
-            if sensor in data.columns and metrics.sensor_count > 0:
-                self._add_sensor_data(ax1, data, sensor)
-
-            # Configure primary axis
-            ax1.set_xlabel("Time (Minutes)", fontsize=12, labelpad=10)
-            ax1.set_ylabel(
-                "Seatek Sensor Reading (NAVD88)", color=SEATEK_COLOR, fontsize=12
-            )
-            ax1.tick_params(axis="y", labelcolor=SEATEK_COLOR)
-            ax1.grid(True, alpha=0.2, linestyle=":")
-
-            # Format NAVD88 axis ticks with decimal precision
-            ax1.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
-
-            # Format X-axis to have comma separators for large numbers
-            ax1.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
-
-            # Add hydrograph if available
-            ax2 = None
-            if "Hydrograph (Lagged)" in data.columns and metrics.hydro_count > 0:
-                ax2 = self._add_hydrograph(ax1, data)
-
-            # Collect legend handles and labels
-            lines, labels = ax1.get_legend_handles_labels()
-            if ax2 is not None:
-                lines2, labels2 = ax2.get_legend_handles_labels()
-                lines.extend(lines2)
-                labels.extend(labels2)
-
-            if lines:
-                ax1.legend(
-                    lines,
-                    labels,
-                    loc="upper center",
-                    bbox_to_anchor=(0.5, -0.15),
-                    framealpha=1.0,
-                    edgecolor="#333333",
-                    ncol=2,
-                    fontsize=11,
-                )
-
-            # Set title and format plot
-            sensor_num = sensor.split("_")[1] if "_" in sensor else sensor
-            title_text = f"River Mile {river_mile:.1f} - Year {year}\nSeatek Sensor {sensor_num} Data"
-            if ax2 is not None:
-                title_text += " with Hydrograph"
-
-            plt.title(title_text, pad=20, fontsize=14)
-
-            plt.tight_layout()
+            metrics = self._calculate_chart_metrics(data, sensor)
+            fig = self._create_and_configure_plot(data, sensor, metrics, (river_mile, year))
             return fig, metrics
 
         except Exception as e:
             logger.error(f"Error creating chart: {str(e)}")
             plt.close("all")  # Close any open figures on error
+            metrics = ChartMetrics()
             return None, metrics
 
     @staticmethod
