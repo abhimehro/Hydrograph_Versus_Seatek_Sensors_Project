@@ -66,7 +66,9 @@ class TestApplication(unittest.TestCase):
         app.processor.river_mile_data = {"12.3": rm_data}
         return app.processor
 
-    def _setup_processing_test(self, mock_chart_gen_class: mock.MagicMock) -> tuple[Application, mock.MagicMock]:
+    def _setup_processing_test(
+        self, mock_chart_gen_class: mock.MagicMock
+    ) -> tuple[Application, mock.MagicMock]:
         """Helper to set up Application, processor and chart generator mocks for processing tests."""
         app = Application(config=self.temp_config)
         self._setup_mock_processor(app)
@@ -87,7 +89,9 @@ class TestApplication(unittest.TestCase):
         app, chart_gen = self._setup_processing_test(mock_chart_gen_class)
         chart_gen.create_chart.return_value = (mock.MagicMock(), {})
 
-        with mock.patch.object(app, "_save_generated_chart", return_value=True) as mock_save:
+        with mock.patch.object(
+            app, "_save_generated_chart", return_value=True
+        ) as mock_save:
             self.assertTrue(app.process_data())
             mock_save.assert_called_once()
 
@@ -104,7 +108,9 @@ class TestApplication(unittest.TestCase):
             mock_warning.assert_called_once()
 
     @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
-    def test_process_data_chart_generation_failure(self, mock_chart_gen_class: mock.MagicMock) -> None:
+    def test_process_data_chart_generation_failure(
+        self, mock_chart_gen_class: mock.MagicMock
+    ) -> None:
         """Test process_data when chart generation fails."""
         app, chart_gen = self._setup_processing_test(mock_chart_gen_class)
         chart_gen.create_chart.return_value = (None, None)
@@ -114,7 +120,9 @@ class TestApplication(unittest.TestCase):
             mock_error.assert_called_once()
 
     @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
-    def test_process_data_save_chart_failure(self, mock_chart_gen_class: mock.MagicMock) -> None:
+    def test_process_data_save_chart_failure(
+        self, mock_chart_gen_class: mock.MagicMock
+    ) -> None:
         """Test process_data when saving chart fails."""
         app, chart_gen = self._setup_processing_test(mock_chart_gen_class)
         chart_gen.create_chart.return_value = (mock.MagicMock(), {})
@@ -154,7 +162,9 @@ class TestMain(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
     @mock.patch("src.hydrograph_seatek_analysis.app.Application")
     @mock.patch("src.hydrograph_seatek_analysis.app.Path")
-    def test_main_success(self, mock_path, mock_app_class, mock_configure_logger) -> None:
+    def test_main_success(
+        self, mock_path, mock_app_class, mock_configure_logger
+    ) -> None:
         """Test main execution returning 0 on success."""
         mock_app_instance = mock.MagicMock()
         mock_app_instance.run.return_value = True
@@ -170,7 +180,9 @@ class TestMain(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
     @mock.patch("src.hydrograph_seatek_analysis.app.Application")
     @mock.patch("src.hydrograph_seatek_analysis.app.Path")
-    def test_main_failure(self, mock_path, mock_app_class, mock_configure_logger) -> None:
+    def test_main_failure(
+        self, mock_path, mock_app_class, mock_configure_logger
+    ) -> None:
         """Test main execution returning 1 on app failure."""
         mock_app_instance = mock.MagicMock()
         mock_app_instance.run.return_value = False
@@ -187,11 +199,15 @@ class TestMain(unittest.TestCase):
         """Test main execution returning 1 on exception."""
         mock_configure_logger.side_effect = Exception("Test Exception")
 
-        with mock.patch("src.hydrograph_seatek_analysis.app.logging.error") as mock_logging_error:
+        with mock.patch(
+            "src.hydrograph_seatek_analysis.app.logging.error"
+        ) as mock_logging_error:
             exit_code = main()
 
         self.assertEqual(exit_code, 1)
-        mock_logging_error.assert_called_once_with("Fatal error in main execution: Test Exception")
+        mock_logging_error.assert_called_once_with(
+            "Fatal error in main execution: Test Exception"
+        )
 
 
 if __name__ == "__main__":

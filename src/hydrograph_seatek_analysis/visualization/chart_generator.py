@@ -100,9 +100,15 @@ class ChartGenerator:
             logger.debug(f"Data shape: {data.shape}")
 
             # Calculate metrics
-            metrics.sensor_count = (len(data) - np.count_nonzero(pd.isna(data[sensor].values))) if sensor in data.columns else 0  # ⚡ Bolt Optimization: Use numpy for faster non-null counting
+            metrics.sensor_count = (
+                (len(data) - np.count_nonzero(pd.isna(data[sensor].values)))
+                if sensor in data.columns
+                else 0
+            )  # ⚡ Bolt Optimization: Use numpy for faster non-null counting
             metrics.hydro_count = (
-                (len(data) - np.count_nonzero(pd.isna(data[HYDROGRAPH_COL].values))) if HYDROGRAPH_COL in data.columns else 0  # ⚡ Bolt Optimization: Use numpy for faster non-null counting
+                (len(data) - np.count_nonzero(pd.isna(data[HYDROGRAPH_COL].values)))
+                if HYDROGRAPH_COL in data.columns
+                else 0  # ⚡ Bolt Optimization: Use numpy for faster non-null counting
             )
 
             # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
@@ -195,7 +201,9 @@ class ChartGenerator:
             data: DataFrame containing sensor data
             sensor: Name of the sensor column
         """
-        sensor_data = data.dropna(subset=[sensor])  # ⚡ Bolt Optimization: Use dropna instead of boolean indexing to avoid intermediate Series allocation overhead
+        sensor_data = data.dropna(
+            subset=[sensor]
+        )  # ⚡ Bolt Optimization: Use dropna instead of boolean indexing to avoid intermediate Series allocation overhead
 
         # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
         if len(sensor_data) > 0:
@@ -224,7 +232,9 @@ class ChartGenerator:
         """
         try:
             ax2 = ax1.twinx()
-            hydro_data = data.dropna(subset=["Hydrograph (Lagged)"])  # ⚡ Bolt Optimization: Use dropna instead of boolean indexing to avoid intermediate Series allocation overhead
+            hydro_data = data.dropna(
+                subset=["Hydrograph (Lagged)"]
+            )  # ⚡ Bolt Optimization: Use dropna instead of boolean indexing to avoid intermediate Series allocation overhead
 
             # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
             if len(hydro_data) > 0:
