@@ -76,6 +76,44 @@ class ChartGenerator:
             }
         )
 
+    def _calculate_metrics(
+        self, data: pd.DataFrame, sensor: str, metrics: ChartMetrics
+    ) -> None:
+        """Calculate chart metrics from data."""
+        metrics.sensor_count = (
+            (len(data) - np.count_nonzero(pd.isna(data[sensor].values)))
+            if sensor in data.columns
+            else 0
+        )
+        metrics.hydro_count = (
+            (len(data) - np.count_nonzero(pd.isna(data[HYDROGRAPH_COL].values)))
+            if HYDROGRAPH_COL in data.columns
+            else 0
+        )
+
+        if "Time (Minutes)" in data.columns and len(data) > 0:
+            metrics.time_range_min = data["Time (Minutes)"].min()
+            metrics.time_range_max = data["Time (Minutes)"].max()
+
+        if sensor in data.columns and len(data) > 0:
+            metrics.sensor_min = data[sensor].min()
+            metrics.sensor_max = data[sensor].max()
+
+        if "Hydrograph (Lagged)" in data.columns and len(data) > 0:
+            metrics.hydro_min = data["Hydrograph (Lagged)"].min()
+            metrics.hydro_max = data["Hydrograph (Lagged)"].max()
+
+    def _configure_primary_axis(self, ax1: plt.Axes) -> None:
+        """Configure labels, colors, ticks, and formatters for the primary axis."""
+        ax1.set_xlabel("Time (Minutes)", fontsize=12, labelpad=10)
+        ax1.set_ylabel(
+            "Seatek Sensor Reading (NAVD88)", color=SEATEK_COLOR, fontsize=12
+        )
+        ax1.tick_params(axis="y", labelcolor=SEATEK_COLOR)
+        ax1.grid(True, alpha=0.2, linestyle=":")
+        ax1.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
+        ax1.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
+
     def create_chart(
         self, data: pd.DataFrame, river_mile: float, year: int, sensor: str
     ) -> Tuple[Optional[Figure], ChartMetrics]:
@@ -99,35 +137,8 @@ class ChartGenerator:
             )
             logger.debug(f"Data shape: {data.shape}")
 
-            # Calculate metrics
-            metrics.sensor_count = (
-                (len(data) - np.count_nonzero(pd.isna(data[sensor].values)))
-                if sensor in data.columns
-                else 0
-            )  # ⚡ Bolt Optimization: Use numpy for faster non-null counting
-            metrics.hydro_count = (
-                (len(data) - np.count_nonzero(pd.isna(data[HYDROGRAPH_COL].values)))
-                if HYDROGRAPH_COL in data.columns
-                else 0  # ⚡ Bolt Optimization: Use numpy for faster non-null counting
-            )
-
-            # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
-            if "Time (Minutes)" in data.columns and len(data) > 0:
-                metrics.time_range_min = data["Time (Minutes)"].min()
-                metrics.time_range_max = data["Time (Minutes)"].max()
-
-            # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
-            if sensor in data.columns and len(data) > 0:
-                metrics.sensor_min = data[sensor].min()
-                metrics.sensor_max = data[sensor].max()
-
-            if (
-                "Hydrograph (Lagged)" in data.columns
-                # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
-                and len(data) > 0
-            ):
-                metrics.hydro_min = data["Hydrograph (Lagged)"].min()
-                metrics.hydro_max = data["Hydrograph (Lagged)"].max()
+            # Calculate metrics using helper method
+            self._calculate_metrics(data, sensor, metrics)
 
             # Create figure
             fig, ax1 = plt.subplots(figsize=self.chart_settings.figure_size)
@@ -138,18 +149,7 @@ class ChartGenerator:
                 self._add_sensor_data(ax1, data, sensor)
 
             # Configure primary axis
-            ax1.set_xlabel("Time (Minutes)", fontsize=12, labelpad=10)
-            ax1.set_ylabel(
-                "Seatek Sensor Reading (NAVD88)", color=SEATEK_COLOR, fontsize=12
-            )
-            ax1.tick_params(axis="y", labelcolor=SEATEK_COLOR)
-            ax1.grid(True, alpha=0.2, linestyle=":")
-
-            # Format NAVD88 axis ticks with decimal precision
-            ax1.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
-
-            # Format X-axis to have comma separators for large numbers
-            ax1.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
+            self._configure_primary_axis(ax1)
 
             # Add hydrograph if available
             ax2 = None
