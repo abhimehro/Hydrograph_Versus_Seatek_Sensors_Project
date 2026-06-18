@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 from typing import Optional
 
-from utils.security import sanitize_filename
+from utils.security import is_safe_path, sanitize_filename
 
 from .core.config import Config
 from .core.logger import configure_root_logger
@@ -124,6 +124,11 @@ class Application:
             / f"RM_{safe_rm}"
             / f"Year_{safe_year}_{safe_sensor}.png"
         )
+
+        # SECURITY: Verify that the generated path remains within the output directory
+        if not is_safe_path(self.config.output_dir, output_path):
+            self.logger.error(f"SECURITY: Attempted path traversal detected. Path outside output directory: {output_path}")
+            return False
 
         # Construct metadata for a11y
         metadata = self._create_chart_metadata(rm_data.river_mile, year, sensor)
