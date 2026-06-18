@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import pytest
+
 from src.data_processing import DataProcessor
 from src.visualization import Visualizer
 
