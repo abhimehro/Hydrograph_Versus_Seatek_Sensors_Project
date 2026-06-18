@@ -5,7 +5,7 @@ from typing import List
 
 from pandas import DataFrame, ExcelFile, Series, read_excel
 
-from utils.security import sanitize_filename, validate_file_size
+from utils.security import is_safe_path, sanitize_filename, validate_file_size
 
 
 class DataVisualizationError(Exception):
@@ -67,7 +67,13 @@ def create_output_dir(rm: float) -> Path:
     """Create the output directory for a specific river mile."""
     project_root = get_project_root()
     safe_rm = sanitize_filename(str(rm))
-    output_dir = project_root / "output" / f"RM_{safe_rm}"
+    base_output_dir = project_root / "output"
+    output_dir = base_output_dir / f"RM_{safe_rm}"
+
+    # SECURITY: Verify that the generated output directory remains within the intended base output directory
+    if not is_safe_path(base_output_dir, output_dir):
+        raise ValueError(f"SECURITY: Attempted path traversal detected. Path outside output directory: {output_dir}")
+
     output_dir.mkdir(parents=True, exist_ok=True)
     return output_dir
 

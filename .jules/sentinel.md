@@ -64,3 +64,8 @@
 **Vulnerability:** Although numerical fields formatted securely (e.g. `rm_data.river_mile:.1f`) prevent arbitrary string inputs from passing through to file creation, removing `sanitize_filename()` breaks defense-in-depth principles. Without explicit sanitization, if future changes allow those inputs to become arbitrary strings, it might lead to arbitrary file creation or path traversal vulnerabilities.
 **Learning:** Removing path traversal protections on inputs originally believed to be numbers is considered a direct security downgrade.
 **Prevention:** Apply path traversal protections (like `sanitize_filename`) consistently to all variables used in file path construction, even those explicitly type-hinted and validated as numerical types (e.g., floats like `river_mile`).
+
+## 2024-06-18 - Added is_safe_path as Defense-in-Depth Against Path Traversal
+**Vulnerability:** While dynamic fields used in path generation (like `sensor` and `river_mile`) were sanitized individually via `sanitize_filename`, the overall path concatenation was not verified against the intended base directory. This lacks defense-in-depth, meaning if sanitization on one field failed or was removed, arbitrary file write via path traversal could occur.
+**Learning:** Checking the final resolved path against the intended base directory using `pathlib.Path.resolve().is_relative_to()` ensures that regardless of how the path components are sanitized or formatted, the final file operation cannot escape its sandbox. This serves as a critical secondary check.
+**Prevention:** Implement and use a secondary check like `is_safe_path(base_dir: Path, target_path: Path) -> bool` to verify the fully constructed path before any directory creation or file writing operations occur.
