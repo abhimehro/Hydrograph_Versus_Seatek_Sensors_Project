@@ -42,7 +42,9 @@ def check_excel_structure(file_path: Path) -> None:
                 sensor_cols = [col for col in df.columns if col.startswith("Sensor_")]
                 if sensor_cols:
                     for col in sensor_cols:
-                        non_null = len(df) - np.count_nonzero(pd.isna(df[col].values))  # ⚡ Bolt Optimization: Use numpy for faster non-null counting
+                        non_null = len(df) - np.count_nonzero(
+                            pd.isna(df[col].values)
+                        )  # ⚡ Bolt Optimization: Use numpy for faster non-null counting
                         zeros = np.count_nonzero(df[col].values == 0)
                         logger.info(
                             f"{col}: {non_null} non-null values, "
