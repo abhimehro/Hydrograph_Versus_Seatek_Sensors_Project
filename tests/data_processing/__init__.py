@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 import sys
 from typing import Dict, Tuple
 
@@ -38,6 +39,7 @@ class DataProcessor:
             )
 
             # Read all sheets for river mile data
+            validate_file_size(Path(self.file_path), 100 * 1024 * 1024)
             excel_file = pd.ExcelFile(self.file_path)
             sheet_names = excel_file.sheet_names
 

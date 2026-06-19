@@ -69,3 +69,10 @@
 **Vulnerability:** While dynamic fields used in path generation (like `sensor` and `river_mile`) were sanitized individually via `sanitize_filename`, the overall path concatenation was not verified against the intended base directory. This lacks defense-in-depth, meaning if sanitization on one field failed or was removed, arbitrary file write via path traversal could occur.
 **Learning:** Checking the final resolved path against the intended base directory using `pathlib.Path.resolve().is_relative_to()` ensures that regardless of how the path components are sanitized or formatted, the final file operation cannot escape its sandbox. This serves as a critical secondary check.
 **Prevention:** Implement and use a secondary check like `is_safe_path(base_dir: Path, target_path: Path) -> bool` to verify the fully constructed path before any directory creation or file writing operations occur.
+
+
+## 2026-06-18 - pd.ExcelFile Bypass in Tests
+
+**Vulnerability:** Memory exhaustion (DoS) vulnerability in `tests/data_processing/__init__.py` where `pd.ExcelFile()` was called without prior file size validation. Although `pd.read_excel()` calls for specific sheets were preceded by `validate_file_size`, the initial loading of the entire file into an ExcelFile object bypassed the size guard.
+**Learning:** Instantiating `pd.ExcelFile` loads the file contents and can cause memory exhaustion DoS even before individual sheets are parsed with `pd.read_excel()`.
+**Prevention:** Always implement `validate_file_size(file_path, max_size)` from `utils.security` immediately prior to `pd.ExcelFile()` instantiation, as it is a vulnerable entry point for large files.
