@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/tree/HEAD)
+
+[Full Changelog](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/compare/v0.1.0...HEAD)
+
+**Merged pull requests:**
+
+- ⚡ Bolt: \[performance improvement\] Replace Pandas .loc assignments with np.where [\#280](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/280) ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[HIGH\] Fix DoS vulnerability in pd.ExcelFile\(\) [\#276](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/276) ([abhimehro](https://github.com/abhimehro))
+
 ## [v0.1.0](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/tree/v0.1.0) (2026-06-20)
 
 [Full Changelog](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/compare/24b72e37ae61ab7992fb361b35dbcaca2d24d340...v0.1.0)
