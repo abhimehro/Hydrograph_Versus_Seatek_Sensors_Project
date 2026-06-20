@@ -104,6 +104,8 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): bump codescene-oss/pr-refactoring-agent from bc0d8b91c0a1a88154fb1dfb82124f8f43733d65 to 841e34c7ddd7a8ec887d632ac51432d6c71e2fe1 [\#279](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/279) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump ruby/setup-ruby from 1.308.0 to 1.313.0 [\#278](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/278) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump actions/checkout from 6 to 7 [\#277](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/277) ([dependabot[bot]](https://github.com/apps/dependabot))
 - 🛠️ QA: Fix pre-commit CI failures [\#274](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/274) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[security improvement\] [\#272](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/272) ([abhimehro](https://github.com/abhimehro))
