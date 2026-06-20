@@ -6,6 +6,10 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): bump pnpm/action-setup from 6.0.8 to 6.0.9 [\#284](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/284) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump actions/cache from 4.2.3 to 5.0.5 [\#283](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/283) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump actions/checkout from 4.2.2 to 7.0.0 [\#282](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/282) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump release-drafter/release-drafter from 7.2.1 to 7.4.0 [\#281](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/281) ([dependabot[bot]](https://github.com/apps/dependabot))
 - ⚡ Bolt: \[performance improvement\] Replace Pandas .loc assignments with np.where [\#280](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/280) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[HIGH\] Fix DoS vulnerability in pd.ExcelFile\(\) [\#276](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/276) ([abhimehro](https://github.com/abhimehro))
 
