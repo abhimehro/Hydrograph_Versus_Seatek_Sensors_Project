@@ -359,15 +359,17 @@ class SeatekDataProcessor:
         sensor_keep_arr = sensor_mask_arr[keep_mask_arr]
 
         if not sensor_keep_arr.all():
-            merged.loc[~sensor_keep_arr, sensor] = (
-                self._get_na_value(merged[sensor]) if has_hydro else np.nan
-            )
+            # ⚡ Bolt Optimization: Replace merged.loc[~mask, col] with merged[col] = np.where(mask, merged[col], na_val)
+            # This bypasses Pandas DataFrame .loc intermediate object allocation overhead and index alignment.
+            na_val = self._get_na_value(merged[sensor]) if has_hydro else np.nan
+            merged[sensor] = np.where(sensor_keep_arr, merged[sensor], na_val)
 
         if has_hydro and hydro_mask_arr is not None:
             hydro_keep_arr = hydro_mask_arr[keep_mask_arr]
             if not hydro_keep_arr.all():
-                merged.loc[~hydro_keep_arr, "Hydrograph (Lagged)"] = self._get_na_value(
-                    merged["Hydrograph (Lagged)"]
+                na_val = self._get_na_value(merged["Hydrograph (Lagged)"])
+                merged["Hydrograph (Lagged)"] = np.where(
+                    hydro_keep_arr, merged["Hydrograph (Lagged)"], na_val
                 )
 
             if not sensor_any and hydro_any:

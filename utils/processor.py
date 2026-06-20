@@ -277,16 +277,20 @@ class SeatekDataProcessor:
             # Nullify values that are not valid in their respective streams
             if has_hydro:
                 if not sensor_keep_arr.all():
-                    merged.loc[~sensor_keep_arr, sensor] = (
+                    na_val = (
                         pd.NA
                         if pd.api.types.is_object_dtype(merged[sensor])
                         else np.nan
                     )
+                    merged[sensor] = np.where(sensor_keep_arr, merged[sensor], na_val)
                 if not hydro_keep_arr.all():
-                    merged.loc[~hydro_keep_arr, "Hydrograph (Lagged)"] = (
+                    na_val = (
                         pd.NA
                         if pd.api.types.is_object_dtype(merged["Hydrograph (Lagged)"])
                         else np.nan
+                    )
+                    merged["Hydrograph (Lagged)"] = np.where(
+                        hydro_keep_arr, merged["Hydrograph (Lagged)"], na_val
                     )
 
                 # If no valid sensor readings exist but hydrograph data exist, force hydrograph to 0
@@ -295,11 +299,12 @@ class SeatekDataProcessor:
 
             else:
                 if not sensor_keep_arr.all():
-                    merged.loc[~sensor_keep_arr, sensor] = (
+                    na_val = (
                         pd.NA
                         if pd.api.types.is_object_dtype(merged[sensor])
                         else np.nan
                     )
+                    merged[sensor] = np.where(sensor_keep_arr, merged[sensor], na_val)
 
             hydro_any = hydro_mask_arr.any() if has_hydro else False
             cols = self._get_merged_columns(

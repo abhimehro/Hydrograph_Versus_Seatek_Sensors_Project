@@ -127,7 +127,9 @@ class Application:
 
         # SECURITY: Verify that the generated path remains within the output directory
         if not is_safe_path(self.config.output_dir, output_path):
-            self.logger.error(f"SECURITY: Attempted path traversal detected. Path outside output directory: {output_path}")
+            self.logger.error(
+                f"SECURITY: Attempted path traversal detected. Path outside output directory: {output_path}"
+            )
             return False
 
         # Construct metadata for a11y

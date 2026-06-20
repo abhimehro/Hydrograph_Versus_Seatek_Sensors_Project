@@ -135,3 +135,7 @@
 ## 2024-05-27 - Replace df[col].count() with numpy-based non-null counting
 **Learning:** Using `df[col].count()` to find the number of non-null elements is faster than `.notna().sum()`, but it still incurs Pandas object overhead (indexing, metadata checks, etc.). Dropping down to the underlying numpy array and calculating `len(df) - np.count_nonzero(pd.isna(df[col].values))` completely bypasses Pandas overhead, operating directly on memory buffers. This approach yields roughly a 2x speedup compared to `.count()` for large datasets.
 **Action:** Replace `df[col].count()` with `len(df) - np.count_nonzero(pd.isna(df[col].values))` when performance is critical inside processing or testing loops, ensuring `numpy` is imported. Applied this to `chart_generator.py` and data inspection/validation tests.
+
+## 2024-05-27 - Avoid Pandas DataFrame .loc allocation overhead
+**Learning:** Using `merged.loc[~mask, col] = value` implicitly creates intermediate Pandas objects (Series/Index alignment) under the hood during the assignment operation, introducing measurable memory allocation overhead, particularly in tight processing loops.
+**Action:** Replace `.loc` assignment with direct numpy manipulation using `np.where(mask, merged[col], value)`. This operates directly on the underlying numpy array, bypassing Pandas index alignment and intermediate object allocation overhead, resulting in faster execution.
