@@ -338,6 +338,35 @@ class SeatekDataProcessor:
             zero_values,
         )
 
+    def _apply_sensor_sentinels(
+        self,
+        merged: pd.DataFrame,
+        sensor: str,
+        sensor_keep_arr: np.ndarray,
+        has_hydro: bool,
+    ) -> None:
+        if not sensor_keep_arr.all():
+            # ⚡ Bolt Optimization: Replace merged.loc[~mask, col] with merged[col] = np.where(mask, merged[col], na_val)
+            # This bypasses Pandas DataFrame .loc intermediate object allocation overhead and index alignment.
+            na_val = self._get_na_value(merged[sensor]) if has_hydro else np.nan
+            merged[sensor] = np.where(sensor_keep_arr, merged[sensor], na_val)
+
+    def _apply_hydro_sentinels(
+        self,
+        merged: pd.DataFrame,
+        hydro_keep_arr: np.ndarray,
+        sensor_any: bool,
+        hydro_any: bool,
+    ) -> None:
+        if not hydro_keep_arr.all():
+            na_val = self._get_na_value(merged["Hydrograph (Lagged)"])
+            merged["Hydrograph (Lagged)"] = merged["Hydrograph (Lagged)"].where(
+                hydro_keep_arr, na_val
+            )
+
+        if not sensor_any and hydro_any:
+            merged["Hydrograph (Lagged)"] = 0
+
     def _apply_sentinels_and_merge(
         self,
         processed: pd.DataFrame,
@@ -358,22 +387,11 @@ class SeatekDataProcessor:
         merged = processed[keep_mask_arr].copy()
         sensor_keep_arr = sensor_mask_arr[keep_mask_arr]
 
-        if not sensor_keep_arr.all():
-            # ⚡ Bolt Optimization: Replace merged.loc[~mask, col] with merged[col] = np.where(mask, merged[col], na_val)
-            # This bypasses Pandas DataFrame .loc intermediate object allocation overhead and index alignment.
-            na_val = self._get_na_value(merged[sensor]) if has_hydro else np.nan
-            merged[sensor] = np.where(sensor_keep_arr, merged[sensor], na_val)
+        self._apply_sensor_sentinels(merged, sensor, sensor_keep_arr, has_hydro)
 
         if has_hydro and hydro_mask_arr is not None:
             hydro_keep_arr = hydro_mask_arr[keep_mask_arr]
-            if not hydro_keep_arr.all():
-                na_val = self._get_na_value(merged["Hydrograph (Lagged)"])
-                merged["Hydrograph (Lagged)"] = np.where(
-                    hydro_keep_arr, merged["Hydrograph (Lagged)"], na_val
-                )
-
-            if not sensor_any and hydro_any:
-                merged["Hydrograph (Lagged)"] = 0
+            self._apply_hydro_sentinels(merged, hydro_keep_arr, sensor_any, hydro_any)
 
         cols = self._get_merged_columns(has_hydro, sensor_any, hydro_any, sensor)
         merged = merged[cols]
