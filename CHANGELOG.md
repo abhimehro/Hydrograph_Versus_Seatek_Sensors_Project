@@ -104,6 +104,7 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): bump actions/checkout from 6 to 7 [\#277](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/277) ([dependabot[bot]](https://github.com/apps/dependabot))
 - 🛠️ QA: Fix pre-commit CI failures [\#274](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/274) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[security improvement\] [\#272](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/272) ([abhimehro](https://github.com/abhimehro))
 - 🛠️ QA: Fix pre-commit CI failures \(isort\) [\#271](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/271) ([abhimehro](https://github.com/abhimehro))
