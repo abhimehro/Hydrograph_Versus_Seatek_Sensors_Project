@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/tree/HEAD)
+## [v0.1.0](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/tree/v0.1.0) (2026-06-20)
 
-[Full Changelog](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/compare/24b72e37ae61ab7992fb361b35dbcaca2d24d340...HEAD)
+[Full Changelog](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/compare/24b72e37ae61ab7992fb361b35dbcaca2d24d340...v0.1.0)
 
 **Closed issues:**
 
