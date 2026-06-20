@@ -72,7 +72,9 @@ def create_output_dir(rm: float) -> Path:
 
     # SECURITY: Verify that the generated output directory remains within the intended base output directory
     if not is_safe_path(base_output_dir, output_dir):
-        raise ValueError(f"SECURITY: Attempted path traversal detected. Path outside output directory: {output_dir}")
+        raise ValueError(
+            f"SECURITY: Attempted path traversal detected. Path outside output directory: {output_dir}"
+        )
 
     output_dir.mkdir(parents=True, exist_ok=True)
     return output_dir

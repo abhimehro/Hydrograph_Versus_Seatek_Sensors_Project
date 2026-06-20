@@ -184,6 +184,33 @@ class SeatekDataProcessor:
                 "Hydrograph (Lagged)",
             ]
 
+    def _apply_sensor_sentinels(
+        self, merged: pd.DataFrame, sensor: str, sensor_keep_arr: np.ndarray
+    ) -> None:
+        if not sensor_keep_arr.all():
+            na_val = pd.NA if pd.api.types.is_object_dtype(merged[sensor]) else np.nan
+            merged[sensor] = np.where(sensor_keep_arr, merged[sensor], na_val)
+
+    def _apply_hydro_sentinels(
+        self,
+        merged: pd.DataFrame,
+        hydro_keep_arr: np.ndarray,
+        sensor_any: bool,
+        hydro_any: bool,
+    ) -> None:
+        if not hydro_keep_arr.all():
+            na_val = (
+                pd.NA
+                if pd.api.types.is_object_dtype(merged["Hydrograph (Lagged)"])
+                else np.nan
+            )
+            merged["Hydrograph (Lagged)"] = merged["Hydrograph (Lagged)"].where(
+                hydro_keep_arr, na_val
+            )
+
+        if not sensor_any and hydro_any:
+            merged["Hydrograph (Lagged)"] = 0
+
     def process_data(
         self, river_mile: float, year: int, sensor: str
     ) -> Tuple[pd.DataFrame, ProcessingMetrics]:
@@ -275,31 +302,12 @@ class SeatekDataProcessor:
             hydro_keep_arr = hydro_mask_arr[keep_mask_arr]
 
             # Nullify values that are not valid in their respective streams
+            self._apply_sensor_sentinels(merged, sensor, sensor_keep_arr)
+
             if has_hydro:
-                if not sensor_keep_arr.all():
-                    merged.loc[~sensor_keep_arr, sensor] = (
-                        pd.NA
-                        if pd.api.types.is_object_dtype(merged[sensor])
-                        else np.nan
-                    )
-                if not hydro_keep_arr.all():
-                    merged.loc[~hydro_keep_arr, "Hydrograph (Lagged)"] = (
-                        pd.NA
-                        if pd.api.types.is_object_dtype(merged["Hydrograph (Lagged)"])
-                        else np.nan
-                    )
-
-                # If no valid sensor readings exist but hydrograph data exist, force hydrograph to 0
-                if not sensor_mask_arr.any() and hydro_mask_arr.any():
-                    merged["Hydrograph (Lagged)"] = 0
-
-            else:
-                if not sensor_keep_arr.all():
-                    merged.loc[~sensor_keep_arr, sensor] = (
-                        pd.NA
-                        if pd.api.types.is_object_dtype(merged[sensor])
-                        else np.nan
-                    )
+                self._apply_hydro_sentinels(
+                    merged, hydro_keep_arr, sensor_mask_arr.any(), hydro_mask_arr.any()
+                )
 
             hydro_any = hydro_mask_arr.any() if has_hydro else False
             cols = self._get_merged_columns(

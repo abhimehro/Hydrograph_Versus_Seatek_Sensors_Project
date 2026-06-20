@@ -68,6 +68,7 @@ def sanitize_filename(filename: str, max_length: int = 200) -> str:
     # SECURITY: Limit filename length to prevent path-length DoS or file system errors
     return (sanitized or "_")[:max_length]
 
+
 def is_safe_path(base_dir: Path, target_path: Path) -> bool:
     """
     Verify that a target path remains within the intended base directory.
