@@ -1,7 +1,7 @@
 import logging
 import os
-from pathlib import Path
 import sys
+from pathlib import Path
 from typing import Dict, Tuple
 
 import matplotlib.pyplot as plt
