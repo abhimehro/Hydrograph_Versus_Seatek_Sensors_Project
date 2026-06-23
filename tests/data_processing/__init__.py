@@ -10,7 +10,7 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.figure import Figure
 
-from utils.security import sanitize_filename
+from utils.security import is_safe_path, sanitize_filename
 
 # Configure logging
 logging.basicConfig(
@@ -252,6 +252,13 @@ class DataAnalyzer:
         safe_sensor = sanitize_filename(str(sensor))
         rm_base_dir = os.path.join(self.output_base_dir, f"RM_{safe_river_mile}")
         sensor_dir = os.path.join(rm_base_dir, "sensor_charts", safe_sensor)
+
+        # SECURITY: Verify that the generated output directory remains within the intended base output directory
+        from pathlib import Path
+        if not is_safe_path(Path(self.output_base_dir), Path(sensor_dir)):
+            raise ValueError(
+                f"SECURITY: Attempted path traversal detected. Path outside output directory: {sensor_dir}"
+            )
 
         # Create sensor directory
         os.makedirs(sensor_dir, exist_ok=True)
