@@ -4,8 +4,17 @@
 
 [Full Changelog](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/compare/v0.1.0...HEAD)
 
+**Closed issues:**
+
+- Daily QA & Agentic Review — 2026-06-22 [\#288](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/288)
+- Daily QA & Agentic Review — 2026-06-21 [\#286](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/286)
+- Daily QA & Agentic Review — 2026-06-20 [\#285](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/285)
+
 **Merged pull requests:**
 
+- ⚡ Bolt: Replace pd.Series.where with np.where for performance [\#291](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/291) ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Fix pre-commit CI failures \(isort & mypy config\) [\#289](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/289) ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump ruby/setup-ruby from 1.313.0 to 1.314.0 [\#287](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/287) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pnpm/action-setup from 6.0.8 to 6.0.9 [\#284](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/284) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump actions/cache from 4.2.3 to 5.0.5 [\#283](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/283) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump actions/checkout from 4.2.2 to 7.0.0 [\#282](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/282) ([dependabot[bot]](https://github.com/apps/dependabot))
