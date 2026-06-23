@@ -360,8 +360,9 @@ class SeatekDataProcessor:
     ) -> None:
         if not hydro_keep_arr.all():
             na_val = self._get_na_value(merged["Hydrograph (Lagged)"])
-            merged["Hydrograph (Lagged)"] = merged["Hydrograph (Lagged)"].where(
-                hydro_keep_arr, na_val
+            # ⚡ Bolt Optimization: Replace merged[col].where() with np.where() to bypass Pandas intermediate object allocation overhead and index alignment.
+            merged["Hydrograph (Lagged)"] = np.where(
+                hydro_keep_arr, merged["Hydrograph (Lagged)"], na_val
             )
 
         if not sensor_any and hydro_any:
