@@ -139,3 +139,7 @@
 ## 2024-05-27 - Avoid Pandas DataFrame .loc allocation overhead
 **Learning:** Using `merged.loc[~mask, col] = value` implicitly creates intermediate Pandas objects (Series/Index alignment) under the hood during the assignment operation, introducing measurable memory allocation overhead, particularly in tight processing loops.
 **Action:** Replace `.loc` assignment with direct numpy manipulation using `np.where(mask, merged[col], value)`. This operates directly on the underlying numpy array, bypassing Pandas index alignment and intermediate object allocation overhead, resulting in faster execution.
+
+## 2024-05-27 - Replace pd.Series.where with np.where
+**Learning:** Using `merged["col"] = merged["col"].where(mask, na_val)` creates intermediate Pandas objects and incurs overhead from index checking and alignment. `np.where(mask, merged["col"], na_val)` bypasses this overhead, resulting in significantly faster performance for vectorized conditional assignments.
+**Action:** Replace `pd.Series.where()` with `np.where()` in data processing workflows to optimize performance.
