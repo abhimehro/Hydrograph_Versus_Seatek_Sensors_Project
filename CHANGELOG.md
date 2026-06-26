@@ -15,6 +15,8 @@
 
 **Merged pull requests:**
 
+- ⚡ Bolt: Replace pd.Series.where with np.where for performance [\#299](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/299) ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump release-drafter/release-drafter from 7.4.0 to 7.5.1 [\#297](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/297) ([dependabot[bot]](https://github.com/apps/dependabot))
 - 🛡️ Sentinel: \[HIGH\] Fix Path Traversal in Tests Data Processor [\#295](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/295) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Replace pd.Series.where with np.where for performance [\#291](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/291) ([abhimehro](https://github.com/abhimehro))
 - 🛠️ QA: Fix pre-commit CI failures \(isort & mypy config\) [\#289](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/289) ([abhimehro](https://github.com/abhimehro))
