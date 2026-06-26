@@ -204,8 +204,9 @@ class SeatekDataProcessor:
                 if pd.api.types.is_object_dtype(merged["Hydrograph (Lagged)"])
                 else np.nan
             )
-            merged["Hydrograph (Lagged)"] = merged["Hydrograph (Lagged)"].where(
-                hydro_keep_arr, na_val
+            # ⚡ Bolt Optimization: Replace pd.Series.where with np.where to avoid intermediate Pandas object allocation overhead
+            merged["Hydrograph (Lagged)"] = np.where(
+                hydro_keep_arr, merged["Hydrograph (Lagged)"], na_val
             )
 
         if not sensor_any and hydro_any:

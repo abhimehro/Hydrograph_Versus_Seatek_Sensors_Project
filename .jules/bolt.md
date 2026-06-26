@@ -143,3 +143,6 @@
 ## 2024-05-27 - Replace pd.Series.where with np.where
 **Learning:** Using `merged["col"] = merged["col"].where(mask, na_val)` creates intermediate Pandas objects and incurs overhead from index checking and alignment. `np.where(mask, merged["col"], na_val)` bypasses this overhead, resulting in significantly faster performance for vectorized conditional assignments.
 **Action:** Replace `pd.Series.where()` with `np.where()` in data processing workflows to optimize performance.
+## 2024-05-14 - Pandas pd.Series.where vs np.where Performance
+**Learning:** `pd.Series.where(cond, other)` is significantly slower than `np.where(cond, pd.Series, other)` because `np.where` bypasses Pandas internal index alignment, metadata propagation, and validation overheads when operating on the underlying arrays.
+**Action:** Replace `df[col] = df[col].where(mask, value)` with `df[col] = np.where(mask, df[col], value)` in data processing loops for improved performance.
