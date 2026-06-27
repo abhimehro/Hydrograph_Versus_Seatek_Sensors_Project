@@ -6,12 +6,20 @@
 
 **Closed issues:**
 
+- Daily QA & Agentic Review - 2026-06-26 [\#300](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/300)
+- Daily QA & Agentic Review - 2026-06-25 [\#298](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/298)
+- Daily QA & Agentic Review — 2026-06-24 [\#296](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/296)
+- Daily QA & Agentic Review — 2026-06-23 [\#294](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/294)
 - Daily QA & Agentic Review — 2026-06-22 [\#288](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/288)
 - Daily QA & Agentic Review — 2026-06-21 [\#286](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/286)
 - Daily QA & Agentic Review — 2026-06-20 [\#285](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/285)
 
 **Merged pull requests:**
 
+- ⚡ Bolt: \[performance improvement\] Replace stateful usecols with stateless lambda [\#301](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/301) ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Replace pd.Series.where with np.where for performance [\#299](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/299) ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump release-drafter/release-drafter from 7.4.0 to 7.5.1 [\#297](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/297) ([dependabot[bot]](https://github.com/apps/dependabot))
+- 🛡️ Sentinel: \[HIGH\] Fix Path Traversal in Tests Data Processor [\#295](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/295) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Replace pd.Series.where with np.where for performance [\#291](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/291) ([abhimehro](https://github.com/abhimehro))
 - 🛠️ QA: Fix pre-commit CI failures \(isort & mypy config\) [\#289](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/289) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump ruby/setup-ruby from 1.313.0 to 1.314.0 [\#287](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/287) ([dependabot[bot]](https://github.com/apps/dependabot))

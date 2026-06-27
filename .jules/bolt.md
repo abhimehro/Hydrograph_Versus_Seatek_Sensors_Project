@@ -143,3 +143,10 @@
 ## 2024-05-27 - Replace pd.Series.where with np.where
 **Learning:** Using `merged["col"] = merged["col"].where(mask, na_val)` creates intermediate Pandas objects and incurs overhead from index checking and alignment. `np.where(mask, merged["col"], na_val)` bypasses this overhead, resulting in significantly faster performance for vectorized conditional assignments.
 **Action:** Replace `pd.Series.where()` with `np.where()` in data processing workflows to optimize performance.
+## 2024-05-14 - Pandas pd.Series.where vs np.where Performance
+**Learning:** `pd.Series.where(cond, other)` is significantly slower than `np.where(cond, pd.Series, other)` because `np.where` bypasses Pandas internal index alignment, metadata propagation, and validation overheads when operating on the underlying arrays.
+**Action:** Replace `df[col] = df[col].where(mask, value)` with `df[col] = np.where(mask, df[col], value)` in data processing loops for improved performance.
+
+## 2024-06-25 - Avoid modifying stateful filters with structural constraints
+**Learning:** In Pandas `read_excel`, using a stateless lambda for `usecols` is generally preferred for performance over stateful filters (e.g., those appending to a list). However, some stateful filters serve a critical structural purpose, such as unconditionally anchoring the very first column (`is_first`) to guarantee a non-empty dataframe for accurate row-count retrieval when validating files. Blindly replacing these with a stateless lambda can break error handling by causing Pandas to return an empty dataframe (0 rows, 0 columns) for invalid files.
+**Action:** When replacing stateful `usecols` filters with stateless lambdas, carefully inspect the filter's logic to ensure it is not functioning as a structural anchor. Only replace pure tracking states (e.g., `seen_cols.append(col)`) that do not influence the inclusion logic.

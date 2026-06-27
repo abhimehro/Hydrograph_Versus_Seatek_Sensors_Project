@@ -67,15 +67,9 @@ class DataValidator:
 
             required_cols = {"River_Mile", "Y_Offset", "Num_Sensors"}
 
-            # Optimization: load columns dynamically and validate headers in a single pass
-            seen_cols = []
-
-            def filter_cols(col):
-                seen_cols.append(col)
-                return col in required_cols
-
-            df = pd.read_excel(summary_file, usecols=filter_cols)
-            columns = list(seen_cols)
+            # Optimization: load columns dynamically and validate headers in a single pass using stateless lambda
+            df = pd.read_excel(summary_file, usecols=lambda col: col in required_cols)
+            columns = list(df.columns)
 
             missing = [col for col in required_cols if col not in columns]
             if missing:
