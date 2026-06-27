@@ -93,19 +93,16 @@ class RiverMileData:
 
             required_cols = {"Time (Seconds)", "Year"}
 
-            # Optimization: load columns dynamically and load in a single pass
-            seen_cols = []
-
-            def filter_cols(col):
-                seen_cols.append(col)
-                return (
+            # Optimization: load columns dynamically and load in a single pass using stateless lambda
+            self.data = pd.read_excel(
+                self.file_path,
+                usecols=lambda col: (
                     col in required_cols
                     or str(col).startswith("Sensor_")
                     or col == "Hydrograph (Lagged)"
                 )
-
-            self.data = pd.read_excel(self.file_path, usecols=filter_cols)
-            cols = list(seen_cols)
+            )
+            cols = list(self.data.columns)
 
             # Check required columns
             missing = [c for c in required_cols if c not in cols]
