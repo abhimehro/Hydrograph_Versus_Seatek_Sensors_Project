@@ -6,6 +6,7 @@
 
 **Closed issues:**
 
+- Daily QA & Agentic Review - 2026-06-26 [\#300](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/300)
 - Daily QA & Agentic Review - 2026-06-25 [\#298](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/298)
 - Daily QA & Agentic Review — 2026-06-24 [\#296](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/296)
 - Daily QA & Agentic Review — 2026-06-23 [\#294](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/294)
@@ -15,6 +16,7 @@
 
 **Merged pull requests:**
 
+- ⚡ Bolt: \[performance improvement\] Replace stateful usecols with stateless lambda [\#301](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/301) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Replace pd.Series.where with np.where for performance [\#299](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/299) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump release-drafter/release-drafter from 7.4.0 to 7.5.1 [\#297](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/297) ([dependabot[bot]](https://github.com/apps/dependabot))
 - 🛡️ Sentinel: \[HIGH\] Fix Path Traversal in Tests Data Processor [\#295](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/295) ([abhimehro](https://github.com/abhimehro))
