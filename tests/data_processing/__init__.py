@@ -255,6 +255,7 @@ class DataAnalyzer:
 
         # SECURITY: Verify that the generated output directory remains within the intended base output directory
         from pathlib import Path
+
         if not is_safe_path(Path(self.output_base_dir), Path(sensor_dir)):
             raise ValueError(
                 f"SECURITY: Attempted path traversal detected. Path outside output directory: {sensor_dir}"
