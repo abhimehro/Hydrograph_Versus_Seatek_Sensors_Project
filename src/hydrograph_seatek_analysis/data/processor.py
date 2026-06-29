@@ -100,7 +100,7 @@ class RiverMileData:
                     col in required_cols
                     or str(col).startswith("Sensor_")
                     or col == "Hydrograph (Lagged)"
-                )
+                ),
             )
             cols = list(self.data.columns)
 
