@@ -6,6 +6,7 @@
 
 **Closed issues:**
 
+- Daily QA & Agentic Review - 2026-06-28 [\#303](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/303)
 - Daily QA & Agentic Review - 2026-06-27 [\#302](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/302)
 - Daily QA & Agentic Review - 2026-06-26 [\#300](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/300)
 - Daily QA & Agentic Review - 2026-06-25 [\#298](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/298)
@@ -17,6 +18,7 @@
 
 **Merged pull requests:**
 
+- 🛠️ QA: Fix pre-commit CI failure \(mypy config\) [\#304](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/304) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: \[performance improvement\] Replace stateful usecols with stateless lambda [\#301](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/301) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Replace pd.Series.where with np.where for performance [\#299](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/299) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump release-drafter/release-drafter from 7.4.0 to 7.5.1 [\#297](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/297) ([dependabot[bot]](https://github.com/apps/dependabot))
