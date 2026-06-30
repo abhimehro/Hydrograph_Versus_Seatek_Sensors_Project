@@ -64,19 +64,14 @@ class RiverMileData:
 
             # ⚡ Bolt Optimization: load columns dynamically and load in a single pass
             # This dramatically reduces memory allocations by skipping unnecessary columns
-            seen_cols = []
+            self.data = pd.read_excel(
+                self.file_path,
+                usecols=lambda c: c in required_cols
+                or str(c).startswith("Sensor_")
+                or c == "Hydrograph (Lagged)",
+            )
 
-            def filter_cols(col):
-                seen_cols.append(col)
-                return (
-                    col in required_cols
-                    or str(col).startswith("Sensor_")
-                    or col == "Hydrograph (Lagged)"
-                )
-
-            self.data = pd.read_excel(self.file_path, usecols=filter_cols)
-
-            missing_cols = required_cols - set(seen_cols)
+            missing_cols = required_cols - set(self.data.columns)
             if missing_cols:
                 raise ValueError(f"Missing required columns: {missing_cols}")
 
