@@ -6,7 +6,7 @@ sys.modules["pandas"] = MagicMock()
 sys.modules["numpy"] = MagicMock()
 
 
-from utils.data_loader import DataLoader
+from src.hydrograph_seatek_analysis.core.data_loader import DataLoader
 
 
 def test_data_loader():

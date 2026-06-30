@@ -135,7 +135,7 @@ class Application:
         # Construct metadata for a11y
         metadata = self._create_chart_metadata(rm_data.river_mile, year, sensor)
 
-        return self.chart_generator.save_chart(chart, output_path, metadata=metadata)
+        return self.chart_generator.save_chart(chart, str(output_path), metadata=metadata)
 
     def process_data(self) -> bool:
         """
