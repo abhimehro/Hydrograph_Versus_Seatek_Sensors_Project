@@ -41,14 +41,10 @@ class DataLoader:
 
             # ⚡ Bolt Optimization: load columns dynamically to avoid checking headers and reloading
             # This is an optimization for reading excel files in a single pass to reduce memory overhead
-            seen_cols = []
-
-            def filter_cols(col):
-                seen_cols.append(col)
-                return col in required_cols
-
-            df = pd.read_excel(self.config.summary_file, usecols=filter_cols)
-            missing_cols = required_cols - set(seen_cols)
+            df = pd.read_excel(
+                self.config.summary_file, usecols=lambda c: c in required_cols
+            )
+            missing_cols = required_cols - set(df.columns)
             if missing_cols:
                 raise ValueError(
                     f"Missing required columns in summary data: {missing_cols}"
@@ -76,21 +72,15 @@ class DataLoader:
 
                 # ⚡ Bolt Optimization: Load only required columns and sensor/hydrograph columns
                 # to reduce memory usage and speed up loading for large Excel sheets
-                seen_cols = []
-
-                def filter_cols(col):
-                    seen_cols.append(col)
-                    return (
-                        col in required_cols
-                        or str(col).startswith("Sensor_")
-                        or col == "Hydrograph (Lagged)"
-                    )
-
                 df = pd.read_excel(
-                    excel_file, sheet_name=sheet_name, usecols=filter_cols
+                    excel_file,
+                    sheet_name=sheet_name,
+                    usecols=lambda c: c in required_cols
+                    or str(c).startswith("Sensor_")
+                    or c == "Hydrograph (Lagged)",
                 )
 
-                missing_cols = required_cols - set(seen_cols)
+                missing_cols = required_cols - set(df.columns)
                 if missing_cols:
                     logger.warning(
                         f"Skipping sheet {sheet_name}: Missing required columns: {missing_cols}"
