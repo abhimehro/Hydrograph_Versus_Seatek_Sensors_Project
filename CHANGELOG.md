@@ -19,6 +19,7 @@
 
 **Merged pull requests:**
 
+- ⚡ Bolt: Replace stateful usecols with stateless lambdas [\#307](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/307) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump actions/cache from 6.0.0 to 6.1.0 [\#305](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/305) ([dependabot[bot]](https://github.com/apps/dependabot))
 - 🛠️ QA: Fix pre-commit CI failure \(mypy config\) [\#304](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/304) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: \[performance improvement\] Replace stateful usecols with stateless lambda [\#301](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/301) ([abhimehro](https://github.com/abhimehro))
