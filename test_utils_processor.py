@@ -7,7 +7,7 @@ sys.modules["numpy"] = MagicMock()
 
 from pathlib import Path
 
-from utils.processor import RiverMileData
+from src.hydrograph_seatek_analysis.core.processor import RiverMileData
 
 
 def test_river_mile_data_load():
