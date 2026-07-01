@@ -8,8 +8,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from utils.security import validate_file_size
-
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -29,9 +27,6 @@ def inspect_excel_file(file_path: Path) -> None:
     """
     try:
         logger.info(f"\nInspecting file: {file_path}")
-
-        # SECURITY: Prevent memory exhaustion (DoS) by validating file size
-        validate_file_size(file_path, 100 * 1024 * 1024)
 
         # Load Excel file
         excel = pd.ExcelFile(str(file_path))
