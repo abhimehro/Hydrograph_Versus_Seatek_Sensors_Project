@@ -6,6 +6,7 @@
 
 **Closed issues:**
 
+- Daily QA & Agentic Review - 2026-06-30 [\#309](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/309)
 - Daily QA & Agentic Review - 2026-06-29 [\#306](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/306)
 - Daily QA & Agentic Review - 2026-06-28 [\#303](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/303)
 - Daily QA & Agentic Review - 2026-06-27 [\#302](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/302)
@@ -19,6 +20,9 @@
 
 **Merged pull requests:**
 
+- ⚡ Bolt: Simplify multiple boolean filters to prevent intermediate series allocations [\#311](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/311) ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Clean up redundant utils and fix minor type issues [\#310](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/310) ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump ruby/setup-ruby from 1.314.0 to 1.315.0 [\#308](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/308) ([dependabot[bot]](https://github.com/apps/dependabot))
 - ⚡ Bolt: Replace stateful usecols with stateless lambdas [\#307](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/307) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump actions/cache from 6.0.0 to 6.1.0 [\#305](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/305) ([dependabot[bot]](https://github.com/apps/dependabot))
 - 🛠️ QA: Fix pre-commit CI failure \(mypy config\) [\#304](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/304) ([abhimehro](https://github.com/abhimehro))
