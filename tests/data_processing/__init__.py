@@ -193,10 +193,9 @@ class DataAnalyzer:
             year_data = data[data["Year"] == year].copy()
 
             # Check for sufficient valid data
+            # ⚡ Bolt Optimization: Replace redundant boolean checks with (data > 0) & (data < inf) to avoid allocating multiple intermediate Pandas Series
             valid_data = year_data[
-                year_data[sensor].notna()
-                & (year_data[sensor] > 0)
-                & (year_data[sensor] != float("inf"))
+                (year_data[sensor] > 0) & (year_data[sensor] < float("inf"))
             ]
 
             if len(valid_data) < 2:
