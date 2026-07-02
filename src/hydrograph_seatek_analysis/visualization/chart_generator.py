@@ -288,15 +288,15 @@ class ChartGenerator:
         """
         try:
             # Create parent directories if they don't exist
-            output_path = Path(output_path)
-            output_path.parent.mkdir(parents=True, exist_ok=True)
+            path_obj = Path(output_path)
+            path_obj.parent.mkdir(parents=True, exist_ok=True)
 
             # Save figure
             kwargs = {"dpi": dpi or self.chart_settings.dpi, "bbox_inches": "tight"}
             if metadata:
                 kwargs["metadata"] = metadata
 
-            fig.savefig(output_path, **kwargs)
+            fig.savefig(path_obj, **kwargs)
             plt.close(fig)  # Free memory
             logger.info(f"Saved chart to {output_path}")
             return True

@@ -1,3 +1,5 @@
+from typing import Any
+
 """
 Main application module for Seatek and Hydrograph data processing.
 """
@@ -113,7 +115,9 @@ class Application:
             "Author": "Hydrograph vs Seatek Sensors Analysis Project",
         }
 
-    def _save_generated_chart(self, chart, rm_data, year: int, sensor: str) -> bool:
+    def _save_generated_chart(
+        self, chart: Any, rm_data: Any, year: int, sensor: str
+    ) -> bool:
         """Helper to safely save a generated chart."""
         safe_year = sanitize_filename(str(year))
         safe_sensor = sanitize_filename(str(sensor))
