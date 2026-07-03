@@ -6,6 +6,7 @@
 
 **Closed issues:**
 
+- Daily QA & Agentic Review - 2026-07-02 [\#314](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/314)
 - Daily QA & Agentic Review - 2026-07-01 [\#313](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/313)
 - Daily QA & Agentic Review - 2026-06-30 [\#309](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/309)
 - Daily QA & Agentic Review - 2026-06-29 [\#306](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/306)
@@ -21,6 +22,7 @@
 
 **Merged pull requests:**
 
+- 🛠️ QA: Fix pre-commit CI failures \(isort & mypy config\) [\#315](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/315) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[MEDIUM\] Remove security theater from tests [\#312](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/312) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Simplify multiple boolean filters to prevent intermediate series allocations [\#311](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/311) ([abhimehro](https://github.com/abhimehro))
 - 🛠️ QA: Clean up redundant utils and fix minor type issues [\#310](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/310) ([abhimehro](https://github.com/abhimehro))
