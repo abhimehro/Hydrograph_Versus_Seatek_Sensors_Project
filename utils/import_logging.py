@@ -35,7 +35,7 @@ def load_config(config_file="config.yaml"):
         logger.error(f"Configuration file {config_file} not found.")
         return {}
     except yaml.YAMLError as e:
-        logger.error(f"Error parsing configuration file: {str ( e )}")
+        logger.error(f"Error parsing configuration file: {str(e)}")
         return {}
 
 
@@ -45,7 +45,7 @@ def process_rm_file(file_path):
         logger.info(f"Processing file: {file_path}")
         # Example processing logic
     except Exception as e:
-        logger.error(f"Error processing file {file_path}: {str ( e )}")
+        logger.error(f"Error processing file {file_path}: {str(e)}")
 
 
 def process_all_files(configuration):
