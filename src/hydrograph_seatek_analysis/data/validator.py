@@ -1,3 +1,5 @@
+from pathlib import Path
+
 """
 Data validation utilities for Seatek sensor data.
 """
@@ -128,7 +130,9 @@ class DataValidator:
             df["Time (Seconds)"].max(),
         ]
 
-    def _process_hydro_sheet(self, excel, hydro_file, sheet: str) -> Dict[str, Any]:
+    def _process_hydro_sheet(
+        self, excel: Any, hydro_file: Any, sheet: str
+    ) -> Dict[str, Any]:
         """Process a single hydrograph sheet."""
         required_cols = {"Time (Seconds)", "Year"}
 
@@ -210,7 +214,9 @@ class DataValidator:
             float(df["Time (Seconds)"].max()),
         ]
 
-    def _process_processed_file(self, file_path, required_cols) -> Dict[str, Any]:
+    def _process_processed_file(
+        self, file_path: Path, required_cols: set[str]
+    ) -> Dict[str, Any]:
         """Process a single processed river mile file."""
         # Extract river mile
         try:
@@ -254,7 +260,7 @@ class DataValidator:
         Returns:
             List of dictionaries with validation results for each file
         """
-        results = []
+        results: List[Dict[str, Any]] = []
         processed_dir = self.config.processed_dir
 
         if not processed_dir.exists():

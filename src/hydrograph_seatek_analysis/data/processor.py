@@ -139,7 +139,11 @@ class RiverMileData:
             ValueError: If required columns are missing
         """
         required_cols = {"Time (Seconds)", "Year"}
-        missing = required_cols - set(self.data.columns)
+        missing = (
+            required_cols - set(self.data.columns)
+            if self.data is not None
+            else required_cols
+        )
         if missing:
             raise ValueError(f"Missing required columns: {missing}")
 
@@ -150,7 +154,11 @@ class RiverMileData:
         Raises:
             ValueError: If no sensor columns are found
         """
-        self.sensors = [col for col in self.data.columns if col.startswith("Sensor_")]
+        self.sensors = (
+            [col for col in self.data.columns if col.startswith("Sensor_")]
+            if self.data is not None
+            else []
+        )
         if not self.sensors:
             raise ValueError("No sensor columns found")
 
