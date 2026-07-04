@@ -1,6 +1,8 @@
 import glob
 import logging.config
 import os
+from pathlib import Path
+from .security import is_safe_path
 from concurrent.futures import ProcessPoolExecutor
 
 import yaml
@@ -52,6 +54,12 @@ def process_all_files(configuration):
     data_dir = configuration.get("data_dir")
     if not data_dir:
         logger.error("Data directory not specified in the configuration.")
+        return
+
+    base_dir = Path(configuration.get("base_dir", Path.cwd()))
+    target_dir = Path(data_dir)
+    if not is_safe_path(base_dir, target_dir):
+        logger.error(f"SECURITY: Attempted path traversal detected. Path outside base directory: {data_dir}")
         return
 
     with ProcessPoolExecutor() as executor:
