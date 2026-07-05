@@ -24,6 +24,7 @@
 
 **Merged pull requests:**
 
+- 🛡️ Sentinel: \[HIGH\] Fix path traversal in config-driven data\_dir [\#320](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/320) ([abhimehro](https://github.com/abhimehro))
 - 🛠️ QA: Clean up debris scripts and fix linting errors [\#318](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/318) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump ruby/setup-ruby from 1.315.0 to 1.316.0 [\#316](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/316) ([dependabot[bot]](https://github.com/apps/dependabot))
 - 🛠️ QA: Fix pre-commit CI failures \(isort & mypy config\) [\#315](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/315) ([abhimehro](https://github.com/abhimehro))
