@@ -147,8 +147,9 @@ def build_result(
 
 
 def write_result(
-    task: str, status: str, summary: str, body: str, extra: dict[str, Any] | None = None
+    task: str, status: str, body: str, extra: dict[str, Any] | None = None
 ) -> dict[str, Any]:
+    summary = extra.pop("summary", "") if extra else ""
     result = build_result(task, status, summary, extra)
     directory = task_dir(task)
     (directory / "report.md").write_text(body.rstrip() + "\n")
