@@ -1,11 +1,12 @@
 import glob
 import logging.config
 import os
-from pathlib import Path
-from .security import is_safe_path
 from concurrent.futures import ProcessPoolExecutor
+from pathlib import Path
 
 import yaml
+
+from .security import is_safe_path
 
 # Load YAML content
 yaml_content = """
@@ -59,7 +60,9 @@ def process_all_files(configuration):
     base_dir = Path(configuration.get("base_dir", Path.cwd()))
     target_dir = Path(data_dir)
     if not is_safe_path(base_dir, target_dir):
-        logger.error(f"SECURITY: Attempted path traversal detected. Path outside base directory: {data_dir}")
+        logger.error(
+            f"SECURITY: Attempted path traversal detected. Path outside base directory: {data_dir}"
+        )
         return
 
     with ProcessPoolExecutor() as executor:
