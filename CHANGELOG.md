@@ -25,6 +25,7 @@
 
 **Merged pull requests:**
 
+- 🛠️ QA: Fix pre-commit CI failures \(isort config\) [\#323](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/323) ([abhimehro](https://github.com/abhimehro))
 - fix\(automation\): restore repository\_automation\_common.py after accidental truncation [\#321](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/321) ([cursor[bot]](https://github.com/apps/cursor))
 - 🛡️ Sentinel: \[HIGH\] Fix path traversal in config-driven data\_dir [\#320](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/320) ([abhimehro](https://github.com/abhimehro))
 - 🛠️ QA: Clean up debris scripts and fix linting errors [\#318](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/318) ([abhimehro](https://github.com/abhimehro))
