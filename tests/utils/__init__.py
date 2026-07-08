@@ -26,13 +26,17 @@ __email__ = "your.email@example.com"  # Replace with your email
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
-from utils.chart_generator import ChartGenerator
+from utils.chart_generator import ChartGenerator  # noqa: E402
 
 # Import main classes and functions for easier access
-from utils.config import Config
-from utils.data_loader import DataLoader
-from utils.processor import ProcessingMetrics, RiverMileData, SeatekDataProcessor
-from utils.visualizer import SeatekVisualizer
+from utils.config import Config  # noqa: E402
+from utils.data_loader import DataLoader  # noqa: E402
+from utils.processor import (  # noqa: E402
+    ProcessingMetrics,
+    RiverMileData,
+    SeatekDataProcessor,
+)
+from utils.visualizer import SeatekVisualizer  # noqa: E402
 
 # Define what should be imported with "from utils import *"
 __all__ = [

@@ -1,12 +1,13 @@
+# Mock pandas since it's not installed in the sandbox
+import sys
 import unittest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-# Mock pandas since it's not installed in the sandbox
 sys.modules["pandas"] = MagicMock()
 
-from utils.config import Config
-from utils.data_loader import DataLoader
+from utils.config import Config  # noqa: E402
+from utils.data_loader import DataLoader  # noqa: E402
 
 
 class TestDataLoaderSizeLimits(unittest.TestCase):

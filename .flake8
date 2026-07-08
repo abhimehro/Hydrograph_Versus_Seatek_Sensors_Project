@@ -1,3 +1,7 @@
 [flake8]
 max-line-length = 88
 extend-ignore = E203, W503
+
+per-file-ignores =
+    tests/utils/__init__.py: E402
+    tests/utils/test_data_loader.py: E402
