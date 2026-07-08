@@ -57,18 +57,24 @@ def process_all_files(configuration):
         logger.error("Data directory not specified in the configuration.")
         return
 
-    base_dir = Path(configuration.get("base_dir", Path.cwd()))
-    target_dir = Path(data_dir)
+    # SECURITY: Use a trusted base directory (current working directory) rather than
+    # allowing the untrusted configuration to specify its own base_dir.
+    base_dir = Path.cwd()
+
+    # Construct the target directory path safely
+    target_dir = Path(data_dir) / "raw"
+
+    # Check if the target directory is safely within the base directory
     if not is_safe_path(base_dir, target_dir):
         logger.error(
-            f"SECURITY: Attempted path traversal detected. Path outside base directory: {data_dir}"
+            f"SECURITY: Attempted path traversal detected. Path outside base directory: {target_dir}"
         )
         return
 
     with ProcessPoolExecutor() as executor:
         futures = [
-            executor.submit(process_rm_file, file)
-            for file in glob.glob(os.path.join(data_dir, "raw", "RM-*.xlsx"))
+            executor.submit(process_rm_file, str(file))
+            for file in target_dir.glob("RM-*.xlsx")
         ]
         for future in futures:
             future.result()

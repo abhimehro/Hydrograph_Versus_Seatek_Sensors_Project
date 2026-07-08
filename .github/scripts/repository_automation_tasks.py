@@ -362,7 +362,11 @@ def run_performance_optimizer(config: dict[str, Any]) -> dict[str, Any]:
         "performance-optimizer",
         status,
         "\n".join(lines) + "\n",
-        {"summary": summary, "hotspots": hotspots, "command_results": details["command_results"]},
+        {
+            "summary": summary,
+            "hotspots": hotspots,
+            "command_results": details["command_results"],
+        },
     )
 
 
@@ -803,5 +807,10 @@ def run_weekly_retrospective(config: dict[str, Any]) -> dict[str, Any]:
         "weekly-retrospective",
         status,
         body,
-        {"summary": summary, "issue_url": issue_url, "runs": runs, "safe_pr_url": safe_pr_url},
+        {
+            "summary": summary,
+            "issue_url": issue_url,
+            "runs": runs,
+            "safe_pr_url": safe_pr_url,
+        },
     )
