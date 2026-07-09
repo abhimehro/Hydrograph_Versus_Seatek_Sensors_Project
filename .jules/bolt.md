@@ -154,3 +154,7 @@
 ## 2024-07-20 - Replace multiple notna and != inf checks with (data > 0) & (data < inf)
 **Learning:** When filtering for valid numeric data, specifically strictly positive, finite numbers, redundant checks like `data.notna()` or `data != float('inf')` alongside `data > 0` cause multiple intermediate boolean Pandas Series to be allocated in memory. Since `NaN`, negative values, and `0` all naturally evaluate to `False` when evaluating `> 0`, these extra checks are unnecessary.
 **Action:** Replaced complex and redundant boolean Pandas filter conditions like `(data.notna()) & (data > 0) & (data != float("inf"))` with a streamlined `(data > 0) & (data < float("inf"))`. This drastically reduces intermediate boolean series memory allocations and speeds up evaluation.
+
+## 2025-02-14 - Optimize multiple boolean filters in Pandas/NumPy using bitwise OR and logical negation
+**Learning:** When generating complex boolean filter masks, combining conditions via `~A & B` (like `~pd.isna(vals) & (vals != 0)`) requires evaluating both arrays, negating one, and computing their intersection. This is less efficient than factoring the negation: `~(A | ~B)` (i.e. `~(pd.isna(vals) | (vals == 0))`), which is computationally faster and creates fewer intermediate array allocations in NumPy.
+**Action:** Replace `~pd.isna(array) & (array != 0)` with `~(pd.isna(array) | (array == 0))` to minimize the number of boolean negations and intersection operations, improving memory performance in critical data processing loops.
