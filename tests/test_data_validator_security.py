@@ -1,3 +1,5 @@
+"""Tests for data validator security."""
+
 import unittest
 from unittest.mock import MagicMock, patch
 
