@@ -1,3 +1,5 @@
+"""Import logging configuration."""
+
 import glob
 import logging.config
 import os
@@ -31,6 +33,7 @@ logger = logging.getLogger(__name__)
 
 
 def load_config(config_file="config.yaml"):
+    """Load configuration."""
     try:
         with open(config_file, "r") as file:
             return yaml.safe_load(file)
@@ -43,6 +46,7 @@ def load_config(config_file="config.yaml"):
 
 
 def process_rm_file(file_path):
+    """Process RM file."""
     try:
         # Your processing code here
         logger.info(f"Processing file: {file_path}")
@@ -52,6 +56,7 @@ def process_rm_file(file_path):
 
 
 def process_all_files(configuration):
+    """Process all files."""
     data_dir = configuration.get("data_dir")
     if not data_dir:
         logger.error("Data directory not specified in the configuration.")

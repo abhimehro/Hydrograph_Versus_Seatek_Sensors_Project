@@ -1,3 +1,5 @@
+"""Tests for filename sanitization."""
+
 from utils.security import sanitize_filename
 
 

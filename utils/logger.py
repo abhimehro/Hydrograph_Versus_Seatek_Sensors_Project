@@ -1,3 +1,5 @@
+"""Logger configuration."""
+
 import logging
 
 try:

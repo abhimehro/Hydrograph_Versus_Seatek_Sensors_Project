@@ -39,6 +39,7 @@ class RiverMileData:
     """Container for river mile–specific data and metadata."""
 
     def __init__(self, file_path: Path):
+        """Initialize RiverMileData."""
         self.file_path = file_path
         self.river_mile = self._extract_river_mile()
         self.data: Optional[pd.DataFrame] = None

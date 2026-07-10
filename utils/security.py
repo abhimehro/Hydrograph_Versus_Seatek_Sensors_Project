@@ -14,8 +14,7 @@ defusedxml.defuse_stdlib()
 
 
 def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
-    """
-    Validate that a file exists and does not exceed the maximum allowed size.
+    """Validate that a file exists and does not exceed the maximum allowed size.
 
     Args:
         file_path: Path to the file to check.

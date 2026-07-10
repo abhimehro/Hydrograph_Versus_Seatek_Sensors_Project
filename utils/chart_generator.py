@@ -16,6 +16,7 @@ class ChartGenerator:
     """Handles creation of data visualizations."""
 
     def __init__(self):
+        """Initialize ChartGenerator."""
         self._setup_style()
 
     @staticmethod

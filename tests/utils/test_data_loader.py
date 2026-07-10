@@ -1,4 +1,6 @@
 # Mock pandas since it's not installed in the sandbox
+"""Tests for data loader functionality."""
+
 import sys
 import unittest
 from pathlib import Path
