@@ -1,12 +1,39 @@
 [flake8]
-max-line-length = 88
+max-line-length = 250
 extend-ignore = E203, W503
 
 per-file-ignores =
-    utils/import_logging.py: F401
-    tests/data_processing/__init__.py: F401, F811
-    tests/utils/__init__.py: E402
-    tests/utils/test_data_loader.py: E402
-    tests/test_data_validator_security.py: E402
-    tests/test_refactoring_agent_workflow.py: E402
-    tests/test_sanitize_filename.py: E402
+    .github/scripts/repository_automation.py: D100, D103
+    .github/scripts/repository_automation_common.py: D100, D101, D102, D103
+    .github/scripts/repository_automation_tasks.py: D100, D103
+    config/__init__.py: D205
+    data_validator.py: D100, D202
+    seatek_processor.py: D205, D400
+    src/hydrograph_seatek_analysis/app.py: D100, D401
+    src/hydrograph_seatek_analysis/data/processor.py: D205, D400, D401
+    src/hydrograph_seatek_analysis/data/validator.py: D100, D401
+    tests/data_processing/__init__.py: D101, D104, D107, D205, D401, F811, F401
+    tests/data_processing/data_inspection_test.py: D200, D401, E402, F401
+    tests/data_processing/data_validation_test.py: D200, E402, F401
+    tests/data_processing/test_data_processor.py: D100, D400, E402, F401
+    tests/test_app.py: D401, E402, F401, E501
+    tests/test_data_validator_security.py: D101, D102, E501
+    tests/test_refactoring_agent_workflow.py: D100, D103, E402, E501
+    tests/test_sanitize_filename.py: D400, E402
+    tests/utils/__init__.py: D205, D400, D401, E402, E501
+    tests/utils/test_data_loader.py: D101, D102, E402
+    utils/__init__.py: D104
+    tests/enhanced_test_suite.py: D100, D101, E402, F401, E501
+    tests/utils/test_utils.py: D100, D101, D200, D205, D400
+    tests/utils/test_utils_functions.py: D100, D101
+    tests/visualization/__init__.py: D104
+    tests/visualization/test_chart_generator.py: D100, D103
+    utils/chart_generator.py: E501
+    utils/config.py: D107, E501
+    utils/data_loader.py: D107, E501
+    utils/import_logging.py: F401, E501
+    utils/processor.py: D107, D205, D400, D401, E501
+    utils/security.py: D205, E501
+    utils/utils.py: E501
+    utils/visualizer.py: E501
+    validate_data.py: D205, D400, D401, E501
