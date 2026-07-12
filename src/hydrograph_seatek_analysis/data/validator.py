@@ -204,24 +204,26 @@ class DataValidator:
             return None
 
     def _extract_processed_year_range(self, df: pd.DataFrame) -> Optional[List[int]]:
-        if "Year" not in df.columns or len(df) == 0 or df["Year"].isna().all():
+        return self._extract_range_values(df, "Year", int)
+
+    def _extract_processed_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
+        return self._extract_range_values(df, "Time (Seconds)", float)
+
+    def _extract_range_values(
+        self, df: pd.DataFrame, column: str, cast_type: type
+    ) -> Optional[List[Any]]:
+        """Generic helper to extract min/max range values from a column."""
+        if column not in df.columns:
+            return None
+        if len(df) == 0:
+            return None
+        if df[column].isna().all():
             return None
         # ⚡ Bolt Optimization: Replace pandas .min() and .max() with numpy np.nanmin() and np.nanmax() on underlying arrays
         # to avoid Pandas Series overhead and object allocation, yielding roughly ~2-3x speedup.
-        return [int(np.nanmin(df["Year"].values)), int(np.nanmax(df["Year"].values))]
-
-    def _extract_processed_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
-        if (
-            "Time (Seconds)" not in df.columns
-            or len(df) == 0
-            or df["Time (Seconds)"].isna().all()
-        ):
-            return None
         return [
-            # ⚡ Bolt Optimization: Replace pandas .min() and .max() with numpy np.nanmin() and np.nanmax() on underlying arrays
-            # to avoid Pandas Series overhead and object allocation, yielding roughly ~2-3x speedup.
-            float(np.nanmin(df["Time (Seconds)"].values)),
-            float(np.nanmax(df["Time (Seconds)"].values)),
+            cast_type(np.nanmin(df[column].values)),
+            cast_type(np.nanmax(df[column].values)),
         ]
 
     def _process_processed_file(

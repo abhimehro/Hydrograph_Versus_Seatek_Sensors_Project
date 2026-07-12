@@ -91,31 +91,50 @@ class ChartGenerator:
             else 0
         )
 
-        if (
-            "Time (Minutes)" in data.columns
-            and len(data) > 0
-            and not data["Time (Minutes)"].isna().all()
-        ):
-            # ⚡ Bolt Optimization: Replace pandas .min() and .max() with numpy np.nanmin() and np.nanmax() on underlying arrays
-            # to avoid Pandas Series overhead and object allocation, yielding roughly ~2-3x speedup.
-            metrics.time_range_min = np.nanmin(data["Time (Minutes)"].values)
-            metrics.time_range_max = np.nanmax(data["Time (Minutes)"].values)
+        self._calculate_time_range_metrics(data, metrics)
+        self._calculate_sensor_range_metrics(data, sensor, metrics)
+        self._calculate_hydro_range_metrics(data, metrics)
 
-        if sensor in data.columns and len(data) > 0 and not data[sensor].isna().all():
-            # ⚡ Bolt Optimization: Replace pandas .min() and .max() with numpy np.nanmin() and np.nanmax() on underlying arrays
-            # to avoid Pandas Series overhead and object allocation, yielding roughly ~2-3x speedup.
-            metrics.sensor_min = np.nanmin(data[sensor].values)
-            metrics.sensor_max = np.nanmax(data[sensor].values)
+    def _calculate_time_range_metrics(
+        self, data: pd.DataFrame, metrics: ChartMetrics
+    ) -> None:
+        """Calculate time range metrics."""
+        column = "Time (Minutes)"
+        if column not in data.columns:
+            return
+        if len(data) == 0 or data[column].isna().all():
+            return
+        # ⚡ Bolt Optimization: Replace pandas .min() and .max() with numpy np.nanmin() and np.nanmax() on underlying arrays
+        # to avoid Pandas Series overhead and object allocation, yielding roughly ~2-3x speedup.
+        metrics.time_range_min = np.nanmin(data[column].values)
+        metrics.time_range_max = np.nanmax(data[column].values)
 
-        if (
-            "Hydrograph (Lagged)" in data.columns
-            and len(data) > 0
-            and not data["Hydrograph (Lagged)"].isna().all()
-        ):
-            # ⚡ Bolt Optimization: Replace pandas .min() and .max() with numpy np.nanmin() and np.nanmax() on underlying arrays
-            # to avoid Pandas Series overhead and object allocation, yielding roughly ~2-3x speedup.
-            metrics.hydro_min = np.nanmin(data["Hydrograph (Lagged)"].values)
-            metrics.hydro_max = np.nanmax(data["Hydrograph (Lagged)"].values)
+    def _calculate_sensor_range_metrics(
+        self, data: pd.DataFrame, sensor: str, metrics: ChartMetrics
+    ) -> None:
+        """Calculate sensor range metrics."""
+        if sensor not in data.columns:
+            return
+        if len(data) == 0 or data[sensor].isna().all():
+            return
+        # ⚡ Bolt Optimization: Replace pandas .min() and .max() with numpy np.nanmin() and np.nanmax() on underlying arrays
+        # to avoid Pandas Series overhead and object allocation, yielding roughly ~2-3x speedup.
+        metrics.sensor_min = np.nanmin(data[sensor].values)
+        metrics.sensor_max = np.nanmax(data[sensor].values)
+
+    def _calculate_hydro_range_metrics(
+        self, data: pd.DataFrame, metrics: ChartMetrics
+    ) -> None:
+        """Calculate hydrograph range metrics."""
+        column = "Hydrograph (Lagged)"
+        if column not in data.columns:
+            return
+        if len(data) == 0 or data[column].isna().all():
+            return
+        # ⚡ Bolt Optimization: Replace pandas .min() and .max() with numpy np.nanmin() and np.nanmax() on underlying arrays
+        # to avoid Pandas Series overhead and object allocation, yielding roughly ~2-3x speedup.
+        metrics.hydro_min = np.nanmin(data[column].values)
+        metrics.hydro_max = np.nanmax(data[column].values)
 
     def _configure_primary_axis(self, ax1: plt.Axes) -> None:
         """Configure labels, colors, ticks, and formatters for the primary axis."""
