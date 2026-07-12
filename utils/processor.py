@@ -269,7 +269,10 @@ class SeatekDataProcessor:
 
         if has_hydro:
             hydro_vals = processed["Hydrograph (Lagged)"].values
-            hydro_mask_arr = ~pd.isna(hydro_vals) & (hydro_vals != 0)
+            # ⚡ Bolt Optimization: Replace ~pd.isna(hydro_vals) & (hydro_vals != 0) with ~(pd.isna(hydro_vals) | (hydro_vals == 0))
+            # Bitwise OR on two boolean numpy arrays is faster than bitwise AND with a negation,
+            # reducing the number of intermediate array allocations.
+            hydro_mask_arr = ~(pd.isna(hydro_vals) | (hydro_vals == 0))
             keep_mask_arr = sensor_mask_arr | hydro_mask_arr
         else:
             hydro_mask_arr = np.zeros(len(processed), dtype=bool)
