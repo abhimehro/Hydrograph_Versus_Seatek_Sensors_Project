@@ -92,16 +92,19 @@ class ChartGenerator:
         )
 
         if "Time (Minutes)" in data.columns and len(data) > 0:
-            metrics.time_range_min = data["Time (Minutes)"].min()
-            metrics.time_range_max = data["Time (Minutes)"].max()
+            if not data["Time (Minutes)"].isna().all():
+                metrics.time_range_min = np.nanmin(data["Time (Minutes)"].values)
+                metrics.time_range_max = np.nanmax(data["Time (Minutes)"].values)
 
         if sensor in data.columns and len(data) > 0:
-            metrics.sensor_min = data[sensor].min()
-            metrics.sensor_max = data[sensor].max()
+            if not data[sensor].isna().all():
+                metrics.sensor_min = np.nanmin(data[sensor].values)
+                metrics.sensor_max = np.nanmax(data[sensor].values)
 
         if "Hydrograph (Lagged)" in data.columns and len(data) > 0:
-            metrics.hydro_min = data["Hydrograph (Lagged)"].min()
-            metrics.hydro_max = data["Hydrograph (Lagged)"].max()
+            if not data["Hydrograph (Lagged)"].isna().all():
+                metrics.hydro_min = np.nanmin(data["Hydrograph (Lagged)"].values)
+                metrics.hydro_max = np.nanmax(data["Hydrograph (Lagged)"].values)
 
     def _configure_primary_axis(self, ax1: plt.Axes) -> None:
         """Configure labels, colors, ticks, and formatters for the primary axis."""
@@ -255,8 +258,13 @@ class ChartGenerator:
                 # Choose y-axis formatter based on whether hydrograph values are effectively integers
                 hydro_values = hydro_data["Hydrograph (Lagged)"]
                 # Compute maximum deviation from nearest integer to detect fractional values
-                max_frac_deviation = (hydro_values - hydro_values.round()).abs().max()
-                if pd.notna(max_frac_deviation) and max_frac_deviation < 1e-6:
+                frac_devs = (hydro_values - hydro_values.round()).abs()
+                max_frac_deviation = (
+                    np.nanmax(frac_devs.values)
+                    if not frac_devs.isna().all()
+                    else np.nan
+                )
+                if not pd.isna(max_frac_deviation) and max_frac_deviation < 1e-6:
                     hydro_fmt = "{x:,.0f}"
                 else:
                     hydro_fmt = "{x:,.2f}"

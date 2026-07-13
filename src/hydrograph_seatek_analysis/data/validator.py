@@ -116,7 +116,7 @@ class DataValidator:
         if df["Year"].isna().all():
             return None
         years = df["Year"].unique()
-        return sorted(years[pd.notna(years)].astype(int).tolist())
+        return sorted(years[~pd.isna(years)].astype(int).tolist())
 
     def _extract_hydro_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
         """Helper to extract time range safely."""
@@ -126,8 +126,8 @@ class DataValidator:
         if df["Time (Seconds)"].isna().all():
             return None
         return [
-            df["Time (Seconds)"].min(),
-            df["Time (Seconds)"].max(),
+            np.nanmin(df["Time (Seconds)"].values),
+            np.nanmax(df["Time (Seconds)"].values),
         ]
 
     def _process_hydro_sheet(
@@ -204,14 +204,18 @@ class DataValidator:
     def _extract_processed_year_range(self, df: pd.DataFrame) -> Optional[List[int]]:
         if "Year" not in df.columns or len(df) == 0:
             return None
-        return [int(df["Year"].min()), int(df["Year"].max())]
+        if df["Year"].isna().all():
+            return None
+        return [int(np.nanmin(df["Year"].values)), int(np.nanmax(df["Year"].values))]
 
     def _extract_processed_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
         if "Time (Seconds)" not in df.columns or len(df) == 0:
             return None
+        if df["Time (Seconds)"].isna().all():
+            return None
         return [
-            float(df["Time (Seconds)"].min()),
-            float(df["Time (Seconds)"].max()),
+            float(np.nanmin(df["Time (Seconds)"].values)),
+            float(np.nanmax(df["Time (Seconds)"].values)),
         ]
 
     def _process_processed_file(
