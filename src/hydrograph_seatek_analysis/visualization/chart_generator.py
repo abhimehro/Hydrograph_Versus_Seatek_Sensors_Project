@@ -95,30 +95,37 @@ class ChartGenerator:
         self, data: pd.DataFrame, metrics: ChartMetrics
     ) -> None:
         """Calculate time range metrics."""
-        if "Time (Minutes)" in data.columns and len(data) > 0:
-            if not data["Time (Minutes)"].isna().all():
-                metrics.time_range_min = np.nanmin(data["Time (Minutes)"].values)
-                metrics.time_range_max = np.nanmax(data["Time (Minutes)"].values)
+        if "Time (Minutes)" not in data.columns or len(data) == 0:
+            return
+        if data["Time (Minutes)"].isna().all():
+            return
+
+        metrics.time_range_min = np.nanmin(data["Time (Minutes)"].values)
+        metrics.time_range_max = np.nanmax(data["Time (Minutes)"].values)
 
     def _calculate_sensor_metrics(
         self, data: pd.DataFrame, sensor: str, metrics: ChartMetrics
     ) -> None:
         """Calculate min/max for sensor."""
-        if sensor in data.columns and len(data) > 0 and not data[sensor].isna().all():
-            metrics.sensor_min = np.nanmin(data[sensor].values)
-            metrics.sensor_max = np.nanmax(data[sensor].values)
+        if sensor not in data.columns or len(data) == 0:
+            return
+        if data[sensor].isna().all():
+            return
+
+        metrics.sensor_min = np.nanmin(data[sensor].values)
+        metrics.sensor_max = np.nanmax(data[sensor].values)
 
     def _calculate_hydro_metrics(
         self, data: pd.DataFrame, metrics: ChartMetrics
     ) -> None:
         """Calculate min/max for hydrograph."""
-        if (
-            "Hydrograph (Lagged)" in data.columns
-            and len(data) > 0
-            and not data["Hydrograph (Lagged)"].isna().all()
-        ):
-            metrics.hydro_min = np.nanmin(data["Hydrograph (Lagged)"].values)
-            metrics.hydro_max = np.nanmax(data["Hydrograph (Lagged)"].values)
+        if "Hydrograph (Lagged)" not in data.columns or len(data) == 0:
+            return
+        if data["Hydrograph (Lagged)"].isna().all():
+            return
+
+        metrics.hydro_min = np.nanmin(data["Hydrograph (Lagged)"].values)
+        metrics.hydro_max = np.nanmax(data["Hydrograph (Lagged)"].values)
 
     def _calculate_metrics(
         self, data: pd.DataFrame, sensor: str, metrics: ChartMetrics
