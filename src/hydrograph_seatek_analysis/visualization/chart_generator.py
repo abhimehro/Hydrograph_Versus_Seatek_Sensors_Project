@@ -91,26 +91,34 @@ class ChartGenerator:
             else 0
         )
 
-        self._update_min_max_metrics(
-            data, "Time (Minutes)", metrics, "time_range_min", "time_range_max"
-        )
-        self._update_min_max_metrics(data, sensor, metrics, "sensor_min", "sensor_max")
-        self._update_min_max_metrics(
-            data, "Hydrograph (Lagged)", metrics, "hydro_min", "hydro_max"
-        )
+        self._update_min_max_metrics(data, "Time (Minutes)", metrics)
+        self._update_min_max_metrics(data, sensor, metrics)
+        self._update_min_max_metrics(data, "Hydrograph (Lagged)", metrics)
 
     def _update_min_max_metrics(
         self,
         data: pd.DataFrame,
         col: str,
         metrics: ChartMetrics,
-        min_attr: str,
-        max_attr: str,
     ) -> None:
         """Update min and max metrics safely for a given column."""
-        if col in data.columns and len(data) > 0 and not data[col].isna().all():
-            setattr(metrics, min_attr, float(np.nanmin(data[col].values)))
-            setattr(metrics, max_attr, float(np.nanmax(data[col].values)))
+        if col not in data.columns or len(data) == 0:
+            return
+        if data[col].isna().all():
+            return
+
+        min_val = float(np.nanmin(data[col].values))
+        max_val = float(np.nanmax(data[col].values))
+
+        if col == "Time (Minutes)":
+            metrics.time_range_min = min_val
+            metrics.time_range_max = max_val
+        elif col == "Hydrograph (Lagged)":
+            metrics.hydro_min = min_val
+            metrics.hydro_max = max_val
+        else:
+            metrics.sensor_min = min_val
+            metrics.sensor_max = max_val
 
     def _configure_primary_axis(self, ax1: plt.Axes) -> None:
         """Configure labels, colors, ticks, and formatters for the primary axis."""

@@ -204,7 +204,9 @@ class DataValidator:
             return None
 
     def _extract_processed_year_range(self, df: pd.DataFrame) -> Optional[List[int]]:
-        if "Year" not in df.columns or len(df) == 0 or df["Year"].isna().all():
+        if "Year" not in df.columns or len(df) == 0:
+            return None
+        if df["Year"].isna().all():
             return None
         return [int(np.nanmin(df["Year"].values)), int(np.nanmax(df["Year"].values))]
 
