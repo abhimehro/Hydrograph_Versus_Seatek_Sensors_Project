@@ -218,17 +218,20 @@ class DataValidator:
             float(np.nanmax(df["Time (Seconds)"].values)),
         ]
 
+    def _extract_river_mile_from_path(self, file_path: Path) -> Optional[float]:
+        """Extract river mile from file path."""
+        try:
+            rm_str = file_path.stem.split("_")[1]
+            return float(rm_str)
+        except (IndexError, ValueError):
+            logger.warning(f"Invalid river mile file name: {file_path.name}")
+            return None
+
     def _process_processed_file(
         self, file_path: Path, required_cols: set[str]
     ) -> Dict[str, Any]:
         """Process a single processed river mile file."""
-        # Extract river mile
-        try:
-            rm_str = file_path.stem.split("_")[1]
-            river_mile = float(rm_str)
-        except (IndexError, ValueError):
-            logger.warning(f"Invalid river mile file name: {file_path.name}")
-            river_mile = None
+        river_mile = self._extract_river_mile_from_path(file_path)
 
         # Optimization: load columns dynamically and load in a single pass.
         # First column is unconditionally included as an anchor so df may include a column that is neither required nor a Sensor_ column.
@@ -238,13 +241,7 @@ class DataValidator:
 
         df = pd.read_excel(file_path, usecols=filter_cols)
         columns = list(seen_cols)
-
         missing = [col for col in required_cols if col not in columns]
-        sensor_cols = [col for col in columns if str(col).startswith("Sensor_")]
-
-        # Check data range
-        year_range = self._extract_processed_year_range(df)
-        time_range = self._extract_processed_time_range(df)
 
         return {
             "file": file_path.name,
@@ -252,9 +249,11 @@ class DataValidator:
             "columns": columns,
             "rows": len(df),
             "required_columns_present": len(missing) == 0,
-            "sensor_columns": sensor_cols,
-            "year_range": year_range,
-            "time_range": time_range,
+            "sensor_columns": [
+                col for col in columns if str(col).startswith("Sensor_")
+            ],
+            "year_range": self._extract_processed_year_range(df),
+            "time_range": self._extract_processed_time_range(df),
         }
 
     def validate_processed_files(self) -> List[Dict[str, Any]]:
