@@ -120,10 +120,12 @@ class DataValidator:
 
     def _extract_hydro_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
         """Helper to extract time range safely."""
-        if "Time (Seconds)" not in df.columns or len(df) == 0:
-            return None
         # ⚡ Bolt Optimization: Replace not df["Time (Seconds)"].notna().any() with df["Time (Seconds)"].isna().all() to avoid intermediate boolean Series allocations
-        if df["Time (Seconds)"].isna().all():
+        if (
+            "Time (Seconds)" not in df.columns
+            or len(df) == 0
+            or df["Time (Seconds)"].isna().all()
+        ):
             return None
         return [
             float(np.nanmin(df["Time (Seconds)"].values)),
@@ -202,16 +204,16 @@ class DataValidator:
             return None
 
     def _extract_processed_year_range(self, df: pd.DataFrame) -> Optional[List[int]]:
-        if "Year" not in df.columns or len(df) == 0:
-            return None
-        if df["Year"].isna().all():
+        if "Year" not in df.columns or len(df) == 0 or df["Year"].isna().all():
             return None
         return [int(np.nanmin(df["Year"].values)), int(np.nanmax(df["Year"].values))]
 
     def _extract_processed_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
-        if "Time (Seconds)" not in df.columns or len(df) == 0:
-            return None
-        if df["Time (Seconds)"].isna().all():
+        if (
+            "Time (Seconds)" not in df.columns
+            or len(df) == 0
+            or df["Time (Seconds)"].isna().all()
+        ):
             return None
         return [
             float(np.nanmin(df["Time (Seconds)"].values)),
