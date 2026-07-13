@@ -100,19 +100,25 @@ class ChartGenerator:
                 metrics.time_range_min = np.nanmin(data["Time (Minutes)"].values)
                 metrics.time_range_max = np.nanmax(data["Time (Minutes)"].values)
 
-    def _calculate_sensor_hydro_metrics(
+    def _calculate_sensor_metrics(
         self, data: pd.DataFrame, sensor: str, metrics: ChartMetrics
     ) -> None:
-        """Calculate min/max for sensor and hydrograph."""
-        if sensor in data.columns and len(data) > 0:
-            if not data[sensor].isna().all():
-                metrics.sensor_min = np.nanmin(data[sensor].values)
-                metrics.sensor_max = np.nanmax(data[sensor].values)
+        """Calculate min/max for sensor."""
+        if sensor in data.columns and len(data) > 0 and not data[sensor].isna().all():
+            metrics.sensor_min = np.nanmin(data[sensor].values)
+            metrics.sensor_max = np.nanmax(data[sensor].values)
 
-        if "Hydrograph (Lagged)" in data.columns and len(data) > 0:
-            if not data["Hydrograph (Lagged)"].isna().all():
-                metrics.hydro_min = np.nanmin(data["Hydrograph (Lagged)"].values)
-                metrics.hydro_max = np.nanmax(data["Hydrograph (Lagged)"].values)
+    def _calculate_hydro_metrics(
+        self, data: pd.DataFrame, metrics: ChartMetrics
+    ) -> None:
+        """Calculate min/max for hydrograph."""
+        if (
+            "Hydrograph (Lagged)" in data.columns
+            and len(data) > 0
+            and not data["Hydrograph (Lagged)"].isna().all()
+        ):
+            metrics.hydro_min = np.nanmin(data["Hydrograph (Lagged)"].values)
+            metrics.hydro_max = np.nanmax(data["Hydrograph (Lagged)"].values)
 
     def _calculate_metrics(
         self, data: pd.DataFrame, sensor: str, metrics: ChartMetrics
@@ -120,7 +126,8 @@ class ChartGenerator:
         """Calculate chart metrics from data."""
         self._calculate_counts(data, sensor, metrics)
         self._calculate_time_metrics(data, metrics)
-        self._calculate_sensor_hydro_metrics(data, sensor, metrics)
+        self._calculate_sensor_metrics(data, sensor, metrics)
+        self._calculate_hydro_metrics(data, metrics)
 
     def _configure_primary_axis(self, ax1: plt.Axes) -> None:
         """Configure labels, colors, ticks, and formatters for the primary axis."""
