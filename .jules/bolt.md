@@ -158,3 +158,7 @@
 ## 2025-02-14 - Optimize multiple boolean filters in Pandas/NumPy using bitwise OR and logical negation
 **Learning:** When generating complex boolean filter masks, combining conditions via `~A & B` (like `~pd.isna(vals) & (vals != 0)`) requires evaluating both arrays, negating one, and computing their intersection. This is less efficient than factoring the negation: `~(A | ~B)` (i.e. `~(pd.isna(vals) | (vals == 0))`), which is computationally faster and creates fewer intermediate array allocations in NumPy.
 **Action:** Replace `~pd.isna(array) & (array != 0)` with `~(pd.isna(array) | (array == 0))` to minimize the number of boolean negations and intersection operations, improving memory performance in critical data processing loops.
+
+## 2024-05-19 - Pandas .min()/.max() vs NumPy nanmin/nanmax
+**Learning:** Replacing Pandas `.min()`/`.max()` with NumPy `np.nanmin`/`np.nanmax` on `.values` arrays is a micro-optimization that can introduce behavioral regressions on all-NaN slices (RuntimeWarnings) and significantly reduce code readability when guarded by `isna().all()` checks. It offers no measurable impact on macro application performance, especially when IO operations dominate.
+**Action:** Avoid micro-optimizations that hurt readability or introduce complex edge case handling for nan values unless profiling specifically flags that operation as a bottleneck.

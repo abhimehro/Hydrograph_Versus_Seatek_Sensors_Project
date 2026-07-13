@@ -125,9 +125,10 @@ class DataValidator:
         # ⚡ Bolt Optimization: Replace not df["Time (Seconds)"].notna().any() with df["Time (Seconds)"].isna().all() to avoid intermediate boolean Series allocations
         if df["Time (Seconds)"].isna().all():
             return None
+        # ⚡ Bolt Optimization: Replace Pandas .min()/.max() with NumPy nanmin/nanmax for performance
         return [
-            df["Time (Seconds)"].min(),
-            df["Time (Seconds)"].max(),
+            float(np.nanmin(df["Time (Seconds)"].values)),
+            float(np.nanmax(df["Time (Seconds)"].values)),
         ]
 
     def _process_hydro_sheet(
@@ -202,16 +203,22 @@ class DataValidator:
             return None
 
     def _extract_processed_year_range(self, df: pd.DataFrame) -> Optional[List[int]]:
-        if "Year" not in df.columns or len(df) == 0:
+        if "Year" not in df.columns or len(df) == 0 or df["Year"].isna().all():
             return None
-        return [int(df["Year"].min()), int(df["Year"].max())]
+        # ⚡ Bolt Optimization: Replace Pandas .min()/.max() with NumPy nanmin/nanmax for performance
+        return [int(np.nanmin(df["Year"].values)), int(np.nanmax(df["Year"].values))]
 
     def _extract_processed_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
-        if "Time (Seconds)" not in df.columns or len(df) == 0:
+        if (
+            "Time (Seconds)" not in df.columns
+            or len(df) == 0
+            or df["Time (Seconds)"].isna().all()
+        ):
             return None
+        # ⚡ Bolt Optimization: Replace Pandas .min()/.max() with NumPy nanmin/nanmax for performance
         return [
-            float(df["Time (Seconds)"].min()),
-            float(df["Time (Seconds)"].max()),
+            float(np.nanmin(df["Time (Seconds)"].values)),
+            float(np.nanmax(df["Time (Seconds)"].values)),
         ]
 
     def _process_processed_file(

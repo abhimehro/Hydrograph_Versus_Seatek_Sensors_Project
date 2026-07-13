@@ -91,17 +91,28 @@ class ChartGenerator:
             else 0
         )
 
-        if "Time (Minutes)" in data.columns and len(data) > 0:
-            metrics.time_range_min = data["Time (Minutes)"].min()
-            metrics.time_range_max = data["Time (Minutes)"].max()
+        if (
+            "Time (Minutes)" in data.columns
+            and len(data) > 0
+            and not data["Time (Minutes)"].isna().all()
+        ):
+            # ⚡ Bolt Optimization: Replace Pandas .min()/.max() with NumPy nanmin/nanmax for performance
+            metrics.time_range_min = float(np.nanmin(data["Time (Minutes)"].values))
+            metrics.time_range_max = float(np.nanmax(data["Time (Minutes)"].values))
 
-        if sensor in data.columns and len(data) > 0:
-            metrics.sensor_min = data[sensor].min()
-            metrics.sensor_max = data[sensor].max()
+        if sensor in data.columns and len(data) > 0 and not data[sensor].isna().all():
+            # ⚡ Bolt Optimization: Replace Pandas .min()/.max() with NumPy nanmin/nanmax for performance
+            metrics.sensor_min = float(np.nanmin(data[sensor].values))
+            metrics.sensor_max = float(np.nanmax(data[sensor].values))
 
-        if "Hydrograph (Lagged)" in data.columns and len(data) > 0:
-            metrics.hydro_min = data["Hydrograph (Lagged)"].min()
-            metrics.hydro_max = data["Hydrograph (Lagged)"].max()
+        if (
+            "Hydrograph (Lagged)" in data.columns
+            and len(data) > 0
+            and not data["Hydrograph (Lagged)"].isna().all()
+        ):
+            # ⚡ Bolt Optimization: Replace Pandas .min()/.max() with NumPy nanmin/nanmax for performance
+            metrics.hydro_min = float(np.nanmin(data["Hydrograph (Lagged)"].values))
+            metrics.hydro_max = float(np.nanmax(data["Hydrograph (Lagged)"].values))
 
     def _configure_primary_axis(self, ax1: plt.Axes) -> None:
         """Configure labels, colors, ticks, and formatters for the primary axis."""
