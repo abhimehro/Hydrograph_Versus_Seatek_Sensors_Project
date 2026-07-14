@@ -76,35 +76,54 @@ class ChartGenerator:
             }
         )
 
+    def _update_counts(
+        self, data: pd.DataFrame, sensor: str, metrics: ChartMetrics
+    ) -> None:
+        """Update sensor and hydrograph count metrics."""
+        # ⚡ Bolt Optimization: Use count_nonzero on numpy arrays to bypass pandas object overhead
+        if sensor in data.columns:
+            metrics.sensor_count = len(data) - np.count_nonzero(
+                pd.isna(data[sensor].values)
+            )
+        if HYDROGRAPH_COL in data.columns:
+            metrics.hydro_count = len(data) - np.count_nonzero(
+                pd.isna(data[HYDROGRAPH_COL].values)
+            )
+
+    def _update_time_metrics(self, data: pd.DataFrame, metrics: ChartMetrics) -> None:
+        """Update time range metrics if data is available."""
+        if "Time (Minutes)" in data.columns and len(data) > 0:
+            if not data["Time (Minutes)"].isna().all():
+                # ⚡ Bolt Optimization: Replace df.min/max with np.nanmin/nanmax on values array to bypass pandas overhead
+                metrics.time_range_min = float(np.nanmin(data["Time (Minutes)"].values))
+                metrics.time_range_max = float(np.nanmax(data["Time (Minutes)"].values))
+
+    def _update_sensor_metrics(
+        self, data: pd.DataFrame, sensor: str, metrics: ChartMetrics
+    ) -> None:
+        """Update sensor min/max metrics if data is available."""
+        if sensor in data.columns and len(data) > 0:
+            if not data[sensor].isna().all():
+                # ⚡ Bolt Optimization: Replace df.min/max with np.nanmin/nanmax on values array to bypass pandas overhead
+                metrics.sensor_min = float(np.nanmin(data[sensor].values))
+                metrics.sensor_max = float(np.nanmax(data[sensor].values))
+
+    def _update_hydro_metrics(self, data: pd.DataFrame, metrics: ChartMetrics) -> None:
+        """Update hydrograph min/max metrics if data is available."""
+        if "Hydrograph (Lagged)" in data.columns and len(data) > 0:
+            if not data["Hydrograph (Lagged)"].isna().all():
+                # ⚡ Bolt Optimization: Replace df.min/max with np.nanmin/nanmax on values array to bypass pandas overhead
+                metrics.hydro_min = float(np.nanmin(data["Hydrograph (Lagged)"].values))
+                metrics.hydro_max = float(np.nanmax(data["Hydrograph (Lagged)"].values))
+
     def _calculate_metrics(
         self, data: pd.DataFrame, sensor: str, metrics: ChartMetrics
     ) -> None:
         """Calculate chart metrics from data."""
-        metrics.sensor_count = (
-            (len(data) - np.count_nonzero(pd.isna(data[sensor].values)))
-            if sensor in data.columns
-            else 0
-        )
-        metrics.hydro_count = (
-            (len(data) - np.count_nonzero(pd.isna(data[HYDROGRAPH_COL].values)))
-            if HYDROGRAPH_COL in data.columns
-            else 0
-        )
-
-        if "Time (Minutes)" in data.columns and len(data) > 0:
-            if not data["Time (Minutes)"].isna().all():
-                metrics.time_range_min = float(np.nanmin(data["Time (Minutes)"].values))
-                metrics.time_range_max = float(np.nanmax(data["Time (Minutes)"].values))
-
-        if sensor in data.columns and len(data) > 0:
-            if not data[sensor].isna().all():
-                metrics.sensor_min = float(np.nanmin(data[sensor].values))
-                metrics.sensor_max = float(np.nanmax(data[sensor].values))
-
-        if "Hydrograph (Lagged)" in data.columns and len(data) > 0:
-            if not data["Hydrograph (Lagged)"].isna().all():
-                metrics.hydro_min = float(np.nanmin(data["Hydrograph (Lagged)"].values))
-                metrics.hydro_max = float(np.nanmax(data["Hydrograph (Lagged)"].values))
+        self._update_counts(data, sensor, metrics)
+        self._update_time_metrics(data, metrics)
+        self._update_sensor_metrics(data, sensor, metrics)
+        self._update_hydro_metrics(data, metrics)
 
     def _configure_primary_axis(self, ax1: plt.Axes) -> None:
         """Configure labels, colors, ticks, and formatters for the primary axis."""
