@@ -118,17 +118,22 @@ class DataValidator:
         years = df["Year"].unique()
         return sorted(years[pd.notna(years)].astype(int).tolist())
 
-    def _extract_hydro_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
-        """Helper to extract time range safely."""
-        if "Time (Seconds)" not in df.columns or len(df) == 0:
+    def _extract_range(
+        self, df: pd.DataFrame, col: str, type_cast: Callable
+    ) -> Optional[List]:
+        """Extract min and max range for a column."""
+        if col not in df.columns or len(df) == 0:
             return None
-        # ⚡ Bolt Optimization: Replace not df["Time (Seconds)"].notna().any() with df["Time (Seconds)"].isna().all() to avoid intermediate boolean Series allocations
-        if df["Time (Seconds)"].isna().all():
+        if df[col].isna().all():
             return None
         return [
-            df["Time (Seconds)"].min(),
-            df["Time (Seconds)"].max(),
+            type_cast(np.nanmin(df[col].values)),
+            type_cast(np.nanmax(df[col].values)),
         ]
+
+    def _extract_hydro_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
+        """Helper to extract time range safely."""
+        return self._extract_range(df, "Time (Seconds)", float)
 
     def _process_hydro_sheet(
         self, excel: Any, hydro_file: Any, sheet: str
@@ -202,17 +207,10 @@ class DataValidator:
             return None
 
     def _extract_processed_year_range(self, df: pd.DataFrame) -> Optional[List[int]]:
-        if "Year" not in df.columns or len(df) == 0:
-            return None
-        return [int(df["Year"].min()), int(df["Year"].max())]
+        return self._extract_range(df, "Year", int)
 
     def _extract_processed_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
-        if "Time (Seconds)" not in df.columns or len(df) == 0:
-            return None
-        return [
-            float(df["Time (Seconds)"].min()),
-            float(df["Time (Seconds)"].max()),
-        ]
+        return self._extract_range(df, "Time (Seconds)", float)
 
     def _process_processed_file(
         self, file_path: Path, required_cols: set[str]
