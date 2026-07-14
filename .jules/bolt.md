@@ -158,7 +158,3 @@
 ## 2025-02-14 - Optimize multiple boolean filters in Pandas/NumPy using bitwise OR and logical negation
 **Learning:** When generating complex boolean filter masks, combining conditions via `~A & B` (like `~pd.isna(vals) & (vals != 0)`) requires evaluating both arrays, negating one, and computing their intersection. This is less efficient than factoring the negation: `~(A | ~B)` (i.e. `~(pd.isna(vals) | (vals == 0))`), which is computationally faster and creates fewer intermediate array allocations in NumPy.
 **Action:** Replace `~pd.isna(array) & (array != 0)` with `~(pd.isna(array) | (array == 0))` to minimize the number of boolean negations and intersection operations, improving memory performance in critical data processing loops.
-
-## 2026-05-18 - Preserve Control Flow During NumPy Replacements
-**Learning:** When using regex or string replacement scripts to programmatically rewrite Python code (e.g., replacing Pandas methods with NumPy equivalents), deleting or inadvertently un-indenting adjacent control flow statements (like `return None`) can introduce critical bugs (such as unreachable code).
-**Action:** Always strictly preserve the original indentation and logic of surrounding statements. Use simpler string replacements over complex regex when possible, and thoroughly review `git diff` outputs for accidental control flow modifications.
