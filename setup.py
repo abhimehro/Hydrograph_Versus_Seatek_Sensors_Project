@@ -10,14 +10,14 @@ setup(
     author_email="abhimhrtr@pm.me",
     packages=find_packages(),
     install_requires=[
-        "pandas>=1.5.0",
-        "matplotlib>=3.5.0",
-        "seaborn>=0.11.0",
-        "openpyxl>=3.0.0",
-        "numpy>=1.21.0",
-        "colorlog>=6.7.0",
-        "pyyaml>=6.0.0",
-        "defusedxml>=0.7.1",
+        "numpy>=1.26.0,<2.0.0",
+        "pandas>=2.2.3,<3.0.0",
+        "matplotlib>=3.8.3,<4.0.0",
+        "seaborn>=0.13.2,<0.14.0",
+        "openpyxl>=3.1.2,<4.0.0",
+        "colorlog>=6.7.0,<7.0.0",
+        "pyyaml>=6.0.1,<7.0.0",
+        "defusedxml>=0.7.1,<0.8.0",
     ],
     entry_points={
         "console_scripts": [

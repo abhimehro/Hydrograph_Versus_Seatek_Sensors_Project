@@ -59,7 +59,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install automation runner dependencies
-        run: python -m pip install --upgrade pip pyyaml
+        run: python -m pip install --upgrade "pip>=24.0,<26.0" "pyyaml>=6.0.1,<7.0.0"
 
       - name: Execute workflow updater task
         continue-on-error: true
@@ -95,7 +95,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install automation runner dependencies
-        run: python -m pip install --upgrade pip pyyaml
+        run: python -m pip install --upgrade "pip>=24.0,<26.0" "pyyaml>=6.0.1,<7.0.0"
 
       - name: Execute performance optimizer task
         continue-on-error: true
@@ -131,7 +131,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install automation runner dependencies
-        run: python -m pip install --upgrade pip pyyaml
+        run: python -m pip install --upgrade "pip>=24.0,<26.0" "pyyaml>=6.0.1,<7.0.0"
 
       - name: Execute quality assurance task
         continue-on-error: true
@@ -167,7 +167,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install automation runner dependencies
-        run: python -m pip install --upgrade pip pyyaml
+        run: python -m pip install --upgrade "pip>=24.0,<26.0" "pyyaml>=6.0.1,<7.0.0"
 
       - name: Execute backlog manager task
         continue-on-error: true
@@ -207,7 +207,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install automation runner dependencies
-        run: python -m pip install --upgrade pip pyyaml
+        run: python -m pip install --upgrade "pip>=24.0,<26.0" "pyyaml>=6.0.1,<7.0.0"
 
       - name: Download task artifacts
         uses: actions/download-artifact@v8
