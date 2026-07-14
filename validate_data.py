@@ -198,9 +198,7 @@ def main():
                             "extra_processed_rms"
                         ]
                     )
-                    print(
-                        f"  ⚠️  Extra processed data for river miles: {extra_rms_str}"
-                    )
+                    print(f"  ⚠️  Extra processed data for river miles: {extra_rms_str}")  # fmt: skip
 
             # Overall verdict
             print("\n" + " 🏁 OVERALL VALIDATION ".center(51, "="))
