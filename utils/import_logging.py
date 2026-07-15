@@ -35,6 +35,10 @@ logger = logging.getLogger(__name__)
 def load_config(config_file="config.yaml"):
     """Load configuration."""
     try:
+        config_path = Path(config_file)
+        if not is_safe_path(Path.cwd(), config_path):
+            logger.error(f"SECURITY: Attempted path traversal detected. Path outside base directory: {config_path}")
+            return {}
         with open(config_file, "r") as file:
             return yaml.safe_load(file)
     except FileNotFoundError:

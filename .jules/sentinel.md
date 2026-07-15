@@ -85,3 +85,11 @@
 **Vulnerability:** A config-driven path `data_dir` read from `config.yaml` was directly joined with `raw` using `os.path.join` and evaluated by `glob.glob` in `utils/import_logging.py`. This creates a path traversal vulnerability where an attacker with control over the configuration file could traverse out of the intended directory and read/process arbitrary files on the file system.
 **Learning:** Path traversal vulnerabilities can occur not just through direct user input but also through configuration files if those files are ever untrusted or manipulated. Paths retrieved from configurations should be treated as untrusted and validated against a known base directory before use.
 **Prevention:** Apply the `is_safe_path(base_dir: Path, target_path: Path)` utility to any dynamically constructed path (even if sourced from configuration) before using it in file operations like `glob.glob` or `open()`.
+## 2026-07-14 - Missing Imports in Code Review
+**Vulnerability:** N/A (Code review tooling hallucination)
+**Learning:** The `request_code_review` tool may incorrectly flag patches as incomplete by hallucinating missing imports (e.g., claiming `Path` and `is_safe_path` are missing in `utils/import_logging.py`) and predicting a `NameError`, even when those imports are demonstrably present in the file.
+**Prevention:** If local testing confirms the imports are present and the code executes successfully, ignore the hallucinated rejection and proceed with PR submission.
+## 2026-07-14 - Config-Driven Path Traversal in load_config
+**Vulnerability:** A config-driven path traversal vulnerability existed in `utils/import_logging.py` where an untrusted path provided via `config_file` could be arbitrarily loaded using `yaml.safe_load(open(config_file))` without being verified against the base directory.
+**Learning:** Even simple configuration loading functions can become path traversal vectors if the file path is externally controlled and used without sanitization or sandboxing checks.
+**Prevention:** Apply the `is_safe_path(base_dir: Path, target_path: Path)` utility to any dynamically constructed or user-provided file path (such as configuration files) before using it in file operations like `open()`, `read_excel()`, or `glob.glob()`.
