@@ -158,3 +158,11 @@
 ## 2025-02-14 - Optimize multiple boolean filters in Pandas/NumPy using bitwise OR and logical negation
 **Learning:** When generating complex boolean filter masks, combining conditions via `~A & B` (like `~pd.isna(vals) & (vals != 0)`) requires evaluating both arrays, negating one, and computing their intersection. This is less efficient than factoring the negation: `~(A | ~B)` (i.e. `~(pd.isna(vals) | (vals == 0))`), which is computationally faster and creates fewer intermediate array allocations in NumPy.
 **Action:** Replace `~pd.isna(array) & (array != 0)` with `~(pd.isna(array) | (array == 0))` to minimize the number of boolean negations and intersection operations, improving memory performance in critical data processing loops.
+
+## 2025-02-14 - Optimize Series.to_dict()
+**Learning:** Using `series.to_dict()` incurs overhead from Pandas creating intermediate index and dataframe representations. Using Python's native `dict(series)` directly avoids this overhead and provides the same result.
+**Action:** Replace `series.to_dict()` with `dict(series)` to optimize performance.
+
+## 2025-02-14 - Optimize Pandas chained mathematical operations
+**Learning:** Chaining mathematical operations and aggregations on a Pandas Series (e.g., `(series - series.round()).abs().max()`) allocates a new intermediate Pandas Series object at each step, causing significant performance overhead.
+**Action:** Extract the underlying NumPy array first (`series.values`) and apply NumPy equivalents (e.g., `np.nanmax(np.abs(vals - np.round(vals)))`). Ensure to handle empty arrays properly (e.g., by checking `len() > 0`) to avoid `RuntimeWarning` and `ValueError`.

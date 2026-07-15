@@ -1,24 +1,15 @@
-1. **Optimize `_process_year_data` in `tests/data_processing/__init__.py`**
-   - In `tests/data_processing/__init__.py` line ~197, we currently have:
-     ```python
-     valid_data = year_data[
-         year_data[sensor].notna()
-         & (year_data[sensor] > 0)
-         & (year_data[sensor] != float("inf"))
-     ]
-     ```
-   - According to the instructions `Performance optimization in Pandas: When applying multiple boolean filters to isolate strictly positive, finite numbers, the condition data > 0 naturally evaluates to False for NaN, 0, and negative values (including -inf). Redundant checks like .notna(), != 0, or != float('-inf') should be removed to prevent allocating unnecessary intermediate boolean Pandas Series, simplifying the filter to (data > 0) & (data < float('inf')).`
-   - We will replace it with:
-     ```python
-     valid_data = year_data[
-         (year_data[sensor] > 0) & (year_data[sensor] < float("inf"))
-     ]
-     ```
-2. **Review other instances of `notna()` in the codebase**
-   - The other usages in `validator.py` and `chart_generator.py` are already using the `isna().all()` optimization or extracting `pd.notna(years)`, which are okay.
-
-3. **Complete pre-commit steps**
+1. **Optimize max fractional deviation calculation in `chart_generator.py`**
+   - Replace the intermediate pandas object allocation when calculating max fractional deviation of hydrograph values.
+   - We will write a python script to read `src/hydrograph_seatek_analysis/visualization/chart_generator.py` and replace `max_frac_deviation = (hydro_values - hydro_values.round()).abs().max()` with `hydro_vals_arr = hydro_values.values; max_frac_deviation = np.nanmax(np.abs(hydro_vals_arr - np.round(hydro_vals_arr)))`
+   - We will add `# ⚡ Bolt Optimization: Replace pandas max/round overhead with numpy equivalents` comment.
+   - Verify changes using `git diff`.
+2. **Optimize `missing_values.to_dict()` in `validator.py`**
+   - The method `to_dict()` on Pandas Series creates intermediate index/dataframe representations.
+   - We will run `sed -i 's/"missing_values": missing_values.to_dict()/"missing_values": dict(missing_values)  # ⚡ Bolt Optimization: Avoid Series.to_dict() overhead/' src/hydrograph_seatek_analysis/data/validator.py` to optimize this.
+   - Verify changes using `git diff`.
+3. **Verify testing**
+   - Run `python3 -m pytest tests/` to verify tests pass.
+4. **Run Pre-Commit Checks**
    - Complete pre-commit steps to ensure proper testing, verification, review, and reflection are done.
-
-4. **Submit the change**
-   - Submit the PR with the required Bolt PR format.
+5. **Submit PR**
+   - Submit the PR with the performance improvements.
