@@ -158,3 +158,7 @@
 ## 2025-02-14 - Optimize multiple boolean filters in Pandas/NumPy using bitwise OR and logical negation
 **Learning:** When generating complex boolean filter masks, combining conditions via `~A & B` (like `~pd.isna(vals) & (vals != 0)`) requires evaluating both arrays, negating one, and computing their intersection. This is less efficient than factoring the negation: `~(A | ~B)` (i.e. `~(pd.isna(vals) | (vals == 0))`), which is computationally faster and creates fewer intermediate array allocations in NumPy.
 **Action:** Replace `~pd.isna(array) & (array != 0)` with `~(pd.isna(array) | (array == 0))` to minimize the number of boolean negations and intersection operations, improving memory performance in critical data processing loops.
+
+## 2024-07-25 - Avoid empty slice RuntimeWarning when replacing Pandas .max() with NumPy np.nanmax()
+**Learning:** Pandas methods like `.max()` safely ignore empty series or series containing only `NaN`s without emitting a warning. However, when optimizing by replacing these with direct NumPy operations like `np.nanmax()` on the underlying `.values` array, passing an empty array or an array of all NaNs causes NumPy to raise a `RuntimeWarning: All-NaN slice encountered`.
+**Action:** When replacing Pandas aggregation methods with NumPy equivalents to avoid object allocation overhead, always ensure a guard condition exists (e.g., `if len(arr) > 0 and not arr.isna().all():`) to handle these edge cases safely and prevent warnings, returning an appropriate default value (like `float('nan')`) otherwise.
