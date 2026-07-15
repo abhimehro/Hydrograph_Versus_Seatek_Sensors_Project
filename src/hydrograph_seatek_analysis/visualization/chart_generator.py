@@ -241,6 +241,25 @@ class ChartGenerator:
             )
 
     @staticmethod
+    def _format_hydrograph_axis(ax: plt.Axes, hydro_values: pd.Series) -> None:
+        """Format the hydrograph y-axis based on values."""
+        # Compute maximum deviation from nearest integer to detect fractional values
+        # ⚡ Bolt Optimization: Use guard conditions before NumPy nanmax to prevent warnings, and replace Pandas intermediate object allocations
+        if len(hydro_values) > 0 and not hydro_values.isna().all():
+            hydro_values_arr = hydro_values.values
+            max_frac_deviation = float(
+                np.nanmax(np.abs(hydro_values_arr - np.round(hydro_values_arr)))
+            )
+        else:
+            max_frac_deviation = float("nan")
+
+        if not pd.isna(max_frac_deviation) and max_frac_deviation < 1e-6:
+            hydro_fmt = "{x:,.0f}"
+        else:
+            hydro_fmt = "{x:,.2f}"
+        ax.yaxis.set_major_formatter(ticker.StrMethodFormatter(hydro_fmt))
+
+    @staticmethod
     def _add_hydrograph(ax1: plt.Axes, data: pd.DataFrame) -> Optional[plt.Axes]:
         """
         Add hydrograph data to the plot.
@@ -275,23 +294,9 @@ class ChartGenerator:
                 ax2.tick_params(axis="y", labelcolor=HYDRO_COLOR)
 
                 # Choose y-axis formatter based on whether hydrograph values are effectively integers
-                hydro_values = hydro_data["Hydrograph (Lagged)"]
-                # Compute maximum deviation from nearest integer to detect fractional values
-
-                # ⚡ Bolt Optimization: Use guard conditions before NumPy nanmax to prevent warnings, and replace Pandas intermediate object allocations
-                if len(hydro_values) > 0 and not hydro_values.isna().all():
-                    hydro_values_arr = hydro_values.values
-                    max_frac_deviation = float(
-                        np.nanmax(np.abs(hydro_values_arr - np.round(hydro_values_arr)))
-                    )
-                else:
-                    max_frac_deviation = float("nan")
-
-                if not pd.isna(max_frac_deviation) and max_frac_deviation < 1e-6:
-                    hydro_fmt = "{x:,.0f}"
-                else:
-                    hydro_fmt = "{x:,.2f}"
-                ax2.yaxis.set_major_formatter(ticker.StrMethodFormatter(hydro_fmt))
+                ChartGenerator._format_hydrograph_axis(
+                    ax2, hydro_data["Hydrograph (Lagged)"]
+                )
 
             return ax2
         except Exception as e:
