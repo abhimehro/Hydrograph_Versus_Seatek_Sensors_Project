@@ -43,6 +43,10 @@
 
 **Merged pull requests:**
 
+- ⚡ Bolt: Optimize max fractional deviation calculation with NumPy [\#363](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/363) ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Fix Flake8 max-line-length anti-pattern [\#362](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/362) ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump actions/setup-node from 6.4.0 to 7.0.0 [\#360](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/360) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump ruby/setup-ruby from 1.316.0 to 1.317.0 [\#359](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/359) ([dependabot[bot]](https://github.com/apps/dependabot))
 - 🛡️ Sentinel: \[CRITICAL/HIGH\] Fix config-driven path traversal in load\_config [\#358](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/358) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize Pandas min/max with NumPy [\#355](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/355) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize multiple boolean filters in NumPy arrays [\#345](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/345) ([abhimehro](https://github.com/abhimehro))
