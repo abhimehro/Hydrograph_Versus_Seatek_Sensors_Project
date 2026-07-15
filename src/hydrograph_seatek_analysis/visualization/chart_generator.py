@@ -277,8 +277,17 @@ class ChartGenerator:
                 # Choose y-axis formatter based on whether hydrograph values are effectively integers
                 hydro_values = hydro_data["Hydrograph (Lagged)"]
                 # Compute maximum deviation from nearest integer to detect fractional values
-                max_frac_deviation = (hydro_values - hydro_values.round()).abs().max()
-                if pd.notna(max_frac_deviation) and max_frac_deviation < 1e-6:
+
+                # ⚡ Bolt Optimization: Use guard conditions before NumPy nanmax to prevent warnings, and replace Pandas intermediate object allocations
+                if len(hydro_values) > 0 and not hydro_values.isna().all():
+                    hydro_values_arr = hydro_values.values
+                    max_frac_deviation = float(
+                        np.nanmax(np.abs(hydro_values_arr - np.round(hydro_values_arr)))
+                    )
+                else:
+                    max_frac_deviation = float("nan")
+
+                if not pd.isna(max_frac_deviation) and max_frac_deviation < 1e-6:
                     hydro_fmt = "{x:,.0f}"
                 else:
                     hydro_fmt = "{x:,.2f}"
