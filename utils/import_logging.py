@@ -8,7 +8,7 @@ from pathlib import Path
 
 import yaml
 
-from .security import is_safe_path
+from .security import is_safe_path, validate_file_size
 
 # Load YAML content
 yaml_content = """
@@ -37,8 +37,13 @@ def load_config(config_file="config.yaml"):
     try:
         config_path = Path(config_file)
         if not is_safe_path(Path.cwd(), config_path):
-            logger.error(f"SECURITY: Attempted path traversal detected. Path outside base directory: {config_path}")
+            logger.error(
+                f"SECURITY: Attempted path traversal detected. Path outside base directory: {config_path}"
+            )
             return {}
+
+        # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+        validate_file_size(config_path, 1 * 1024 * 1024)  # 1 MB limit
         with open(config_file, "r") as file:
             return yaml.safe_load(file)
     except FileNotFoundError:
