@@ -49,10 +49,12 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): bump mypy from 1.20.2 to 2.3.0 [\#372](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/372) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pre-commit from 3.8.0 to 4.6.0 [\#371](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/371) ([dependabot[bot]](https://github.com/apps/dependabot))
 - 🛡️ QA: \[MEDIUM\] Fix missing size validation in config loading [\#370](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/370) ([abhimehro](https://github.com/abhimehro))
 - 🛠️ QA: Fix pre-commit formatting \(black\) [\#369](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/369) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump ruby/setup-ruby from 1.317.0 to 1.318.0 [\#367](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/367) ([dependabot[bot]](https://github.com/apps/dependabot))
+- perf\(validator\): dict\(series\) instead of to\_dict\(\) \(salvages \#364\) [\#366](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/366) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize max fractional deviation calculation with NumPy [\#363](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/363) ([abhimehro](https://github.com/abhimehro))
 - 🛠️ QA: Fix Flake8 max-line-length anti-pattern [\#362](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/362) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump actions/setup-node from 6.4.0 to 7.0.0 [\#360](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/360) ([dependabot[bot]](https://github.com/apps/dependabot))
