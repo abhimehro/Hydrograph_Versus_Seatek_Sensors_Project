@@ -162,3 +162,7 @@
 ## 2024-07-25 - Avoid empty slice RuntimeWarning when replacing Pandas .max() with NumPy np.nanmax()
 **Learning:** Pandas methods like `.max()` safely ignore empty series or series containing only `NaN`s without emitting a warning. However, when optimizing by replacing these with direct NumPy operations like `np.nanmax()` on the underlying `.values` array, passing an empty array or an array of all NaNs causes NumPy to raise a `RuntimeWarning: All-NaN slice encountered`.
 **Action:** When replacing Pandas aggregation methods with NumPy equivalents to avoid object allocation overhead, always ensure a guard condition exists (e.g., `if len(arr) > 0 and not arr.isna().all():`) to handle these edge cases safely and prevent warnings, returning an appropriate default value (like `float('nan')`) otherwise.
+
+## 2024-05-27 - Replace pd.Series.to_dict() with dict()
+**Learning:** Using `pandas.Series.to_dict()` allocates intermediate objects and invokes slower internal paths. Directly using Python's built-in `dict(series)` operates efficiently by bypassing these Pandas-specific overheads, yielding significantly faster mapping creation on Series objects.
+**Action:** Replaced `.to_dict()` with `dict()` on Pandas Series objects to reduce execution overhead.

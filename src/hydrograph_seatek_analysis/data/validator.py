@@ -101,7 +101,7 @@ class DataValidator:
                 "rows": len(df),
                 "required_columns_present": len(missing) == 0,
                 "river_miles": df["River_Mile"].tolist(),
-                "missing_values": missing_values.to_dict(),
+                "missing_values": dict(missing_values),
             }
 
         except Exception as e:
