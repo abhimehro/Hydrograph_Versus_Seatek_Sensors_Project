@@ -10,3 +10,14 @@ updates:
     labels:
       - "dependencies"
       - "github_actions"
+
+  # Enable version updates for Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "abhimehro"
+    labels:
+      - "dependencies"
+      - "python"

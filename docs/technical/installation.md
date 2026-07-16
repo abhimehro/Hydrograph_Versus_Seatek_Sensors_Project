@@ -23,9 +23,37 @@ This guide provides detailed instructions for installing and setting up the Hydr
 
 ## Installation Methods
 
-You can install the project using one of the following methods:
+Dependencies are declared in `pyproject.toml` with bounded ranges, and a fully resolved `poetry.lock` is committed for reproducible builds. You can install the project using one of the following methods:
 
-### Method 1: Direct Installation (Recommended)
+### Method 1: Using Poetry (Recommended)
+
+[Poetry](https://python-poetry.org/) is the canonical dependency manager for this project.
+
+1. Install Poetry if you don't have it:
+
+   ```bash
+   curl -sSL https://install.python-poetry.org | python3 -
+   ```
+
+2. Clone the repository:
+
+   ```bash
+   git clone https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project.git
+   cd Hydrograph_Versus_Seatek_Sensors_Project
+   ```
+
+3. Install the project and its dependencies:
+
+   ```bash
+   poetry install
+   ```
+
+4. Activate the Poetry shell:
+   ```bash
+   poetry shell
+   ```
+
+### Method 2: Direct Installation
 
 1. Clone the repository:
 
@@ -55,7 +83,7 @@ You can install the project using one of the following methods:
 
    This will install the project and its dependencies, and also make the command-line tools available.
 
-### Method 2: Using pip with requirements.txt
+### Method 3: Using pip with requirements.txt
 
 1. Clone the repository:
 
@@ -74,34 +102,6 @@ You can install the project using one of the following methods:
 3. Install dependencies from requirements.txt:
    ```bash
    pip install -r requirements.txt
-   ```
-
-### Method 3: Using Poetry
-
-[Poetry](https://python-poetry.org/) is a modern Python package and dependency manager.
-
-1. Install Poetry if you don't have it:
-
-   ```bash
-   curl -sSL https://install.python-poetry.org | python3 -
-   ```
-
-2. Clone the repository:
-
-   ```bash
-   git clone https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project.git
-   cd Hydrograph_Versus_Seatek_Sensors_Project
-   ```
-
-3. Install the project and its dependencies:
-
-   ```bash
-   poetry install
-   ```
-
-4. Activate the Poetry shell:
-   ```bash
-   poetry shell
    ```
 
 ## Verifying Installation
@@ -177,10 +177,13 @@ If you plan to develop or modify the project, you'll need additional tools:
 
 ```bash
 # Using pip
-pip install pytest pytest-cov black flake8 mypy pre-commit
+pip install -r requirements-ci.txt
 
 # Using Poetry
 poetry install --with dev
+
+# Optional docs dependencies (e.g. for building examples)
+poetry install --with dev,docs
 ```
 
 ### Set Up Pre-commit Hooks
@@ -236,6 +239,10 @@ The current implementation is sequential, but the architecture supports potentia
 If you encounter errors about missing packages, ensure you've installed all dependencies:
 
 ```bash
+# Using Poetry (recommended)
+poetry install
+
+# Using pip
 pip install -r requirements.txt
 ```
 
@@ -304,11 +311,12 @@ for path in paths:
 Keep your dependencies up to date:
 
 ```bash
-# Update dependencies
-pip install --upgrade -r requirements.txt
-
-# Using Poetry
+# Using Poetry (recommended)
 poetry update
+poetry lock
+
+# Using pip
+pip install --upgrade -r requirements.txt
 ```
 
 ### Log Rotation

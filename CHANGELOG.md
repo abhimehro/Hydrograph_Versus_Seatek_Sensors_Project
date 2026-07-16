@@ -4,8 +4,13 @@
 
 [Full Changelog](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/compare/v0.1.0...HEAD)
 
+**Security fixes:**
+
+- \[P1\] Supply-Chain Risk: Unpinned Dependencies [\#350](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/350)
+
 **Closed issues:**
 
+- Daily QA & Agentic Review - 2026-07-15 [\#368](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/368)
 - Daily QA & Agentic Review - 2026-07-14 [\#361](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/361)
 - \[repo-automation\] Daily Status Report - 2026-07-14 [\#356](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/356)
 - \[repo-automation\] Daily Status Report - 2026-07-13 [\#353](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/353)
@@ -48,6 +53,7 @@
 - chore\(deps\): bump actions/setup-node from 6.4.0 to 7.0.0 [\#360](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/360) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump ruby/setup-ruby from 1.316.0 to 1.317.0 [\#359](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/359) ([dependabot[bot]](https://github.com/apps/dependabot))
 - 🛡️ Sentinel: \[CRITICAL/HIGH\] Fix config-driven path traversal in load\_config [\#358](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/358) ([abhimehro](https://github.com/abhimehro))
+- fix\(deps\): ABHI-1433 pin dependency ranges and add reproducible poetry.lock [\#357](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/357) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize Pandas min/max with NumPy [\#355](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/355) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize multiple boolean filters in NumPy arrays [\#345](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/345) ([abhimehro](https://github.com/abhimehro))
 - 🛠️ QA: Fix end of file newline in .flake8 [\#343](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/343) ([abhimehro](https://github.com/abhimehro))

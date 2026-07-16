@@ -90,15 +90,13 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 - **matplotlib & seaborn**: Data visualization
 - **openpyxl**: Excel file handling
 - **colorlog**: Enhanced logging with color support
-- **Poetry**: Dependency management (optional)
+- **Poetry**: Dependency management and lock file
 
 ## Getting Started
 
 ### Prerequisites
 
-```bash
-python -m pip install -r requirements.txt
-```
+Dependencies are defined in `pyproject.toml` with bounded ranges. `poetry.lock` provides a fully resolved environment.
 
 ### Installation
 
@@ -119,14 +117,14 @@ python -m pip install -r requirements.txt
 3. Install the project:
 
    ```bash
-   # Option 1: Install in development mode
+   # Option 1: Install using Poetry (reproducible, uses poetry.lock)
+   poetry install
+
+   # Option 2: Install in development mode
    pip install -e .
 
-   # Option 2: Install using requirements.txt
+   # Option 3: Install using requirements.txt
    pip install -r requirements.txt
-
-   # Option 3: Install using Poetry
-   poetry install
    ```
 
 ### Usage
