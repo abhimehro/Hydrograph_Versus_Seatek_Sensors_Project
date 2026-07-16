@@ -46,7 +46,7 @@ automation:
     enabled: true
     setup_commands:
       - name: install ci dependencies
-        run: python3 -m pip install --upgrade pip && python3 -m pip install -r requirements-ci.txt pre-commit bandit
+        run: python3 -m pip install --upgrade "pip>=24.0,<26.0" && python3 -m pip install -r requirements-ci.txt
         optional: false
         timeout_seconds: 1800
     commands:
@@ -64,7 +64,7 @@ automation:
         timeout_seconds: 1800
     security_commands:
       - name: bandit source scan
-        run: python3 -m bandit -r src -ll -c .bandit
+        run: python3 -m bandit -r src -ll
         optional: true
         timeout_seconds: 1200
   backlog_manager:
