@@ -6,6 +6,7 @@ from typing import Optional, Tuple
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import numpy as np
 import pandas as pd
 import seaborn as sns
 
@@ -207,7 +208,11 @@ class SeatekVisualizer:
                         hydro_vals = data[
                             "Hydrograph (Lagged)"
                         ]  # ⚡ Bolt Optimization: Avoid unnecessary .dropna() before .max() aggregation
-                        max_frac = (hydro_vals - hydro_vals.round()).abs().max()
+                        vals = hydro_vals.values
+                        if len(vals) > 0 and not np.isnan(vals).all():
+                            max_frac = float(np.nanmax(np.abs(vals - np.round(vals))))
+                        else:
+                            max_frac = float("nan")
                         if pd.notna(max_frac) and max_frac < 1e-6:
                             ax2.yaxis.set_major_formatter(
                                 ticker.StrMethodFormatter("{x:,.0f}")
