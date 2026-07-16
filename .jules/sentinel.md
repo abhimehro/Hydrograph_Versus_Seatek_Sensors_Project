@@ -93,3 +93,8 @@
 **Vulnerability:** A config-driven path traversal vulnerability existed in `utils/import_logging.py` where an untrusted path provided via `config_file` could be arbitrarily loaded using `yaml.safe_load(open(config_file))` without being verified against the base directory.
 **Learning:** Even simple configuration loading functions can become path traversal vectors if the file path is externally controlled and used without sanitization or sandboxing checks.
 **Prevention:** Apply the `is_safe_path(base_dir: Path, target_path: Path)` utility to any dynamically constructed or user-provided file path (such as configuration files) before using it in file operations like `open()`, `read_excel()`, or `glob.glob()`.
+
+## 2026-07-20 - Config File Size Validation Missing
+**Vulnerability:** Memory exhaustion (DoS) vulnerability in `utils/import_logging.py` where `yaml.safe_load()` was called on `config_file` without prior file size validation, exposing the application to excessively large malicious configuration files or symlink bypasses.
+**Learning:** While path traversal was prevented, file size and symlink checks were omitted. Configuration files, if externally controlled, can also be vectors for DoS attacks and need the same rigorous size checks as data files.
+**Prevention:** Always apply `validate_file_size` to any file before loading it into memory, including configuration files like `config.yaml`.
