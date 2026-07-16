@@ -6,6 +6,7 @@ from typing import Optional, Tuple
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import numpy as np
 import pandas as pd
 import seaborn as sns
 
@@ -141,6 +142,40 @@ class SeatekVisualizer:
             ax2.set_ylabel("Hydrograph (GPM)", color="#0E5A8A", fontsize=12)
             ax2.tick_params(axis="y", labelcolor="#0E5A8A")
 
+    def _format_hydrograph_axis(self, ax2: plt.Axes, data: pd.DataFrame) -> None:
+        """Format the secondary hydrograph axis."""
+        if "Hydrograph (Lagged)" not in data.columns:
+            return
+        if not pd.api.types.is_numeric_dtype(data["Hydrograph (Lagged)"]):
+            return
+        if not hasattr(ax2, "yaxis"):
+            return
+
+        hydro_values = pd.to_numeric(
+            data["Hydrograph (Lagged)"], errors="coerce"
+        ).to_numpy(dtype=float)
+        if len(hydro_values) > 0 and not np.isnan(hydro_values).all():
+            max_frac = float(np.nanmax(np.abs(hydro_values - np.round(hydro_values))))
+        else:
+            max_frac = float("nan")
+
+        if pd.notna(max_frac) and max_frac < 1e-6:
+            ax2.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
+        else:
+            ax2.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.2f}"))
+
+    def _format_axes_labels(
+        self, ax: plt.Axes, data: pd.DataFrame, sensor: str
+    ) -> None:
+        """Format primary axis labels."""
+        if "Time (Minutes)" in data.columns and pd.api.types.is_numeric_dtype(
+            data["Time (Minutes)"]
+        ):
+            ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
+
+        if sensor in data.columns and pd.api.types.is_numeric_dtype(data[sensor]):
+            ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.2f}"))
+
     def _format_plot(
         self,
         fig: plt.Figure,
@@ -187,35 +222,9 @@ class SeatekVisualizer:
 
         # Apply formatting safely based on data types
         if data is not None:
-            # X-axis time formatting
-            if "Time (Minutes)" in data.columns and pd.api.types.is_numeric_dtype(
-                data["Time (Minutes)"]
-            ):
-                ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
-
-            # Y-axis sensor formatting
-            if sensor in data.columns and pd.api.types.is_numeric_dtype(data[sensor]):
-                ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.2f}"))
-
-            # Secondary Y-axis hydrograph formatting
-            if "Hydrograph (Lagged)" in data.columns and pd.api.types.is_numeric_dtype(
-                data["Hydrograph (Lagged)"]
-            ):
-                if len(fig.axes) > 1:
-                    ax2 = fig.axes[1]
-                    if hasattr(ax2, "yaxis"):
-                        hydro_vals = data[
-                            "Hydrograph (Lagged)"
-                        ]  # ⚡ Bolt Optimization: Avoid unnecessary .dropna() before .max() aggregation
-                        max_frac = (hydro_vals - hydro_vals.round()).abs().max()
-                        if pd.notna(max_frac) and max_frac < 1e-6:
-                            ax2.yaxis.set_major_formatter(
-                                ticker.StrMethodFormatter("{x:,.0f}")
-                            )
-                        else:
-                            ax2.yaxis.set_major_formatter(
-                                ticker.StrMethodFormatter("{x:,.2f}")
-                            )
+            self._format_axes_labels(ax, data, sensor)
+            if len(fig.axes) > 1:
+                self._format_hydrograph_axis(fig.axes[1], data)
 
         plt.tight_layout()
 
