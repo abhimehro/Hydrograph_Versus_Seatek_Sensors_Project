@@ -10,6 +10,8 @@
 
 **Closed issues:**
 
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-07-17 [\#385](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/385)
+- Daily QA & Agentic Review — 2026-07-17 [\#384](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/384)
 - Daily QA & Agentic Review — 2026-07-16 [\#380](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/380)
 - \[repo-automation\] Daily Status Report - 2026-07-16 [\#377](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/377)
 - Daily QA & Agentic Review - 2026-07-15 [\#368](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/368)
