@@ -166,3 +166,6 @@
 ## 2025-02-14 - Optimize Series.to_dict()
 **Learning:** Using `series.to_dict()` incurs overhead from Pandas creating intermediate index and dataframe representations. Using Python's native `dict(series)` directly avoids this overhead and provides the same result.
 **Action:** Replace `series.to_dict()` with `dict(series)` to optimize performance.
+## 2024-07-27 - Replace Pandas aggregation with NumPy operations to avoid intermediate allocation
+**Learning:** Chained Pandas mathematical operations and aggregations on a Series (like `(series - series.round()).abs().max()`) allocate multiple intermediate Pandas Series objects, reducing execution speed and increasing memory overhead. Extracting the underlying NumPy array (`series.values`) and using direct NumPy equivalents (`np.nanmax(np.abs(vals - np.round(vals)))`) significantly speeds up execution. However, NumPy's `np.nanmax()` raises a `RuntimeWarning` when provided with an empty array or an array full of `NaN`s, whereas Pandas `.max()` handles this gracefully.
+**Action:** When optimizing Pandas aggregation methods with direct NumPy operations to avoid overhead, ensure a guard condition exists (e.g., `if len(arr) > 0 and not arr.isna().all():`) to handle empty or `NaN`-only arrays safely and prevent warnings, returning an appropriate default value (like `float('nan')`) otherwise.

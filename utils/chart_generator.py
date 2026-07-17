@@ -5,6 +5,7 @@ from typing import Optional
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import numpy as np
 import pandas as pd
 import seaborn as sns
 from matplotlib.figure import Figure
@@ -155,9 +156,10 @@ class ChartGenerator:
 
                 if pd.api.types.is_numeric_dtype(data["Hydrograph (Lagged)"]):
                     hydro_values = hydro_data["Hydrograph (Lagged)"]
-                    max_frac_deviation = (
-                        (hydro_values - hydro_values.round()).abs().max()
-                    )
+                    max_frac_deviation = float("nan")
+                    if len(hydro_values) > 0 and not hydro_values.isna().all():
+                        vals = hydro_values.values
+                        max_frac_deviation = np.nanmax(np.abs(vals - np.round(vals)))
                     if pd.notna(max_frac_deviation) and max_frac_deviation < 1e-6:
                         hydro_fmt = "{x:,.0f}"
                     else:
