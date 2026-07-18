@@ -53,6 +53,7 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): bump colorlog from 6.10.1 to 6.11.0 [\#383](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/383) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump ruby/setup-ruby from 1.318.0 to 1.319.0 [\#379](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/379) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Draft: Salvage \#376 hydrograph axis aggregation optimization [\#378](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/378) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump pytest-cov from 4.1.0 to 7.1.0 [\#373](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/373) ([dependabot[bot]](https://github.com/apps/dependabot))
