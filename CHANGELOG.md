@@ -58,6 +58,7 @@
 
 **Merged pull requests:**
 
+- ⚡ Bolt: Replace Pandas .min\(\) and .max\(\) with NumPy equivalents for faster aggregation [\#396](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/396) ([abhimehro](https://github.com/abhimehro))
 - fix\(deps\): pin Pillow \>=12.3.0 \(matplotlib transitive OSV\) [\#394](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/394) ([cursor[bot]](https://github.com/apps/cursor))
 - chore\(deps\): bump actions/checkout from 7.0.0 to 7.0.1 [\#393](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/393) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump actions/setup-python from 6 to 7 [\#392](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/392) ([dependabot[bot]](https://github.com/apps/dependabot))
