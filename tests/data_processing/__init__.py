@@ -109,8 +109,16 @@ class Visualizer:
             stats = {
                 "mean": data[sensor].mean(),
                 "std": data[sensor].std(),
-                "min": data[sensor].min(),
-                "max": data[sensor].max(),
+                "min": (
+                    np.nanmin(data[sensor].values)
+                    if len(data[sensor]) > 0 and not data[sensor].isna().all()
+                    else float("nan")
+                ),
+                "max": (
+                    np.nanmax(data[sensor].values)
+                    if len(data[sensor]) > 0 and not data[sensor].isna().all()
+                    else float("nan")
+                ),
             }
 
             # Add colorbar

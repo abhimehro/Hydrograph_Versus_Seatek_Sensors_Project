@@ -49,7 +49,17 @@ def check_excel_structure(file_path: Path) -> None:
                 # Check time column
                 if "Time (Seconds)" in df.columns:
                     time_data = df["Time (Seconds)"]
-                    logger.info(f"Time range: [{time_data.min()}, {time_data.max()}]")
+                    t_min = (
+                        np.nanmin(time_data.values)
+                        if len(time_data) > 0 and not time_data.isna().all()
+                        else float("nan")
+                    )
+                    t_max = (
+                        np.nanmax(time_data.values)
+                        if len(time_data) > 0 and not time_data.isna().all()
+                        else float("nan")
+                    )
+                    logger.info(f"Time range: [{t_min}, {t_max}]")
 
     except Exception as e:
         logger.error(f"Error checking file: {str(e)}")
