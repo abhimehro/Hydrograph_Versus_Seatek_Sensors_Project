@@ -9,6 +9,31 @@ import numpy as np
 import pandas as pd
 
 
+def _check_sensor_columns(df: pd.DataFrame, logger: logging.Logger) -> None:
+    sensor_cols = [col for col in df.columns if col.startswith("Sensor_")]
+    if sensor_cols:
+        for col in sensor_cols:
+            non_null = len(df) - np.count_nonzero(pd.isna(df[col].values))
+            zeros = np.count_nonzero(df[col].values == 0)
+            logger.info(f"{col}: {non_null} non-null values, {zeros} zero values")
+
+
+def _check_time_column(df: pd.DataFrame, logger: logging.Logger) -> None:
+    if "Time (Seconds)" in df.columns:
+        time_data = df["Time (Seconds)"]
+        t_min = (
+            np.nanmin(time_data.values)
+            if len(time_data) > 0 and not time_data.isna().all()
+            else float("nan")
+        )
+        t_max = (
+            np.nanmax(time_data.values)
+            if len(time_data) > 0 and not time_data.isna().all()
+            else float("nan")
+        )
+        logger.info(f"Time range: [{t_min}, {t_max}]")
+
+
 def check_excel_structure(file_path: Path) -> None:
     """
     Verify Excel file structure and content.
@@ -33,23 +58,8 @@ def check_excel_structure(file_path: Path) -> None:
                 logger.info(f"Columns: {list(df.columns)}")
                 logger.info(f"Data shape: {df.shape}")
 
-                # Check for sensor columns
-                sensor_cols = [col for col in df.columns if col.startswith("Sensor_")]
-                if sensor_cols:
-                    for col in sensor_cols:
-                        non_null = len(df) - np.count_nonzero(
-                            pd.isna(df[col].values)
-                        )  # ⚡ Bolt Optimization: Use numpy for faster non-null counting
-                        zeros = np.count_nonzero(df[col].values == 0)
-                        logger.info(
-                            f"{col}: {non_null} non-null values, "
-                            f"{zeros} zero values"
-                        )
-
-                # Check time column
-                if "Time (Seconds)" in df.columns:
-                    time_data = df["Time (Seconds)"]
-                    logger.info(f"Time range: [{time_data.min()}, {time_data.max()}]")
+                _check_sensor_columns(df, logger)
+                _check_time_column(df, logger)
 
     except Exception as e:
         logger.error(f"Error checking file: {str(e)}")

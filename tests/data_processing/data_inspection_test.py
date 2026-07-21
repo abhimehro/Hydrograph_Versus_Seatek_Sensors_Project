@@ -82,7 +82,17 @@ def inspect_sheet(excel: pd.ExcelFile, sheet_name: str) -> None:
         if time_cols:
             logger.info("\nTime columns found:")
             for col in time_cols:
-                time_range = f"[{df[col].min()}, {df[col].max()}]"
+                c_min = (
+                    np.nanmin(df[col].values)
+                    if len(df[col]) > 0 and not df[col].isna().all()
+                    else float("nan")
+                )
+                c_max = (
+                    np.nanmax(df[col].values)
+                    if len(df[col]) > 0 and not df[col].isna().all()
+                    else float("nan")
+                )
+                time_range = f"[{c_min}, {c_max}]"
                 logger.info(f"{col} range: {time_range}")
 
         # Sample data preview
