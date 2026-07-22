@@ -59,6 +59,7 @@
 
 **Merged pull requests:**
 
+- 🛡️ Sentinel: \[MEDIUM\] Fix Path Traversal in Logger Configuration [\#400](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/400) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump ruby/setup-ruby from 1.319.0 to 1.320.0 [\#398](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/398) ([dependabot[bot]](https://github.com/apps/dependabot))
 - ⚡ Bolt: Replace Pandas .min\(\) and .max\(\) with NumPy equivalents for faster aggregation [\#396](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/396) ([abhimehro](https://github.com/abhimehro))
 - fix\(deps\): pin Pillow \>=12.3.0 \(matplotlib transitive OSV\) [\#394](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/394) ([cursor[bot]](https://github.com/apps/cursor))
