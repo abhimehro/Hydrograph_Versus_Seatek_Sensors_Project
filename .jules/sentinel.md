@@ -98,3 +98,7 @@
 **Vulnerability:** Memory exhaustion (DoS) vulnerability in `utils/import_logging.py` where `yaml.safe_load()` was called on `config_file` without prior file size validation, exposing the application to excessively large malicious configuration files or symlink bypasses.
 **Learning:** While path traversal was prevented, file size and symlink checks were omitted. Configuration files, if externally controlled, can also be vectors for DoS attacks and need the same rigorous size checks as data files.
 **Prevention:** Always apply `validate_file_size` to any file before loading it into memory, including configuration files like `config.yaml`.
+## 2026-07-20 - Unsanitized Configurable Log File Path
+**Vulnerability:** Path traversal vulnerability in `src/hydrograph_seatek_analysis/core/logger.py` where an untrusted variable (`log_filename`) was directly joined with `log_path` without sanitization or sandboxing checks. If an attacker controls the `log_filename` provided to `configure_root_logger`, they could write log files to arbitrary locations.
+**Learning:** Even internal logging configuration helpers are a potential vector if they accept filenames from downstream consumers without sanitization. The logging module's native file handler does not inherently block path traversal dots (`..`).
+**Prevention:** Always apply `sanitize_filename` and `is_safe_path` (from `utils.security`) to dynamic filenames, including log files configured at the application root, before they are processed by the file handler.

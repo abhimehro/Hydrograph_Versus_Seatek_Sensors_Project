@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Union
 
+from utils.security import is_safe_path, sanitize_filename
+
 
 @dataclass
 class FileLogConfig:
@@ -115,7 +117,14 @@ def configure_root_logger(
     if log_dir:
         log_path = Path(log_dir)
         log_path.mkdir(parents=True, exist_ok=True)
-        log_file = log_path / log_filename
+
+        # SECURITY: Sanitize the filename to prevent path traversal
+        safe_filename = sanitize_filename(log_filename)
+        log_file = log_path / safe_filename
+
+        # SECURITY: Verify that the resolved path is safely within the log directory
+        if not is_safe_path(log_path, log_file):
+            log_file = log_path / "app.log"
 
     # Configure the root logger
     file_config = FileLogConfig(path=log_file) if log_file else None
