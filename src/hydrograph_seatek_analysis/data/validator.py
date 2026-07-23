@@ -42,13 +42,11 @@ class DataValidator:
 
         return filter_func, seen_cols
 
-    def _calculate_missing_values(self, df: pd.DataFrame, columns: set) -> pd.Series:
+    def _calculate_missing_values(self, df: pd.DataFrame, columns: set) -> dict:
         """Helper to calculate missing values efficiently."""
         # ⚡ Bolt Optimization: Replace df[cols].isna().sum() with dictionary comprehension and np.count_nonzero
         # to avoid the overhead of creating an intermediate boolean DataFrame in memory and implicit type casting.
-        return pd.Series(
-            {col: np.count_nonzero(pd.isna(df[col].values)) for col in columns}
-        )
+        return {col: np.count_nonzero(pd.isna(df[col].values)) for col in columns}
 
     def validate_summary_file(self) -> Optional[Dict[str, Any]]:
         """
@@ -90,7 +88,7 @@ class DataValidator:
 
             # Check for missing values
             missing_values = self._calculate_missing_values(df, required_cols)
-            if missing_values.any():
+            if any(val > 0 for val in missing_values.values()):
                 logger.warning(
                     f"Missing values detected in summary data: {missing_values}"
                 )
@@ -101,9 +99,7 @@ class DataValidator:
                 "rows": len(df),
                 "required_columns_present": len(missing) == 0,
                 "river_miles": df["River_Mile"].tolist(),
-                "missing_values": dict(
-                    missing_values
-                ),  # ⚡ Bolt Optimization: Avoid Series.to_dict() overhead
+                "missing_values": missing_values,  # ⚡ Bolt Optimization: Avoid Series.to_dict() overhead
             }
 
         except Exception as e:
