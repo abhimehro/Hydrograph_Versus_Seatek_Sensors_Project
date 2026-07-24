@@ -10,6 +10,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch("data_validator.Config")
     @patch("data_validator.pd.read_excel")
     @patch("data_validator.Path.is_symlink")
+    @patch("data_validator.Path.is_file")
     @patch("data_validator.Path.exists")
     @patch("data_validator.Path.stat")
     @patch("data_validator.os.walk")
@@ -18,6 +19,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_walk,
         mock_stat,
         mock_exists,
+        mock_is_file,
         mock_is_symlink,
         mock_read_excel,
         mock_config_cls,
@@ -25,6 +27,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_walk.return_value = []
         mock_exists.return_value = True
         mock_is_symlink.return_value = False
+        mock_is_file.return_value = True
 
         mock_config = MagicMock()
         mock_config.max_file_size_bytes = 100 * 1024 * 1024
@@ -43,6 +46,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch("data_validator.pd.read_excel")
     @patch("data_validator.pd.ExcelFile")
     @patch("data_validator.Path.is_symlink")
+    @patch("data_validator.Path.is_file")
     @patch("data_validator.Path.exists")
     @patch("data_validator.Path.stat")
     @patch("data_validator.os.walk")
@@ -51,6 +55,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_walk,
         mock_stat,
         mock_exists,
+        mock_is_file,
         mock_is_symlink,
         mock_excel_file,
         mock_read_excel,
@@ -59,6 +64,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_walk.return_value = []
         mock_exists.return_value = True
         mock_is_symlink.return_value = False
+        mock_is_file.return_value = True
 
         mock_config = MagicMock()
         mock_config.max_file_size_bytes = 100 * 1024 * 1024
@@ -93,6 +99,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch("data_validator.pd.read_excel")
     @patch("data_validator.pd.ExcelFile")
     @patch("data_validator.Path.is_symlink")
+    @patch("data_validator.Path.is_file")
     @patch("data_validator.Path.exists")
     @patch("data_validator.Path.stat")
     @patch("data_validator.os.walk")
@@ -101,6 +108,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_walk,
         mock_stat,
         mock_exists,
+        mock_is_file,
         mock_is_symlink,
         mock_excel_file,
         mock_read_excel,
@@ -109,6 +117,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_walk.return_value = []
         mock_exists.return_value = True
         mock_is_symlink.return_value = False
+        mock_is_file.return_value = True
 
         mock_config = MagicMock()
         mock_config.max_file_size_bytes = 100 * 1024 * 1024

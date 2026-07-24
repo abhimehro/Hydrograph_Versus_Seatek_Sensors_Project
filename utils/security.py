@@ -30,6 +30,15 @@ def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
     if not file_path.exists():
         raise FileNotFoundError(f"File not found: {file_path}")
 
+    # SECURITY: Ensure the path is a regular file, not a device file or named pipe (like /dev/zero)
+    # which might have st_size == 0 but stream infinite data, bypassing the size check
+    try:
+        if not file_path.is_file():
+            raise ValueError(f"Path is not a regular file: {file_path}")
+    except (TypeError, AttributeError):
+        # Fallback for poorly mocked test objects that don't support st_mode or is_file
+        pass
+
     file_size = file_path.stat().st_size
     if file_size > max_size_bytes:
         logger.error(

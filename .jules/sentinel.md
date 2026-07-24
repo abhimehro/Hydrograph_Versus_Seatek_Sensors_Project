@@ -102,3 +102,8 @@
 **Vulnerability:** Path traversal vulnerability in `src/hydrograph_seatek_analysis/core/logger.py` where an untrusted variable (`log_filename`) was directly joined with `log_path` without sanitization or sandboxing checks. If an attacker controls the `log_filename` provided to `configure_root_logger`, they could write log files to arbitrary locations.
 **Learning:** Even internal logging configuration helpers are a potential vector if they accept filenames from downstream consumers without sanitization. The logging module's native file handler does not inherently block path traversal dots (`..`).
 **Prevention:** Always apply `sanitize_filename` and `is_safe_path` (from `utils.security`) to dynamic filenames, including log files configured at the application root, before they are processed by the file handler.
+
+## 2026-07-21 - Device File Stream DoS Mitigation
+**Vulnerability:** Memory exhaustion (DoS) via infinite streaming in `utils/security.py` where `validate_file_size` checked `st_size` but did not verify if the path was a regular file. Special device files (like `/dev/zero` or `/dev/urandom` on Unix-like systems) and named pipes have an `st_size` of `0`, bypassing the size limit. If passed to functions like `pd.read_excel()` or `open()`, they could block indefinitely or stream infinite data into memory, causing a DoS.
+**Learning:** File size checks (`st_size <= max_size`) are insufficient if the file is a special device file or named pipe, which can stream data indefinitely despite reporting a size of 0. Both size and file type must be validated.
+**Prevention:** Always verify that a path is a regular file (`file_path.is_file()`) in addition to checking its size and ensuring it is not a symlink.
