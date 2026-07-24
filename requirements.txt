@@ -1,5 +1,6 @@
 # Runtime dependencies - bounded ranges matching pyproject.toml [tool.poetry.dependencies]
-numpy>=1.26.0,<2.0.0
+# Align with pyproject.toml / poetry.lock (numpy 2.x); was incorrectly capped at <2.0
+numpy>=1.26.0,<3.0.0
 pandas>=2.2.3,<3.0.0
 matplotlib>=3.8.3,<4.0.0
 # DEPENDENCY: pillow>=12.3.0 — explicit floor for matplotlib transitive;
