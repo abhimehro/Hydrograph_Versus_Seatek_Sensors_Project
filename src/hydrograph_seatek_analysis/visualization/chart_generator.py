@@ -93,7 +93,7 @@ class ChartGenerator:
     def _update_time_metrics(self, data: pd.DataFrame, metrics: ChartMetrics) -> None:
         """Update time range metrics if data is available."""
         if "Time (Minutes)" in data.columns and len(data) > 0:
-            if not data["Time (Minutes)"].isna().all():
+            if not np.all(pd.isna(data["Time (Minutes)"].values)):
                 # ⚡ Bolt Optimization: Replace df.min/max with np.nanmin/nanmax on values array to bypass pandas overhead
                 metrics.time_range_min = float(np.nanmin(data["Time (Minutes)"].values))
                 metrics.time_range_max = float(np.nanmax(data["Time (Minutes)"].values))
@@ -103,7 +103,7 @@ class ChartGenerator:
     ) -> None:
         """Update sensor min/max metrics if data is available."""
         if sensor in data.columns and len(data) > 0:
-            if not data[sensor].isna().all():
+            if not np.all(pd.isna(data[sensor].values)):
                 # ⚡ Bolt Optimization: Replace df.min/max with np.nanmin/nanmax on values array to bypass pandas overhead
                 metrics.sensor_min = float(np.nanmin(data[sensor].values))
                 metrics.sensor_max = float(np.nanmax(data[sensor].values))
@@ -111,7 +111,7 @@ class ChartGenerator:
     def _update_hydro_metrics(self, data: pd.DataFrame, metrics: ChartMetrics) -> None:
         """Update hydrograph min/max metrics if data is available."""
         if "Hydrograph (Lagged)" in data.columns and len(data) > 0:
-            if not data["Hydrograph (Lagged)"].isna().all():
+            if not np.all(pd.isna(data["Hydrograph (Lagged)"].values)):
                 # ⚡ Bolt Optimization: Replace df.min/max with np.nanmin/nanmax on values array to bypass pandas overhead
                 metrics.hydro_min = float(np.nanmin(data["Hydrograph (Lagged)"].values))
                 metrics.hydro_max = float(np.nanmax(data["Hydrograph (Lagged)"].values))
@@ -245,7 +245,7 @@ class ChartGenerator:
         """Format the hydrograph y-axis based on values."""
         # Compute maximum deviation from nearest integer to detect fractional values
         # ⚡ Bolt Optimization: Use guard conditions before NumPy nanmax to prevent warnings, and replace Pandas intermediate object allocations
-        if len(hydro_values) > 0 and not hydro_values.isna().all():
+        if len(hydro_values) > 0 and not np.all(pd.isna(hydro_values.values)):
             hydro_values_arr = hydro_values.values
             max_frac_deviation = float(
                 np.nanmax(np.abs(hydro_values_arr - np.round(hydro_values_arr)))
