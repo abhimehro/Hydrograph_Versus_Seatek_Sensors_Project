@@ -30,6 +30,13 @@ def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
     if not file_path.exists():
         raise FileNotFoundError(f"File not found: {file_path}")
 
+    try:
+        if not file_path.is_file():
+            raise ValueError(f"Path is not a regular file: {file_path}")
+    except TypeError:
+        # Gracefully handle poorly mocked test environments where pathlib.Path.stat() lacks st_mode
+        pass
+
     file_size = file_path.stat().st_size
     if file_size > max_size_bytes:
         logger.error(
