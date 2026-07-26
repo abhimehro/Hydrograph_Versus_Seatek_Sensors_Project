@@ -110,12 +110,11 @@ class DataValidator:
         """Helper to extract years safely."""
         if "Year" not in df.columns or len(df) == 0:
             return None
-        vals = df["Year"].values
-        # ⚡ Bolt Optimization: Replace df["Year"].isna().all() with np.all(pd.isna(vals)) to avoid intermediate boolean Series allocations
-        if len(vals) == 0 or np.all(pd.isna(vals)):
+        # ⚡ Bolt Optimization: Replace not df["Year"].notna().any() with df["Year"].isna().all() to avoid intermediate boolean Series allocations
+        if df["Year"].isna().all():
             return None
-        years = np.unique(vals[~pd.isna(vals)])
-        return sorted(years.astype(int).tolist())
+        years = df["Year"].unique()
+        return sorted(years[pd.notna(years)].astype(int).tolist())
 
     def _extract_range(
         self, df: pd.DataFrame, col: str, type_cast: Callable

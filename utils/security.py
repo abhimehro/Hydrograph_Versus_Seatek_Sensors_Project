@@ -13,6 +13,14 @@ logger = logging.getLogger(__name__)
 defusedxml.defuse_stdlib()
 
 
+def _is_regular_file(file_path: Path) -> bool:
+    """Check if the path is a regular file. Includes fallback for mock objects."""
+    try:
+        return file_path.is_file()
+    except (TypeError, AttributeError):
+        return True
+
+
 def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
     """Validate that a file exists and does not exceed the maximum allowed size.
 
@@ -32,12 +40,8 @@ def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
 
     # SECURITY: Ensure the path is a regular file, not a device file or named pipe (like /dev/zero)
     # which might have st_size == 0 but stream infinite data, bypassing the size check
-    try:
-        if not file_path.is_file():
-            raise ValueError(f"Path is not a regular file: {file_path}")
-    except (TypeError, AttributeError):
-        # Fallback for poorly mocked test objects that don't support st_mode or is_file
-        pass
+    if not _is_regular_file(file_path):
+        raise ValueError(f"Path is not a regular file: {file_path}")
 
     file_size = file_path.stat().st_size
     if file_size > max_size_bytes:

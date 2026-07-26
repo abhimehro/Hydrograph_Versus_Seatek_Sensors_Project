@@ -169,7 +169,3 @@
 ## 2025-02-14 - Optimize Pandas Series to Dictionary Conversion Flow
 **Learning:** Performance optimization in Python/Pandas: When the final desired output is a dictionary (e.g., metric calculations per column), build a native Python dictionary directly using a dictionary comprehension rather than instantiating a `pd.Series` and casting it via `dict(series)`. Replace Pandas methods like `series.any()` with native Python equivalents like `any(val > 0 for val in my_dict.values())` to avoid unnecessary memory allocation overhead.
 **Action:** Replaced `pd.Series` instantiation with a direct dictionary comprehension in `_calculate_missing_values` and updated `.any()` checks to native Python generators.
-
-## 2025-02-14 - Optimize extracting unique values
-**Learning:** Using `pd.Series.unique()` is slower than extracting the underlying numpy array, filtering it, and finding unique values directly using numpy operations. Replacing it avoids Pandas object overhead.
-**Action:** Replaced `df['col'].unique()` and filtering with direct array operations like `np.unique(vals[~pd.isna(vals)])` for better performance.
