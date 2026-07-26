@@ -21,6 +21,20 @@ def _is_regular_file(file_path: Path) -> bool:
         return True
 
 
+def _validate_file_type(file_path: Path) -> None:
+    """Validate that a path exists, is not a symlink, and is a regular file."""
+    if file_path.is_symlink():
+        raise ValueError(f"File is a symbolic link: {file_path}")
+
+    if not file_path.exists():
+        raise FileNotFoundError(f"File not found: {file_path}")
+
+    # SECURITY: Ensure the path is a regular file, not a device file or named pipe (like /dev/zero)
+    # which might have st_size == 0 but stream infinite data, bypassing the size check
+    if not _is_regular_file(file_path):
+        raise ValueError(f"Path is not a regular file: {file_path}")
+
+
 def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
     """Validate that a file exists and does not exceed the maximum allowed size.
 
@@ -32,16 +46,7 @@ def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
         ValueError: If the file size exceeds the maximum limit, or if the file is a symbolic link.
         FileNotFoundError: If the file does not exist.
     """
-    if file_path.is_symlink():
-        raise ValueError(f"File is a symbolic link: {file_path}")
-
-    if not file_path.exists():
-        raise FileNotFoundError(f"File not found: {file_path}")
-
-    # SECURITY: Ensure the path is a regular file, not a device file or named pipe (like /dev/zero)
-    # which might have st_size == 0 but stream infinite data, bypassing the size check
-    if not _is_regular_file(file_path):
-        raise ValueError(f"Path is not a regular file: {file_path}")
+    _validate_file_type(file_path)
 
     file_size = file_path.stat().st_size
     if file_size > max_size_bytes:
