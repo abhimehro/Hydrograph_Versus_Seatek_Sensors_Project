@@ -173,3 +173,7 @@
 ## 2025-02-14 - Optimize extracting unique values
 **Learning:** Using `pd.Series.unique()` is slower than extracting the underlying numpy array, filtering it, and finding unique values directly using numpy operations. Replacing it avoids Pandas object overhead.
 **Action:** Replaced `df['col'].unique()` and filtering with direct array operations like `np.unique(vals[~pd.isna(vals)])` for better performance.
+
+## 2024-08-01 - Avoid Pandas Series overhead for .isna().all() checks
+**Learning:** Using `df[col].isna().all()` on a Pandas DataFrame or Series creates intermediate boolean Series objects in memory. The operation evaluates the null condition across the entire Series first, returning a new Series, before checking `.all()`.
+**Action:** Replace `df[col].isna().all()` with `np.all(pd.isna(df[col].values))` when performance is critical (e.g. inside chart generation updates or validation routines). This accesses the underlying NumPy array directly and evaluates the null checks without allocating intermediate Pandas Series.

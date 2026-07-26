@@ -111,7 +111,7 @@ class DataValidator:
         if "Year" not in df.columns or len(df) == 0:
             return None
         vals = df["Year"].values
-        # ⚡ Bolt Optimization: Replace df["Year"].isna().all() with np.all(pd.isna(vals)) to avoid intermediate boolean Series allocations
+        # ⚡ Bolt Optimization: Replace np.all(pd.isna(df["Year"].values)) with np.all(pd.isna(vals)) to avoid intermediate boolean Series allocations
         if len(vals) == 0 or np.all(pd.isna(vals)):
             return None
         years = np.unique(vals[~pd.isna(vals)])
@@ -123,7 +123,7 @@ class DataValidator:
         """Extract min and max range for a column."""
         if col not in df.columns or len(df) == 0:
             return None
-        if df[col].isna().all():
+        if np.all(pd.isna(df[col].values)):
             return None
         return [
             type_cast(np.nanmin(df[col].values)),
