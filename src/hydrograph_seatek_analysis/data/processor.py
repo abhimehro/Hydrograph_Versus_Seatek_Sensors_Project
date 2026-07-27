@@ -226,7 +226,7 @@ class SeatekDataProcessor:
             "Time (Minutes)" not in processed.columns
             and "Time (Seconds)" in processed.columns
         ):
-            processed["Time (Minutes)"] = processed["Time (Seconds)"] / 60.0
+            processed["Time (Minutes)"] = processed["Time (Seconds)"].values / 60.0
 
         # Convert the sensor column to numeric and apply the NAVD88 conversion.
         # Optimization: Avoid pd.to_numeric if the column is already numeric.
@@ -243,7 +243,7 @@ class SeatekDataProcessor:
         m = -constants.scale_factor
         b = y_offset + (constants.offset_a - constants.offset_b) * m
 
-        processed[sensor] = raw_data * m + b
+        processed[sensor] = raw_data.values * m + b
 
         return processed
 
