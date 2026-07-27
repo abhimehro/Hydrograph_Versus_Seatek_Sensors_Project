@@ -27,7 +27,7 @@ def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
     if file_path.is_symlink():
         raise ValueError(f"File is a symbolic link: {file_path}")
 
-    if not file_path.exists():
+    if not file_path.is_file():
         raise FileNotFoundError(f"File not found: {file_path}")
 
     file_size = file_path.stat().st_size

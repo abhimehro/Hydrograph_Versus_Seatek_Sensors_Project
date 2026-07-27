@@ -10,7 +10,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch("data_validator.Config")
     @patch("data_validator.pd.read_excel")
     @patch("data_validator.Path.is_symlink")
-    @patch("data_validator.Path.exists")
+    @patch("data_validator.Path.is_file")
     @patch("data_validator.Path.stat")
     @patch("data_validator.os.walk")
     def test_summary_path_size_exceeds(
@@ -43,7 +43,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch("data_validator.pd.read_excel")
     @patch("data_validator.pd.ExcelFile")
     @patch("data_validator.Path.is_symlink")
-    @patch("data_validator.Path.exists")
+    @patch("data_validator.Path.is_file")
     @patch("data_validator.Path.stat")
     @patch("data_validator.os.walk")
     def test_hydro_path_size_exceeds(
@@ -93,7 +93,7 @@ class TestDataValidatorSecurity(unittest.TestCase):
     @patch("data_validator.pd.read_excel")
     @patch("data_validator.pd.ExcelFile")
     @patch("data_validator.Path.is_symlink")
-    @patch("data_validator.Path.exists")
+    @patch("data_validator.Path.is_file")
     @patch("data_validator.Path.stat")
     @patch("data_validator.os.walk")
     def test_rm_path_size_exceeds(

@@ -38,7 +38,7 @@ def test_validate_summary_file(mock_read_excel, mock_is_symlink):
 
     # Mock exists check to avoid file not found error
     with (
-        mock.patch.object(Path, "exists", return_value=True),
+        mock.patch.object(Path, "is_file", return_value=True),
         mock.patch.object(Path, "stat", return_value=mock.Mock(st_size=1000)),
     ):
         result = validator.validate_summary_file()
@@ -77,7 +77,7 @@ def test_validate_summary_file_missing_columns(mock_read_excel, mock_is_symlink)
     # For missing columns, the validator returns None
     # Mock exists check to avoid file not found error
     with (
-        mock.patch.object(Path, "exists", return_value=True),
+        mock.patch.object(Path, "is_file", return_value=True),
         mock.patch.object(Path, "stat", return_value=mock.Mock(st_size=1000)),
     ):
         result = validator.validate_summary_file()
@@ -120,7 +120,7 @@ def test_validate_hydro_file(mock_read_excel, mock_is_symlink, mock_excel_file_c
 
     # Mock exists check to avoid file not found error
     with (
-        mock.patch.object(Path, "exists", return_value=True),
+        mock.patch.object(Path, "is_file", return_value=True),
         mock.patch.object(Path, "stat", return_value=mock.Mock(st_size=1000)),
     ):
         result = validator.validate_hydro_file()
@@ -169,7 +169,7 @@ def test_validate_hydro_file_missing_columns(
     validator = DataValidator(config)
 
     with (
-        mock.patch.object(Path, "exists", return_value=True),
+        mock.patch.object(Path, "is_file", return_value=True),
         mock.patch.object(Path, "stat", return_value=mock.Mock(st_size=1000)),
     ):
         result = validator.validate_hydro_file()
@@ -211,7 +211,7 @@ def test_validate_processed_files_missing_columns(mock_read_excel, mock_is_symli
     mock_file.is_symlink.return_value = False
 
     with (
-        mock.patch.object(Path, "exists", return_value=True),
+        mock.patch.object(Path, "is_file", return_value=True),
         mock.patch.object(Path, "glob", return_value=[mock_file]),
     ):
 
