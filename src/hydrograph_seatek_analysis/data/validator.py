@@ -10,7 +10,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 import numpy as np
 import pandas as pd
 
-from utils.security import validate_file_size
+from ..utils.security import validate_file_size
 
 from ..core.config import Config
 

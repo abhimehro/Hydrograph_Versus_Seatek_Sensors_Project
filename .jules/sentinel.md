@@ -8,7 +8,7 @@
 
 **Vulnerability:** Path traversal and path-length Denial of Service (DoS) in `seatek_processor.py` where untrusted variables (`year` and `sensor` from Excel data) were concatenated directly into a `Path` without sanitization, e.g., `f"Year_{year}_{sensor}.png"`. This could allow saving files outside the designated output directory or crashing the application with overly long filenames.
 **Learning:** Legacy scripts using `pathlib` for file creation often lack the input sanitization present in newer architecture (e.g., `_sanitize_filename` in `app.py`). These paths must explicitly be verified and sanitized.
-**Prevention:** Use a standalone utility function like `sanitize_filename` in `utils/security.py` that removes directory traversal sequences, limits filename length, and restricts characters. Apply this sanitization to all dynamic components of a file path before constructing the final path object.
+**Prevention:** Use a standalone utility function like `sanitize_filename` in `src/hydrograph_seatek_analysis/utils/security.py` that removes directory traversal sequences, limits filename length, and restricts characters. Apply this sanitization to all dynamic components of a file path before constructing the final path object.
 
 ## 2026-03-11 - Broken Import and Uninitialized Variable Bypasses Security Check
 
@@ -32,13 +32,13 @@
 
 **Vulnerability:** Inconsistent file size checks prior to loading large Excel files (e.g., via `pandas.read_excel()`) create a risk of memory exhaustion Denial of Service (DoS) if manual validation is accidentally omitted or inconsistently applied across scripts.
 **Learning:** Hardcoded manual `.stat().st_size` checks are prone to duplication and bypasses. Security policies are best enforced through centralized, reusable utility functions that provide consistent logging, exception handling, and error messaging.
-**Prevention:** To prevent DoS via memory exhaustion when reading large files, centralize file size checks by importing and using `validate_file_size(file_path, max_bytes)` from `utils.security` across all scripts rather than performing manual `.stat().st_size` checks.
+**Prevention:** To prevent DoS via memory exhaustion when reading large files, centralize file size checks by importing and using `validate_file_size(file_path, max_bytes)` from `src.hydrograph_seatek_analysis.utils.security` across all scripts rather than performing manual `.stat().st_size` checks.
 
 ## 2026-03-31 - Path Traversal Vulnerability in tests/data_processing/**init**.py
 
 **Vulnerability:** Path traversal and path-length Denial of Service (DoS) in `tests/data_processing/__init__.py` where untrusted variables (`year`, `river_mile`, and `sensor` from Excel data) were concatenated directly into a path string. This could allow saving files outside the designated output directory or crashing the application with overly long filenames.
 **Learning:** Even test data processing scripts can lack the input sanitization present in newer architecture (e.g., `sanitize_filename` in `app.py`). These paths must explicitly be verified and sanitized.
-**Prevention:** Always use a standalone utility function like `sanitize_filename` in `utils/security.py` that removes directory traversal sequences, limits filename length, and restricts characters. Apply this sanitization to all dynamic components of a file path before constructing the final path object.
+**Prevention:** Always use a standalone utility function like `sanitize_filename` in `src/hydrograph_seatek_analysis/utils/security.py` that removes directory traversal sequences, limits filename length, and restricts characters. Apply this sanitization to all dynamic components of a file path before constructing the final path object.
 ## 2026-04-03 - Symlink Bypass in File Size Validation
 **Vulnerability:** Arbitrary file read and validation bypass attacks could be executed by replacing target files with symbolic links. A symbolic link can point to a massive file (bypassing size validation if the system or implementation follows/doesn't follow it properly depending on context) or a sensitive system file (like `/etc/passwd`), leading to DoS or sensitive data exposure.
 **Learning:** `pathlib.Path.stat().st_size` checks the size of the target file, but if the path is a symbolic link, reading it might access unexpected locations or bypass intended constraints.
@@ -46,18 +46,18 @@
 ## 2024-05-18 - Legacy Test Data Module Bypassed DoS File Size Guard
 **Vulnerability:** Memory exhaustion (DoS) vulnerability in `tests/data_processing/__init__.py` where `pd.read_excel()` was called without prior file size validation, exposing the module to processing excessively large malicious or malformed test files.
 **Learning:** Security validations (e.g., file size checks) must be consistently applied across the entire codebase, including utility and testing scripts that process external files, as malicious actors can exploit secondary entry points if they remain unprotected.
-**Prevention:** Always implement `validate_file_size(file_path, max_size)` from `utils.security` before any instantiation of `pd.read_excel()` or `pd.ExcelFile()`, even in `tests/` directories or secondary utility modules.
+**Prevention:** Always implement `validate_file_size(file_path, max_size)` from `src.hydrograph_seatek_analysis.utils.security` before any instantiation of `pd.read_excel()` or `pd.ExcelFile()`, even in `tests/` directories or secondary utility modules.
 
 ## 2024-05-20 - Legacy Visualizer Path Traversal Guard
 **Vulnerability:** Path traversal and path-length Denial of Service (DoS) vulnerability in legacy visualization tools (`tests/data_processing/__init__.py`) where untrusted string variables (`year`, `river_mile`, and `sensor` from parsed Excel data) were passed directly to `os.path.join` and `f-strings` to generate output directories and filenames.
 **Learning:** Even scripts outside of the primary production path (`src/`) often generate artifacts. If these scripts process external data files and construct file paths dynamically based on the contents, they are vulnerable to arbitrary file write or DoS if sanitization is omitted.
-**Prevention:** Always implement `sanitize_filename` from `utils.security` on dynamic components (e.g., `river_mile`, `sensor`, `year`) before using them in file path constructions, including inside test or utility scripts.
+**Prevention:** Always implement `sanitize_filename` from `src.hydrograph_seatek_analysis.utils.security` on dynamic components (e.g., `river_mile`, `sensor`, `year`) before using them in file path constructions, including inside test or utility scripts.
 
 ## 2026-04-05 - Path Traversal Vulnerability in utils/utils.py
 
 **Vulnerability:** Path traversal and path-length Denial of Service (DoS) vulnerability in legacy visualization tools (`utils/utils.py`) where an untrusted variable (`rm` from data) was passed directly to an `f-string` and concatenated to a `pathlib.Path` to generate output directories.
 **Learning:** Even scripts outside of the primary production path (`src/`) often generate artifacts. If these scripts process external data files and construct file paths dynamically based on the contents, they are vulnerable to arbitrary file write or DoS if sanitization is omitted.
-**Prevention:** Always implement `sanitize_filename` from `utils.security` on dynamic components (e.g., `rm`, `river_mile`, `sensor`, `year`) before using them in file path constructions, including inside test or utility scripts.
+**Prevention:** Always implement `sanitize_filename` from `src.hydrograph_seatek_analysis.utils.security` on dynamic components (e.g., `rm`, `river_mile`, `sensor`, `year`) before using them in file path constructions, including inside test or utility scripts.
 
 ## 2024-06-08 - Added explicitly path traversal sanitization on integer fields to prevent potential injection
 
@@ -75,7 +75,7 @@
 
 **Vulnerability:** Memory exhaustion (DoS) vulnerability in `tests/data_processing/__init__.py` where `pd.ExcelFile()` was called without prior file size validation. Although `pd.read_excel()` calls for specific sheets were preceded by `validate_file_size`, the initial loading of the entire file into an ExcelFile object bypassed the size guard.
 **Learning:** Instantiating `pd.ExcelFile` loads the file contents and can cause memory exhaustion DoS even before individual sheets are parsed with `pd.read_excel()`.
-**Prevention:** Always implement `validate_file_size(file_path, max_size)` from `utils.security` immediately prior to `pd.ExcelFile()` instantiation, as it is a vulnerable entry point for large files.
+**Prevention:** Always implement `validate_file_size(file_path, max_size)` from `src.hydrograph_seatek_analysis.utils.security` immediately prior to `pd.ExcelFile()` instantiation, as it is a vulnerable entry point for large files.
 ## 2024-06-25 - Removed Security Theater in Tests
 **Vulnerability:** Adding DoS protections like file size validations (`validate_file_size`) to local test scripts (like `data_inspection_test.py` or `tests/data_processing/__init__.py`) is considered "security theater". Test scripts operate in a controlled environment where inputs are typically known or synthetic, so this validation doesn't provide real security and clutters the test code.
 **Learning:** Security controls should be placed where they actually mitigate a realistic threat (e.g., untrusted user input in a production application). Placing them in test scripts that only process internal dummy files creates the illusion of security without the substance.
@@ -101,7 +101,7 @@
 ## 2026-07-20 - Unsanitized Configurable Log File Path
 **Vulnerability:** Path traversal vulnerability in `src/hydrograph_seatek_analysis/core/logger.py` where an untrusted variable (`log_filename`) was directly joined with `log_path` without sanitization or sandboxing checks. If an attacker controls the `log_filename` provided to `configure_root_logger`, they could write log files to arbitrary locations.
 **Learning:** Even internal logging configuration helpers are a potential vector if they accept filenames from downstream consumers without sanitization. The logging module's native file handler does not inherently block path traversal dots (`..`).
-**Prevention:** Always apply `sanitize_filename` and `is_safe_path` (from `utils.security`) to dynamic filenames, including log files configured at the application root, before they are processed by the file handler.
+**Prevention:** Always apply `sanitize_filename` and `is_safe_path` (from `src.hydrograph_seatek_analysis.utils.security`) to dynamic filenames, including log files configured at the application root, before they are processed by the file handler.
 
 ## 2026-07-26 - Validate Files Are Regular Files to Prevent DoS
 **Vulnerability:** While file size was checked, there was no verification that the path pointed to a regular file (e.g., using `is_file()`). Special device files (like `/dev/zero` or `/dev/urandom`) report a size of 0 but can produce an infinite stream of data, leading to memory exhaustion Denial of Service (DoS) if parsed.

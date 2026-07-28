@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 # SECURITY: Patch standard library XML parsers to prevent XXE and entity expansion DoS attacks
 # This ensures that any downstream libraries (like openpyxl/pandas) are also protected.
-defusedxml.defuse_stdlib()
+defusedxml.defuse_stdlib()  # type: ignore[attr-defined]
 
 
 def _check_is_regular_file(file_path: Path) -> None:
