@@ -177,3 +177,6 @@
 ## 2024-08-01 - Avoid Pandas Series overhead for .isna().all() checks
 **Learning:** Using `df[col].isna().all()` on a Pandas DataFrame or Series creates intermediate boolean Series objects in memory. The operation evaluates the null condition across the entire Series first, returning a new Series, before checking `.all()`.
 **Action:** Replace `df[col].isna().all()` with `np.all(pd.isna(df[col].values))` when performance is critical (e.g. inside chart generation updates or validation routines). This accesses the underlying NumPy array directly and evaluates the null checks without allocating intermediate Pandas Series.
+## 2025-03-01 - Optimize scalar arithmetic operations using underlying NumPy arrays
+**Learning:** When performing scalar arithmetic operations (like `series / 60.0` or `series * m + b`) on Pandas Series, Pandas creates intermediate Series objects and incurs overhead from index alignment and metadata propagation. Bypassing this by using the underlying numpy array (`series.values`) speeds up the operations, as NumPy does the math without Pandas' structural overhead.
+**Action:** Replaced `series / 60.0` and `series * m + b` with `series.values / 60.0` and `series.values * m + b` respectively, improving performance in computationally heavy loops.
