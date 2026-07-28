@@ -9,6 +9,7 @@
 - Run main processor: `MPLBACKEND=Agg python3 seatek_processor.py`
 - Code linting: `flake8 src/ tests/`
 - Type checking: `mypy src/`
+- CI mirrors these commands on pull requests and pushes to `main` (see `.github/workflows/python-tests.yml`)
 
 Use `python3` (not `python`) — `python` is often missing from PATH in Cloud/CI environments.
 
