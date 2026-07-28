@@ -12,6 +12,17 @@ Use this skill when validating Python code changes in the
 `Hydrograph-Versus-Seatek-Sensors-Project` repo locally before asking the
 lead to merge a PR.
 
+## Repository state this skill applies to
+
+This skill reflects the repository after the `abhi-1586-quarantine-legacy-utils`
+(PR #431) cleanup lands:
+
+- `utils/security.py` has migrated to `src/hydrograph_seatek_analysis/utils/security.py`
+- legacy `utils/`, `tests/data_processing/`, `tests/utils/`, `tests/enhanced_test_suite.py`, `data_validator.py`, and the broken notebook have been removed
+- `tests/visualization/` is no longer excluded in `pyproject.toml`
+
+If you are reviewing an older checkout, the paths and test collection may differ.
+
 ## Devin Secrets Needed
 
 None.
