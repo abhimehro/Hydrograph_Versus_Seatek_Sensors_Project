@@ -65,7 +65,10 @@ jobs:
                 ;;
             esac
 
-            pr_count=$(gh pr list --repo "${{ github.repository }}" --head "$branch" --state open --json number --jq 'length' || echo "0")
+            if ! pr_count=$(gh pr list --repo "${{ github.repository }}" --head "$branch" --state open --json number --jq 'length'); then
+              echo "Skipping $branch: unable to determine open pull request status"
+              continue
+            fi
             if [ "$pr_count" -gt 0 ]; then
               echo "Skipping $branch: has open pull request"
               continue
