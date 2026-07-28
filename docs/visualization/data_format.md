@@ -2,50 +2,51 @@
 
 ## Excel File Structure
 
-### Summary Sheet
+### Summary Sheet (`Data_Summary.xlsx`)
 
-The first sheet contains metadata about all river mile locations.
+The summary workbook lists metadata for each river-mile location.
 
 #### Required Columns
 
 ```python
 {
-    'River_Mile': float,      # e.g., 54.0, 53.0
-    'Num_Sensors': int,       # Number of sensors at location
-    'Start_Year': str,        # Format: "1995 (Y01)"
-    'End_Year': str,         # Format: "2014 (Y20)"
-    'Notes': str             # Additional information
+    'River_Mile': float,   # e.g., 54.0, 53.0
+    'Y_Offset': float,     # vertical offset applied when plotting sensors
+    'Num_Sensors': int,    # number of sensors at the location
 }
 ```
 
 Example row:
 
 ```
-River_Mile  | Num_Sensors | Start_Year   | End_Year     | Notes
-54.0       | 2          | 1995 (Y01)   | 2014 (Y20)   | 1, 2
+River_Mile | Y_Offset | Num_Sensors
+54.0       | 0.0      | 2
 ```
 
-### River Mile Sheets
+Optional informational columns (e.g. Start_Year / End_Year / Notes) may appear in some workbooks but are **not** validated by the current pipeline (`src/hydrograph_seatek_analysis/data/validator.py` requires only the three columns above).
 
-Each river mile has its own sheet named `RM_{river_mile}` (e.g., `RM_54.0`)
+### River Mile Sheets (`Hydrograph_Seatek_Data.xlsx` / processed `RM_*.xlsx`)
+
+Each river mile has its own sheet named `RM_{river_mile}` (e.g., `RM_54.0`).
 
 #### Required Columns
 
 ```python
 {
-    'Time (Seconds)': float,  # Time since start of measurement
-    'Year': int,             # Year number (1-20)
-    'Sensor_1': float,       # Readings from first sensor (mm)
-    'Sensor_2': float,       # Readings from second sensor (mm)
+    'Time (Seconds)': float,       # time since start of measurement
+    'Year': int,                   # year index within the campaign
+    'Sensor_1': float,             # readings from first sensor (mm)
+    'Sensor_2': float,             # readings from additional sensors as present
+    'Hydrograph (Lagged)': float,  # lagged hydrograph stream (GPM)
 }
 ```
 
 Example data:
 
 ```
-Time (Seconds) | Year | Sensor_1 | Sensor_2
-0             | 1    | 150.23   | 148.45
-300           | 1    | 151.34   | 149.56
+Time (Seconds) | Year | Sensor_1 | Sensor_2 | Hydrograph (Lagged)
+0              | 1    | 150.23   | 148.45   | 1200.0
+300            | 1    | 151.34   | 149.56   | 1185.5
 ```
 
 ## Data Validation Rules
@@ -89,14 +90,14 @@ The script performs the following validations:
 1. **Summary Sheet Validation**
 
 ```python
-required_columns = ['River_Mile', 'Num_Sensors', 'Start_Year', 'End_Year']
+required_columns = ['River_Mile', 'Y_Offset', 'Num_Sensors']
 assert all(col in df.columns for col in required_columns)
 ```
 
 2. **River Mile Sheet Validation**
 
 ```python
-required_columns = ['Time (Seconds)', 'Year', 'Sensor_1', 'Sensor_2']
+required_columns = ['Time (Seconds)', 'Year', 'Sensor_1', 'Hydrograph (Lagged)']
 assert all(col in df.columns for col in required_columns)
 ```
 
@@ -106,32 +107,31 @@ assert all(col in df.columns for col in required_columns)
 # Time must be numeric and non-negative
 assert (df['Time (Seconds)'] >= 0).all()
 
-# Year must be integer between 1 and 20
+# Year must be integer (campaign-specific range)
 assert df['Year'].between(1, 20).all()
 
-# Sensor readings must be numeric and positive
-assert (df['Sensor_1'] > 0).all()
-assert (df['Sensor_2'] > 0).all()
+# Sensor readings must be numeric (NaN/inf excluded during processing)
+assert pd.api.types.is_numeric_dtype(df['Sensor_1'])
 ```
 
 ## Example Data File
 
 ```excel
 // Sheet1 (Summary)
-River_Mile | Num_Sensors | Start_Year | End_Year   | Notes
-54.0      | 2          | 1995 (Y01) | 2014 (Y20) | 1, 2
-53.0      | 2          | 1995 (Y01) | 2014 (Y20) | 3, 4
+River_Mile | Y_Offset | Num_Sensors
+54.0       | 0.0      | 2
+53.0       | 0.0      | 2
 
 // Sheet: RM_54.0
-Time (Seconds) | Year | Sensor_1 | Sensor_2
-0             | 1    | 150.23   | 148.45
-300           | 1    | 151.34   | 149.56
+Time (Seconds) | Year | Sensor_1 | Sensor_2 | Hydrograph (Lagged)
+0              | 1    | 150.23   | 148.45   | 1200.0
+300            | 1    | 151.34   | 149.56   | 1185.5
 ...
 
 // Sheet: RM_53.0
-Time (Seconds) | Year | Sensor_1 | Sensor_2
-0             | 1    | 149.87   | 147.89
-300           | 1    | 150.12   | 148.34
+Time (Seconds) | Year | Sensor_1 | Sensor_2 | Hydrograph (Lagged)
+0              | 1    | 149.87   | 147.89   | 1190.0
+300            | 1    | 150.12   | 148.34   | 1175.5
 ...
 ```
 

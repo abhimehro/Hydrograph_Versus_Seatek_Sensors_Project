@@ -10,7 +10,7 @@ setup(
     author_email="abhimhrtr@pm.me",
     packages=find_packages(),
     install_requires=[
-        "numpy>=1.26.0,<2.0.0",
+        "numpy>=1.26.0,<3.0.0",
         "pandas>=2.2.3,<3.0.0",
         "matplotlib>=3.8.3,<4.0.0",
         "seaborn>=0.13.2,<0.14.0",
