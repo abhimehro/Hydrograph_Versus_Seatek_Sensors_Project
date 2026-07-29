@@ -34,7 +34,8 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_stat.return_value = MagicMock(st_size=100 * 1024 * 1024 + 1)
 
         with self.assertRaises(ValueError) as context:
-            validate_data_files()
+            with patch("data_validator.Path.is_file", return_value=True):
+                validate_data_files()
 
         self.assertIn("exceeds maximum size", str(context.exception))
         mock_read_excel.assert_not_called()
@@ -65,13 +66,11 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_config_cls.return_value = mock_config
 
         def stat_side_effect():
-            # summary_path general check
+            # summary_path check
             yield MagicMock(st_size=100)
-            # summary_path specific check
             yield MagicMock(st_size=100)
-            # hydro_path checks path.stat() before general check
+            # hydro_path check
             yield MagicMock(st_size=100)
-            # hydro_path checks path.stat() before specific check
             yield MagicMock(st_size=100 * 1024 * 1024 + 1)
 
         mock_stat.side_effect = stat_side_effect()
@@ -82,12 +81,12 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_excel_file.return_value.__enter__.return_value = mock_xlsx
 
         with self.assertRaises(ValueError) as context:
-            validate_data_files()
+            with patch("data_validator.Path.is_file", return_value=True):
+                validate_data_files()
 
         self.assertIn("exceeds maximum size", str(context.exception))
         self.assertEqual(mock_read_excel.call_count, 1)  # Called for summary_path
         mock_excel_file.assert_not_called()  # ExcelFile must not be used for oversized hydro file
-        mock_excel_file.assert_not_called()
 
     @patch("data_validator.Config")
     @patch("data_validator.pd.read_excel")
@@ -115,19 +114,15 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_config_cls.return_value = mock_config
 
         def stat_side_effect():
-            # summary_path general check
+            # summary_path check
             yield MagicMock(st_size=100)
-            # summary_path specific check
             yield MagicMock(st_size=100)
-            # hydro_path checks path.stat() before general check
+            # hydro_path check
             yield MagicMock(st_size=100)
-            # hydro_path checks path.stat() before specific check
             yield MagicMock(st_size=100)
-            # hydro_path checks path.stat() inside loop
             yield MagicMock(st_size=100)
-            # rm_path general check
+            # rm_path check
             yield MagicMock(st_size=100)
-            # rm_path specific check
             yield MagicMock(st_size=100 * 1024 * 1024 + 1)
 
         mock_stat.side_effect = stat_side_effect()
@@ -138,7 +133,8 @@ class TestDataValidatorSecurity(unittest.TestCase):
         mock_excel_file.return_value.__enter__.return_value = mock_xlsx
 
         with self.assertRaises(ValueError) as context:
-            validate_data_files()
+            with patch("data_validator.Path.is_file", return_value=True):
+                validate_data_files()
 
         self.assertIn("exceeds maximum", str(context.exception))
         self.assertEqual(

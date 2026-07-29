@@ -73,3 +73,9 @@ docs/.DS_Store
 src/.DS_Store
 src/hydrograph_seatek_analysis/.DS_Store
 tests/.DS_Store
+
+# Accidental git refs in templates
+.github/**/FETCH_HEAD
+
+commit_msg.txt
+pr_body.txt
