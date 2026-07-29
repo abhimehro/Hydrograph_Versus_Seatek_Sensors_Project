@@ -1,0 +1,45 @@
+name: Python tests
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: python-tests-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade "pip>=24.0,<26.0"
+          python3 -m pip install -r requirements-ci.txt
+          python3 -m pip install -e .
+
+      - name: Run tests
+        env:
+          MPLBACKEND: Agg
+        run: python3 -m pytest tests/
+
+      - name: Lint with flake8
+        run: python3 -m flake8 src/ tests/
+
+      - name: Type check with mypy
+        continue-on-error: true
+        run: python3 -m mypy --python-version 3.12 src/

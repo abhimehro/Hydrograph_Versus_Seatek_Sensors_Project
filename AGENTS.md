@@ -24,7 +24,7 @@ Standard commands are documented in `CLAUDE.md`. Key references:
 - The Excel data files (`data/raw/*.xlsx`, `data/processed/*.xlsx`) are gitignored. The applications will report errors about missing data files — this is expected behavior. Unit tests mock all data dependencies and pass without real data files.
 - To run the processor end-to-end without polluting the repo, set `HYDROGRAPH_BASE_DIR` to a scratch directory and place input data there. The processor reads `<base>/data/raw/Data_Summary.xlsx` (columns `River_Mile`, `Y_Offset`, `Num_Sensors`), `<base>/data/raw/Hydrograph_Seatek_Data.xlsx` (sheets named `RM_*` with `Time (Seconds)`, `Year`, `Sensor_*`, `Hydrograph (Lagged)`), and `<base>/data/processed/RM_*.xlsx` (same per-river-mile columns), then writes PNG charts to `<base>/output/charts/`. Example: `MPLBACKEND=Agg HYDROGRAPH_BASE_DIR=/tmp/hydro_demo python3 seatek_processor.py`.
 - `$HOME/.local/bin` must be on `PATH` for `flake8`, `mypy`, `black`, `pytest` CLI commands to work. Consider adding `black .` to the "Running commands" section if it's part of the standard workflow.
-- **CI gap:** GitHub Actions currently has no workflow that installs deps and runs pytest/flake8/mypy on PRs (quality gates are local/pre-commit only).
+- PR and `main` CI runs `pytest` + `flake8`; `mypy` is non-blocking. See `.github/workflows/python-tests.yml`.
 
 ### CodeScene review/salvage trigger
 

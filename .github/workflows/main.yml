@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -33,5 +34,53 @@ jobs:
             if [ "$days_old" -gt 7 ]; then
               echo "Deleting branch: $branch ($days_old days old)"
               git push origin --delete "$branch" || true
+            fi
+          done
+
+      - name: Delete stale unmerged agent branches
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git checkout main && git pull
+
+          mapfile -t candidates < <(
+            git branch -r --no-merged main \
+              | sed 's/^[[:space:]]*origin\///' \
+              | grep -Ei '^(.*\/)?(bolt|jules|sentinel|qa)' \
+              | grep -v 'HEAD\|^main$\|^develop$' \
+              || true
+          )
+
+          if [ ${#candidates[@]} -eq 0 ]; then
+            echo "No stale unmerged agent branches found."
+            exit 0
+          fi
+
+          for branch in "${candidates[@]}"; do
+            case "$branch" in
+              main|develop|HEAD|HEAD/*)
+                echo "Skipping protected branch: $branch"
+                continue
+                ;;
+            esac
+
+            if ! pr_count=$(gh pr list --repo "${{ github.repository }}" --head "$branch" --state open --json number --jq 'length'); then
+              echo "Skipping $branch: unable to determine open pull request status"
+              continue
+            fi
+            if [ "$pr_count" -gt 0 ]; then
+              echo "Skipping $branch: has open pull request"
+              continue
+            fi
+
+            last_commit_date=$(git log -1 --format=%ct "origin/$branch")
+            days_old=$(( ($(date +%s) - last_commit_date) / 86400 ))
+
+            if [ "$days_old" -gt 30 ]; then
+              echo "Deleting stale unmerged branch: $branch ($days_old days old)"
+              git push origin --delete "$branch" || true
+            else
+              echo "Keeping branch: $branch ($days_old days old)"
             fi
           done
