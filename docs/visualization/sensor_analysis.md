@@ -2,7 +2,9 @@
 
 ## Overview
 
-The sensor analysis module provides comprehensive time series analysis and visualization for Seatek sensor data. This guide covers the technical details, configuration options, and best practices.
+The sensor analysis module provides comprehensive time series analysis and
+visualization for Seatek sensor data. This guide covers the technical details,
+configuration options, and best practices.
 
 ## Data Structure
 

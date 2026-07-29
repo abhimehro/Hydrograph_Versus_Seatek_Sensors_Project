@@ -2,7 +2,9 @@
 
 ## Architecture Overview
 
-The Hydrograph vs Seatek Sensors Analysis Project has been refactored to follow a modern, modular architecture with clear separation of concerns. The codebase is now organized as a proper Python package with the following structure:
+The Hydrograph vs Seatek Sensors Analysis Project has been refactored to follow
+a modern, modular architecture with clear separation of concerns. The codebase
+is now organized as a proper Python package with the following structure:
 
 ```
 src/
@@ -31,7 +33,8 @@ The new architecture implements:
 
 #### Configuration (`core/config.py`)
 
-The `Config` class manages all application settings using dataclasses for strong typing and easy serialization.
+The `Config` class manages all application settings using dataclasses for strong
+typing and easy serialization.
 
 ```python
 @dataclass
@@ -68,7 +71,8 @@ config_from_dict = Config.from_dict(config_dict)
 
 #### Logging (`core/logger.py`)
 
-The logging system provides structured, color-coded logs with rotation capability.
+The logging system provides structured, color-coded logs with rotation
+capability.
 
 ```python
 def setup_logger(
@@ -109,7 +113,8 @@ logger.error("Failed to process file: file not found")
 
 #### Data Loader (`data/data_loader.py`)
 
-The `DataLoader` class handles loading and initial validation of Excel data files.
+The `DataLoader` class handles loading and initial validation of Excel data
+files.
 
 ```python
 class DataLoader:
@@ -140,7 +145,8 @@ print(f"Available river miles: {river_miles}")
 
 #### Data Processor (`data/processor.py`)
 
-The `SeatekDataProcessor` class handles the core data processing logic, converting sensor readings to NAVD88 elevations and filtering data.
+The `SeatekDataProcessor` class handles the core data processing logic,
+converting sensor readings to NAVD88 elevations and filtering data.
 
 ```python
 @dataclass
@@ -181,7 +187,8 @@ print(f"Found {metrics.null_values} null values and {metrics.zero_values} zero v
 
 #### Data Validator (`data/validator.py`)
 
-The `DataValidator` class provides data validation utilities to ensure data files have the correct structure and content.
+The `DataValidator` class provides data validation utilities to ensure data
+files have the correct structure and content.
 
 ```python
 class DataValidator:
@@ -221,7 +228,8 @@ else:
 
 #### Chart Generator (`visualization/chart_generator.py`)
 
-The `ChartGenerator` class handles creation of data visualizations with professional styling.
+The `ChartGenerator` class handles creation of data visualizations with
+professional styling.
 
 ```python
 class ChartGenerator:
@@ -261,7 +269,8 @@ print(f"Time range: {metrics.time_range_min} to {metrics.time_range_max} minutes
 
 ## Main Application
 
-The `Application` class (`app.py`) ties everything together, providing a high-level interface for the entire data processing pipeline.
+The `Application` class (`app.py`) ties everything together, providing a
+high-level interface for the entire data processing pipeline.
 
 ```python
 class Application:
@@ -435,11 +444,13 @@ python validate_data.py --data-dir /path/to/data
 - Data is processed per river mile, year, and sensor to minimize memory usage
 - Files are closed after reading using context managers
 - Matplotlib figures are explicitly closed after saving to free memory
-- Pandas operations use inplace modifications where appropriate to reduce memory footprint
+- Pandas operations use inplace modifications where appropriate to reduce memory
+  footprint
 
 ### Parallelization Potential
 
-The current implementation is sequential, but the architecture supports potential parallelization:
+The current implementation is sequential, but the architecture supports
+potential parallelization:
 
 - Processing different river miles could be parallelized
 - Processing different years/sensors could be parallelized
@@ -447,8 +458,10 @@ The current implementation is sequential, but the architecture supports potentia
 
 ## Future Improvements
 
-1. **Parallel Processing**: Implement parallel processing for multiple river miles
+1. **Parallel Processing**: Implement parallel processing for multiple river
+   miles
 2. **Caching**: Add caching for frequently accessed data
 3. **Advanced Analytics**: Integrate more sophisticated statistical analysis
 4. **Interactive Visualizations**: Create interactive web-based visualizations
-5. **Database Integration**: Store processed data in a database for more efficient querying
+5. **Database Integration**: Store processed data in a database for more
+   efficient querying

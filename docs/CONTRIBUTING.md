@@ -1,7 +1,8 @@
 # Contributing to Hydrograph_Versus_Seatek_Sensors_Project
 
-Thank you for your interest in contributing to the Hydrograph_Versus_Seatek_Sensors_Project! This guide will walk you
-through the contribution process.
+Thank you for your interest in contributing to the
+Hydrograph_Versus_Seatek_Sensors_Project! This guide will walk you through the
+contribution process.
 
 ## Quick Setup
 
@@ -29,14 +30,18 @@ through the contribution process.
 
 ## Code Guidelines
 
-- **Style**: Adhere to [PEP 8 guidelines](https://www.python.org/dev/peps/pep-0008/). Use tools like `flake8` or
-  formatters such as `black`.
-- **Testing**: Add unit tests for any added/changed functionality. Validate your changes before submitting:
+- **Style**: Adhere to
+  [PEP 8 guidelines](https://www.python.org/dev/peps/pep-0008/). Use tools like
+  `flake8` or formatters such as `black`.
+- **Testing**: Add unit tests for any added/changed functionality. Validate your
+  changes before submitting:
   ```bash
   pytest
   ```
-- **Documentation**: Update `README.md` and add relevant docstrings and comments for any new or updated features.
-- **Naming**: Use meaningful variable, function, and branch names. Make your commits easy to understand.
+- **Documentation**: Update `README.md` and add relevant docstrings and comments
+  for any new or updated features.
+- **Naming**: Use meaningful variable, function, and branch names. Make your
+  commits easy to understand.
 
 ## Pull Request Process
 
@@ -48,12 +53,13 @@ through the contribution process.
 ## Reporting Issues
 
 - Use GitHub's issue tracker for bug reports and feature suggestions.
-- Include detailed steps to reproduce bugs and provide examples or error logs where relevant.
+- Include detailed steps to reproduce bugs and provide examples or error logs
+  where relevant.
 
 ## Code of Conduct
 
-This project follows
-the [Contributor Code of Conduct](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/CODE_OF_CONDUCT.md).
+This project follows the
+[Contributor Code of Conduct](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/CODE_OF_CONDUCT.md).
 By contributing, you agree to its terms.
 
 🎉 Thank you for helping improve Hydrograph_Versus_Seatek_Sensors_Project!

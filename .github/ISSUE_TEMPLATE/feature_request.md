@@ -32,6 +32,7 @@ assignees: "Assignee Placeholder"
 
 ### **Additional context**
 
-> Add any relevant information to support your proposal, like screenshots or links:
+> Add any relevant information to support your proposal, like screenshots or
+> links:
 >
 > _"Additional details about [...]"_
