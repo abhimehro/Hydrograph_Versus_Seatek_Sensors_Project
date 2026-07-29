@@ -74,6 +74,7 @@
 
 **Merged pull requests:**
 
+- Add testing-hydrograph SKILL.md for local validation [\#432](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/432) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize scalar arithmetic with underlying NumPy arrays [\#428](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/428) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[MEDIUM\] Enhance file size validation security [\#425](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/425) ([abhimehro](https://github.com/abhimehro))
 - chore\(repo-health\): data-format docs + agent guidance [\#422](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/422) ([cursor[bot]](https://github.com/apps/cursor))
