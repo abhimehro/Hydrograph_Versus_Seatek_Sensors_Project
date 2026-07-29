@@ -76,6 +76,7 @@
 
 **Merged pull requests:**
 
+- fix\(types\): clean mypy errors and make type check blocking in CI [\#434](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/434) ([abhimehro](https://github.com/abhimehro))
 - ci\(repo-health\): add pytest/flake8/mypy PR workflow and stale agent-branch cleanup [\#433](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/433) ([abhimehro](https://github.com/abhimehro))
 - Add testing-hydrograph SKILL.md for local validation [\#432](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/432) ([abhimehro](https://github.com/abhimehro))
 - chore\(repo-health\): quarantine legacy utils and re-enable visualization tests [\#431](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/431) ([abhimehro](https://github.com/abhimehro))
