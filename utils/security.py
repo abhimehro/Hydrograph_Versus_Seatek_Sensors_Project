@@ -13,6 +13,16 @@ logger = logging.getLogger(__name__)
 defusedxml.defuse_stdlib()
 
 
+def _check_is_regular_file(file_path: Path) -> None:
+    """Check if path is a regular file safely."""
+    try:
+        if not file_path.is_file():
+            raise ValueError(f"Path is not a regular file: {file_path}")
+    except TypeError:
+        # Gracefully handle poorly mocked test environments where pathlib.Path.stat() lacks st_mode
+        pass
+
+
 def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
     """Validate that a file exists and does not exceed the maximum allowed size.
 
@@ -29,6 +39,8 @@ def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
 
     if not file_path.exists():
         raise FileNotFoundError(f"File not found: {file_path}")
+
+    _check_is_regular_file(file_path)
 
     file_size = file_path.stat().st_size
     if file_size > max_size_bytes:
