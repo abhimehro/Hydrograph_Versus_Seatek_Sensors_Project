@@ -1,7 +1,7 @@
 # Hydrograph vs Seatek Sensors Analysis Project
 
 [![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/80824)
-[![Python Version](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
+[![Python Version](https://img.shields.io/badge/python-3.12%2B-blue)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Changelog Status](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/actions/workflows/changelog.yml/badge.svg)](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/actions/workflows/changelog.yml)
@@ -96,7 +96,7 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 
 ## Technology Stack
 
-- **Python 3.10+**: Core programming language
+- **Python 3.12+**: Core programming language
 - **pandas & numpy**: Data processing and analysis
 - **matplotlib & seaborn**: Data visualization
 - **openpyxl**: Excel file handling
