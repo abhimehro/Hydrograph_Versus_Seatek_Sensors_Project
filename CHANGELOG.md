@@ -12,6 +12,7 @@
 
 - Daily QA & Agentic Review — 2026-07-28 [\#430](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/430)
 - \[repo-automation\] Daily Status Report - 2026-07-28 [\#429](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/429)
+- \[repo-health\] Add pytest/flake8/mypy CI on pull requests [\#423](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/423)
 - \[repo-automation\] Daily Status Report - 2026-07-27 [\#421](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/421)
 - Daily QA & Agentic Review — 2026-07-26 [\#419](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/419)
 - \[repo-automation\] Daily Status Report - 2026-07-26 [\#417](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/417)
@@ -74,6 +75,7 @@
 
 **Merged pull requests:**
 
+- ci\(repo-health\): add pytest/flake8/mypy PR workflow and stale agent-branch cleanup [\#433](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/433) ([abhimehro](https://github.com/abhimehro))
 - Add testing-hydrograph SKILL.md for local validation [\#432](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/432) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Optimize scalar arithmetic with underlying NumPy arrays [\#428](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/428) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[MEDIUM\] Enhance file size validation security [\#425](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/425) ([abhimehro](https://github.com/abhimehro))
