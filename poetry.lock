@@ -1149,6 +1149,21 @@ test = ["hypothesis (>=6.46.1)", "pytest (>=7.3.2)", "pytest-xdist (>=2.2.0)"]
 xml = ["lxml (>=4.9.2)"]
 
 [[package]]
+name = "pandas-stubs"
+version = "2.3.3.260113"
+description = "Type annotations for pandas"
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "pandas_stubs-2.3.3.260113-py3-none-any.whl", hash = "sha256:ec070b5c576e1badf12544ae50385872f0631fc35d99d00dc598c2954ec564d3"},
+    {file = "pandas_stubs-2.3.3.260113.tar.gz", hash = "sha256:076e3724bcaa73de78932b012ec64b3010463d377fa63116f4e6850643d93800"},
+]
+
+[package.dependencies]
+numpy = ">=1.23.5"
+types-pytz = ">=2022.1.1"
+
+[[package]]
 name = "pathspec"
 version = "1.1.1"
 description = "Utility library for gitignore style pattern matching of file paths."
@@ -1731,6 +1746,33 @@ files = [
 ]
 
 [[package]]
+name = "types-pytz"
+version = "2026.3.1.20260727"
+description = "Typing stubs for pytz"
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "types_pytz-2026.3.1.20260727-py3-none-any.whl", hash = "sha256:42ac44e83645bfceb46597342c8fb8ec028a1407e2feae9c5c539986eab6b57a"},
+    {file = "types_pytz-2026.3.1.20260727.tar.gz", hash = "sha256:4364075b6867dd15b210bb8c1d29727d609917129b45600defe1d4b3eda5ecb9"},
+]
+
+[[package]]
+name = "types-seaborn"
+version = "0.13.2.20260728"
+description = "Typing stubs for seaborn"
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "types_seaborn-0.13.2.20260728-py3-none-any.whl", hash = "sha256:8022d591631ebe90ca52f93ac6fa0da5f12b9f2d8c8c2eca5c076472a37b6d50"},
+    {file = "types_seaborn-0.13.2.20260728.tar.gz", hash = "sha256:b86af2dfa1acef233c14f2bed1adbb5111173108ff3703584f5480907ce1a62c"},
+]
+
+[package.dependencies]
+matplotlib = ">=3.8"
+numpy = ">=1.20"
+pandas-stubs = "*"
+
+[[package]]
 name = "typing-extensions"
 version = "4.16.0"
 description = "Backported and Experimental Type Hints for Python 3.9+"
@@ -1772,4 +1814,4 @@ python-discovery = ">=1.4.2"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "84c8cfbc4d1eaaa1f1d615799d25a0317693447bb09528de5ef6e85f0a22d761"
+content-hash = "127f6f025c726f05544e22ab27b8637612aa29a4ce4651f49f35ae1b8333bf71"
