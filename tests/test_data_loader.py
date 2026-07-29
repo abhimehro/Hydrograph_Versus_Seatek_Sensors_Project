@@ -82,7 +82,7 @@ def test_load_summary_data(mock_read_excel, mock_is_symlink):
     data_loader = DataLoader(config)
 
     # Mock exists check to avoid file not found error
-    with mock.patch.object(Path, "exists", return_value=True):
+    with mock.patch.object(Path, "is_file", return_value=True):
         with mock.patch.object(Path, "stat") as mock_stat:
             mock_stat.return_value.st_size = 1000
             result = data_loader._load_summary_data()
@@ -130,7 +130,7 @@ def test_load_hydro_data_skips_invalid_sheet_value_error(
     config = Config()
     data_loader = DataLoader(config)
 
-    with mock.patch.object(Path, "exists", return_value=True):
+    with mock.patch.object(Path, "is_file", return_value=True):
         with mock.patch.object(Path, "stat") as mock_stat:
             mock_stat.return_value.st_size = 1000
             result = data_loader._load_hydro_data()
@@ -158,7 +158,7 @@ def test_load_hydro_data_exception(mock_excel_file_cls, caplog):
     data_loader = DataLoader(config)
 
     with mock.patch.object(Path, "is_symlink", return_value=False):
-        with mock.patch.object(Path, "exists", return_value=True):
+        with mock.patch.object(Path, "is_file", return_value=True):
             with mock.patch.object(Path, "stat") as mock_stat:
                 mock_stat.return_value.st_size = 1000
                 with pytest.raises(RuntimeError, match="Test error"):

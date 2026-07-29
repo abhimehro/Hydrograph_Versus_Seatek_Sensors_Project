@@ -21,7 +21,7 @@ class TestDataLoaderSizeLimits(unittest.TestCase):
 
     @patch("utils.data_loader.pd.read_excel")
     @patch.object(Path, "stat")
-    @patch.object(Path, "exists")
+    @patch.object(Path, "is_file")
     def test_load_summary_data_size_limit(
         self, mock_exists, mock_stat, mock_read_excel
     ):
@@ -38,7 +38,7 @@ class TestDataLoaderSizeLimits(unittest.TestCase):
 
     @patch("utils.data_loader.pd.ExcelFile")
     @patch.object(Path, "stat")
-    @patch.object(Path, "exists")
+    @patch.object(Path, "is_file")
     def test_load_hydro_data_size_limit(self, mock_exists, mock_stat, mock_excel_file):
         mock_exists.return_value = True
 
