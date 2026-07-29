@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 from typing import Optional
 
-from utils.security import is_safe_path, sanitize_filename
+from .utils.security import is_safe_path, sanitize_filename
 
 from .core.config import Config
 from .core.logger import configure_root_logger

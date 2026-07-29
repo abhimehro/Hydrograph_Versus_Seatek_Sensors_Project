@@ -14,7 +14,7 @@ import numpy as np
 import numpy.typing as npt
 import pandas as pd
 
-from utils.security import validate_file_size
+from ..utils.security import validate_file_size
 
 from ..core.config import Config
 

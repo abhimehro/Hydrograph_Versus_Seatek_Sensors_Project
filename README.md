@@ -67,9 +67,9 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 ├── tests/                               # Test files
 ├── seatek_processor.py                  # Main script
 ├── validate_data.py                     # Data validation script
-├── pyproject.toml                       # Poetry configuration
-├── setup.py                             # Installation configuration
-├── requirements.txt                     # Project dependencies
+├── pyproject.toml                       # Poetry/project configuration
+├── requirements.txt                     # Runtime dependencies
+├── requirements-ci.txt                  # CI/dev dependencies
 └── README.md                            # Project documentation
 ```
 
