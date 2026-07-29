@@ -17,7 +17,7 @@ Hydrograph vs Seatek Sensors Analysis Project.
 ### Software Requirements
 
 ```
-- Python 3.10 or higher
+- Python 3.12 or higher
 - Operating System: Windows 10/11, macOS 10.15+, Linux (Ubuntu 20.04+)
 - Additional tools: git, virtualenv or venv
 ```
@@ -285,7 +285,7 @@ If you encounter issues with matplotlib or visualization:
 
 ### Python Version Issues
 
-The project requires Python 3.10 or higher. Check your Python version:
+The project requires Python 3.12 or higher. Check your Python version:
 
 ```bash
 python --version

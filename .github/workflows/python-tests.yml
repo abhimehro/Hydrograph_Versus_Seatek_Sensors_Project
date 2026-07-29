@@ -41,5 +41,4 @@ jobs:
         run: python3 -m flake8 src/ tests/
 
       - name: Type check with mypy
-        continue-on-error: true
-        run: python3 -m mypy --python-version 3.12 src/
+        run: python3 -m mypy src/
