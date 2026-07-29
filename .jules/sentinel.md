@@ -102,3 +102,8 @@
 **Vulnerability:** Path traversal vulnerability in `src/hydrograph_seatek_analysis/core/logger.py` where an untrusted variable (`log_filename`) was directly joined with `log_path` without sanitization or sandboxing checks. If an attacker controls the `log_filename` provided to `configure_root_logger`, they could write log files to arbitrary locations.
 **Learning:** Even internal logging configuration helpers are a potential vector if they accept filenames from downstream consumers without sanitization. The logging module's native file handler does not inherently block path traversal dots (`..`).
 **Prevention:** Always apply `sanitize_filename` and `is_safe_path` (from `utils.security`) to dynamic filenames, including log files configured at the application root, before they are processed by the file handler.
+
+## 2026-07-26 - Validate Files Are Regular Files to Prevent DoS
+**Vulnerability:** While file size was checked, there was no verification that the path pointed to a regular file (e.g., using `is_file()`). Special device files (like `/dev/zero` or `/dev/urandom`) report a size of 0 but can produce an infinite stream of data, leading to memory exhaustion Denial of Service (DoS) if parsed.
+**Learning:** Checking file size is insufficient to prevent DoS if the underlying file is a character or block device. Always ensure the path is a regular file before attempting to read it.
+**Prevention:** Implement `file_path.is_file()` checks in `validate_file_size` (wrapped in a `try...except Exception` block to gracefully handle poorly-mocked test environments) before validating the file size or reading its contents.
