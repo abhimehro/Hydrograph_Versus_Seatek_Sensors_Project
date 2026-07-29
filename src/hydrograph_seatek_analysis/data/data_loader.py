@@ -6,7 +6,7 @@ from typing import Dict, List, Tuple
 
 import pandas as pd
 
-from utils.security import validate_file_size
+from ..utils.security import validate_file_size
 
 from ..core.config import Config
 

@@ -5,6 +5,9 @@ description = "Analysis of hydrograph and Seatek sensor data for river morpholog
 authors = ["Abhi Mehrotra <abhimhrtr@pm.me>"]
 readme = "README.md"
 packages = [{ include = "src" }]
+include = [
+    { path = "validate_data.py", format = ["sdist", "wheel"] },
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -27,6 +30,8 @@ flake8 = "^7.0.0"
 mypy = ">=1.8,<3.0"
 pre-commit = ">=3.5,<5.0"
 bandit = "^1.7.0"
+pytest-mock = "^3.14.0"
+types-defusedxml = "^0.7.0"
 
 [tool.poetry.group.docs.dependencies]
 scipy = "^1.12.0"
@@ -56,8 +61,4 @@ disallow_untyped_defs = true
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-ra -q"
-norecursedirs = [
-    "tests/data_processing",
-    "tests/utils",
-    "tests/visualization",
-]
+norecursedirs = []

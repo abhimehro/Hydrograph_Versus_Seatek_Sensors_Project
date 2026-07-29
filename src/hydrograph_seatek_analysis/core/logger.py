@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Union
 
-from utils.security import is_safe_path, sanitize_filename
+from ..utils.security import is_safe_path, sanitize_filename
 
 
 @dataclass

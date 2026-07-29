@@ -1,6 +1,6 @@
 """Tests for filename sanitization."""
 
-from utils.security import sanitize_filename
+from src.hydrograph_seatek_analysis.utils.security import sanitize_filename
 
 
 def test_sanitize_filename_removes_path_traversal():
