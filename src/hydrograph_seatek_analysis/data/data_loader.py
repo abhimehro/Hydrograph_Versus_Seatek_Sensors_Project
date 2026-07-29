@@ -110,7 +110,8 @@ class DataLoader:
             required_cols = {"Time (Seconds)", "Year"}
 
             for sheet_name in excel_file.sheet_names:
-                if not sheet_name.startswith("RM_"):
+                sheet_name_str = str(sheet_name)
+                if not sheet_name_str.startswith("RM_"):
                     continue
 
                 # Optimize: Load only required columns and sensor/hydrograph columns to reduce memory usage and speed up loading
@@ -120,7 +121,7 @@ class DataLoader:
 
                     df = pd.read_excel(
                         excel_file,
-                        sheet_name=sheet_name,
+                        sheet_name=sheet_name_str,
                         usecols=lambda col: (
                             col in required_cols
                             or str(col).startswith("Sensor_")
@@ -128,24 +129,24 @@ class DataLoader:
                         ),
                     )
                 except ValueError as exc:
-                    logger.warning(f"Skipping sheet {sheet_name}: {exc}")
+                    logger.warning(f"Skipping sheet {sheet_name_str}: {exc}")
                     continue
 
                 missing_cols = [col for col in required_cols if col not in df.columns]
                 if missing_cols:
                     logger.warning(
-                        f"Skipping sheet {sheet_name}: Missing required columns in sheet {sheet_name}: {missing_cols}"
+                        f"Skipping sheet {sheet_name_str}: Missing required columns in sheet {sheet_name_str}: {missing_cols}"
                     )
                     continue
 
                 try:
                     self._validate_columns(
-                        df, list(required_cols), f"sheet {sheet_name}"
+                        df, list(required_cols), f"sheet {sheet_name_str}"
                     )
-                    hydro_data[sheet_name] = df
-                    logger.debug(f"Loaded sheet {sheet_name}. Shape: {df.shape}")
+                    hydro_data[sheet_name_str] = df
+                    logger.debug(f"Loaded sheet {sheet_name_str}. Shape: {df.shape}")
                 except ValueError as e:
-                    logger.warning(f"Skipping sheet {sheet_name}: {str(e)}")
+                    logger.warning(f"Skipping sheet {sheet_name_str}: {str(e)}")
                     continue
 
             if not hydro_data:

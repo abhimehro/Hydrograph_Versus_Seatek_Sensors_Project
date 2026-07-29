@@ -55,6 +55,7 @@ def setup_logger(
     logger.propagate = False
 
     # Create formatters
+    console_formatter: logging.Formatter
     if HAS_COLORLOG and console:
         console_formatter = colorlog.ColoredFormatter(
             "%(log_color)s%(asctime)s - %(name)s - %(levelname)s - %(message)s",

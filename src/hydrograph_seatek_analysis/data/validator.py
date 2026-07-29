@@ -110,11 +110,10 @@ class DataValidator:
         """Helper to extract years safely."""
         if "Year" not in df.columns or len(df) == 0:
             return None
-        vals = df["Year"].values
-        # ⚡ Bolt Optimization: Replace np.all(pd.isna(df["Year"].values)) with np.all(pd.isna(vals)) to avoid intermediate boolean Series allocations
-        if len(vals) == 0 or np.all(pd.isna(vals)):
+        year_arr = np.asarray(df["Year"].to_numpy(), dtype=np.float64)
+        if len(year_arr) == 0 or np.all(np.isnan(year_arr)):
             return None
-        years = np.unique(vals[~pd.isna(vals)])
+        years = np.unique(year_arr[~np.isnan(year_arr)])
         return sorted(years.astype(int).tolist())
 
     def _extract_range(
@@ -123,11 +122,12 @@ class DataValidator:
         """Extract min and max range for a column."""
         if col not in df.columns or len(df) == 0:
             return None
-        if np.all(pd.isna(df[col].values)):
+        arr = np.asarray(df[col].to_numpy(), dtype=np.float64)
+        if len(arr) == 0 or np.all(np.isnan(arr)):
             return None
         return [
-            type_cast(np.nanmin(df[col].values)),
-            type_cast(np.nanmax(df[col].values)),
+            type_cast(np.nanmin(arr)),
+            type_cast(np.nanmax(arr)),
         ]
 
     def _extract_hydro_time_range(self, df: pd.DataFrame) -> Optional[List[float]]:
@@ -184,7 +184,7 @@ class DataValidator:
 
             with pd.ExcelFile(hydro_file) as excel:
                 sheets = excel.sheet_names
-                rm_sheets = [s for s in sheets if s.startswith("RM_")]
+                rm_sheets = [s for s in sheets if isinstance(s, str) and s.startswith("RM_")]
 
                 if not rm_sheets:
                     logger.error("No river mile sheets found in hydrograph file")

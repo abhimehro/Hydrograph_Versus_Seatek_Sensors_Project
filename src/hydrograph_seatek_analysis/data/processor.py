@@ -8,9 +8,10 @@ and merges the two streams using a full outer join so that all valid sensor read
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, cast
 
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 
 from utils.security import validate_file_size
@@ -120,13 +121,16 @@ class RiverMileData:
 
             # ⚡ Bolt Optimization: Pre-calculate Time (Minutes) once during data loading
             # to avoid redundantly dividing Time (Seconds) by 60 for every sensor and year combination
-            self.data["Time (Minutes)"] = self.data["Time (Seconds)"].values / 60.0
+            self.data["Time (Minutes)"] = (
+                self.data["Time (Seconds)"].to_numpy(dtype=np.float64) / 60.0
+            )
 
             # Optimization: Pre-group data by year to avoid O(N) boolean masking
             # for each sensor during data processing.
-            self.year_data_cache = {
-                int(year): df for year, df in self.data.groupby("Year", sort=False)
-            }
+            self.year_data_cache = {}
+            for raw_year, df in self.data.groupby("Year", sort=False):
+                year = int(cast(int, raw_year))
+                self.year_data_cache[year] = df
         except Exception as e:
             logger.error(f"Error loading {self.file_path.name}: {str(e)}")
             raise
@@ -226,7 +230,9 @@ class SeatekDataProcessor:
             "Time (Minutes)" not in processed.columns
             and "Time (Seconds)" in processed.columns
         ):
-            processed["Time (Minutes)"] = processed["Time (Seconds)"].values / 60.0
+            processed["Time (Minutes)"] = (
+                processed["Time (Seconds)"].to_numpy(dtype=np.float64) / 60.0
+            )
 
         # Convert the sensor column to numeric and apply the NAVD88 conversion.
         # Optimization: Avoid pd.to_numeric if the column is already numeric.
@@ -243,7 +249,7 @@ class SeatekDataProcessor:
         m = -constants.scale_factor
         b = y_offset + (constants.offset_a - constants.offset_b) * m
 
-        processed[sensor] = raw_data.values * m + b
+        processed[sensor] = raw_data.to_numpy(dtype=np.float64) * m + b
 
         return processed
 
@@ -319,33 +325,23 @@ class SeatekDataProcessor:
 
     def _compute_validity_masks(
         self, processed: pd.DataFrame, sensor: str
-    ) -> Tuple[np.ndarray, Optional[np.ndarray], int, int]:
-        sensor_vals = processed[sensor].values
-        sensor_isna = pd.isna(sensor_vals)
+    ) -> Tuple[npt.NDArray[np.bool_], Optional[npt.NDArray[np.bool_]], int, int]:
+        sensor_vals = processed[sensor].to_numpy(dtype=np.float64)
+        sensor_isna = np.isnan(sensor_vals)
         sensor_iszero = sensor_vals == 0
 
-        null_values = np.count_nonzero(sensor_isna)
-        zero_values = np.count_nonzero(sensor_iszero)
+        null_values = int(np.count_nonzero(sensor_isna))
+        zero_values = int(np.count_nonzero(sensor_iszero))
 
         # ⚡ Bolt Optimization: Combine conditions to avoid intermediate arrays where possible
         sensor_mask_arr = ~(sensor_isna | sensor_iszero)
 
-        hydro_mask_arr = None
+        hydro_mask_arr: Optional[npt.NDArray[np.bool_]] = None
 
         has_hydro = "Hydrograph (Lagged)" in processed.columns
         if has_hydro:
-            hydro_vals = processed["Hydrograph (Lagged)"].values
-            # ⚡ Bolt Optimization: Replace pd.isna(hydro_vals) & (hydro_vals != 0) with optimized NumPy array checking
-            # Using != 0 directly on a pandas array can be slower and allocate boolean arrays.
-            # However, the previous logic (hydro_vals > 0) was rejected as it altered behavior by filtering out negative numbers.
-            # Instead we apply a simpler np.count_nonzero logic or keep the valid logic but apply it directly to the numpy array
-            # to avoid implicit Pandas Series creation overhead.
-
-            # Since hydro_vals is already a numpy array (processed["Hydrograph (Lagged)"].values)
-            # ⚡ Bolt Optimization: Replace ~pd.isna(hydro_vals) & (hydro_vals != 0) with ~(pd.isna(hydro_vals) | (hydro_vals == 0))
-            # Bitwise OR on two boolean numpy arrays is faster than bitwise AND with a negation,
-            # reducing the number of intermediate array allocations.
-            hydro_mask_arr = ~(pd.isna(hydro_vals) | (hydro_vals == 0))
+            hydro_vals = processed["Hydrograph (Lagged)"].to_numpy(dtype=np.float64)
+            hydro_mask_arr = ~(np.isnan(hydro_vals) | (hydro_vals == 0))
 
         return (
             sensor_mask_arr,
@@ -358,7 +354,7 @@ class SeatekDataProcessor:
         self,
         merged: pd.DataFrame,
         sensor: str,
-        sensor_keep_arr: np.ndarray,
+        sensor_keep_arr: npt.NDArray[np.bool_],
         has_hydro: bool,
     ) -> None:
         if not sensor_keep_arr.all():
@@ -370,7 +366,7 @@ class SeatekDataProcessor:
     def _apply_hydro_sentinels(
         self,
         merged: pd.DataFrame,
-        hydro_keep_arr: np.ndarray,
+        hydro_keep_arr: npt.NDArray[np.bool_],
         sensor_any: bool,
         hydro_any: bool,
     ) -> None:
@@ -388,17 +384,17 @@ class SeatekDataProcessor:
         self,
         processed: pd.DataFrame,
         sensor: str,
-        sensor_mask_arr: np.ndarray,
-        hydro_mask_arr: Optional[np.ndarray],
+        sensor_mask_arr: npt.NDArray[np.bool_],
+        hydro_mask_arr: Optional[npt.NDArray[np.bool_]],
     ) -> pd.DataFrame:
         has_hydro = "Hydrograph (Lagged)" in processed.columns
-        sensor_any = sensor_mask_arr.any()
+        sensor_any = bool(sensor_mask_arr.any())
 
         keep_mask_arr = sensor_mask_arr
         hydro_any = False
 
         if has_hydro and hydro_mask_arr is not None:
-            hydro_any = hydro_mask_arr.any()
+            hydro_any = bool(hydro_mask_arr.any())
             keep_mask_arr = sensor_mask_arr | hydro_mask_arr
 
         merged = processed[keep_mask_arr].copy()
@@ -467,10 +463,10 @@ class SeatekDataProcessor:
         metrics.null_values = null_vals
         metrics.zero_values = zero_vals
 
-        sensor_any = sensor_mask_arr.any()
+        sensor_any = bool(sensor_mask_arr.any())
         hydro_any = False
         if hydro_mask_arr is not None:
-            hydro_any = hydro_mask_arr.any()
+            hydro_any = bool(hydro_mask_arr.any())
 
         keep_any = sensor_any or hydro_any
         has_hydro = "Hydrograph (Lagged)" in processed.columns
