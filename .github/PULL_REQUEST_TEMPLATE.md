@@ -1,7 +1,8 @@
 ## Description
 
-Provide a summary of the changes, including the motivation and the issue fixed (if applicable). Highlight any \*
-\*dependencies\*\* introduced or required for this change.
+Provide a summary of the changes, including the motivation and the issue fixed
+(if applicable). Highlight any \* \*dependencies\*\* introduced or required for
+this change.
 
 - **Motivation**: Why is this change necessary?
 - **Fixes Issue**: # (link the issue)
@@ -14,15 +15,16 @@ Select the type of change made (uncheck those not applicable):
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Breaking change (fix or feature that would cause existing functionality to
+      not work as expected)
 - [ ] Documentation update required
 
 ---
 
 ## Testing Instructions
 
-Describe the tests conducted to verify the changes. Provide clear reproduction steps and configuration details (if
-applicable).
+Describe the tests conducted to verify the changes. Provide clear reproduction
+steps and configuration details (if applicable).
 
 **Tests Performed**:
 

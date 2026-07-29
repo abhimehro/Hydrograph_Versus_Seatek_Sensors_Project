@@ -1,6 +1,7 @@
 # Installation Guide
 
-This guide provides detailed instructions for installing and setting up the Hydrograph vs Seatek Sensors Analysis Project.
+This guide provides detailed instructions for installing and setting up the
+Hydrograph vs Seatek Sensors Analysis Project.
 
 ## System Requirements
 
@@ -23,11 +24,14 @@ This guide provides detailed instructions for installing and setting up the Hydr
 
 ## Installation Methods
 
-Dependencies are declared in `pyproject.toml` with bounded ranges, and a fully resolved `poetry.lock` is committed for reproducible builds. You can install the project using one of the following methods:
+Dependencies are declared in `pyproject.toml` with bounded ranges, and a fully
+resolved `poetry.lock` is committed for reproducible builds. You can install the
+project using one of the following methods:
 
 ### Method 1: Using Poetry (Recommended)
 
-[Poetry](https://python-poetry.org/) is the canonical dependency manager for this project.
+[Poetry](https://python-poetry.org/) is the canonical dependency manager for
+this project.
 
 1. Install Poetry if you don't have it:
 
@@ -81,7 +85,8 @@ Dependencies are declared in `pyproject.toml` with bounded ranges, and a fully r
    pip install -e .
    ```
 
-   This will install the project and its dependencies, and also make the command-line tools available.
+   This will install the project and its dependencies, and also make the
+   command-line tools available.
 
 ### Method 3: Using pip with requirements.txt
 
@@ -110,7 +115,8 @@ After installation, you can verify that everything is set up correctly:
 
 ### Check Command-Line Tools
 
-If you installed the project with `pip install -e .` or Poetry, you should have access to the command-line tools:
+If you installed the project with `pip install -e .` or Poetry, you should have
+access to the command-line tools:
 
 ```bash
 # Check if the data validator is available
@@ -126,7 +132,8 @@ seatek-processor --help
 python validate_data.py
 ```
 
-If the installation was successful, you should see the validation results for your data files.
+If the installation was successful, you should see the validation results for
+your data files.
 
 ## Setting Up Data Directories
 
@@ -157,7 +164,8 @@ mkdir -p data/raw data/processed output/charts logs
 
 The project supports the following environment variables:
 
-- `HYDROGRAPH_BASE_DIR`: Override the base directory for data files. By default, the current working directory is used.
+- `HYDROGRAPH_BASE_DIR`: Override the base directory for data files. By default,
+  the current working directory is used.
 
 Example:
 
@@ -226,7 +234,8 @@ pd.options.display.max_rows = 100
 
 ### Multiprocessing Potential
 
-The current implementation is sequential, but the architecture supports potential parallelization:
+The current implementation is sequential, but the architecture supports
+potential parallelization:
 
 - Processing different river miles could be parallelized
 - Processing different years/sensors could be parallelized
@@ -236,7 +245,8 @@ The current implementation is sequential, but the architecture supports potentia
 
 ### Missing Dependencies
 
-If you encounter errors about missing packages, ensure you've installed all dependencies:
+If you encounter errors about missing packages, ensure you've installed all
+dependencies:
 
 ```bash
 # Using Poetry (recommended)
@@ -248,7 +258,8 @@ pip install -r requirements.txt
 
 ### File Not Found Errors
 
-If you see errors about missing data files, check that you've placed the required data files in the correct directories:
+If you see errors about missing data files, check that you've placed the
+required data files in the correct directories:
 
 - `data/raw/Data_Summary.xlsx`
 - `data/raw/Hydrograph_Seatek_Data.xlsx`
@@ -264,7 +275,8 @@ If you encounter issues with matplotlib or visualization:
    python -c "import matplotlib.pyplot as plt; plt.figure(); plt.close()"
    ```
 
-2. If running on a headless server, you may need to use a non-interactive backend:
+2. If running on a headless server, you may need to use a non-interactive
+   backend:
    ```python
    import matplotlib
    matplotlib.use('Agg')  # Use non-interactive backend
@@ -279,7 +291,8 @@ The project requires Python 3.10 or higher. Check your Python version:
 python --version
 ```
 
-If you're using an older version, consider using [pyenv](https://github.com/pyenv/pyenv) to manage multiple Python versions.
+If you're using an older version, consider using
+[pyenv](https://github.com/pyenv/pyenv) to manage multiple Python versions.
 
 ### Virtual Environment Issues
 
@@ -351,5 +364,6 @@ for dir_path in dirs:
 If you encounter any issues not covered in this guide, please:
 
 1. Check the project documentation in the `docs/` directory
-2. File an issue on the [GitHub repository](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues)
+2. File an issue on the
+   [GitHub repository](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues)
 3. Contact the maintainer at AbhiMhrtr@pm.me

@@ -1,6 +1,7 @@
 # API Documentation
 
-This document provides details on the public API for the Hydrograph vs Seatek Sensors Analysis Project.
+This document provides details on the public API for the Hydrograph vs Seatek
+Sensors Analysis Project.
 
 ## Core Module
 

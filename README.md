@@ -31,11 +31,16 @@
 
 ## Introduction
 
-This project processes and visualizes Seatek sensor data alongside hydrograph measurements, providing insights into river bed dynamics and water flow patterns. The system converts raw Seatek readings to NAVD88 elevations and generates professional-grade visualizations for analysis.
+This project processes and visualizes Seatek sensor data alongside hydrograph
+measurements, providing insights into river bed dynamics and water flow
+patterns. The system converts raw Seatek readings to NAVD88 elevations and
+generates professional-grade visualizations for analysis.
 
 ## Project Overview
 
-The Hydrograph vs Seatek Sensors Analysis Project combines environmental monitoring data to understand the relationship between water flow (hydrograph) and river bed elevation (Seatek sensors). This tool is essential for:
+The Hydrograph vs Seatek Sensors Analysis Project combines environmental
+monitoring data to understand the relationship between water flow (hydrograph)
+and river bed elevation (Seatek sensors). This tool is essential for:
 
 - Monitoring river bed changes over time
 - Analyzing water flow patterns
@@ -75,13 +80,19 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 
 ## Key Features
 
-- **NAVD88 Conversion**: Accurate conversion of Seatek readings to NAVD88 elevations
-- **Time Series Analysis**: Proper handling of temporal data with minute-resolution
-- **Dual-axis Visualization**: Professional plots combining Seatek and Hydrograph data
+- **NAVD88 Conversion**: Accurate conversion of Seatek readings to NAVD88
+  elevations
+- **Time Series Analysis**: Proper handling of temporal data with
+  minute-resolution
+- **Dual-axis Visualization**: Professional plots combining Seatek and
+  Hydrograph data
 - **Data Validation**: Comprehensive error checking and data quality assurance
-- **Automated Processing**: Batch processing of multiple sensors and time periods
-- **Detailed Logging**: Comprehensive logging system for tracking processing steps
-- **Modular Architecture**: Well-organized code with proper separation of concerns
+- **Automated Processing**: Batch processing of multiple sensors and time
+  periods
+- **Detailed Logging**: Comprehensive logging system for tracking processing
+  steps
+- **Modular Architecture**: Well-organized code with proper separation of
+  concerns
 
 ## Technology Stack
 
@@ -96,7 +107,8 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 
 ### Prerequisites
 
-Dependencies are defined in `pyproject.toml` with bounded ranges. `poetry.lock` provides a fully resolved environment.
+Dependencies are defined in `pyproject.toml` with bounded ranges. `poetry.lock`
+provides a fully resolved environment.
 
 ### Installation
 
@@ -130,12 +142,10 @@ Dependencies are defined in `pyproject.toml` with bounded ranges. `poetry.lock` 
 ### Usage
 
 1. Place your data files in the appropriate directories:
-   - **Raw Data**:
-     `data/raw/Data_Summary.xlsx`
+   - **Raw Data**: `data/raw/Data_Summary.xlsx`
      `data/raw/Hydrograph_Seatek_Data.xlsx`
 
-   - **Processed Data**:
-     `data/processed/RM_*.xlsx`
+   - **Processed Data**: `data/processed/RM_*.xlsx`
 
 2. Run the processing script:
 
@@ -182,7 +192,8 @@ The visualization shows:
 
 ![Chart showing Seatek Sensor 1 data (NAVD88) and Hydrograph flow (GPM) over time for River Mile 54.0 in Year 2](https://github.com/user-attachments/assets/c351c096-9db8-4c70-94be-dfd9e1f5dc96)
 
-For more of the above visualizations, check the respective directories in the `output/charts/RM_54.0` folder.
+For more of the above visualizations, check the respective directories in the
+`output/charts/RM_54.0` folder.
 
 ## Documentation
 
@@ -192,7 +203,10 @@ For more of the above visualizations, check the respective directories in the `o
 
 ## Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/CONTRIBUTING.md) and [Code of Conduct](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/CODE_OF_CONDUCT.md).
+Contributions are welcome! Please read our
+[Contributing Guide](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/CONTRIBUTING.md)
+and
+[Code of Conduct](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/CODE_OF_CONDUCT.md).
 
 If CodeScene fails on a PR during review/salvage sessions, post:
 
@@ -208,13 +222,16 @@ CHANGELOG.md is auto-updated via GitHub Actions.
 
 ## License
 
-This project is licensed under the MIT License - see the [License](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/LICENSE.md) file for details.
+This project is licensed under the MIT License - see the
+[License](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/blob/main/docs/LICENSE.md)
+file for details.
 
 ## Contact
 
 - **Author**: Abhi Mehrotra
 - **Email**: AbhiMhrtr@pm.me
-- **Project Link**: [GitHub Repository](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project)
+- **Project Link**:
+  [GitHub Repository](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project)
 
 ## Acknowledgments
 

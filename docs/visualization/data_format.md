@@ -23,7 +23,10 @@ River_Mile | Y_Offset | Num_Sensors
 54.0       | 0.0      | 2
 ```
 
-Optional informational columns (e.g. Start_Year / End_Year / Notes) may appear in some workbooks but are **not** validated by the current pipeline (`src/hydrograph_seatek_analysis/data/validator.py` requires only the three columns above).
+Optional informational columns (e.g. Start_Year / End_Year / Notes) may appear
+in some workbooks but are **not** validated by the current pipeline
+(`src/hydrograph_seatek_analysis/data/validator.py` requires only the three
+columns above).
 
 ### River Mile Sheets (`Hydrograph_Seatek_Data.xlsx` / processed `RM_*.xlsx`)
 

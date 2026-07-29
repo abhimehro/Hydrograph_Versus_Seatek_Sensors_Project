@@ -4,7 +4,10 @@
 
 ### Project overview
 
-This is a Python scientific data processing tool for analyzing river bed dynamics. It processes Seatek sensor data alongside hydrograph measurements and generates visualizations. No external services, databases, or Docker containers are required.
+This is a Python scientific data processing tool for analyzing river bed
+dynamics. It processes Seatek sensor data alongside hydrograph measurements and
+generates visualizations. No external services, databases, or Docker containers
+are required.
 
 ### Running commands
 
@@ -18,17 +21,36 @@ Standard commands are documented in `CLAUDE.md`. Key references:
 
 ### Non-obvious caveats
 
-- Use `python3` (not `python`) as the command — `python` is not available on the PATH in this environment.
-- Set `MPLBACKEND=Agg` when running the processor or validator to avoid matplotlib display errors in the headless environment.
-- `python3 -m pytest tests/` now runs the full maintained suite including `tests/visualization/`. Legacy trees (`tests/data_processing`, `tests/utils`, `tests/enhanced_test_suite.py`) and the broken notebook have been removed.
-- The Excel data files (`data/raw/*.xlsx`, `data/processed/*.xlsx`) are gitignored. The applications will report errors about missing data files — this is expected behavior. Unit tests mock all data dependencies and pass without real data files.
-- To run the processor end-to-end without polluting the repo, set `HYDROGRAPH_BASE_DIR` to a scratch directory and place input data there. The processor reads `<base>/data/raw/Data_Summary.xlsx` (columns `River_Mile`, `Y_Offset`, `Num_Sensors`), `<base>/data/raw/Hydrograph_Seatek_Data.xlsx` (sheets named `RM_*` with `Time (Seconds)`, `Year`, `Sensor_*`, `Hydrograph (Lagged)`), and `<base>/data/processed/RM_*.xlsx` (same per-river-mile columns), then writes PNG charts to `<base>/output/charts/`. Example: `MPLBACKEND=Agg HYDROGRAPH_BASE_DIR=/tmp/hydro_demo python3 seatek_processor.py`.
-- `$HOME/.local/bin` must be on `PATH` for `flake8`, `mypy`, `black`, `pytest` CLI commands to work. Consider adding `black .` to the "Running commands" section if it's part of the standard workflow.
-- PR and `main` CI runs `pytest` + `flake8`; `mypy` is non-blocking. See `.github/workflows/python-tests.yml`.
+- Use `python3` (not `python`) as the command — `python` is not available on the
+  PATH in this environment.
+- Set `MPLBACKEND=Agg` when running the processor or validator to avoid
+  matplotlib display errors in the headless environment.
+- `python3 -m pytest tests/` now runs the full maintained suite including
+  `tests/visualization/`. Legacy trees (`tests/data_processing`, `tests/utils`,
+  `tests/enhanced_test_suite.py`) and the broken notebook have been removed.
+- The Excel data files (`data/raw/*.xlsx`, `data/processed/*.xlsx`) are
+  gitignored. The applications will report errors about missing data files —
+  this is expected behavior. Unit tests mock all data dependencies and pass
+  without real data files.
+- To run the processor end-to-end without polluting the repo, set
+  `HYDROGRAPH_BASE_DIR` to a scratch directory and place input data there. The
+  processor reads `<base>/data/raw/Data_Summary.xlsx` (columns `River_Mile`,
+  `Y_Offset`, `Num_Sensors`), `<base>/data/raw/Hydrograph_Seatek_Data.xlsx`
+  (sheets named `RM_*` with `Time (Seconds)`, `Year`, `Sensor_*`,
+  `Hydrograph (Lagged)`), and `<base>/data/processed/RM_*.xlsx` (same
+  per-river-mile columns), then writes PNG charts to `<base>/output/charts/`.
+  Example:
+  `MPLBACKEND=Agg HYDROGRAPH_BASE_DIR=/tmp/hydro_demo python3 seatek_processor.py`.
+- `$HOME/.local/bin` must be on `PATH` for `flake8`, `mypy`, `black`, `pytest`
+  CLI commands to work. Consider adding `black .` to the "Running commands"
+  section if it's part of the standard workflow.
+- PR and `main` CI runs `pytest` + `flake8`; `mypy` is non-blocking. See
+  `.github/workflows/python-tests.yml`.
 
 ### CodeScene review/salvage trigger
 
-During automated PR review or salvage sessions, if CodeScene is red on a PR, post:
+During automated PR review or salvage sessions, if CodeScene is red on a PR,
+post:
 
 ```bash
 /cs-agent skill:fix-code-health-degradations
