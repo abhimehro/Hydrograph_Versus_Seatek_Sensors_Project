@@ -4,6 +4,7 @@ from typing import Any
 Main application module for Seatek and Hydrograph data processing.
 """
 
+import argparse
 import logging
 import sys
 from pathlib import Path
@@ -251,13 +252,49 @@ class Application:
         return True
 
 
-def main() -> int:
+def _package_version() -> str:
+    """Return the installed package version, falling back to a default."""
+    try:
+        from importlib.metadata import version
+
+        return version("hydrograph-seatek-analysis")
+    except Exception:
+        return "1.0.0"
+
+
+def _build_parser() -> argparse.ArgumentParser:
+    """Build the command-line argument parser."""
+    parser = argparse.ArgumentParser(
+        prog="seatek-processor",
+        description="Process Seatek sensor and hydrograph data into visualizations.",
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {_package_version()}",
+    )
+    parser.add_argument(
+        "--data-dir",
+        type=str,
+        default=None,
+        help="Base data directory (overrides HYDROGRAPH_BASE_DIR and the current directory)",
+    )
+    return parser
+
+
+def main(argv: Optional[list[str]] = None) -> int:
     """
     Main entry point for the application.
+
+    Args:
+        argv: Optional command-line arguments; defaults to ``sys.argv[1:]``.
 
     Returns:
         Exit code (0 for success, non-zero for error)
     """
+    parser = _build_parser()
+    args = parser.parse_args(argv)
+
     try:
         # Configure logging
         log_dir = Path("logs")
@@ -270,7 +307,8 @@ def main() -> int:
         logger.info("Starting Seatek data processing")
 
         # Create and run application
-        app = Application()
+        config = Config(base_dir=Path(args.data_dir)) if args.data_dir else Config()
+        app = Application(config=config)
         success = app.run()
 
         if success:

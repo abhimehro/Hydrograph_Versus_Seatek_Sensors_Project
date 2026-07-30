@@ -161,53 +161,103 @@ class TestMain(unittest.TestCase):
 
     @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
     @mock.patch("src.hydrograph_seatek_analysis.app.Application")
+    @mock.patch("src.hydrograph_seatek_analysis.app.Config")
     @mock.patch("src.hydrograph_seatek_analysis.app.Path")
     def test_main_success(
-        self, mock_path, mock_app_class, mock_configure_logger
+        self, mock_path, mock_config_class, mock_app_class, mock_configure_logger
     ) -> None:
         """Test main execution returning 0 on success."""
         mock_app_instance = mock.MagicMock()
         mock_app_instance.run.return_value = True
         mock_app_class.return_value = mock_app_instance
 
-        exit_code = main()
+        exit_code = main(argv=[])
 
         self.assertEqual(exit_code, 0)
+        mock_app_class.assert_called_once_with(config=mock_config_class.return_value)
         mock_app_instance.run.assert_called_once()
         mock_configure_logger.assert_called_once()
         mock_path.return_value.mkdir.assert_called_once_with(exist_ok=True)
 
     @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
     @mock.patch("src.hydrograph_seatek_analysis.app.Application")
+    @mock.patch("src.hydrograph_seatek_analysis.app.Config")
     @mock.patch("src.hydrograph_seatek_analysis.app.Path")
     def test_main_failure(
-        self, mock_path, mock_app_class, mock_configure_logger
+        self, mock_path, mock_config_class, mock_app_class, mock_configure_logger
     ) -> None:
         """Test main execution returning 1 on app failure."""
         mock_app_instance = mock.MagicMock()
         mock_app_instance.run.return_value = False
         mock_app_class.return_value = mock_app_instance
 
-        exit_code = main()
+        exit_code = main(argv=[])
 
         self.assertEqual(exit_code, 1)
         mock_app_instance.run.assert_called_once()
 
     @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
+    @mock.patch("src.hydrograph_seatek_analysis.app.Config")
     @mock.patch("src.hydrograph_seatek_analysis.app.Path")
-    def test_main_exception(self, mock_path, mock_configure_logger) -> None:
+    def test_main_exception(
+        self, mock_path, mock_config_class, mock_configure_logger
+    ) -> None:
         """Test main execution returning 1 on exception."""
         mock_configure_logger.side_effect = Exception("Test Exception")
 
         with mock.patch(
             "src.hydrograph_seatek_analysis.app.logging.error"
         ) as mock_logging_error:
-            exit_code = main()
+            exit_code = main(argv=[])
 
         self.assertEqual(exit_code, 1)
         mock_logging_error.assert_called_once_with(
             "Fatal error in main execution: Test Exception"
         )
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
+    @mock.patch("src.hydrograph_seatek_analysis.app.Application")
+    @mock.patch("src.hydrograph_seatek_analysis.app.Config")
+    def test_main_help_exits_zero(self, mock_config, mock_app, mock_logger) -> None:
+        """Test --help prints usage and exits 0 without running the app."""
+        with self.assertRaises(SystemExit) as cm:
+            main(argv=["--help"])
+        self.assertEqual(cm.exception.code, 0)
+        mock_app.assert_not_called()
+        mock_config.assert_not_called()
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
+    @mock.patch("src.hydrograph_seatek_analysis.app.Application")
+    @mock.patch("src.hydrograph_seatek_analysis.app.Config")
+    def test_main_version_exits_zero(self, mock_config, mock_app, mock_logger) -> None:
+        """Test --version prints version and exits 0 without running the app."""
+        with self.assertRaises(SystemExit) as cm:
+            main(argv=["--version"])
+        self.assertEqual(cm.exception.code, 0)
+        mock_app.assert_not_called()
+        mock_config.assert_not_called()
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
+    @mock.patch("src.hydrograph_seatek_analysis.app.Application")
+    @mock.patch("src.hydrograph_seatek_analysis.app.Config")
+    @mock.patch("src.hydrograph_seatek_analysis.app.Path")
+    def test_main_data_dir(
+        self, mock_path, mock_config_class, mock_app_class, mock_configure_logger
+    ) -> None:
+        """Test --data-dir is forwarded to Config."""
+        mock_config_instance = mock.MagicMock()
+        mock_config_class.return_value = mock_config_instance
+
+        # Keep the real Path for data directories; mock only the logs directory
+        # used inside main() so tests do not write to the repo filesystem.
+        mock_path.side_effect = lambda arg: (
+            mock.MagicMock() if arg == "logs" else Path(arg)
+        )
+
+        main(argv=["--data-dir", "/tmp/test-data"])
+
+        mock_config_class.assert_called_once_with(base_dir=Path("/tmp/test-data"))
+        mock_app_class.assert_called_once_with(config=mock_config_instance)
 
 
 if __name__ == "__main__":
