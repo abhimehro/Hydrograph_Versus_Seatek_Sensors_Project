@@ -107,7 +107,7 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 
 ### Prerequisites
 
-Dependencies are defined in `pyproject.toml` with exact pinned versions. `poetry.lock`
+Direct package dependencies are pinned to exact versions in `pyproject.toml` (Python itself remains a `^3.12` constraint). `poetry.lock`
 provides a fully resolved environment.
 
 ### Installation
