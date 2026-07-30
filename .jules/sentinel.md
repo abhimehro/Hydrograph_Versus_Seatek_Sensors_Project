@@ -295,3 +295,8 @@ regular file before attempting to read it. **Prevention:** Implement
 `file_path.is_file()` checks in `validate_file_size` (wrapped in a
 `try...except Exception` block to gracefully handle poorly-mocked test
 environments) before validating the file size or reading its contents.
+
+## 2024-03-10 - Path Traversal in CLI Output Flags
+**Vulnerability:** The `--output` flag in `validate_data.py` allowed users to specify arbitrary file paths (like `../../etc/shadow`) which were opened for writing without validation, leading to potential path traversal and arbitrary file write.
+**Learning:** Command-line interfaces that accept output file paths are just as vulnerable to path traversal as web endpoints or configuration files. User-provided paths must always be sandboxed.
+**Prevention:** Always apply the `is_safe_path(base_dir: Path, target_path: Path)` utility to any dynamically constructed or user-provided file path (including CLI flags) before using it in file operations like `open()`.

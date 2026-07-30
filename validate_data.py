@@ -15,6 +15,7 @@ import json
 import logging
 import sys
 from pathlib import Path
+from src.hydrograph_seatek_analysis.utils.security import is_safe_path
 
 from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.core.logger import configure_root_logger
@@ -73,10 +74,21 @@ def main():
             json_results = json.dumps(results, indent=2, default=str)
 
             if args.output:
+                output_path = Path(args.output).resolve()
+                base_dir = config.base_dir.resolve()
+                if not is_safe_path(base_dir, output_path):
+                    logger.error(
+                        f"SECURITY: Attempted path traversal detected for output file. Path outside base directory: {output_path}"
+                    )
+                    print(
+                        f"Error: Output path '{args.output}' is outside the allowed directory '{base_dir}'."
+                    )
+                    return 1
+
                 # Write to file
-                with open(args.output, "w") as f:
+                with open(output_path, "w") as f:
                     f.write(json_results)
-                logger.info(f"Validation results written to {args.output}")
+                logger.info(f"Validation results written to {output_path}")
             else:
                 # Print to stdout
                 print(json_results)
