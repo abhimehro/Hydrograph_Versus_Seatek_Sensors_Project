@@ -24,7 +24,7 @@ Hydrograph vs Seatek Sensors Analysis Project.
 
 ## Installation Methods
 
-Dependencies are declared in `pyproject.toml` with exact pinned versions, and a fully
+Direct package dependencies are pinned to exact versions in `pyproject.toml` (Python itself remains a `^3.12` constraint), and a fully
 resolved `poetry.lock` is committed for reproducible builds. You can install the
 project using one of the following methods:
 
