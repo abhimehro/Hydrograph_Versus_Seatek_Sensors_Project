@@ -82,39 +82,42 @@ class ChartGenerator:
         """Update sensor and hydrograph count metrics."""
         # ⚡ Bolt Optimization: Use count_nonzero on numpy arrays to bypass pandas object overhead
         if sensor in data.columns:
-            metrics.sensor_count = len(data) - np.count_nonzero(
-                pd.isna(data[sensor].values)
+            metrics.sensor_count = len(data) - int(
+                np.count_nonzero(pd.isna(data[sensor].to_numpy()))
             )
         if HYDROGRAPH_COL in data.columns:
-            metrics.hydro_count = len(data) - np.count_nonzero(
-                pd.isna(data[HYDROGRAPH_COL].values)
+            metrics.hydro_count = len(data) - int(
+                np.count_nonzero(pd.isna(data[HYDROGRAPH_COL].to_numpy()))
             )
 
     def _update_time_metrics(self, data: pd.DataFrame, metrics: ChartMetrics) -> None:
         """Update time range metrics if data is available."""
         if "Time (Minutes)" in data.columns and len(data) > 0:
-            if not np.all(pd.isna(data["Time (Minutes)"].values)):
+            time_minutes = data["Time (Minutes)"].to_numpy(dtype=np.float64)
+            if not np.all(np.isnan(time_minutes)):
                 # ⚡ Bolt Optimization: Replace df.min/max with np.nanmin/nanmax on values array to bypass pandas overhead
-                metrics.time_range_min = float(np.nanmin(data["Time (Minutes)"].values))
-                metrics.time_range_max = float(np.nanmax(data["Time (Minutes)"].values))
+                metrics.time_range_min = float(np.nanmin(time_minutes))
+                metrics.time_range_max = float(np.nanmax(time_minutes))
 
     def _update_sensor_metrics(
         self, data: pd.DataFrame, sensor: str, metrics: ChartMetrics
     ) -> None:
         """Update sensor min/max metrics if data is available."""
         if sensor in data.columns and len(data) > 0:
-            if not np.all(pd.isna(data[sensor].values)):
+            sensor_arr = data[sensor].to_numpy(dtype=np.float64)
+            if not np.all(np.isnan(sensor_arr)):
                 # ⚡ Bolt Optimization: Replace df.min/max with np.nanmin/nanmax on values array to bypass pandas overhead
-                metrics.sensor_min = float(np.nanmin(data[sensor].values))
-                metrics.sensor_max = float(np.nanmax(data[sensor].values))
+                metrics.sensor_min = float(np.nanmin(sensor_arr))
+                metrics.sensor_max = float(np.nanmax(sensor_arr))
 
     def _update_hydro_metrics(self, data: pd.DataFrame, metrics: ChartMetrics) -> None:
         """Update hydrograph min/max metrics if data is available."""
         if "Hydrograph (Lagged)" in data.columns and len(data) > 0:
-            if not np.all(pd.isna(data["Hydrograph (Lagged)"].values)):
+            hydro_arr = data["Hydrograph (Lagged)"].to_numpy(dtype=np.float64)
+            if not np.all(np.isnan(hydro_arr)):
                 # ⚡ Bolt Optimization: Replace df.min/max with np.nanmin/nanmax on values array to bypass pandas overhead
-                metrics.hydro_min = float(np.nanmin(data["Hydrograph (Lagged)"].values))
-                metrics.hydro_max = float(np.nanmax(data["Hydrograph (Lagged)"].values))
+                metrics.hydro_min = float(np.nanmin(hydro_arr))
+                metrics.hydro_max = float(np.nanmax(hydro_arr))
 
     def _calculate_metrics(
         self, data: pd.DataFrame, sensor: str, metrics: ChartMetrics
@@ -245,8 +248,8 @@ class ChartGenerator:
         """Format the hydrograph y-axis based on values."""
         # Compute maximum deviation from nearest integer to detect fractional values
         # ⚡ Bolt Optimization: Use guard conditions before NumPy nanmax to prevent warnings, and replace Pandas intermediate object allocations
-        if len(hydro_values) > 0 and not np.all(pd.isna(hydro_values.values)):
-            hydro_values_arr = hydro_values.values
+        hydro_values_arr = hydro_values.to_numpy(dtype=np.float64)
+        if len(hydro_values_arr) > 0 and not np.all(np.isnan(hydro_values_arr)):
             max_frac_deviation = float(
                 np.nanmax(np.abs(hydro_values_arr - np.round(hydro_values_arr)))
             )
@@ -308,7 +311,7 @@ class ChartGenerator:
         fig: Figure,
         output_path: str,
         dpi: Optional[int] = None,
-        metadata: Optional[dict] = None,
+        metadata: Optional[dict[str, str]] = None,
     ) -> bool:
         """
         Save chart to file.
@@ -327,12 +330,12 @@ class ChartGenerator:
             path_obj = Path(output_path)
             path_obj.parent.mkdir(parents=True, exist_ok=True)
 
-            # Save figure
-            kwargs = {"dpi": dpi or self.chart_settings.dpi, "bbox_inches": "tight"}
-            if metadata:
-                kwargs["metadata"] = metadata
-
-            fig.savefig(path_obj, **kwargs)
+            fig.savefig(
+                path_obj,
+                dpi=dpi or self.chart_settings.dpi,
+                bbox_inches="tight",
+                metadata=metadata,
+            )
             plt.close(fig)  # Free memory
             logger.info(f"Saved chart to {output_path}")
             return True

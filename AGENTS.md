@@ -44,7 +44,7 @@ Standard commands are documented in `CLAUDE.md`. Key references:
 - `$HOME/.local/bin` must be on `PATH` for `flake8`, `mypy`, `black`, `pytest`
   CLI commands to work. Consider adding `black .` to the "Running commands"
   section if it's part of the standard workflow.
-- PR and `main` CI runs `pytest` + `flake8`; `mypy` is non-blocking. See
+- PR and `main` CI runs `pytest` + `flake8` + `mypy` (blocking). See
   `.github/workflows/python-tests.yml`.
 
 ### CodeScene review/salvage trigger

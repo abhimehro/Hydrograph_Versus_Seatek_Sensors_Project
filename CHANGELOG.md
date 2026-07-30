@@ -10,6 +10,8 @@
 
 **Closed issues:**
 
+- Daily QA & Agentic Review — 2026-07-29 [\#437](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/437)
+- \[repo-automation\] Daily Status Report - 2026-07-29 [\#435](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/435)
 - Daily QA & Agentic Review — 2026-07-28 [\#430](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/430)
 - \[repo-automation\] Daily Status Report - 2026-07-28 [\#429](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/429)
 - \[repo-health\] Quarantine legacy utils/ + enhanced\_test\_suite after v3 refactor [\#424](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/424)
@@ -76,6 +78,7 @@
 
 **Merged pull requests:**
 
+- fix\(types\): clean mypy errors and make type check blocking in CI [\#434](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/434) ([abhimehro](https://github.com/abhimehro))
 - ci\(repo-health\): add pytest/flake8/mypy PR workflow and stale agent-branch cleanup [\#433](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/433) ([abhimehro](https://github.com/abhimehro))
 - Add testing-hydrograph SKILL.md for local validation [\#432](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/432) ([abhimehro](https://github.com/abhimehro))
 - chore\(repo-health\): quarantine legacy utils and re-enable visualization tests [\#431](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/431) ([abhimehro](https://github.com/abhimehro))
