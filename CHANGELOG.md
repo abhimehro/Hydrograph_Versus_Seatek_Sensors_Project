@@ -78,6 +78,7 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): bump release-drafter/release-drafter from 7.6.0 to 7.7.0 [\#436](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/436) ([dependabot[bot]](https://github.com/apps/dependabot))
 - fix\(types\): clean mypy errors and make type check blocking in CI [\#434](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/434) ([abhimehro](https://github.com/abhimehro))
 - ci\(repo-health\): add pytest/flake8/mypy PR workflow and stale agent-branch cleanup [\#433](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/433) ([abhimehro](https://github.com/abhimehro))
 - Add testing-hydrograph SKILL.md for local validation [\#432](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/432) ([abhimehro](https://github.com/abhimehro))
