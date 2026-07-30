@@ -99,7 +99,9 @@ class Application:
             return False
 
     @staticmethod
-    def _create_chart_metadata(river_mile: float, year: int, sensor: str) -> dict[str, str]:
+    def _create_chart_metadata(
+        river_mile: float, year: int, sensor: str
+    ) -> dict[str, str]:
         """Create metadata for chart accessibility."""
         sensor_num = sensor.split("_")[1] if "_" in sensor else sensor
         return {

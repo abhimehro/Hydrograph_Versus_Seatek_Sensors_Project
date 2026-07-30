@@ -24,9 +24,10 @@ Hydrograph vs Seatek Sensors Analysis Project.
 
 ## Installation Methods
 
-Direct package dependencies are pinned to exact versions in `pyproject.toml` (Python itself remains a `^3.12` constraint), and a fully
-resolved `poetry.lock` is committed for reproducible builds. You can install the
-project using one of the following methods:
+Direct package dependencies are pinned to exact versions in `pyproject.toml`
+(Python itself remains a `^3.12` constraint), and a fully resolved `poetry.lock`
+is committed for reproducible builds. You can install the project using one of
+the following methods:
 
 ### Method 1: Using Poetry (Recommended)
 
@@ -329,10 +330,11 @@ poetry update
 poetry lock
 ```
 
-Because `requirements.txt` uses `==` pins, `pip install --upgrade -r requirements.txt`
-will not float upgrades on its own. Version bumps should be made through a
-Dependabot or Poetry update PR that edits the `==` pins in `pyproject.toml`,
-`requirements.txt`, `requirements-ci.txt`, and regenerates `poetry.lock` together.
+Because `requirements.txt` uses `==` pins,
+`pip install --upgrade -r requirements.txt` will not float upgrades on its own.
+Version bumps should be made through a Dependabot or Poetry update PR that edits
+the `==` pins in `pyproject.toml`, `requirements.txt`, `requirements-ci.txt`,
+and regenerates `poetry.lock` together.
 
 ### Log Rotation
 

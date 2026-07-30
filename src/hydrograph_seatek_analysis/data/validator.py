@@ -183,7 +183,9 @@ class DataValidator:
 
             with pd.ExcelFile(hydro_file) as excel:
                 sheets = excel.sheet_names
-                rm_sheets = [s for s in sheets if isinstance(s, str) and s.startswith("RM_")]
+                rm_sheets = [
+                    s for s in sheets if isinstance(s, str) and s.startswith("RM_")
+                ]
 
                 if not rm_sheets:
                     logger.error("No river mile sheets found in hydrograph file")
