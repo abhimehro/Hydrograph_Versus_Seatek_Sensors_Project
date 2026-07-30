@@ -107,7 +107,7 @@ Hydrograph_Versus_Seatek_Sensors_Project/
 
 ### Prerequisites
 
-Dependencies are defined in `pyproject.toml` with bounded ranges. `poetry.lock`
+Dependencies are defined in `pyproject.toml` with exact pinned versions. `poetry.lock`
 provides a fully resolved environment.
 
 ### Installation
