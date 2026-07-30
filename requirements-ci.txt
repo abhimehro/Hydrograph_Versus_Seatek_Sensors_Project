@@ -1,4 +1,4 @@
-# CI dependencies - exact pins matching pyproject.toml dev dependencies
+# CI dependencies - exact pins for tools used in CI (subset of pyproject.toml dev dependencies)
 -r requirements.txt
 
 pytest==9.1.1
