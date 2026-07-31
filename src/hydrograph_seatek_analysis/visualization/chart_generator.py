@@ -228,7 +228,7 @@ class ChartGenerator:
         """
         # ⚡ Bolt Optimization: Avoid intermediate DataFrame allocation by omitting .dropna()
         # Matplotlib's scatter natively handles NaN values. Use .any() on boolean mask to avoid Series allocation.
-        if np.any(~pd.isna(data[sensor].values)):
+        if len(data) - np.count_nonzero(pd.isna(data[sensor].values)) > 0:
             ax1.scatter(
                 data["Time (Minutes)"],
                 data[sensor],
@@ -275,7 +275,11 @@ class ChartGenerator:
             ax2 = ax1.twinx()
             # ⚡ Bolt Optimization: Avoid intermediate DataFrame allocation by omitting .dropna()
             # Matplotlib's scatter natively handles NaN values. Use .any() on boolean mask to avoid Series allocation.
-            if np.any(~pd.isna(data["Hydrograph (Lagged)"].values)):
+            if (
+                len(data)
+                - np.count_nonzero(pd.isna(data["Hydrograph (Lagged)"].values))
+                > 0
+            ):
                 ax2.scatter(
                     data["Time (Minutes)"],
                     data["Hydrograph (Lagged)"],
@@ -291,7 +295,9 @@ class ChartGenerator:
                 ax2.tick_params(axis="y", labelcolor=HYDRO_COLOR)
 
                 # Choose y-axis formatter based on whether hydrograph values are effectively integers
-                ChartGenerator._format_hydrograph_axis(ax2, data["Hydrograph (Lagged)"])
+                ChartGenerator._format_hydrograph_axis(
+                    ax2, data["Hydrograph (Lagged)"].dropna()
+                )
 
             return ax2
         except Exception as e:
