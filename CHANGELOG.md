@@ -6,158 +6,395 @@
 
 **Security fixes:**
 
-- 🔒 Supply Chain: Pin all dependencies to specific versions [\#426](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/426)
-- \[P1\] Supply-Chain Risk: Unpinned Dependencies [\#350](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/350)
+- 🔒 Supply Chain: Pin all dependencies to specific versions
+  [\#426](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/426)
+- \[P1\] Supply-Chain Risk: Unpinned Dependencies
+  [\#350](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/350)
 
 **Closed issues:**
 
-- Daily QA & Agentic Review — 2026-07-29 [\#437](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/437)
-- \[repo-automation\] Daily Status Report - 2026-07-29 [\#435](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/435)
-- Daily QA & Agentic Review — 2026-07-28 [\#430](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/430)
-- \[repo-automation\] Daily Status Report - 2026-07-28 [\#429](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/429)
-- \[repo-health\] Quarantine legacy utils/ + enhanced\_test\_suite after v3 refactor [\#424](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/424)
-- \[repo-health\] Add pytest/flake8/mypy CI on pull requests [\#423](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/423)
-- \[repo-automation\] Daily Status Report - 2026-07-27 [\#421](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/421)
-- Daily QA & Agentic Review — 2026-07-26 [\#419](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/419)
-- \[repo-automation\] Daily Status Report - 2026-07-26 [\#417](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/417)
-- Daily QA & Agentic Review — 2026-07-25 [\#415](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/415)
-- Daily QA & Agentic Review — 2026-07-24 [\#412](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/412)
-- \[repo-automation\] Daily Status Report - 2026-07-24 [\#410](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/410)
-- Daily QA & Agentic Review — 2026-07-23 [\#409](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/409)
-- \[repo-automation\] Daily Status Report - 2026-07-23 [\#405](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/405)
-- Daily QA & Agentic Review — 2026-07-22 [\#403](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/403)
-- \[repo-automation\] Daily Status Report - 2026-07-22 [\#401](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/401)
-- Daily QA & Agentic Review — 2026-07-21 [\#399](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/399)
-- \[repo-automation\] Daily Status Report - 2026-07-21 [\#397](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/397)
-- Daily QA & Agentic Review — 2026-07-20 [\#395](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/395)
-- \[repo-automation\] Daily Status Report - 2026-07-20 [\#390](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/390)
-- Daily QA & Agentic Review — 2026-07-19 [\#389](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/389)
-- \[repo-automation\] Daily Status Report - 2026-07-19 [\#388](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/388)
-- Daily QA & Agentic Review — 2026-07-18 [\#387](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/387)
-- \[repo-automation\] Daily Status Report - 2026-07-18 [\#386](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/386)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-07-17 [\#385](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/385)
-- Daily QA & Agentic Review — 2026-07-17 [\#384](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/384)
-- \[repo-automation\] Daily Status Report - 2026-07-17 [\#382](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/382)
-- Daily QA & Agentic Review — 2026-07-16 [\#380](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/380)
-- \[repo-automation\] Daily Status Report - 2026-07-16 [\#377](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/377)
-- Daily QA & Agentic Review - 2026-07-15 [\#368](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/368)
-- \[repo-automation\] Daily Status Report - 2026-07-15 [\#365](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/365)
-- Daily QA & Agentic Review - 2026-07-14 [\#361](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/361)
-- \[repo-automation\] Daily Status Report - 2026-07-14 [\#356](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/356)
-- \[repo-automation\] Daily Status Report - 2026-07-13 [\#353](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/353)
-- Daily QA & Agentic Review - 2026-07-12 [\#348](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/348)
-- Daily QA & Agentic Review - 2026-07-12 [\#347](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/347)
-- \[repo-automation\] Daily Status Report - 2026-07-12 [\#346](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/346)
-- Daily QA & Agentic Review - 2026-07-11 [\#342](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/342)
-- \[repo-automation\] Daily Status Report - 2026-07-11 [\#341](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/341)
-- Daily QA & Agentic Review - 2026-07-10 [\#339](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/339)
-- \[repo-automation\] Daily Status Report - 2026-07-10 [\#338](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/338)
-- Daily QA & Agentic Review - 2026-07-09 [\#336](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/336)
-- \[repo-automation\] Daily Status Report - 2026-07-09 [\#335](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/335)
-- Daily QA & Agentic Review - 2026-07-08 [\#332](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/332)
-- \[repo-automation\] Daily Status Report - 2026-07-08 [\#331](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/331)
-- Daily QA & Agentic Review - 2026-07-07 [\#329](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/329)
-- \[repo-automation\] Daily Status Report - 2026-07-07 [\#328](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/328)
-- Daily QA & Agentic Review - 2026-07-06 [\#325](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/325)
-- \[repo-automation\] Daily Status Report - 2026-07-06 [\#324](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/324)
-- Daily QA & Agentic Review - 2026-07-05 [\#322](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/322)
-- Daily QA & Agentic Review - 2026-07-04 [\#319](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/319)
-- Daily QA & Agentic Review - 2026-07-03 [\#317](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/317)
-- Daily QA & Agentic Review - 2026-07-02 [\#314](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/314)
-- Daily QA & Agentic Review - 2026-07-01 [\#313](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/313)
-- Daily QA & Agentic Review - 2026-06-30 [\#309](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/309)
-- Daily QA & Agentic Review - 2026-06-29 [\#306](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/306)
-- Daily QA & Agentic Review - 2026-06-28 [\#303](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/303)
-- Daily QA & Agentic Review - 2026-06-27 [\#302](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/302)
-- Daily QA & Agentic Review - 2026-06-26 [\#300](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/300)
-- Daily QA & Agentic Review - 2026-06-25 [\#298](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/298)
-- Daily QA & Agentic Review — 2026-06-24 [\#296](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/296)
-- Daily QA & Agentic Review — 2026-06-23 [\#294](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/294)
-- Daily QA & Agentic Review — 2026-06-22 [\#288](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/288)
-- Daily QA & Agentic Review — 2026-06-21 [\#286](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/286)
-- Daily QA & Agentic Review — 2026-06-20 [\#285](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/285)
+- Daily QA & Agentic Review — 2026-07-29
+  [\#437](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/437)
+- \[repo-automation\] Daily Status Report - 2026-07-29
+  [\#435](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/435)
+- Daily QA & Agentic Review — 2026-07-28
+  [\#430](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/430)
+- \[repo-automation\] Daily Status Report - 2026-07-28
+  [\#429](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/429)
+- \[repo-health\] Quarantine legacy utils/ + enhanced\_test\_suite after v3
+  refactor
+  [\#424](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/424)
+- \[repo-health\] Add pytest/flake8/mypy CI on pull requests
+  [\#423](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/423)
+- \[repo-automation\] Daily Status Report - 2026-07-27
+  [\#421](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/421)
+- Daily QA & Agentic Review — 2026-07-26
+  [\#419](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/419)
+- \[repo-automation\] Daily Status Report - 2026-07-26
+  [\#417](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/417)
+- Daily QA & Agentic Review — 2026-07-25
+  [\#415](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/415)
+- Daily QA & Agentic Review — 2026-07-24
+  [\#412](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/412)
+- \[repo-automation\] Daily Status Report - 2026-07-24
+  [\#410](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/410)
+- Daily QA & Agentic Review — 2026-07-23
+  [\#409](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/409)
+- \[repo-automation\] Daily Status Report - 2026-07-23
+  [\#405](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/405)
+- Daily QA & Agentic Review — 2026-07-22
+  [\#403](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/403)
+- \[repo-automation\] Daily Status Report - 2026-07-22
+  [\#401](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/401)
+- Daily QA & Agentic Review — 2026-07-21
+  [\#399](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/399)
+- \[repo-automation\] Daily Status Report - 2026-07-21
+  [\#397](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/397)
+- Daily QA & Agentic Review — 2026-07-20
+  [\#395](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/395)
+- \[repo-automation\] Daily Status Report - 2026-07-20
+  [\#390](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/390)
+- Daily QA & Agentic Review — 2026-07-19
+  [\#389](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/389)
+- \[repo-automation\] Daily Status Report - 2026-07-19
+  [\#388](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/388)
+- Daily QA & Agentic Review — 2026-07-18
+  [\#387](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/387)
+- \[repo-automation\] Daily Status Report - 2026-07-18
+  [\#386](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/386)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-07-17
+  [\#385](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/385)
+- Daily QA & Agentic Review — 2026-07-17
+  [\#384](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/384)
+- \[repo-automation\] Daily Status Report - 2026-07-17
+  [\#382](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/382)
+- Daily QA & Agentic Review — 2026-07-16
+  [\#380](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/380)
+- \[repo-automation\] Daily Status Report - 2026-07-16
+  [\#377](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/377)
+- Daily QA & Agentic Review - 2026-07-15
+  [\#368](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/368)
+- \[repo-automation\] Daily Status Report - 2026-07-15
+  [\#365](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/365)
+- Daily QA & Agentic Review - 2026-07-14
+  [\#361](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/361)
+- \[repo-automation\] Daily Status Report - 2026-07-14
+  [\#356](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/356)
+- \[repo-automation\] Daily Status Report - 2026-07-13
+  [\#353](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/353)
+- Daily QA & Agentic Review - 2026-07-12
+  [\#348](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/348)
+- Daily QA & Agentic Review - 2026-07-12
+  [\#347](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/347)
+- \[repo-automation\] Daily Status Report - 2026-07-12
+  [\#346](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/346)
+- Daily QA & Agentic Review - 2026-07-11
+  [\#342](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/342)
+- \[repo-automation\] Daily Status Report - 2026-07-11
+  [\#341](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/341)
+- Daily QA & Agentic Review - 2026-07-10
+  [\#339](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/339)
+- \[repo-automation\] Daily Status Report - 2026-07-10
+  [\#338](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/338)
+- Daily QA & Agentic Review - 2026-07-09
+  [\#336](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/336)
+- \[repo-automation\] Daily Status Report - 2026-07-09
+  [\#335](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/335)
+- Daily QA & Agentic Review - 2026-07-08
+  [\#332](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/332)
+- \[repo-automation\] Daily Status Report - 2026-07-08
+  [\#331](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/331)
+- Daily QA & Agentic Review - 2026-07-07
+  [\#329](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/329)
+- \[repo-automation\] Daily Status Report - 2026-07-07
+  [\#328](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/328)
+- Daily QA & Agentic Review - 2026-07-06
+  [\#325](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/325)
+- \[repo-automation\] Daily Status Report - 2026-07-06
+  [\#324](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/324)
+- Daily QA & Agentic Review - 2026-07-05
+  [\#322](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/322)
+- Daily QA & Agentic Review - 2026-07-04
+  [\#319](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/319)
+- Daily QA & Agentic Review - 2026-07-03
+  [\#317](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/317)
+- Daily QA & Agentic Review - 2026-07-02
+  [\#314](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/314)
+- Daily QA & Agentic Review - 2026-07-01
+  [\#313](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/313)
+- Daily QA & Agentic Review - 2026-06-30
+  [\#309](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/309)
+- Daily QA & Agentic Review - 2026-06-29
+  [\#306](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/306)
+- Daily QA & Agentic Review - 2026-06-28
+  [\#303](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/303)
+- Daily QA & Agentic Review - 2026-06-27
+  [\#302](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/302)
+- Daily QA & Agentic Review - 2026-06-26
+  [\#300](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/300)
+- Daily QA & Agentic Review - 2026-06-25
+  [\#298](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/298)
+- Daily QA & Agentic Review — 2026-06-24
+  [\#296](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/296)
+- Daily QA & Agentic Review — 2026-06-23
+  [\#294](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/294)
+- Daily QA & Agentic Review — 2026-06-22
+  [\#288](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/288)
+- Daily QA & Agentic Review — 2026-06-21
+  [\#286](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/286)
+- Daily QA & Agentic Review — 2026-06-20
+  [\#285](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/285)
 
 **Merged pull requests:**
 
-- fix\(deps\): ABHI-1590 pin direct dependencies to exact versions [\#438](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/438) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): bump release-drafter/release-drafter from 7.6.0 to 7.7.0 [\#436](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/436) ([dependabot[bot]](https://github.com/apps/dependabot))
-- fix\(types\): clean mypy errors and make type check blocking in CI [\#434](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/434) ([abhimehro](https://github.com/abhimehro))
-- ci\(repo-health\): add pytest/flake8/mypy PR workflow and stale agent-branch cleanup [\#433](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/433) ([abhimehro](https://github.com/abhimehro))
-- Add testing-hydrograph SKILL.md for local validation [\#432](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/432) ([abhimehro](https://github.com/abhimehro))
-- chore\(repo-health\): quarantine legacy utils and re-enable visualization tests [\#431](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/431) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize scalar arithmetic with underlying NumPy arrays [\#428](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/428) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[MEDIUM\] Enhance file size validation security [\#425](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/425) ([abhimehro](https://github.com/abhimehro))
-- chore\(repo-health\): data-format docs + agent guidance [\#422](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/422) ([cursor[bot]](https://github.com/apps/cursor))
-- 🛡️ Sentinel: \[HIGH\] Fix DoS vulnerability via special device files [\#418](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/418) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize isna\(\).all\(\) checks [\#416](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/416) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize \_extract\_hydro\_years in validator.py [\#414](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/414) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): align numpy upper bound with pyproject \(\<3.0\) [\#411](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/411) ([cursor[bot]](https://github.com/apps/cursor))
-- chore\(deps\): bump pre-commit from 4.6.0 to 4.6.1 [\#408](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/408) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump colorlog from 6.11.0 to 6.12.0 [\#407](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/407) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump ruby/setup-ruby from 1.320.0 to 1.321.0 [\#406](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/406) ([dependabot[bot]](https://github.com/apps/dependabot))
-- ⚡ Bolt: Optimize dictionary instantiation in data validation [\#404](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/404) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): bump pre-commit from 4.6.0 to 4.6.1 [\#402](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/402) ([dependabot[bot]](https://github.com/apps/dependabot))
-- 🛡️ Sentinel: \[MEDIUM\] Fix Path Traversal in Logger Configuration [\#400](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/400) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): bump ruby/setup-ruby from 1.319.0 to 1.320.0 [\#398](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/398) ([dependabot[bot]](https://github.com/apps/dependabot))
-- ⚡ Bolt: Replace Pandas .min\(\) and .max\(\) with NumPy equivalents for faster aggregation [\#396](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/396) ([abhimehro](https://github.com/abhimehro))
-- fix\(deps\): pin Pillow \>=12.3.0 \(matplotlib transitive OSV\) [\#394](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/394) ([cursor[bot]](https://github.com/apps/cursor))
-- chore\(deps\): bump actions/checkout from 7.0.0 to 7.0.1 [\#393](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/393) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump actions/setup-python from 6 to 7 [\#392](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/392) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump release-drafter/release-drafter from 7.5.1 to 7.6.0 [\#391](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/391) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump colorlog from 6.10.1 to 6.11.0 [\#383](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/383) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump ruby/setup-ruby from 1.318.0 to 1.319.0 [\#379](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/379) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Draft: Salvage \#376 hydrograph axis aggregation optimization [\#378](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/378) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): bump numpy from 1.26.4 to 2.2.6 [\#374](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/374) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump pytest-cov from 4.1.0 to 7.1.0 [\#373](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/373) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump mypy from 1.20.2 to 2.3.0 [\#372](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/372) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump pre-commit from 3.8.0 to 4.6.0 [\#371](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/371) ([dependabot[bot]](https://github.com/apps/dependabot))
-- 🛡️ QA: \[MEDIUM\] Fix missing size validation in config loading [\#370](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/370) ([abhimehro](https://github.com/abhimehro))
-- 🛠️ QA: Fix pre-commit formatting \(black\) [\#369](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/369) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): bump ruby/setup-ruby from 1.317.0 to 1.318.0 [\#367](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/367) ([dependabot[bot]](https://github.com/apps/dependabot))
-- perf\(validator\): dict\(series\) instead of to\_dict\(\) \(salvages \#364\) [\#366](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/366) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize max fractional deviation calculation with NumPy [\#363](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/363) ([abhimehro](https://github.com/abhimehro))
-- 🛠️ QA: Fix Flake8 max-line-length anti-pattern [\#362](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/362) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): bump actions/setup-node from 6.4.0 to 7.0.0 [\#360](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/360) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump ruby/setup-ruby from 1.316.0 to 1.317.0 [\#359](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/359) ([dependabot[bot]](https://github.com/apps/dependabot))
-- 🛡️ Sentinel: \[CRITICAL/HIGH\] Fix config-driven path traversal in load\_config [\#358](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/358) ([abhimehro](https://github.com/abhimehro))
-- fix\(deps\): ABHI-1433 pin dependency ranges and add reproducible poetry.lock [\#357](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/357) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize Pandas min/max with NumPy [\#355](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/355) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize multiple boolean filters in NumPy arrays [\#345](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/345) ([abhimehro](https://github.com/abhimehro))
-- 🛠️ QA: Fix end of file newline in .flake8 [\#343](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/343) ([abhimehro](https://github.com/abhimehro))
-- 🛠️ QA: Fix pre-commit CI failures \(flake8\) [\#340](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/340) ([abhimehro](https://github.com/abhimehro))
-- 🛠️ QA: Fix pre-commit CI failures \(docstrings & large file\) [\#337](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/337) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize hydrograph boolean filtering [\#334](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/334) ([abhimehro](https://github.com/abhimehro))
-- 🛠️ QA: Fix pre-commit CI failures \(isort & flake8 config\) [\#333](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/333) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[CRITICAL\] Fix config-driven path traversal in import\_logging.py [\#330](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/330) ([abhimehro](https://github.com/abhimehro))
-- 🛠️ QA: Remove unused sys import in test\_data\_loader.py [\#327](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/327) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): bump codescene-oss/pr-refactoring-agent from 841e34c7ddd7a8ec887d632ac51432d6c71e2fe1 to bbc72fbfb8e514ed2dd0a1ba2dda2e0083abac73 [\#326](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/326) ([dependabot[bot]](https://github.com/apps/dependabot))
-- 🛠️ QA: Fix pre-commit CI failures \(isort config\) [\#323](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/323) ([abhimehro](https://github.com/abhimehro))
-- fix\(automation\): restore repository\_automation\_common.py after accidental truncation [\#321](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/321) ([cursor[bot]](https://github.com/apps/cursor))
-- 🛡️ Sentinel: \[HIGH\] Fix path traversal in config-driven data\_dir [\#320](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/320) ([abhimehro](https://github.com/abhimehro))
-- 🛠️ QA: Clean up debris scripts and fix linting errors [\#318](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/318) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): bump ruby/setup-ruby from 1.315.0 to 1.316.0 [\#316](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/316) ([dependabot[bot]](https://github.com/apps/dependabot))
-- 🛠️ QA: Fix pre-commit CI failures \(isort & mypy config\) [\#315](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/315) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[MEDIUM\] Remove security theater from tests [\#312](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/312) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Simplify multiple boolean filters to prevent intermediate series allocations [\#311](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/311) ([abhimehro](https://github.com/abhimehro))
-- 🛠️ QA: Clean up redundant utils and fix minor type issues [\#310](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/310) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): bump ruby/setup-ruby from 1.314.0 to 1.315.0 [\#308](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/308) ([dependabot[bot]](https://github.com/apps/dependabot))
-- ⚡ Bolt: Replace stateful usecols with stateless lambdas [\#307](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/307) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): bump actions/cache from 6.0.0 to 6.1.0 [\#305](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/305) ([dependabot[bot]](https://github.com/apps/dependabot))
-- 🛠️ QA: Fix pre-commit CI failure \(mypy config\) [\#304](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/304) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: \[performance improvement\] Replace stateful usecols with stateless lambda [\#301](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/301) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Replace pd.Series.where with np.where for performance [\#299](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/299) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): bump release-drafter/release-drafter from 7.4.0 to 7.5.1 [\#297](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/297) ([dependabot[bot]](https://github.com/apps/dependabot))
-- 🛡️ Sentinel: \[HIGH\] Fix Path Traversal in Tests Data Processor [\#295](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/295) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): bump actions/cache from 5.0.5 to 6.0.0 [\#292](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/292) ([dependabot[bot]](https://github.com/apps/dependabot))
-- ⚡ Bolt: Replace pd.Series.where with np.where for performance [\#291](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/291) ([abhimehro](https://github.com/abhimehro))
-- 🛠️ QA: Fix pre-commit CI failures \(isort & mypy config\) [\#289](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/289) ([abhimehro](https://github.com/abhimehro))
-- chore\(deps\): bump ruby/setup-ruby from 1.313.0 to 1.314.0 [\#287](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/287) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump pnpm/action-setup from 6.0.8 to 6.0.9 [\#284](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/284) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump actions/cache from 4.2.3 to 5.0.5 [\#283](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/283) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump actions/checkout from 4.2.2 to 7.0.0 [\#282](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/282) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump release-drafter/release-drafter from 7.2.1 to 7.4.0 [\#281](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/281) ([dependabot[bot]](https://github.com/apps/dependabot))
-- ⚡ Bolt: \[performance improvement\] Replace Pandas .loc assignments with np.where [\#280](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/280) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[HIGH\] Fix DoS vulnerability in pd.ExcelFile\(\) [\#276](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/276) ([abhimehro](https://github.com/abhimehro))
+- fix\(deps\): ABHI-1590 pin direct dependencies to exact versions
+  [\#438](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/438)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump release-drafter/release-drafter from 7.6.0 to 7.7.0
+  [\#436](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/436)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- fix\(types\): clean mypy errors and make type check blocking in CI
+  [\#434](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/434)
+  ([abhimehro](https://github.com/abhimehro))
+- ci\(repo-health\): add pytest/flake8/mypy PR workflow and stale agent-branch
+  cleanup
+  [\#433](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/433)
+  ([abhimehro](https://github.com/abhimehro))
+- Add testing-hydrograph SKILL.md for local validation
+  [\#432](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/432)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(repo-health\): quarantine legacy utils and re-enable visualization
+  tests
+  [\#431](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/431)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize scalar arithmetic with underlying NumPy arrays
+  [\#428](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/428)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[MEDIUM\] Enhance file size validation security
+  [\#425](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/425)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(repo-health\): data-format docs + agent guidance
+  [\#422](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/422)
+  ([cursor[bot]](https://github.com/apps/cursor))
+- 🛡️ Sentinel: \[HIGH\] Fix DoS vulnerability via special device files
+  [\#418](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/418)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize isna\(\).all\(\) checks
+  [\#416](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/416)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize \_extract\_hydro\_years in validator.py
+  [\#414](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/414)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): align numpy upper bound with pyproject \(\<3.0\)
+  [\#411](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/411)
+  ([cursor[bot]](https://github.com/apps/cursor))
+- chore\(deps\): bump pre-commit from 4.6.0 to 4.6.1
+  [\#408](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/408)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump colorlog from 6.11.0 to 6.12.0
+  [\#407](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/407)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump ruby/setup-ruby from 1.320.0 to 1.321.0
+  [\#406](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/406)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- ⚡ Bolt: Optimize dictionary instantiation in data validation
+  [\#404](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/404)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump pre-commit from 4.6.0 to 4.6.1
+  [\#402](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/402)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- 🛡️ Sentinel: \[MEDIUM\] Fix Path Traversal in Logger Configuration
+  [\#400](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/400)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump ruby/setup-ruby from 1.319.0 to 1.320.0
+  [\#398](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/398)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- ⚡ Bolt: Replace Pandas .min\(\) and .max\(\) with NumPy equivalents for
+  faster aggregation
+  [\#396](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/396)
+  ([abhimehro](https://github.com/abhimehro))
+- fix\(deps\): pin Pillow \>=12.3.0 \(matplotlib transitive OSV\)
+  [\#394](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/394)
+  ([cursor[bot]](https://github.com/apps/cursor))
+- chore\(deps\): bump actions/checkout from 7.0.0 to 7.0.1
+  [\#393](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/393)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump actions/setup-python from 6 to 7
+  [\#392](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/392)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump release-drafter/release-drafter from 7.5.1 to 7.6.0
+  [\#391](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/391)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump colorlog from 6.10.1 to 6.11.0
+  [\#383](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/383)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump ruby/setup-ruby from 1.318.0 to 1.319.0
+  [\#379](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/379)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- Draft: Salvage \#376 hydrograph axis aggregation optimization
+  [\#378](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/378)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump numpy from 1.26.4 to 2.2.6
+  [\#374](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/374)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump pytest-cov from 4.1.0 to 7.1.0
+  [\#373](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/373)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump mypy from 1.20.2 to 2.3.0
+  [\#372](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/372)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump pre-commit from 3.8.0 to 4.6.0
+  [\#371](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/371)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- 🛡️ QA: \[MEDIUM\] Fix missing size validation in config loading
+  [\#370](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/370)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Fix pre-commit formatting \(black\)
+  [\#369](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/369)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump ruby/setup-ruby from 1.317.0 to 1.318.0
+  [\#367](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/367)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- perf\(validator\): dict\(series\) instead of to\_dict\(\) \(salvages \#364\)
+  [\#366](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/366)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize max fractional deviation calculation with NumPy
+  [\#363](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/363)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Fix Flake8 max-line-length anti-pattern
+  [\#362](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/362)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump actions/setup-node from 6.4.0 to 7.0.0
+  [\#360](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/360)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump ruby/setup-ruby from 1.316.0 to 1.317.0
+  [\#359](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/359)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- 🛡️ Sentinel: \[CRITICAL/HIGH\] Fix config-driven path traversal in
+  load\_config
+  [\#358](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/358)
+  ([abhimehro](https://github.com/abhimehro))
+- fix\(deps\): ABHI-1433 pin dependency ranges and add reproducible poetry.lock
+  [\#357](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/357)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Pandas min/max with NumPy
+  [\#355](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/355)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize multiple boolean filters in NumPy arrays
+  [\#345](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/345)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Fix end of file newline in .flake8
+  [\#343](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/343)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Fix pre-commit CI failures \(flake8\)
+  [\#340](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/340)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Fix pre-commit CI failures \(docstrings & large file\)
+  [\#337](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/337)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize hydrograph boolean filtering
+  [\#334](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/334)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Fix pre-commit CI failures \(isort & flake8 config\)
+  [\#333](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/333)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[CRITICAL\] Fix config-driven path traversal in
+  import\_logging.py
+  [\#330](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/330)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Remove unused sys import in test\_data\_loader.py
+  [\#327](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/327)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump codescene-oss/pr-refactoring-agent from
+  841e34c7ddd7a8ec887d632ac51432d6c71e2fe1 to
+  bbc72fbfb8e514ed2dd0a1ba2dda2e0083abac73
+  [\#326](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/326)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- 🛠️ QA: Fix pre-commit CI failures \(isort config\)
+  [\#323](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/323)
+  ([abhimehro](https://github.com/abhimehro))
+- fix\(automation\): restore repository\_automation\_common.py after accidental
+  truncation
+  [\#321](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/321)
+  ([cursor[bot]](https://github.com/apps/cursor))
+- 🛡️ Sentinel: \[HIGH\] Fix path traversal in config-driven data\_dir
+  [\#320](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/320)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Clean up debris scripts and fix linting errors
+  [\#318](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/318)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump ruby/setup-ruby from 1.315.0 to 1.316.0
+  [\#316](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/316)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- 🛠️ QA: Fix pre-commit CI failures \(isort & mypy config\)
+  [\#315](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/315)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[MEDIUM\] Remove security theater from tests
+  [\#312](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/312)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Simplify multiple boolean filters to prevent intermediate series
+  allocations
+  [\#311](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/311)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Clean up redundant utils and fix minor type issues
+  [\#310](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/310)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump ruby/setup-ruby from 1.314.0 to 1.315.0
+  [\#308](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/308)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- ⚡ Bolt: Replace stateful usecols with stateless lambdas
+  [\#307](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/307)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump actions/cache from 6.0.0 to 6.1.0
+  [\#305](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/305)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- 🛠️ QA: Fix pre-commit CI failure \(mypy config\)
+  [\#304](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/304)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: \[performance improvement\] Replace stateful usecols with stateless
+  lambda
+  [\#301](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/301)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Replace pd.Series.where with np.where for performance
+  [\#299](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/299)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump release-drafter/release-drafter from 7.4.0 to 7.5.1
+  [\#297](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/297)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- 🛡️ Sentinel: \[HIGH\] Fix Path Traversal in Tests Data Processor
+  [\#295](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/295)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump actions/cache from 5.0.5 to 6.0.0
+  [\#292](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/292)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- ⚡ Bolt: Replace pd.Series.where with np.where for performance
+  [\#291](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/291)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Fix pre-commit CI failures \(isort & mypy config\)
+  [\#289](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/289)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump ruby/setup-ruby from 1.313.0 to 1.314.0
+  [\#287](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/287)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump pnpm/action-setup from 6.0.8 to 6.0.9
+  [\#284](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/284)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump actions/cache from 4.2.3 to 5.0.5
+  [\#283](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/283)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump actions/checkout from 4.2.2 to 7.0.0
+  [\#282](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/282)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump release-drafter/release-drafter from 7.2.1 to 7.4.0
+  [\#281](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/281)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- ⚡ Bolt: \[performance improvement\] Replace Pandas .loc assignments with
+  np.where
+  [\#280](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/280)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[HIGH\] Fix DoS vulnerability in pd.ExcelFile\(\)
+  [\#276](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/276)
+  ([abhimehro](https://github.com/abhimehro))
 
 ## [v0.1.0](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/tree/v0.1.0) (2026-06-20)
 
@@ -165,253 +402,669 @@
 
 **Closed issues:**
 
-- Daily QA & Agentic Review — 2026-06-19 [\#275](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/275)
-- Daily QA & Agentic Review — 2026-06-18 [\#273](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/273)
-- Daily QA & Agentic Review — 2026-06-17 [\#270](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/270)
-- Daily QA & Agentic Review — 2026-06-16 [\#266](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/266)
-- Daily QA & Agentic Review — 2026-06-15 [\#263](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/263)
-- Daily QA & Agentic Review — 2026-06-14 [\#260](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/260)
-- Daily QA & Agentic Review — 2026-06-13 [\#259](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/259)
-- Daily QA & Agentic Review — 2026-06-12 [\#255](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/255)
-- \[repo-automation\] Daily Status Report - 2026-06-12 [\#254](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/254)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-11 [\#253](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/253)
-- \[repo-automation\] Daily Status Report - 2026-06-11 [\#251](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/251)
-- Daily QA & Agentic Review — 2026-06-11 [\#244](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/244)
-- \[repo-automation\] Daily Status Report - 2026-06-10 [\#243](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/243)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-10 [\#242](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/242)
-- \[repo-automation\] Daily Status Report - 2026-06-09 [\#240](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/240)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-09 [\#238](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/238)
-- \[repo-automation\] Daily Status Report - 2026-06-08 [\#236](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/236)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-08 [\#235](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/235)
-- \[repo-automation\] Daily Status Report - 2026-06-07 [\#234](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/234)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-07 [\#233](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/233)
-- \[repo-automation\] Daily Status Report - 2026-06-06 [\#232](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/232)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-06 [\#231](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/231)
-- \[repo-automation\] Daily Status Report - 2026-06-05 [\#230](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/230)
-- Daily QA Check - 2026-06-05 [\#229](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/229)
-- \[repo-automation\] Daily Status Report - 2026-06-04 [\#228](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/228)
-- \[repo-automation\] Daily Status Report - 2026-06-03 [\#226](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/226)
-- Daily QA Check - 2026-06-03 [\#225](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/225)
-- \[repo-automation\] Daily Status Report - 2026-06-02 [\#217](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/217)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-02 [\#216](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/216)
-- Daily QA & Agentic Review — 2026-06-01 [\#215](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/215)
-- Daily QA & Agentic Review — 2026-05-31 [\#214](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/214)
-- Daily QA & Agentic Review — 2026-05-30 [\#213](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/213)
-- Daily QA & Agentic Review — 2026-05-29 [\#212](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/212)
-- \[repo-automation\] Daily Status Report - 2026-05-28 [\#211](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/211)
-- Daily QA & Agentic Review — 2026-05-28 [\#210](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/210)
-- \[repo-automation\] Daily Status Report - 2026-05-27 [\#209](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/209)
-- Daily QA & Agentic Review — 2026-05-27 [\#208](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/208)
-- \[repo-automation\] Daily Status Report - 2026-05-26 [\#207](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/207)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-26 [\#205](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/205)
-- \[repo-automation\] Daily Status Report - 2026-05-25 [\#204](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/204)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-25 [\#203](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/203)
-- \[repo-automation\] Daily Status Report - 2026-05-24 [\#202](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/202)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-24 [\#201](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/201)
-- \[repo-automation\] Daily Status Report - 2026-05-23 [\#200](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/200)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-23 [\#198](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/198)
-- \[repo-automation\] Daily Status Report - 2026-05-22 [\#197](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/197)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-22 [\#196](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/196)
-- \[repo-automation\] Daily Status Report - 2026-05-21 [\#194](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/194)
-- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-21 [\#193](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/193)
-- \[repo-automation\] Daily Status Report - 2026-05-20 [\#192](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/192)
-- \[repo-automation\] Daily Status Report - 2026-05-19 [\#191](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/191)
-- \[repo-automation\] Daily Status Report - 2026-05-18 [\#189](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/189)
-- \[repo-automation\] Daily Status Report - 2026-05-17 [\#188](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/188)
-- \[repo-automation\] Daily Status Report - 2026-05-16 [\#186](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/186)
-- \[repo-automation\] Daily Status Report - 2026-05-15 [\#184](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/184)
-- Scheduled application-security review - 2026-05-14 [\#182](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/182)
-- \[repo-automation\] Daily Status Report - 2026-05-14 [\#181](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/181)
-- \[repo-automation\] Daily Status Report - 2026-05-13 [\#180](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/180)
-- \[repo-automation\] Daily Status Report - 2026-05-12 [\#179](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/179)
-- \[repo-automation\] Daily Status Report - 2026-05-11 [\#178](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/178)
-- \[repo-automation\] Daily Status Report - 2026-05-10 [\#176](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/176)
-- \[repo-automation\] Daily Status Report - 2026-05-09 [\#175](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/175)
-- \[repo-automation\] Daily Status Report - 2026-05-08 [\#174](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/174)
-- \[repo-automation\] Daily Status Report - 2026-05-07 [\#173](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/173)
-- \[repo-automation\] Daily Status Report - 2026-05-05 [\#168](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/168)
-- \[repo-automation\] Daily Status Report - 2026-05-04 [\#166](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/166)
-- \[repo-automation\] Daily Status Report - 2026-05-03 [\#164](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/164)
-- \[repo-automation\] Daily Status Report - 2026-05-02 [\#160](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/160)
-- \[repo-automation\] Daily Status Report - 2026-05-01 [\#159](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/159)
-- \[repo-automation\] Daily Status Report - 2026-04-30 [\#156](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/156)
-- \[repo-automation\] Daily Status Report - 2026-04-29 [\#154](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/154)
-- \[repo-automation\] Daily Status Report - 2026-04-27 [\#151](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/151)
-- \[repo-automation\] Daily Status Report - 2026-04-26 [\#149](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/149)
-- \[repo-automation\] Daily Status Report - 2026-04-25 [\#147](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/147)
-- \[repo-automation\] Daily Status Report - 2026-04-24 [\#142](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/142)
-- \[repo-automation\] Daily Status Report - 2026-04-23 [\#141](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/141)
-- \[repo-automation\] Daily Status Report - 2026-04-22 [\#138](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/138)
-- \[repo-automation\] Daily Status Report - 2026-04-21 [\#137](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/137)
-- \[repo-automation\] Daily Status Report - 2026-04-20 [\#136](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/136)
-- \[repo-automation\] Daily Status Report - 2026-04-19 [\#134](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/134)
-- \[repo-automation\] Daily Status Report - 2026-04-18 [\#132](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/132)
-- \[repo-automation\] Daily Status Report - 2026-04-17 [\#130](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/130)
-- \[repo-automation\] Daily Status Report - 2026-04-16 [\#128](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/128)
-- \[repo-automation\] Daily Status Report - 2026-04-15 [\#127](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/127)
-- \[repo-automation\] Daily Status Report - 2026-04-14 [\#126](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/126)
-- \[repo-automation\] Daily Status Report - 2026-04-13 [\#122](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/122)
-- \[repo-automation\] Daily Status Report - 2026-04-12 [\#120](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/120)
-- \[repo-automation\] Daily Status Report - 2026-04-11 [\#118](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/118)
-- \[repo-automation\] Daily Status Report - 2026-04-10 [\#117](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/117)
-- \[repo-automation\] Daily Status Report - 2026-04-09 [\#115](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/115)
-- \[repo-automation\] Daily Status Report - 2026-04-08 [\#113](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/113)
-- \[repo-automation\] Daily Status Report - 2026-04-07 [\#111](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/111)
-- \[repo-automation\] Daily Status Report - 2026-04-06 [\#110](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/110)
-- \[repo-automation\] Daily Status Report - 2026-04-05 [\#106](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/106)
-- \[repo-automation\] Daily Status Report - 2026-04-04 [\#103](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/103)
+- Daily QA & Agentic Review — 2026-06-19
+  [\#275](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/275)
+- Daily QA & Agentic Review — 2026-06-18
+  [\#273](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/273)
+- Daily QA & Agentic Review — 2026-06-17
+  [\#270](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/270)
+- Daily QA & Agentic Review — 2026-06-16
+  [\#266](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/266)
+- Daily QA & Agentic Review — 2026-06-15
+  [\#263](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/263)
+- Daily QA & Agentic Review — 2026-06-14
+  [\#260](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/260)
+- Daily QA & Agentic Review — 2026-06-13
+  [\#259](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/259)
+- Daily QA & Agentic Review — 2026-06-12
+  [\#255](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/255)
+- \[repo-automation\] Daily Status Report - 2026-06-12
+  [\#254](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/254)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-11
+  [\#253](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/253)
+- \[repo-automation\] Daily Status Report - 2026-06-11
+  [\#251](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/251)
+- Daily QA & Agentic Review — 2026-06-11
+  [\#244](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/244)
+- \[repo-automation\] Daily Status Report - 2026-06-10
+  [\#243](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/243)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-10
+  [\#242](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/242)
+- \[repo-automation\] Daily Status Report - 2026-06-09
+  [\#240](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/240)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-09
+  [\#238](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/238)
+- \[repo-automation\] Daily Status Report - 2026-06-08
+  [\#236](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/236)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-08
+  [\#235](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/235)
+- \[repo-automation\] Daily Status Report - 2026-06-07
+  [\#234](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/234)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-07
+  [\#233](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/233)
+- \[repo-automation\] Daily Status Report - 2026-06-06
+  [\#232](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/232)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-06
+  [\#231](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/231)
+- \[repo-automation\] Daily Status Report - 2026-06-05
+  [\#230](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/230)
+- Daily QA Check - 2026-06-05
+  [\#229](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/229)
+- \[repo-automation\] Daily Status Report - 2026-06-04
+  [\#228](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/228)
+- \[repo-automation\] Daily Status Report - 2026-06-03
+  [\#226](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/226)
+- Daily QA Check - 2026-06-03
+  [\#225](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/225)
+- \[repo-automation\] Daily Status Report - 2026-06-02
+  [\#217](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/217)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-06-02
+  [\#216](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/216)
+- Daily QA & Agentic Review — 2026-06-01
+  [\#215](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/215)
+- Daily QA & Agentic Review — 2026-05-31
+  [\#214](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/214)
+- Daily QA & Agentic Review — 2026-05-30
+  [\#213](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/213)
+- Daily QA & Agentic Review — 2026-05-29
+  [\#212](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/212)
+- \[repo-automation\] Daily Status Report - 2026-05-28
+  [\#211](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/211)
+- Daily QA & Agentic Review — 2026-05-28
+  [\#210](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/210)
+- \[repo-automation\] Daily Status Report - 2026-05-27
+  [\#209](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/209)
+- Daily QA & Agentic Review — 2026-05-27
+  [\#208](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/208)
+- \[repo-automation\] Daily Status Report - 2026-05-26
+  [\#207](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/207)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-26
+  [\#205](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/205)
+- \[repo-automation\] Daily Status Report - 2026-05-25
+  [\#204](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/204)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-25
+  [\#203](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/203)
+- \[repo-automation\] Daily Status Report - 2026-05-24
+  [\#202](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/202)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-24
+  [\#201](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/201)
+- \[repo-automation\] Daily Status Report - 2026-05-23
+  [\#200](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/200)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-23
+  [\#198](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/198)
+- \[repo-automation\] Daily Status Report - 2026-05-22
+  [\#197](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/197)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-22
+  [\#196](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/196)
+- \[repo-automation\] Daily Status Report - 2026-05-21
+  [\#194](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/194)
+- Daily QA Check - Hydrograph\_Versus\_Seatek\_Sensors\_Project - 2026-05-21
+  [\#193](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/193)
+- \[repo-automation\] Daily Status Report - 2026-05-20
+  [\#192](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/192)
+- \[repo-automation\] Daily Status Report - 2026-05-19
+  [\#191](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/191)
+- \[repo-automation\] Daily Status Report - 2026-05-18
+  [\#189](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/189)
+- \[repo-automation\] Daily Status Report - 2026-05-17
+  [\#188](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/188)
+- \[repo-automation\] Daily Status Report - 2026-05-16
+  [\#186](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/186)
+- \[repo-automation\] Daily Status Report - 2026-05-15
+  [\#184](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/184)
+- Scheduled application-security review - 2026-05-14
+  [\#182](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/182)
+- \[repo-automation\] Daily Status Report - 2026-05-14
+  [\#181](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/181)
+- \[repo-automation\] Daily Status Report - 2026-05-13
+  [\#180](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/180)
+- \[repo-automation\] Daily Status Report - 2026-05-12
+  [\#179](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/179)
+- \[repo-automation\] Daily Status Report - 2026-05-11
+  [\#178](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/178)
+- \[repo-automation\] Daily Status Report - 2026-05-10
+  [\#176](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/176)
+- \[repo-automation\] Daily Status Report - 2026-05-09
+  [\#175](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/175)
+- \[repo-automation\] Daily Status Report - 2026-05-08
+  [\#174](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/174)
+- \[repo-automation\] Daily Status Report - 2026-05-07
+  [\#173](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/173)
+- \[repo-automation\] Daily Status Report - 2026-05-05
+  [\#168](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/168)
+- \[repo-automation\] Daily Status Report - 2026-05-04
+  [\#166](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/166)
+- \[repo-automation\] Daily Status Report - 2026-05-03
+  [\#164](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/164)
+- \[repo-automation\] Daily Status Report - 2026-05-02
+  [\#160](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/160)
+- \[repo-automation\] Daily Status Report - 2026-05-01
+  [\#159](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/159)
+- \[repo-automation\] Daily Status Report - 2026-04-30
+  [\#156](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/156)
+- \[repo-automation\] Daily Status Report - 2026-04-29
+  [\#154](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/154)
+- \[repo-automation\] Daily Status Report - 2026-04-27
+  [\#151](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/151)
+- \[repo-automation\] Daily Status Report - 2026-04-26
+  [\#149](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/149)
+- \[repo-automation\] Daily Status Report - 2026-04-25
+  [\#147](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/147)
+- \[repo-automation\] Daily Status Report - 2026-04-24
+  [\#142](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/142)
+- \[repo-automation\] Daily Status Report - 2026-04-23
+  [\#141](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/141)
+- \[repo-automation\] Daily Status Report - 2026-04-22
+  [\#138](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/138)
+- \[repo-automation\] Daily Status Report - 2026-04-21
+  [\#137](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/137)
+- \[repo-automation\] Daily Status Report - 2026-04-20
+  [\#136](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/136)
+- \[repo-automation\] Daily Status Report - 2026-04-19
+  [\#134](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/134)
+- \[repo-automation\] Daily Status Report - 2026-04-18
+  [\#132](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/132)
+- \[repo-automation\] Daily Status Report - 2026-04-17
+  [\#130](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/130)
+- \[repo-automation\] Daily Status Report - 2026-04-16
+  [\#128](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/128)
+- \[repo-automation\] Daily Status Report - 2026-04-15
+  [\#127](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/127)
+- \[repo-automation\] Daily Status Report - 2026-04-14
+  [\#126](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/126)
+- \[repo-automation\] Daily Status Report - 2026-04-13
+  [\#122](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/122)
+- \[repo-automation\] Daily Status Report - 2026-04-12
+  [\#120](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/120)
+- \[repo-automation\] Daily Status Report - 2026-04-11
+  [\#118](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/118)
+- \[repo-automation\] Daily Status Report - 2026-04-10
+  [\#117](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/117)
+- \[repo-automation\] Daily Status Report - 2026-04-09
+  [\#115](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/115)
+- \[repo-automation\] Daily Status Report - 2026-04-08
+  [\#113](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/113)
+- \[repo-automation\] Daily Status Report - 2026-04-07
+  [\#111](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/111)
+- \[repo-automation\] Daily Status Report - 2026-04-06
+  [\#110](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/110)
+- \[repo-automation\] Daily Status Report - 2026-04-05
+  [\#106](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/106)
+- \[repo-automation\] Daily Status Report - 2026-04-04
+  [\#103](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/103)
 
 **Merged pull requests:**
 
-- chore\(deps\): bump codescene-oss/pr-refactoring-agent from bc0d8b91c0a1a88154fb1dfb82124f8f43733d65 to 841e34c7ddd7a8ec887d632ac51432d6c71e2fe1 [\#279](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/279) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump ruby/setup-ruby from 1.308.0 to 1.313.0 [\#278](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/278) ([dependabot[bot]](https://github.com/apps/dependabot))
-- chore\(deps\): bump actions/checkout from 6 to 7 [\#277](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/277) ([dependabot[bot]](https://github.com/apps/dependabot))
-- 🛠️ QA: Fix pre-commit CI failures [\#274](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/274) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[security improvement\] [\#272](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/272) ([abhimehro](https://github.com/abhimehro))
-- 🛠️ QA: Fix pre-commit CI failures \(isort\) [\#271](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/271) ([abhimehro](https://github.com/abhimehro))
-- test\(app\): add Application.process\_data\(\) coverage \(salvages \#262\) [\#269](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/269) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize numeric data validation [\#268](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/268) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize non-null counting with numpy [\#267](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/267) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize DataFrame filtering with dropna [\#265](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/265) ([abhimehro](https://github.com/abhimehro))
-- autofix\(\): PR \#1 \(cycle 1\) -- Apply pre-commit style and linting fixes [\#264](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/264) ([abhimehro](https://github.com/abhimehro))
-- chore: fix minor flake8 warnings in test files [\#261](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/261) ([abhimehro](https://github.com/abhimehro))
-- 🧪 Add error path tests for SeatekDataProcessor.process\_data [\#258](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/258) ([abhimehro](https://github.com/abhimehro))
-- Task Complete: No UX changes needed [\#256](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/256) ([abhimehro](https://github.com/abhimehro))
-- test\(app\): add main execution path coverage \(salvages \#245\) [\#252](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/252) ([abhimehro](https://github.com/abhimehro))
-- 🧹 Refactor process\_data to fix 'Overly Long Function' code health issue [\#250](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/250) ([abhimehro](https://github.com/abhimehro))
-- 🧪 Add comprehensive tests for ChartGenerator.create\_chart [\#249](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/249) ([abhimehro](https://github.com/abhimehro))
-- 🧹 Refactor setup\_logger to reduce function parameters using FileLogConfig dataclass [\#248](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/248) ([abhimehro](https://github.com/abhimehro))
-- docs: document HYDROGRAPH\_BASE\_DIR end-to-end run path in AGENTS.md [\#247](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/247) ([abhimehro](https://github.com/abhimehro))
-- 🧪 \[Testing Improvement\] Missing Error Path Test for \_setup\_sensors [\#246](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/246) ([abhimehro](https://github.com/abhimehro))
-- perf\(data\): Bolt optimizations v2 \(salvages \#223, \#224; supersedes \#227\) [\#241](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/241) ([abhimehro](https://github.com/abhimehro))
-- chore\(actions\): consolidate workflow automation [\#239](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/239) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[security improvement\] Add path sanitization to river\_mile output path [\#237](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/237) ([abhimehro](https://github.com/abhimehro))
-- 🧪 \[testing improvement\] Add missing error path test for Application.load\_data [\#222](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/222) ([abhimehro](https://github.com/abhimehro))
-- 🧪 Add tests for format\_sensor\_name in utils/utils.py [\#221](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/221) ([abhimehro](https://github.com/abhimehro))
-- 🧪 \[testing improvement\] Add edge case tests for get\_available\_river\_miles [\#220](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/220) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize nested year sorting loop [\#219](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/219) ([abhimehro](https://github.com/abhimehro))
-- 🧹 Fix unused import in logger.py [\#218](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/218) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: optimize summary offsets dictionary mapping [\#206](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/206) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Replace set\_index\(\).to\_dict\(\) with dict\(zip\(\)\) [\#199](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/199) ([abhimehro](https://github.com/abhimehro))
-- fix\(lint\): remove unused os and sys imports \(F401\) [\#195](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/195) ([abhimehro](https://github.com/abhimehro))
-- fix\(lint\): remove extra blank lines in validator.py \(E303\) [\#190](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/190) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Remove unnecessary dropna before max aggregation [\#187](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/187) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Replace eq\(0\).sum\(\) with np.count\_nonzero\(\) for zero-value counting [\#177](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/177) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize Pandas property evaluations and missing data checks [\#172](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/172) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Remove dropna\(\) overhead before min, max, and unique [\#163](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/163) ([abhimehro](https://github.com/abhimehro))
-- Add GitHub Actions workflow testing skill [\#162](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/162) ([abhimehro](https://github.com/abhimehro))
-- ci: pass changelog token via environment [\#161](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/161) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[CRITICAL/HIGH\] Fix Path Traversal in utils/utils.py [\#157](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/157) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Replace df.isna\(\).sum\(\) with optimized np.count\_nonzero\(\) [\#155](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/155) ([abhimehro](https://github.com/abhimehro))
-- test\(data\_loader\): add exception-path test for \_load\_hydro\_data \(salvages \#145\) [\#148](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/148) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize boolean array counting with np.count\_nonzero [\#140](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/140) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[CRITICAL\] Fix path traversal in legacy visualization artifacts [\#139](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/139) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Replace .sum\(\) \> 0 with .any\(\) for faster boolean evaluation [\#135](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/135) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Replace .sum\(\) with np.count\_nonzero\(\) for boolean arrays [\#129](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/129) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Replace notna\(\).sum\(\) with count\(\) for performance [\#125](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/125) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[MEDIUM\] Fix missing file size validation DoS vulnerability in test processor [\#124](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/124) ([abhimehro](https://github.com/abhimehro))
-- Bump pillow from 11.1.0 to 12.2.0 in the pip group across 1 directory [\#123](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/123) ([dependabot[bot]](https://github.com/apps/dependabot))
-- ⚡ Bolt: Avoid redundant sort\_values on already sorted data [\#116](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/116) ([abhimehro](https://github.com/abhimehro))
-- fix: add requirements-ci.txt and fix test isolation to resolve quality-assurance CI failures [\#109](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/109) ([Copilot](https://github.com/apps/copilot-swe-agent))
-- ⚡ Bolt: Optimize already-sorted dataframe sorting overhead [\#108](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/108) ([abhimehro](https://github.com/abhimehro))
-- 🔒 \[HIGH\] Fix XXE Vulnerability with defusedxml [\#107](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/107) ([abhimehro](https://github.com/abhimehro))
-- 🔒 Sentinel: \[MEDIUM\] Add defusedxml dependency to prevent XXE [\#104](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/104) ([abhimehro](https://github.com/abhimehro))
-- chore\(actions\): consolidate workflow automation [\#102](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/102) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[security improvement\] Reject symlinks in file size validation [\#100](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/100) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: \[performance improvement\] Optimize Boolean array masking in inner loops [\#98](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/98) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[HIGH\] Fix path traversal in test data processor [\#97](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/97) ([abhimehro](https://github.com/abhimehro))
-- No changes: No suitable optimization identified [\#96](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/96) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[security improvement\] Centralize File Size Checks [\#95](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/95) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[security improvement\] Consolidate sanitize\_filename in app.py [\#94](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/94) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize Pandas empty dataframe checks in tight loops [\#93](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/93) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: UX improvements already implemented [\#92](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/92) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: \[performance improvement\] Pre-calculate Time \(Minutes\) to eliminate redundant array division [\#91](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/91) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[HIGH\] Fix XML Entity Expansion \(XXE\) in Excel Parsing [\#90](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/90) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Improve CLI error actionability and chart metadata accessibility [\#88](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/88) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize Pandas boolean masking array allocations [\#87](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/87) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Improve CLI Visual Cues and Formatting [\#86](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/86) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize Pandas boolean masking array allocations [\#85](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/85) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[CRITICAL\] Fix Memory Exhaustion DoS in pd.ExcelFile [\#84](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/84) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Improve accessibility of README images with descriptive alt text [\#83](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/83) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize Pandas boolean masking array allocations [\#82](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/82) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[HIGH\] Fix DoS validation bypass in data validator [\#81](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/81) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize Pandas boolean masking and length checks [\#80](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/80) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[CRITICAL\] Fix DoS validation bypass due to config instantiation crash [\#79](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/79) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Improve CLI UX with formatting and actionable hints [\#78](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/78) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Avoid unnecessary pd.to\_numeric overhead in processor data loads [\#77](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/77) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Improve validation CLI error message clarity [\#76](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/76) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: \[performance improvement\] Optimize legacy data loading with usecols filtering [\#75](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/75) ([abhimehro](https://github.com/abhimehro))
-- 🧹 \[code health improvement\] Consolidate seatek\_processor.py and seatek\_processor\_new.py [\#74](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/74) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Improve CLI output readability [\#73](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/73) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize Pandas Series math evaluations [\#72](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/72) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[CRITICAL\] Fix DoS vulnerability in file parsing [\#71](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/71) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: \[UX improvement\] Format axes with commas and decouple legends [\#70](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/70) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize Pandas usecols filtering with O\(1\) sets [\#68](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/68) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: CLI Report UX Enhancements [\#67](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/67) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: \[performance improvement\] Replace pd.merge with O\(N\) boolean masking [\#66](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/66) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[HIGH\] Fix broken config import and uninitialized limit in DoS validation check [\#65](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/65) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Improve chart accessibility and contrast in legacy codebase [\#64](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/64) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize Pandas DataFrame copying in nested loops [\#63](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/63) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: \[performance improvement\] Replace O\(N\) unique\(\) call with cached keys in nested loops [\#61](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/61) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Move opaque chart legend outside plot to prevent data obscuration [\#60](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/60) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[HIGH\] Fix path traversal in file download/saving [\#58](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/58) ([abhimehro](https://github.com/abhimehro))
-- 🔒 \[security\] Fix File Size Validation in data\_validator.py [\#57](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/57) ([abhimehro](https://github.com/abhimehro))
-- 🧹 \[code health improvement\] Remove unused Path import in test\_data\_processing [\#56](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/56) ([abhimehro](https://github.com/abhimehro))
-- 🔒 \[security\] Fix missing file size validation before pd.read\_excel\(\) [\#55](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/55) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Improve chart legend reliability and axis readability [\#54](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/54) ([abhimehro](https://github.com/abhimehro))
-- 🔒 Prevent memory exhaustion DoS in data\_validator.py [\#53](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/53) ([abhimehro](https://github.com/abhimehro))
-- 🧪 \[testing improvement\] Add integration tests for DataValidator run\_validation [\#52](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/52) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: \[performance improvement\] Optimize DataFrame filtering with pre-grouped cache [\#51](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/51) ([abhimehro](https://github.com/abhimehro))
-- 🔒 Prevent DoS via missing file size validation before pd.read\_excel [\#50](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/50) ([abhimehro](https://github.com/abhimehro))
-- 🧪 \[testing improvement\] Cover DataLoader.load\_all\_data orchestrator [\#49](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/49) ([abhimehro](https://github.com/abhimehro))
-- 🧪 \[testing improvement\] Add error path tests for DataValidator.validate\_processed\_files [\#48](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/48) ([abhimehro](https://github.com/abhimehro))
-- 🧪 Application Setup Testing Improvement [\#47](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/47) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: \[performance improvement\] Document single-pass excel parsing validation [\#46](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/46) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize validation Excel parsing to use single pass [\#45](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/45) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Opaque legend backgrounds for improved text contrast [\#44](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/44) ([abhimehro](https://github.com/abhimehro))
-- Reconcile PR \#42 with latest main and eliminate cache-file merge conflicts [\#43](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/43) ([Copilot](https://github.com/apps/copilot-swe-agent))
-- ⚡ Bolt: Optimize DataLoader double-pass parsing [\#42](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/42) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize Excel Loading with single-pass `usecols` [\#41](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/41) ([abhimehro](https://github.com/abhimehro))
-- 🔒 \[security\] Validate Max File Size Before Loading Data [\#40](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/40) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Fix accessible marker styles to prevent NameError [\#39](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/39) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Improve chart marker contrast for accessibility [\#38](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/38) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize DataLoader.\_load\_hydro\_data peak memory usage [\#37](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/37) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Add accessible metadata to generated charts [\#36](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/36) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize Excel data loading by utilizing `usecols` and header inspection [\#35](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/35) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[HIGH\] Fix DoS risk in DataValidator [\#34](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/34) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Format Y-axis tick labels with thousands separators [\#33](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/33) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize navd88 conversion memory usage [\#32](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/32) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[HIGH\] Fix DoS Risk in Pandas read\_excel [\#31](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/31) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Improve chart accessibility with WCAG AA compliant colors [\#30](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/30) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[CRITICAL\] Fix missing constant for path-length restriction [\#29](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/29) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize large Excel file parsing during validation [\#28](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/28) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[MEDIUM\] Enhance filename sanitization to prevent path-length DoS [\#27](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/27) ([abhimehro](https://github.com/abhimehro))
-- 🎨 Palette: Update chart color for WCAG AA accessibility [\#26](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/26) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[HIGH\] Fix path traversal in chart output generation [\#25](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/25) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Performance Optimization: Efficient Excel Validation in DataValidator [\#24](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/24) ([abhimehro](https://github.com/abhimehro))
-- 🛡️ Sentinel: \[CRITICAL\] Fix Path Traversal Vulnerability [\#23](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/23) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Bolt: Optimize data validation with partial reads [\#22](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/22) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Optimize NAVD88 conversion performance [\#20](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/20) ([abhimehro](https://github.com/abhimehro))
-- 🔒 Security Fix: Remove deprecated legacy code and utils [\#19](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/19) ([abhimehro](https://github.com/abhimehro))
-- 🧪 Verify ValueError for missing river mile in process\_data [\#18](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/18) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Parallelize chart generation for ~2.8x performance boost [\#17](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/17) ([abhimehro](https://github.com/abhimehro))
-- Refactor utils/logger.py to fix duplicate import [\#16](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/16) ([abhimehro](https://github.com/abhimehro))
-- 🧪 Test coverage for hydrograph data loading [\#15](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/15) ([abhimehro](https://github.com/abhimehro))
-- 🔒 fix: remove vulnerable debug script `path_tester.py` [\#14](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/14) ([abhimehro](https://github.com/abhimehro))
-- test: add error handling test for ChartGenerator [\#13](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/13) ([abhimehro](https://github.com/abhimehro))
-- 🧹 \[code health\] Remove duplicate legacy utils directory [\#12](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/12) ([abhimehro](https://github.com/abhimehro))
-- 🔒 Security Fix: Remove hardcoded absolute path in utils/config.py [\#11](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/11) ([abhimehro](https://github.com/abhimehro))
-- 🧹 Refactor utils/data\_loader.py to use src implementation [\#10](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/10) ([abhimehro](https://github.com/abhimehro))
-- ⚡ Optimize Dataframe Copying in Processor [\#9](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/9) ([abhimehro](https://github.com/abhimehro))
-- 🧪 Testing Improvement: DataValidator.run\_validation [\#8](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/8) ([abhimehro](https://github.com/abhimehro))
-- test: add test for missing river mile in SeatekDataProcessor [\#7](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/7) ([abhimehro](https://github.com/abhimehro))
-- Development environment setup [\#6](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/6) ([abhimehro](https://github.com/abhimehro))
-- Bump fonttools from 4.56.0 to 4.61.0 in the pip group across 1 directory [\#5](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/5) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Add Python analysis workflow [\#4](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/4) ([abhimehro](https://github.com/abhimehro))
-- Delete .github/workflows/pylint.yml [\#3](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/3) ([abhimehro](https://github.com/abhimehro))
-- Delete .github/workflows/qodana\_code\_quality.yml [\#2](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/2) ([abhimehro](https://github.com/abhimehro))
-- Add qodana CI checks [\#1](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/1) ([qodana-cloud[bot]](https://github.com/apps/qodana-cloud))
+- chore\(deps\): bump codescene-oss/pr-refactoring-agent from
+  bc0d8b91c0a1a88154fb1dfb82124f8f43733d65 to
+  841e34c7ddd7a8ec887d632ac51432d6c71e2fe1
+  [\#279](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/279)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump ruby/setup-ruby from 1.308.0 to 1.313.0
+  [\#278](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/278)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump actions/checkout from 6 to 7
+  [\#277](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/277)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- 🛠️ QA: Fix pre-commit CI failures
+  [\#274](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/274)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[security improvement\]
+  [\#272](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/272)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛠️ QA: Fix pre-commit CI failures \(isort\)
+  [\#271](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/271)
+  ([abhimehro](https://github.com/abhimehro))
+- test\(app\): add Application.process\_data\(\) coverage \(salvages \#262\)
+  [\#269](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/269)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize numeric data validation
+  [\#268](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/268)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize non-null counting with numpy
+  [\#267](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/267)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize DataFrame filtering with dropna
+  [\#265](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/265)
+  ([abhimehro](https://github.com/abhimehro))
+- autofix\(\): PR \#1 \(cycle 1\) -- Apply pre-commit style and linting fixes
+  [\#264](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/264)
+  ([abhimehro](https://github.com/abhimehro))
+- chore: fix minor flake8 warnings in test files
+  [\#261](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/261)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧪 Add error path tests for SeatekDataProcessor.process\_data
+  [\#258](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/258)
+  ([abhimehro](https://github.com/abhimehro))
+- Task Complete: No UX changes needed
+  [\#256](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/256)
+  ([abhimehro](https://github.com/abhimehro))
+- test\(app\): add main execution path coverage \(salvages \#245\)
+  [\#252](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/252)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧹 Refactor process\_data to fix 'Overly Long Function' code health issue
+  [\#250](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/250)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧪 Add comprehensive tests for ChartGenerator.create\_chart
+  [\#249](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/249)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧹 Refactor setup\_logger to reduce function parameters using FileLogConfig
+  dataclass
+  [\#248](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/248)
+  ([abhimehro](https://github.com/abhimehro))
+- docs: document HYDROGRAPH\_BASE\_DIR end-to-end run path in AGENTS.md
+  [\#247](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/247)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧪 \[Testing Improvement\] Missing Error Path Test for \_setup\_sensors
+  [\#246](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/246)
+  ([abhimehro](https://github.com/abhimehro))
+- perf\(data\): Bolt optimizations v2 \(salvages \#223, \#224; supersedes
+  \#227\)
+  [\#241](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/241)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(actions\): consolidate workflow automation
+  [\#239](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/239)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[security improvement\] Add path sanitization to river\_mile
+  output path
+  [\#237](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/237)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧪 \[testing improvement\] Add missing error path test for
+  Application.load\_data
+  [\#222](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/222)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧪 Add tests for format\_sensor\_name in utils/utils.py
+  [\#221](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/221)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧪 \[testing improvement\] Add edge case tests for
+  get\_available\_river\_miles
+  [\#220](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/220)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize nested year sorting loop
+  [\#219](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/219)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧹 Fix unused import in logger.py
+  [\#218](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/218)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: optimize summary offsets dictionary mapping
+  [\#206](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/206)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Replace set\_index\(\).to\_dict\(\) with dict\(zip\(\)\)
+  [\#199](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/199)
+  ([abhimehro](https://github.com/abhimehro))
+- fix\(lint\): remove unused os and sys imports \(F401\)
+  [\#195](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/195)
+  ([abhimehro](https://github.com/abhimehro))
+- fix\(lint\): remove extra blank lines in validator.py \(E303\)
+  [\#190](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/190)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Remove unnecessary dropna before max aggregation
+  [\#187](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/187)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Replace eq\(0\).sum\(\) with np.count\_nonzero\(\) for zero-value
+  counting
+  [\#177](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/177)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Pandas property evaluations and missing data checks
+  [\#172](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/172)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Remove dropna\(\) overhead before min, max, and unique
+  [\#163](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/163)
+  ([abhimehro](https://github.com/abhimehro))
+- Add GitHub Actions workflow testing skill
+  [\#162](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/162)
+  ([abhimehro](https://github.com/abhimehro))
+- ci: pass changelog token via environment
+  [\#161](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/161)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[CRITICAL/HIGH\] Fix Path Traversal in utils/utils.py
+  [\#157](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/157)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Replace df.isna\(\).sum\(\) with optimized np.count\_nonzero\(\)
+  [\#155](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/155)
+  ([abhimehro](https://github.com/abhimehro))
+- test\(data\_loader\): add exception-path test for \_load\_hydro\_data
+  \(salvages \#145\)
+  [\#148](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/148)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize boolean array counting with np.count\_nonzero
+  [\#140](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/140)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[CRITICAL\] Fix path traversal in legacy visualization artifacts
+  [\#139](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/139)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Replace .sum\(\) \> 0 with .any\(\) for faster boolean evaluation
+  [\#135](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/135)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Replace .sum\(\) with np.count\_nonzero\(\) for boolean arrays
+  [\#129](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/129)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Replace notna\(\).sum\(\) with count\(\) for performance
+  [\#125](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/125)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[MEDIUM\] Fix missing file size validation DoS vulnerability in
+  test processor
+  [\#124](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/124)
+  ([abhimehro](https://github.com/abhimehro))
+- Bump pillow from 11.1.0 to 12.2.0 in the pip group across 1 directory
+  [\#123](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/123)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- ⚡ Bolt: Avoid redundant sort\_values on already sorted data
+  [\#116](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/116)
+  ([abhimehro](https://github.com/abhimehro))
+- fix: add requirements-ci.txt and fix test isolation to resolve
+  quality-assurance CI failures
+  [\#109](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/109)
+  ([Copilot](https://github.com/apps/copilot-swe-agent))
+- ⚡ Bolt: Optimize already-sorted dataframe sorting overhead
+  [\#108](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/108)
+  ([abhimehro](https://github.com/abhimehro))
+- 🔒 \[HIGH\] Fix XXE Vulnerability with defusedxml
+  [\#107](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/107)
+  ([abhimehro](https://github.com/abhimehro))
+- 🔒 Sentinel: \[MEDIUM\] Add defusedxml dependency to prevent XXE
+  [\#104](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/104)
+  ([abhimehro](https://github.com/abhimehro))
+- chore\(actions\): consolidate workflow automation
+  [\#102](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/102)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[security improvement\] Reject symlinks in file size validation
+  [\#100](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/100)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: \[performance improvement\] Optimize Boolean array masking in inner
+  loops
+  [\#98](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/98)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[HIGH\] Fix path traversal in test data processor
+  [\#97](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/97)
+  ([abhimehro](https://github.com/abhimehro))
+- No changes: No suitable optimization identified
+  [\#96](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/96)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[security improvement\] Centralize File Size Checks
+  [\#95](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/95)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[security improvement\] Consolidate sanitize\_filename in app.py
+  [\#94](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/94)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Pandas empty dataframe checks in tight loops
+  [\#93](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/93)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: UX improvements already implemented
+  [\#92](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/92)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: \[performance improvement\] Pre-calculate Time \(Minutes\) to
+  eliminate redundant array division
+  [\#91](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/91)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[HIGH\] Fix XML Entity Expansion \(XXE\) in Excel Parsing
+  [\#90](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/90)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Improve CLI error actionability and chart metadata accessibility
+  [\#88](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/88)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Pandas boolean masking array allocations
+  [\#87](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/87)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Improve CLI Visual Cues and Formatting
+  [\#86](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/86)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Pandas boolean masking array allocations
+  [\#85](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/85)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[CRITICAL\] Fix Memory Exhaustion DoS in pd.ExcelFile
+  [\#84](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/84)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Improve accessibility of README images with descriptive alt text
+  [\#83](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/83)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Pandas boolean masking array allocations
+  [\#82](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/82)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[HIGH\] Fix DoS validation bypass in data validator
+  [\#81](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/81)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Pandas boolean masking and length checks
+  [\#80](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/80)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[CRITICAL\] Fix DoS validation bypass due to config
+  instantiation crash
+  [\#79](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/79)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Improve CLI UX with formatting and actionable hints
+  [\#78](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/78)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Avoid unnecessary pd.to\_numeric overhead in processor data loads
+  [\#77](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/77)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Improve validation CLI error message clarity
+  [\#76](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/76)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: \[performance improvement\] Optimize legacy data loading with usecols
+  filtering
+  [\#75](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/75)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧹 \[code health improvement\] Consolidate seatek\_processor.py and
+  seatek\_processor\_new.py
+  [\#74](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/74)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Improve CLI output readability
+  [\#73](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/73)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Pandas Series math evaluations
+  [\#72](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/72)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[CRITICAL\] Fix DoS vulnerability in file parsing
+  [\#71](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/71)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: \[UX improvement\] Format axes with commas and decouple legends
+  [\#70](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/70)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Pandas usecols filtering with O\(1\) sets
+  [\#68](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/68)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: CLI Report UX Enhancements
+  [\#67](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/67)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: \[performance improvement\] Replace pd.merge with O\(N\) boolean
+  masking
+  [\#66](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/66)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[HIGH\] Fix broken config import and uninitialized limit in DoS
+  validation check
+  [\#65](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/65)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Improve chart accessibility and contrast in legacy codebase
+  [\#64](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/64)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Pandas DataFrame copying in nested loops
+  [\#63](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/63)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: \[performance improvement\] Replace O\(N\) unique\(\) call with
+  cached keys in nested loops
+  [\#61](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/61)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Move opaque chart legend outside plot to prevent data obscuration
+  [\#60](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/60)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[HIGH\] Fix path traversal in file download/saving
+  [\#58](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/58)
+  ([abhimehro](https://github.com/abhimehro))
+- 🔒 \[security\] Fix File Size Validation in data\_validator.py
+  [\#57](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/57)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧹 \[code health improvement\] Remove unused Path import in
+  test\_data\_processing
+  [\#56](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/56)
+  ([abhimehro](https://github.com/abhimehro))
+- 🔒 \[security\] Fix missing file size validation before pd.read\_excel\(\)
+  [\#55](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/55)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Improve chart legend reliability and axis readability
+  [\#54](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/54)
+  ([abhimehro](https://github.com/abhimehro))
+- 🔒 Prevent memory exhaustion DoS in data\_validator.py
+  [\#53](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/53)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧪 \[testing improvement\] Add integration tests for DataValidator
+  run\_validation
+  [\#52](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/52)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: \[performance improvement\] Optimize DataFrame filtering with
+  pre-grouped cache
+  [\#51](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/51)
+  ([abhimehro](https://github.com/abhimehro))
+- 🔒 Prevent DoS via missing file size validation before pd.read\_excel
+  [\#50](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/50)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧪 \[testing improvement\] Cover DataLoader.load\_all\_data orchestrator
+  [\#49](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/49)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧪 \[testing improvement\] Add error path tests for
+  DataValidator.validate\_processed\_files
+  [\#48](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/48)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧪 Application Setup Testing Improvement
+  [\#47](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/47)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: \[performance improvement\] Document single-pass excel parsing
+  validation
+  [\#46](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/46)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize validation Excel parsing to use single pass
+  [\#45](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/45)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Opaque legend backgrounds for improved text contrast
+  [\#44](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/44)
+  ([abhimehro](https://github.com/abhimehro))
+- Reconcile PR \#42 with latest main and eliminate cache-file merge conflicts
+  [\#43](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/43)
+  ([Copilot](https://github.com/apps/copilot-swe-agent))
+- ⚡ Bolt: Optimize DataLoader double-pass parsing
+  [\#42](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/42)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Excel Loading with single-pass `usecols`
+  [\#41](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/41)
+  ([abhimehro](https://github.com/abhimehro))
+- 🔒 \[security\] Validate Max File Size Before Loading Data
+  [\#40](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/40)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Fix accessible marker styles to prevent NameError
+  [\#39](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/39)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Improve chart marker contrast for accessibility
+  [\#38](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/38)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize DataLoader.\_load\_hydro\_data peak memory usage
+  [\#37](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/37)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Add accessible metadata to generated charts
+  [\#36](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/36)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Excel data loading by utilizing `usecols` and header
+  inspection
+  [\#35](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/35)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[HIGH\] Fix DoS risk in DataValidator
+  [\#34](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/34)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Format Y-axis tick labels with thousands separators
+  [\#33](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/33)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize navd88 conversion memory usage
+  [\#32](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/32)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[HIGH\] Fix DoS Risk in Pandas read\_excel
+  [\#31](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/31)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Improve chart accessibility with WCAG AA compliant colors
+  [\#30](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/30)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[CRITICAL\] Fix missing constant for path-length restriction
+  [\#29](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/29)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize large Excel file parsing during validation
+  [\#28](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/28)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[MEDIUM\] Enhance filename sanitization to prevent path-length
+  DoS
+  [\#27](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/27)
+  ([abhimehro](https://github.com/abhimehro))
+- 🎨 Palette: Update chart color for WCAG AA accessibility
+  [\#26](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/26)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[HIGH\] Fix path traversal in chart output generation
+  [\#25](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/25)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Performance Optimization: Efficient Excel Validation in DataValidator
+  [\#24](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/24)
+  ([abhimehro](https://github.com/abhimehro))
+- 🛡️ Sentinel: \[CRITICAL\] Fix Path Traversal Vulnerability
+  [\#23](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/23)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize data validation with partial reads
+  [\#22](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/22)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Optimize NAVD88 conversion performance
+  [\#20](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/20)
+  ([abhimehro](https://github.com/abhimehro))
+- 🔒 Security Fix: Remove deprecated legacy code and utils
+  [\#19](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/19)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧪 Verify ValueError for missing river mile in process\_data
+  [\#18](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/18)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Parallelize chart generation for ~2.8x performance boost
+  [\#17](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/17)
+  ([abhimehro](https://github.com/abhimehro))
+- Refactor utils/logger.py to fix duplicate import
+  [\#16](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/16)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧪 Test coverage for hydrograph data loading
+  [\#15](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/15)
+  ([abhimehro](https://github.com/abhimehro))
+- 🔒 fix: remove vulnerable debug script `path_tester.py`
+  [\#14](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/14)
+  ([abhimehro](https://github.com/abhimehro))
+- test: add error handling test for ChartGenerator
+  [\#13](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/13)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧹 \[code health\] Remove duplicate legacy utils directory
+  [\#12](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/12)
+  ([abhimehro](https://github.com/abhimehro))
+- 🔒 Security Fix: Remove hardcoded absolute path in utils/config.py
+  [\#11](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/11)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧹 Refactor utils/data\_loader.py to use src implementation
+  [\#10](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/10)
+  ([abhimehro](https://github.com/abhimehro))
+- ⚡ Optimize Dataframe Copying in Processor
+  [\#9](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/9)
+  ([abhimehro](https://github.com/abhimehro))
+- 🧪 Testing Improvement: DataValidator.run\_validation
+  [\#8](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/8)
+  ([abhimehro](https://github.com/abhimehro))
+- test: add test for missing river mile in SeatekDataProcessor
+  [\#7](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/7)
+  ([abhimehro](https://github.com/abhimehro))
+- Development environment setup
+  [\#6](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/6)
+  ([abhimehro](https://github.com/abhimehro))
+- Bump fonttools from 4.56.0 to 4.61.0 in the pip group across 1 directory
+  [\#5](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/5)
+  ([dependabot[bot]](https://github.com/apps/dependabot))
+- Add Python analysis workflow
+  [\#4](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/4)
+  ([abhimehro](https://github.com/abhimehro))
+- Delete .github/workflows/pylint.yml
+  [\#3](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/3)
+  ([abhimehro](https://github.com/abhimehro))
+- Delete .github/workflows/qodana\_code\_quality.yml
+  [\#2](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/2)
+  ([abhimehro](https://github.com/abhimehro))
+- Add qodana CI checks
+  [\#1](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/1)
+  ([qodana-cloud[bot]](https://github.com/apps/qodana-cloud))
 
-
-
-\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
+\* _This Changelog was automatically generated by
+[github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)_
