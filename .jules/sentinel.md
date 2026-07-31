@@ -295,3 +295,8 @@ regular file before attempting to read it. **Prevention:** Implement
 `file_path.is_file()` checks in `validate_file_size` (wrapped in a
 `try...except Exception` block to gracefully handle poorly-mocked test
 environments) before validating the file size or reading its contents.
+
+## 2025-03-01 - [Path Traversal in CLI Output Arguments]
+**Vulnerability:** The `--output` argument in `validate_data.py` was used directly as a file path for writing without validation, allowing path traversal (arbitrary file write).
+**Learning:** Command-line interfaces that accept output file paths as arguments (e.g., `--output` in CLI tools) must be treated as untrusted input in this codebase.
+**Prevention:** Always validate output arguments using `is_safe_path(base_dir, target_path)` from `utils.security` before opening them for writing to prevent path traversal and arbitrary file write vulnerabilities.
