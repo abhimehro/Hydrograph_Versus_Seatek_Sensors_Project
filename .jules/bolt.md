@@ -462,3 +462,7 @@ the operations, as NumPy does the math without Pandas' structural overhead.
 **Action:** Replaced `series / 60.0` and `series * m + b` with
 `series.values / 60.0` and `series.values * m + b` respectively, improving
 performance in computationally heavy loops.
+
+## 2025-03-01 - Avoid .dropna() before matplotlib plotting
+**Learning:** Calling `.dropna()` on a DataFrame before passing the data to Matplotlib functions like `scatter` is unnecessary, because Matplotlib natively ignores `NaN` values. Avoiding `.dropna()` prevents the allocation of an intermediate DataFrame or Series object, reducing memory overhead and improving execution speed.
+**Action:** Removed redundant `.dropna()` calls before matplotlib plotting in `chart_generator.py`.

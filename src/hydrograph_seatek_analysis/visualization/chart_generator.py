@@ -226,15 +226,12 @@ class ChartGenerator:
             data: DataFrame containing sensor data
             sensor: Name of the sensor column
         """
-        sensor_data = data.dropna(
-            subset=[sensor]
-        )  # ⚡ Bolt Optimization: Use dropna instead of boolean indexing to avoid intermediate Series allocation overhead
-
-        # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
-        if len(sensor_data) > 0:
+        # ⚡ Bolt Optimization: Avoid intermediate DataFrame allocation by omitting .dropna()
+        # Matplotlib's scatter natively handles NaN values. Use idiomatic notna().any()
+        if data[sensor].notna().any():
             ax1.scatter(
-                sensor_data["Time (Minutes)"],
-                sensor_data[sensor],
+                data["Time (Minutes)"],
+                data[sensor],
                 color=SEATEK_COLOR,
                 alpha=1.0,
                 s=45,
@@ -276,15 +273,12 @@ class ChartGenerator:
         """
         try:
             ax2 = ax1.twinx()
-            hydro_data = data.dropna(
-                subset=["Hydrograph (Lagged)"]
-            )  # ⚡ Bolt Optimization: Use dropna instead of boolean indexing to avoid intermediate Series allocation overhead
-
-            # ⚡ Bolt Optimization: Avoid Series instantiation overhead for length checks
-            if len(hydro_data) > 0:
+            # ⚡ Bolt Optimization: Avoid intermediate DataFrame allocation by omitting .dropna()
+            # Matplotlib's scatter natively handles NaN values. Use idiomatic notna().any()
+            if data["Hydrograph (Lagged)"].notna().any():
                 ax2.scatter(
-                    hydro_data["Time (Minutes)"],
-                    hydro_data["Hydrograph (Lagged)"],
+                    data["Time (Minutes)"],
+                    data["Hydrograph (Lagged)"],
                     color=HYDRO_COLOR,
                     alpha=1.0,
                     s=70,
@@ -298,7 +292,7 @@ class ChartGenerator:
 
                 # Choose y-axis formatter based on whether hydrograph values are effectively integers
                 ChartGenerator._format_hydrograph_axis(
-                    ax2, hydro_data["Hydrograph (Lagged)"]
+                    ax2, data["Hydrograph (Lagged)"].dropna()
                 )
 
             return ax2
