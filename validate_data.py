@@ -19,6 +19,7 @@ from pathlib import Path
 from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.core.logger import configure_root_logger
 from src.hydrograph_seatek_analysis.data.validator import DataValidator
+from src.hydrograph_seatek_analysis.utils.security import is_safe_path
 
 
 def parse_args():
@@ -73,6 +74,13 @@ def main():
             json_results = json.dumps(results, indent=2, default=str)
 
             if args.output:
+                # SECURITY: Validate output path to prevent arbitrary file write
+                if not is_safe_path(Path.cwd(), Path(args.output)):
+                    logger.error(
+                        f"SECURITY: Unsafe output path detected: {args.output}"
+                    )
+                    sys.exit(1)
+
                 # Write to file
                 with open(args.output, "w") as f:
                     f.write(json_results)

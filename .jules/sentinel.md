@@ -295,3 +295,7 @@ regular file before attempting to read it. **Prevention:** Implement
 `file_path.is_file()` checks in `validate_file_size` (wrapped in a
 `try...except Exception` block to gracefully handle poorly-mocked test
 environments) before validating the file size or reading its contents.
+## 2025-03-01 - [Arbitrary File Write Prevention]
+**Vulnerability:** validate_data.py allows arbitrary file write via the --output argument.
+**Learning:** CLI tools that accept output paths must validate them to ensure they do not write outside the intended directory.
+**Prevention:** Always use a path validation utility like `is_safe_path` to verify the output path is within a safe directory (e.g., `Path.cwd()`) before opening the file for writing.
