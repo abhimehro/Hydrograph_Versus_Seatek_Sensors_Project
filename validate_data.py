@@ -41,6 +41,105 @@ def parse_args():
     return parser.parse_args()
 
 
+def _format_summary_results(results: dict, config) -> None:
+    print("\n" + " 📋 SUMMARY FILE ".center(51, "="))
+    if results["summary"]:
+        print(f"  ✅ File: {results['summary']['file']}")
+        print(f"  📊 Rows: {results['summary']['rows']:,}")
+        print(f"  📑 Columns: {', '.join(results['summary']['columns'])}")
+        req_icon = "✅" if results["summary"]["required_columns_present"] else "❌"
+        print(
+            f"  {req_icon} Required columns present: {results['summary']['required_columns_present']}"
+        )
+        print(
+            f"  🏞️  River miles: {', '.join(str(rm) for rm in results['summary']['river_miles'])}"
+        )
+    else:
+        print("  ❌ VALIDATION FAILED: Missing or invalid summary data file")
+        print(
+            f"     💡 Please ensure '{config.summary_file.name}' is in the '{config.summary_file.parent}' directory."
+        )
+
+
+def _format_hydrograph_results(results: dict, config) -> None:
+    print("\n" + " 🌊 HYDROGRAPH FILE ".center(51, "="))
+    if results["hydrograph"]:
+        print(f"  ✅ File: {results['hydrograph']['file']}")
+        print(
+            f"  📑 River mile sheets: {', '.join(results['hydrograph']['river_mile_sheets'])}"
+        )
+        for sheet in results["hydrograph"]["sheets"]:
+            print(f"\n  📄 Sheet: {sheet['name']}")
+            print(f"    📊 Rows: {sheet['rows']:,}")
+            req_icon = "✅" if sheet["required_columns_present"] else "❌"
+            print(
+                f"    {req_icon}  Required columns present: {sheet['required_columns_present']}"
+            )
+            if sheet["years"]:
+                print(f"    📅 Years: {', '.join(str(y) for y in sheet['years'])}")
+            if sheet["time_range"]:
+                print(
+                    f"    ⏱️  Time range: {float(sheet['time_range'][0]):,.0f} to {float(sheet['time_range'][1]):,.0f}"
+                )
+    else:
+        print("  ❌ VALIDATION FAILED: Missing or invalid hydrograph data file")
+        print(
+            f"     💡 Please ensure '{config.hydro_file.name}' is in the '{config.hydro_file.parent}' directory."
+        )
+
+
+def _format_processed_results(results: dict) -> None:
+    print("\n" + " ⚙️  PROCESSED FILES ".center(51, "="))
+    if results["processed"]:
+        for file_result in results["processed"]:
+            if "error" in file_result:
+                print(
+                    f"  ❌ File: {file_result['file']} - ERROR: {file_result['error']}"
+                )
+                continue
+            print(f"\n  ✅ File: {file_result['file']}")
+            print(f"    🏞️  River mile: {file_result['river_mile']}")
+            print(f"    📊 Rows: {file_result['rows']:,}")
+            req_icon = "✅" if file_result["required_columns_present"] else "❌"
+            print(
+                f"    {req_icon}  Required columns present: {file_result['required_columns_present']}"
+            )
+            print(f"    📡 Sensor columns: {', '.join(file_result['sensor_columns'])}")
+            if file_result["year_range"]:
+                print(
+                    f"    📅 Year range: {file_result['year_range'][0]} to {file_result['year_range'][1]}"
+                )
+            if file_result["time_range"]:
+                print(
+                    f"    ⏱️  Time range: {file_result['time_range'][0]:,.0f} to {file_result['time_range'][1]:,.0f}"
+                )
+    else:
+        print("  ⚠️  No processed files found in the output directory.")
+        print("     💡 Please run 'python seatek_processor.py' first to generate them.")
+
+
+def _format_consistency_results(results: dict) -> None:
+    if results["river_mile_consistency"]:
+        print("\n" + " 🔗 RIVER MILE CONSISTENCY ".center(51, "="))
+        all_processed = results["river_mile_consistency"]["all_summary_rms_processed"]
+        status_icon = "✅" if all_processed else "⚠️"
+        print(
+            f"  {status_icon} All summary river miles have processed data: {all_processed}"
+        )
+        if results["river_mile_consistency"]["missing_processed_rms"]:
+            missing_rms_str = ", ".join(
+                str(rm)
+                for rm in results["river_mile_consistency"]["missing_processed_rms"]
+            )
+            print(f"  ❌ Missing processed data for river miles: {missing_rms_str}")
+        if results["river_mile_consistency"]["extra_processed_rms"]:
+            extra_rms_str = ", ".join(
+                str(rm)
+                for rm in results["river_mile_consistency"]["extra_processed_rms"]
+            )
+            print(f"  ⚠️  Extra processed data for river miles: {extra_rms_str}")  # fmt: skip
+
+
 def main():
     """Main function."""
     # Parse command line arguments
@@ -80,6 +179,43 @@ def main():
                         f"SECURITY: Unsafe output path detected: {args.output}"
                     )
                     sys.exit(1)
+                # SECURITY: Validate output path to prevent arbitrary file write
+                if not is_safe_path(Path.cwd(), Path(args.output)):
+                    logger.error(
+                        f"SECURITY: Unsafe output path detected: {args.output}"
+                    )
+                    sys.exit(1)
+                # SECURITY: Validate output path to prevent arbitrary file write
+                if not is_safe_path(Path.cwd(), Path(args.output)):
+                    logger.error(
+                        f"SECURITY: Unsafe output path detected: {args.output}"
+                    )
+                    sys.exit(1)
+                # SECURITY: Validate output path to prevent arbitrary file write
+                if not is_safe_path(Path.cwd(), Path(args.output)):
+                    logger.error(
+                        f"SECURITY: Unsafe output path detected: {args.output}"
+                    )
+                    sys.exit(1)
+                # SECURITY: Validate output path to prevent arbitrary file write
+                if not is_safe_path(Path.cwd(), Path(args.output)):
+                    logger.error(
+                        f"SECURITY: Unsafe output path detected: {args.output}"
+                    )
+                    sys.exit(1)
+                # SECURITY: Validate output path to prevent arbitrary file write
+                if not is_safe_path(Path.cwd(), Path(args.output)):
+                    logger.error(
+                        f"SECURITY: Unsafe output path detected: {args.output}"
+                    )
+                    sys.exit(1)
+
+                # SECURITY: Validate output path to prevent arbitrary file write
+                if not is_safe_path(Path.cwd(), Path(args.output)):
+                    logger.error(
+                        f"SECURITY: Unsafe output path detected: {args.output}"
+                    )
+                    sys.exit(1)
 
                 # Write to file
                 with open(args.output, "w") as f:
@@ -92,128 +228,16 @@ def main():
             # Print human-readable results
             print("\n" + "=" * 10 + " ✨ DATA VALIDATION RESULTS ✨ " + "=" * 10 + "\n")
 
-            # Summary file validation
-            print(" 📋 SUMMARY FILE ".center(51, "="))
-            if results["summary"]:
-                print(f"  ✅ File: {results['summary']['file']}")
-                print(f"  📊 Rows: {results['summary']['rows']:,}")
-                print(f"  📑 Columns: {', '.join(results['summary']['columns'])}")
-                req_icon = (
-                    "✅" if results["summary"]["required_columns_present"] else "❌"
-                )
-                print(
-                    f"  {req_icon} Required columns present: {results['summary']['required_columns_present']}"
-                )
-                print(
-                    f"  🏞️  River miles: {', '.join(str(rm) for rm in results['summary']['river_miles'])}"
-                )
-            else:
-                print("  ❌ VALIDATION FAILED: Missing or invalid summary data file")
-                print(
-                    f"     💡 Please ensure '{config.summary_file.name}' is in the '{config.summary_file.parent}' directory."
-                )
-
-            # Hydrograph file validation
-            print("\n" + " 🌊 HYDROGRAPH FILE ".center(51, "="))
-            if results["hydrograph"]:
-                print(f"  ✅ File: {results['hydrograph']['file']}")
-                print(
-                    f"  📑 River mile sheets: {', '.join(results['hydrograph']['river_mile_sheets'])}"
-                )
-
-                for sheet in results["hydrograph"]["sheets"]:
-                    print(f"\n  📄 Sheet: {sheet['name']}")
-                    print(f"    📊 Rows: {sheet['rows']:,}")
-                    req_icon = "✅" if sheet["required_columns_present"] else "❌"
-                    print(
-                        f"    {req_icon}  Required columns present: {sheet['required_columns_present']}"
-                    )
-                    if sheet["years"]:
-                        print(
-                            f"    📅 Years: {', '.join(str(y) for y in sheet['years'])}"
-                        )
-                    if sheet["time_range"]:
-                        print(
-                            f"    ⏱️  Time range: {float(sheet['time_range'][0]):,.0f} to {float(sheet['time_range'][1]):,.0f}"
-                        )
-            else:
-                print("  ❌ VALIDATION FAILED: Missing or invalid hydrograph data file")
-                print(
-                    f"     💡 Please ensure '{config.hydro_file.name}' is in the '{config.hydro_file.parent}' directory."
-                )
-
-            # Processed files validation
-            print("\n" + " ⚙️  PROCESSED FILES ".center(51, "="))
-            if results["processed"]:
-                for file_result in results["processed"]:
-                    if "error" in file_result:
-                        print(
-                            f"  ❌ File: {file_result['file']} - ERROR: {file_result['error']}"
-                        )
-                        continue
-
-                    print(f"\n  ✅ File: {file_result['file']}")
-                    print(f"    🏞️  River mile: {file_result['river_mile']}")
-                    print(f"    📊 Rows: {file_result['rows']:,}")
-                    req_icon = "✅" if file_result["required_columns_present"] else "❌"
-                    print(
-                        f"    {req_icon}  Required columns present: {file_result['required_columns_present']}"
-                    )
-                    print(
-                        f"    📡 Sensor columns: {', '.join(file_result['sensor_columns'])}"
-                    )
-
-                    if file_result["year_range"]:
-                        print(
-                            f"    📅 Year range: {file_result['year_range'][0]} to {file_result['year_range'][1]}"
-                        )
-                    if file_result["time_range"]:
-                        print(
-                            f"    ⏱️  Time range: {file_result['time_range'][0]:,.0f} to {file_result['time_range'][1]:,.0f}"
-                        )
-            else:
-                print("  ⚠️  No processed files found in the output directory.")
-                print(
-                    "     💡 Please run 'python seatek_processor.py' first to generate them."
-                )
-
-            # River mile consistency
-            if results["river_mile_consistency"]:
-                print("\n" + " 🔗 RIVER MILE CONSISTENCY ".center(51, "="))
-                all_processed = results["river_mile_consistency"][
-                    "all_summary_rms_processed"
-                ]
-                status_icon = "✅" if all_processed else "⚠️"
-                print(
-                    f"  {status_icon} All summary river miles have processed data: {all_processed}"
-                )
-
-                if results["river_mile_consistency"]["missing_processed_rms"]:
-                    missing_rms_str = ", ".join(
-                        str(rm)
-                        for rm in results["river_mile_consistency"][
-                            "missing_processed_rms"
-                        ]
-                    )
-                    print(
-                        f"  ❌ Missing processed data for river miles: {missing_rms_str}"
-                    )
-
-                if results["river_mile_consistency"]["extra_processed_rms"]:
-                    extra_rms_str = ", ".join(
-                        str(rm)
-                        for rm in results["river_mile_consistency"][
-                            "extra_processed_rms"
-                        ]
-                    )
-                    print(f"  ⚠️  Extra processed data for river miles: {extra_rms_str}")  # fmt: skip
+            _format_summary_results(results, config)
+            _format_hydrograph_results(results, config)
+            _format_processed_results(results)
+            _format_consistency_results(results)
 
             # Overall verdict
             print("\n" + " 🏁 OVERALL VALIDATION ".center(51, "="))
             overall_status = "✅ PASSED" if results["overall_valid"] else "❌ FAILED"
             print(f"  STATUS: {overall_status}")
             print("=" * 51 + "\n")
-
         # Return appropriate exit code
         return 0 if results["overall_valid"] else 1
 
