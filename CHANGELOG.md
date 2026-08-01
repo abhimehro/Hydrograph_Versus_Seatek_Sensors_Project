@@ -84,6 +84,7 @@
 - ⚡ Bolt: \[performance improvement\] Optimize boolean null check [\#451](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/451) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump pandas-stubs from 2.3.3.260113 to 3.0.3.260530 [\#449](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/449) ([dependabot[bot]](https://github.com/apps/dependabot))
 - ⚡ Bolt: Remove redundant dropna to avoid intermediate allocation [\#446](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/446) ([abhimehro](https://github.com/abhimehro))
+- chore\(deps-dev\): bump scipy from 1.15.3 to 1.18.0 [\#443](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/443) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump matplotlib from 3.10.9 to 3.11.1 [\#442](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/442) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pandas-stubs from 2.3.3.260113 to 3.0.3.260530 [\#440](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/440) ([dependabot[bot]](https://github.com/apps/dependabot))
 - fix\(deps\): ABHI-1590 pin direct dependencies to exact versions [\#438](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/438) ([abhimehro](https://github.com/abhimehro))
