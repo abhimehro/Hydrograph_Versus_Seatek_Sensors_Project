@@ -462,3 +462,12 @@ the operations, as NumPy does the math without Pandas' structural overhead.
 **Action:** Replaced `series / 60.0` and `series * m + b` with
 `series.values / 60.0` and `series.values * m + b` respectively, improving
 performance in computationally heavy loops.
+
+## 2025-03-01 - Avoid .dropna() before matplotlib plotting
+**Learning:** Calling `.dropna()` on a DataFrame before passing the data to Matplotlib functions like `scatter` is unnecessary, because Matplotlib natively ignores `NaN` values. Avoiding `.dropna()` prevents the allocation of an intermediate DataFrame or Series object, reducing memory overhead and improving execution speed.
+**Action:** Removed redundant `.dropna()` calls before matplotlib plotting in `chart_generator.py`.
+
+## 2025-03-01 - Avoid Pandas Series overhead for .notna().any() checks
+
+**Learning:** Using `series.notna().any()` on a Pandas Series creates an intermediate boolean Series object in memory. The operation evaluates the null condition across the entire Series first, returning a new Series, before checking `.any()`.
+**Action:** Replace `series.notna().any()` with `not np.all(pd.isna(series.values))` when performance is critical. This accesses the underlying NumPy array directly and evaluates the null checks without allocating intermediate Pandas Series.
