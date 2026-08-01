@@ -19,6 +19,8 @@ from pathlib import Path
 from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.core.logger import configure_root_logger
 from src.hydrograph_seatek_analysis.data.validator import DataValidator
+from src.hydrograph_seatek_analysis.utils.security import is_safe_path
+
 
 
 def parse_args():
@@ -73,6 +75,14 @@ def main():
             json_results = json.dumps(results, indent=2, default=str)
 
             if args.output:
+                # SECURITY: Validate output path to prevent arbitrary file write / path traversal
+                output_path = Path(args.output)
+                if not is_safe_path(Path.cwd(), output_path):
+                    logger.error(
+                        f"SECURITY: Attempted path traversal detected. Path outside current directory: {output_path}"
+                    )
+                    return 1
+
                 # Write to file
                 with open(args.output, "w") as f:
                     f.write(json_results)
