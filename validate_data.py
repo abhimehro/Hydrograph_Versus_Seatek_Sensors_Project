@@ -115,7 +115,7 @@ def _format_processed_results(results: dict) -> None:
                 )
     else:
         print("  ⚠️  No processed files found in the output directory.")
-        print("     💡 Please run 'python seatek_processor.py' first to generate them.")
+        print("     💡 Please run 'python3 seatek_processor.py' first to generate them.")
 
 
 def _format_consistency_results(results: dict) -> None:
