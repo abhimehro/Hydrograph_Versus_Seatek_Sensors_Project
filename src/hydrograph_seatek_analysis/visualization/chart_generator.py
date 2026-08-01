@@ -227,8 +227,8 @@ class ChartGenerator:
             sensor: Name of the sensor column
         """
         # ⚡ Bolt Optimization: Avoid intermediate DataFrame allocation by omitting .dropna()
-        # Matplotlib's scatter natively handles NaN values. Use idiomatic notna().any()
-        if data[sensor].notna().any():
+        # Matplotlib's scatter natively handles NaN values. Use np.all(pd.isna(...)) to avoid Series overhead.
+        if not np.all(pd.isna(data[sensor].values)):
             ax1.scatter(
                 data["Time (Minutes)"],
                 data[sensor],
@@ -274,8 +274,8 @@ class ChartGenerator:
         try:
             ax2 = ax1.twinx()
             # ⚡ Bolt Optimization: Avoid intermediate DataFrame allocation by omitting .dropna()
-            # Matplotlib's scatter natively handles NaN values. Use idiomatic notna().any()
-            if data["Hydrograph (Lagged)"].notna().any():
+            # Matplotlib's scatter natively handles NaN values. Use np.all(pd.isna(...)) to avoid Series overhead.
+            if not np.all(pd.isna(data["Hydrograph (Lagged)"].values)):
                 ax2.scatter(
                     data["Time (Minutes)"],
                     data["Hydrograph (Lagged)"],
