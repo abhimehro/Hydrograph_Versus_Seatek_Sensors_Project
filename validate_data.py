@@ -46,8 +46,11 @@ def _write_json_output(args, config, results, logger) -> int:
     json_results = json.dumps(results, indent=2, default=str)
 
     if args.output:
-        output_path = Path(args.output).resolve()
         base_dir = config.base_dir.resolve()
+        output_arg = Path(args.output)
+        output_path = (
+            (base_dir / output_arg).resolve() if not output_arg.is_absolute() else output_arg.resolve()
+        )
         if not is_safe_path(base_dir, output_path):
             logger.error(
                 f"SECURITY: Attempted path traversal detected for output file. Path outside base directory: {output_path}"
@@ -57,8 +60,13 @@ def _write_json_output(args, config, results, logger) -> int:
             )
             return 1
 
-        with open(output_path, "w") as f:
-            f.write(json_results)
+        try:
+            with open(output_path, "w", encoding="utf-8") as f:
+                f.write(json_results)
+        except OSError as e:
+            logger.error(f"Failed to write validation results to {output_path}: {e}")
+            print(f"Error: Failed to write output file '{output_path}': {e}")
+            return 1
         logger.info(f"Validation results written to {output_path}")
     else:
         print(json_results)
@@ -145,7 +153,7 @@ def _print_text_output(config, results) -> int:
                 )
     else:
         print("  ⚠️  No processed files found in the output directory.")
-        print("     💡 Please run 'python seatek_processor.py' first to generate them.")
+        print("     💡 Please run 'python3 seatek_processor.py' first to generate them.")
 
     # River mile consistency
     if results["river_mile_consistency"]:
