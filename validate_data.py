@@ -41,6 +41,33 @@ def parse_args():
     return parser.parse_args()
 
 
+def _handle_json_output(args, results, logger) -> bool:
+    """Handle writing results to JSON format."""
+    json_results = json.dumps(results, indent=2, default=str)
+
+    if not args.output:
+        print(json_results)
+        return True
+
+    output_path = Path(args.output)
+
+    # SECURITY: Validate output path to prevent path traversal
+    if not is_safe_path(Path.cwd(), output_path):
+        logger.error(
+            f"SECURITY: Attempted path traversal detected. Path outside current directory: {args.output}"
+        )
+        print(
+            f"Error: Output path '{args.output}' is invalid (must be within current directory).",
+            file=sys.stderr,
+        )
+        return False
+
+    with open(output_path, "w") as f:
+        f.write(json_results)
+    logger.info(f"Validation results written to {output_path}")
+    return True
+
+
 def main():
     """Main function."""
     # Parse command line arguments
@@ -70,30 +97,8 @@ def main():
 
         # Output results
         if args.json or args.output:
-            # Convert results to JSON
-            json_results = json.dumps(results, indent=2, default=str)
-
-            if args.output:
-                output_path = Path(args.output)
-
-                # SECURITY: Validate output path to prevent path traversal
-                if not is_safe_path(Path.cwd(), output_path):
-                    logger.error(
-                        f"SECURITY: Attempted path traversal detected. Path outside current directory: {args.output}"
-                    )
-                    print(
-                        f"Error: Output path '{args.output}' is invalid (must be within current directory).",
-                        file=sys.stderr,
-                    )
-                    return 1
-
-                # Write to file
-                with open(output_path, "w") as f:
-                    f.write(json_results)
-                logger.info(f"Validation results written to {output_path}")
-            else:
-                # Print to stdout
-                print(json_results)
+            if not _handle_json_output(args, results, logger):
+                return 1
         else:
             # Print human-readable results
             print("\n" + "=" * 10 + " ✨ DATA VALIDATION RESULTS ✨ " + "=" * 10 + "\n")
