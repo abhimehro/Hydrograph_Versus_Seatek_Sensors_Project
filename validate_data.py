@@ -15,6 +15,7 @@ import json
 import logging
 import sys
 from pathlib import Path
+from typing import Any
 
 from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.core.logger import configure_root_logger
@@ -22,7 +23,7 @@ from src.hydrograph_seatek_analysis.data.validator import DataValidator
 from src.hydrograph_seatek_analysis.utils.security import is_safe_path
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
         description="Validate Seatek and Hydrograph data files"
@@ -149,7 +150,7 @@ def _print_consistency_validation(results: dict) -> None:
             print(f"  ⚠️  Extra processed data for river miles: {extra_rms_str}")  # fmt: skip
 
 
-def main():
+def main() -> int:
     """Main function."""
     # Parse command line arguments
     args = parse_args()
@@ -166,11 +167,11 @@ def main():
 
     try:
         # Create config
-        config_kwargs = {}
+        config_kwargs: dict[str, Any] = {}
         if args.data_dir:
             config_kwargs["base_dir"] = Path(args.data_dir)
 
-        config = Config(**config_kwargs)
+        config = Config(**config_kwargs)  # type: ignore[arg-type]
 
         # Run validation
         validator = DataValidator(config)
