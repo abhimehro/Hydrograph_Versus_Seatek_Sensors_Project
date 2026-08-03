@@ -1,0 +1,24 @@
+# https://docs.devin.ai/onboard-devin/environment-yaml
+initialize: |
+  python3 -m ensurepip --upgrade
+  python3 -m pip install --user --upgrade pip setuptools wheel
+
+maintenance: |
+  python3 -m pip install --user -r requirements-ci.txt
+  python3 -m pip install --user -e .
+
+knowledge:
+  - name: test
+    contents: |
+      MPLBACKEND=Agg python3 -m pytest tests/
+  - name: lint
+    contents: |
+      python3 -m flake8 src/ tests/
+  - name: typecheck
+    contents: |
+      python3 -m mypy src/hydrograph_seatek_analysis/utils/security.py
+      python3 -m mypy src/
+  - name: notes
+    contents: |
+      Use `python3` (not `python`) in this environment.
+      Set `MPLBACKEND=Agg` when running chart-generation scripts headlessly.
