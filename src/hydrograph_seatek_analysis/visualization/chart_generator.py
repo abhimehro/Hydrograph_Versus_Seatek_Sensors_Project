@@ -291,8 +291,9 @@ class ChartGenerator:
                 ax2.tick_params(axis="y", labelcolor=HYDRO_COLOR)
 
                 # Choose y-axis formatter based on whether hydrograph values are effectively integers
+                # ⚡ Bolt Optimization: Avoid intermediate DataFrame allocation by omitting .dropna()
                 ChartGenerator._format_hydrograph_axis(
-                    ax2, data["Hydrograph (Lagged)"].dropna()
+                    ax2, data["Hydrograph (Lagged)"]
                 )
 
             return ax2
