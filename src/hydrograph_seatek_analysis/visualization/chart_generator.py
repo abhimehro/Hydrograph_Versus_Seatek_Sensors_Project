@@ -292,9 +292,7 @@ class ChartGenerator:
 
                 # Choose y-axis formatter based on whether hydrograph values are effectively integers
                 # ⚡ Bolt Optimization: Avoid intermediate DataFrame allocation by omitting .dropna()
-                ChartGenerator._format_hydrograph_axis(
-                    ax2, data["Hydrograph (Lagged)"]
-                )
+                ChartGenerator._format_hydrograph_axis(ax2, data["Hydrograph (Lagged)"])
 
             return ax2
         except Exception as e:
