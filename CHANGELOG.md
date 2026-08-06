@@ -85,6 +85,7 @@
 **Merged pull requests:**
 
 - 🛠️ QA: Fix pre-commit formatting \(black\) [\#472](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/472) ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump pandas from 2.3.3 to 3.0.5 [\#471](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/471) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump numpy from 2.2.6 to 2.5.1 [\#470](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/470) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(devin\): add environment blueprint and align matplotlib pin [\#465](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/465) ([abhimehro](https://github.com/abhimehro))
 - 🛠️ QA: Fix missing return type annotations in validate\_data.py [\#464](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/464) ([abhimehro](https://github.com/abhimehro))
