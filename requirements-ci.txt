@@ -6,7 +6,7 @@ pytest-cov==7.1.0
 pytest-mock==3.15.1
 flake8==7.3.0
 mypy==2.3.0
-pandas-stubs==3.0.3.260530
+pandas-stubs==3.0.5.260730
 types-seaborn==0.13.2.20260728
 types-defusedxml==0.7.0.20260504
 pre-commit==4.6.1
