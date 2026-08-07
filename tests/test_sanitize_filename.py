@@ -38,6 +38,12 @@ def test_sanitize_filename_replaces_invalid_chars():
     assert sanitize_filename("file*name?.txt") == "file_name_.txt"
 
 
+def test_sanitize_filename_removes_newlines():
+    """Test that newlines are replaced with underscores to prevent log injection."""
+    assert sanitize_filename("file\nname.txt") == "file_name.txt"
+    assert sanitize_filename("file\r\nname.txt") == "file__name.txt"
+
+
 def test_sanitize_filename_limits_length():
     """Test that filename length is limited to prevent DoS."""
     long_input = "A" * 300
