@@ -299,3 +299,8 @@ environments) before validating the file size or reading its contents.
 **Vulnerability:** The `--output` argument in `validate_data.py` was being passed directly to `open()` without path traversal checks, allowing arbitrary file writes via paths like `../../etc/passwd` or outside the intended working directory.
 **Learning:** Command-line interfaces that accept output file paths must be treated as untrusted input and validated, even if they aren't web endpoints.
 **Prevention:** Always validate output file paths using `is_safe_path(Path.cwd(), target_path)` from `utils.security` before opening them for writing.
+
+## 2025-03-08 - [Newline Injection Vulnerability in sanitize_filename]
+**Vulnerability:** The `sanitize_filename` function used `\s` in its regular expression `r"[^\w\-\.\s]"`, which inadvertently allowed newline characters (`\n`, `\r`) to be preserved in the sanitized output. This can lead to log injection or shell parsing vulnerabilities if the filename is logged or used in shell commands.
+**Learning:** When sanitizing input for filenames or shell usage, using broad character classes like `\s` can include dangerous characters like newlines.
+**Prevention:** Use a literal space character ` ` instead of `\s` when allowing spaces in sanitized filenames or general paths to prevent newline injection.
