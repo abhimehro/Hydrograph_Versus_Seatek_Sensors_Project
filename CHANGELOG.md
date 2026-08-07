@@ -91,6 +91,8 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): bump pandas from 2.3.3 to 3.0.5 [\#482](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/482) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump pnpm/action-setup from 6.0.9 to 6.0.10 [\#481](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/481) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pandas-stubs from 3.0.3.260530 to 3.0.5.260730 [\#476](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/476) ([dependabot[bot]](https://github.com/apps/dependabot))
 - 🛠️ QA: Fix pre-commit formatting \(black\) [\#472](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/472) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump pandas from 2.3.3 to 3.0.5 [\#471](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/471) ([dependabot[bot]](https://github.com/apps/dependabot))
