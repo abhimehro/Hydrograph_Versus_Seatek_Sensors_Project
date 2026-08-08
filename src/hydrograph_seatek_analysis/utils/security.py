@@ -66,8 +66,8 @@ def sanitize_filename(filename: str, max_length: int = 200) -> str:
     if not isinstance(filename, str):
         filename = str(filename)
 
-    # Keep only word characters (letters, digits, underscore), dashes, dots, and whitespace
-    sanitized = re.sub(r"[^\w\-\.\s]", "_", filename)
+    # Keep only word characters (letters, digits, underscore), dashes, dots, and literal space
+    sanitized = re.sub(r"[^\w\-\. ]", "_", filename)
     # Prevent directory traversal dots like ..
     sanitized = re.sub(r"\.{2,}", "_", sanitized)
     # Strip leading/trailing whitespaces and dots

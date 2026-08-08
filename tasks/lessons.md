@@ -1,0 +1,1 @@
+- **Log injection risk in regex:** When using `\s` in regex, remember that it includes newline `\n` and carriage return `\r`. If you use it to filter untrusted filenames which are then logged or used in shell commands, it can lead to log injection vulnerabilities. Always use a literal space ` ` instead when sanitizing filenames.
