@@ -17,3 +17,8 @@
       undefined import `DataVisualizationError`)
 - [ ] Run pre-commit checks
 - [ ] Submit PR
+- [x] Fix path traversal / injection risk in `sanitize_filename`
+- [x] Add a test case for newline characters
+- [x] Run the test suite
+- [x] Pre-commit checks
+- [x] Add Journal Entry

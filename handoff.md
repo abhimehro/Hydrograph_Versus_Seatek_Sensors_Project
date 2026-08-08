@@ -32,3 +32,9 @@ may need to be updated. Currently, we mock
 
 Future tests for `Application` such as `process_data` or `run` should be added
 to the `TestApplication` class following the established patterns.
+═════════ ELIR ═════════
+PURPOSE: Prevent log injection or shell parsing vulnerabilities by replacing `\s` with a literal space in `sanitize_filename`.
+SECURITY: This prevents attackers from injecting newlines (`\n`, `\r`) into filenames which could manipulate logs or shell commands.
+FAILS IF: A legitimate filename contains newlines (which shouldn't happen anyway) or other whitespace characters that were previously allowed by `\s` but not covered by a literal space.
+VERIFY: Check `test_sanitize_filename_replaces_newlines` to ensure newline characters are correctly sanitized to underscores.
+MAINTAIN: Be careful when using `\s` in regex for sanitization, as it includes more than just space and tab characters.
