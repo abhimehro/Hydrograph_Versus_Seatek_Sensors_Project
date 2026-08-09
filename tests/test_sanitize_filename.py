@@ -44,3 +44,12 @@ def test_sanitize_filename_limits_length():
     sanitized = sanitize_filename(long_input)
     assert len(sanitized) == 200
     assert sanitized == "A" * 200
+
+
+def test_sanitize_filename_removes_newlines():
+    """Test that newlines and carriage returns are replaced to prevent log injection."""
+    input_with_newlines = "sensor\n1\r\nlog.txt"
+    sanitized = sanitize_filename(input_with_newlines)
+    assert "\n" not in sanitized
+    assert "\r" not in sanitized
+    assert sanitized == "sensor_1__log.txt"
