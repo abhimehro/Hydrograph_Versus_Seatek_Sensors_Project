@@ -45,5 +45,7 @@ def test_sanitize_filename_limits_length():
     assert len(sanitized) == 200
     assert sanitized == "A" * 200
 
+
 def test_sanitize_filename_removes_newlines():
+    """Test that newlines and carriage returns are replaced with underscores."""
     assert sanitize_filename("file\nname\r.txt") == "file_name_.txt"
