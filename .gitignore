@@ -79,3 +79,7 @@ tests/.DS_Store
 
 commit_msg.txt
 pr_body.txt
+handoff.md
+plan.md
+claude_db/
+*_msg.txt

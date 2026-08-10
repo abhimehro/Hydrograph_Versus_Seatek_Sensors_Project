@@ -24,6 +24,10 @@ class DataLoader:
         """
         self.config = config
 
+    def load_summary_data(self) -> pd.DataFrame:
+        """Load and validate summary data only (processor path)."""
+        return self._load_summary_data()
+
     def load_all_data(self) -> Tuple[pd.DataFrame, Dict[str, pd.DataFrame]]:
         """
         Load all required data files.

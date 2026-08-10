@@ -71,7 +71,7 @@ this project.
 
    ```bash
    # Create a virtual environment
-   python -m venv venv
+   python3 -m venv venv
 
    # Activate the virtual environment
    # On Windows:
@@ -101,7 +101,7 @@ this project.
 2. Create and activate a virtual environment:
 
    ```bash
-   python -m venv venv
+   python3 -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
@@ -209,13 +209,13 @@ This will install Git hooks that run checks before each commit.
 
 ```bash
 # Run all tests
-python -m pytest
+python3 -m pytest
 
 # Run with coverage report
-python -m pytest --cov=src
+python3 -m pytest --cov=src
 
 # Run specific test modules
-python -m pytest tests/test_config.py
+python3 -m pytest tests/test_config.py
 ```
 
 ## Memory and Performance Optimization
