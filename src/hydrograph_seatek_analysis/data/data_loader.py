@@ -108,49 +108,14 @@ class DataLoader:
             # SECURITY: Limit file size to prevent memory exhaustion (DoS)
             validate_file_size(hydro_file, self.config.max_file_size_bytes)
 
-            hydro_data = {}
+            hydro_data: Dict[str, pd.DataFrame] = {}
             excel_file = pd.ExcelFile(hydro_file)
             required_cols = {"Time (Seconds)", "Year"}
 
             for sheet_name in excel_file.sheet_names:
-                sheet_name_str = str(sheet_name)
-                if not sheet_name_str.startswith("RM_"):
-                    continue
-
-                # Optimize: Load only required columns and sensor/hydrograph columns to reduce memory usage and speed up loading
-                try:
-                    # SECURITY: Limit file size to prevent memory exhaustion (DoS)
-                    validate_file_size(hydro_file, self.config.max_file_size_bytes)
-
-                    df = pd.read_excel(
-                        excel_file,
-                        sheet_name=sheet_name_str,
-                        usecols=lambda col: (
-                            col in required_cols
-                            or str(col).startswith("Sensor_")
-                            or col == "Hydrograph (Lagged)"
-                        ),
-                    )
-                except ValueError as exc:
-                    logger.warning(f"Skipping sheet {sheet_name_str}: {exc}")
-                    continue
-
-                missing_cols = [col for col in required_cols if col not in df.columns]
-                if missing_cols:
-                    logger.warning(
-                        f"Skipping sheet {sheet_name_str}: Missing required columns in sheet {sheet_name_str}: {missing_cols}"
-                    )
-                    continue
-
-                try:
-                    self._validate_columns(
-                        df, list(required_cols), f"sheet {sheet_name_str}"
-                    )
-                    hydro_data[sheet_name_str] = df
-                    logger.debug(f"Loaded sheet {sheet_name_str}. Shape: {df.shape}")
-                except ValueError as e:
-                    logger.warning(f"Skipping sheet {sheet_name_str}: {str(e)}")
-                    continue
+                self._process_hydro_sheet(
+                    excel_file, sheet_name, required_cols, hydro_data
+                )
 
             if not hydro_data:
                 raise ValueError("No valid hydrograph data sheets found")
@@ -160,6 +125,69 @@ class DataLoader:
         except Exception as e:
             logger.error(f"Error loading hydrograph data: {str(e)}")
             raise
+
+    def _process_hydro_sheet(
+        self,
+        excel_file: pd.ExcelFile,
+        sheet_name: str,
+        required_cols: set,
+        hydro_data: Dict[str, pd.DataFrame],
+    ) -> None:
+        """Process a single hydrograph sheet and add to results if valid."""
+        sheet_name_str = str(sheet_name)
+        if not sheet_name_str.startswith("RM_"):
+            return
+
+        df = self._load_sheet_data(excel_file, sheet_name_str, required_cols)
+        if df is None:
+            return
+
+        self._validate_and_store_sheet(df, sheet_name_str, required_cols, hydro_data)
+
+    def _load_sheet_data(
+        self, excel_file: pd.ExcelFile, sheet_name: str, required_cols: set
+    ) -> pd.DataFrame:
+        """Load data from a single sheet. Returns None if loading fails."""
+        try:
+            # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+            validate_file_size(
+                self.config.hydro_file, self.config.max_file_size_bytes
+            )
+
+            return pd.read_excel(
+                excel_file,
+                sheet_name=sheet_name,
+                usecols=lambda col: (
+                    col in required_cols
+                    or str(col).startswith("Sensor_")
+                    or col == "Hydrograph (Lagged)"
+                ),
+            )
+        except ValueError as exc:
+            logger.warning(f"Skipping sheet {sheet_name}: {exc}")
+            return None
+
+    def _validate_and_store_sheet(
+        self,
+        df: pd.DataFrame,
+        sheet_name: str,
+        required_cols: set,
+        hydro_data: Dict[str, pd.DataFrame],
+    ) -> None:
+        """Validate and store a sheet's DataFrame if it passes validation."""
+        missing_cols = [col for col in required_cols if col not in df.columns]
+        if missing_cols:
+            logger.warning(
+                f"Skipping sheet {sheet_name}: Missing required columns: {missing_cols}"
+            )
+            return
+
+        try:
+            self._validate_columns(df, list(required_cols), f"sheet {sheet_name}")
+            hydro_data[sheet_name] = df
+            logger.debug(f"Loaded sheet {sheet_name}. Shape: {df.shape}")
+        except ValueError as e:
+            logger.warning(f"Skipping sheet {sheet_name}: {str(e)}")
 
     @staticmethod
     def _validate_columns(
