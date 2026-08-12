@@ -44,3 +44,10 @@ def test_sanitize_filename_limits_length():
     sanitized = sanitize_filename(long_input)
     assert len(sanitized) == 200
     assert sanitized == "A" * 200
+
+
+def test_sanitize_filename_removes_newlines():
+    """Test that newlines are removed to prevent log injection."""
+    assert sanitize_filename("file\nname") == "file_name"
+    assert sanitize_filename("file\rname") == "file_name"
+
