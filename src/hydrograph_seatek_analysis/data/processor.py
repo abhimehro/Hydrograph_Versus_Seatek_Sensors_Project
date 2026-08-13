@@ -357,10 +357,12 @@ class SeatekDataProcessor:
         has_hydro: bool,
     ) -> None:
         if not sensor_keep_arr.all():
-            # ⚡ Bolt Optimization: Replace merged.loc[~mask, col] with merged[col] = np.where(mask, merged[col], na_val)
+            # ⚡ Bolt Optimization: Replace merged.loc[~mask, col] with merged[col] = np.where(mask, merged[col].to_numpy(), na_val)
             # This bypasses Pandas DataFrame .loc intermediate object allocation overhead and index alignment.
             na_val = self._get_na_value(merged[sensor]) if has_hydro else np.nan
-            merged[sensor] = np.where(sensor_keep_arr, merged[sensor], na_val)
+            merged[sensor] = np.where(
+                sensor_keep_arr, merged[sensor].to_numpy(), na_val
+            )
 
     def _apply_hydro_sentinels(
         self,
@@ -371,9 +373,9 @@ class SeatekDataProcessor:
     ) -> None:
         if not hydro_keep_arr.all():
             na_val = self._get_na_value(merged["Hydrograph (Lagged)"])
-            # ⚡ Bolt Optimization: Replace pd.Series.where with np.where to avoid intermediate Pandas object allocation overhead
+            # ⚡ Bolt Optimization: Replace pd.Series.where with np.where on .to_numpy() to avoid intermediate Pandas object allocation overhead
             merged["Hydrograph (Lagged)"] = np.where(
-                hydro_keep_arr, merged["Hydrograph (Lagged)"], na_val
+                hydro_keep_arr, merged["Hydrograph (Lagged)"].to_numpy(), na_val
             )
 
         if not sensor_any and hydro_any:
