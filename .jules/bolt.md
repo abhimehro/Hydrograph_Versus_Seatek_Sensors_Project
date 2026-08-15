@@ -471,3 +471,7 @@ performance in computationally heavy loops.
 
 **Learning:** Using `series.notna().any()` on a Pandas Series creates an intermediate boolean Series object in memory. The operation evaluates the null condition across the entire Series first, returning a new Series, before checking `.any()`.
 **Action:** Replace `series.notna().any()` with `not np.all(pd.isna(series.values))` when performance is critical. This accesses the underlying NumPy array directly and evaluates the null checks without allocating intermediate Pandas Series.
+
+## 2025-03-01 - Optimize passing Pandas Series to np.where()
+**Learning:** When passing a Pandas Series to `np.where()`, implicitly relying on NumPy's `__array__` coercion introduces overhead and unnecessary intermediate object allocations. Explicitly extracting the underlying NumPy array using `.to_numpy()` or `.values` bypasses this overhead.
+**Action:** Replace `np.where(mask, series, val)` with `np.where(mask, series.to_numpy(), val)` when modifying DataFrame columns to improve performance.
