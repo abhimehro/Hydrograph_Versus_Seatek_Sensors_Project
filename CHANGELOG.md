@@ -106,6 +106,7 @@
 
 - ⚡ Bolt: Optimize np.where with .to\_numpy\(\) [\#518](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/518) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump pre-commit from 4.6.1 to 4.6.2 [\#515](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/515) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump numpy from 2.5.1 to 2.5.2 [\#509](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/509) ([dependabot[bot]](https://github.com/apps/dependabot))
 - 🛡️ Sentinel: \[MEDIUM\] Fix log injection vulnerability in filename sanitization [\#502](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/502) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump pandas from 2.3.3 to 3.0.5 [\#482](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/482) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pnpm/action-setup from 6.0.9 to 6.0.10 [\#481](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/481) ([dependabot[bot]](https://github.com/apps/dependabot))
