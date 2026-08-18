@@ -184,7 +184,7 @@ def main() -> int:
 
             if args.output:
                 # SECURITY: Validate output path to prevent arbitrary file write / path traversal
-                output_path = Path(args.output)
+                output_path = Path(args.output).resolve()
                 if not is_safe_path(Path.cwd(), output_path):
                     logger.error(
                         f"SECURITY: Attempted path traversal detected. Path outside current directory: {output_path}"
@@ -192,9 +192,9 @@ def main() -> int:
                     return 1
 
                 # Write to file
-                with open(args.output, "w") as f:
+                with open(output_path, "w") as f:
                     f.write(json_results)
-                logger.info(f"Validation results written to {args.output}")
+                logger.info(f"Validation results written to {output_path}")
             else:
                 # Print to stdout
                 print(json_results)
