@@ -299,3 +299,8 @@ environments) before validating the file size or reading its contents.
 **Vulnerability:** The `--output` argument in `validate_data.py` was being passed directly to `open()` without path traversal checks, allowing arbitrary file writes via paths like `../../etc/passwd` or outside the intended working directory.
 **Learning:** Command-line interfaces that accept output file paths must be treated as untrusted input and validated, even if they aren't web endpoints.
 **Prevention:** Always validate output file paths using `is_safe_path(Path.cwd(), target_path)` from `utils.security` before opening them for writing.
+
+## 2026-08-17 - [Raw Input Bypass in Validated Paths]
+**Vulnerability:** Path traversal validation bypass in `validate_data.py`. While the output path was validated using `is_safe_path`, the raw untrusted input (`args.output`) was passed directly to the `open()` function instead of the validated `Path` object (`output_path`).
+**Learning:** Security validations are ineffective if the validated object is not used in the subsequent sink. The raw input remains untrusted and can bypass the validation check.
+**Prevention:** Always ensure that the specific variable that has undergone validation (e.g., the resolved `Path` object) is the one passed to the sensitive sink (e.g., `open()`), rather than the raw user input.
