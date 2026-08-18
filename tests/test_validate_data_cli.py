@@ -38,9 +38,32 @@ def test_json_output_uses_validated_in_directory_path(monkeypatch, tmp_path):
     }
 
 
-def test_json_output_rejects_path_outside_working_directory(monkeypatch, tmp_path):
-    """Traversal outside the working directory exits non-zero and creates no file."""
-    outside_path = tmp_path.parent / "outside-validation.json"
+def test_json_output_rejects_parent_traversal(monkeypatch, tmp_path):
+    """A ../ traversal path exits non-zero and creates no file outside the root."""
+    outside_path = tmp_path / ".." / f"{tmp_path.name}-traversal-validation.json"
+
+    assert _run_main(monkeypatch, tmp_path, outside_path) == 1
+    assert not outside_path.resolve().exists()
+
+
+def test_json_output_rejects_absolute_path_outside_working_directory(
+    monkeypatch, tmp_path
+):
+    """An absolute path outside the working directory exits non-zero without a write."""
+    outside_path = tmp_path.parent / f"{tmp_path.name}-absolute-validation.json"
+    assert outside_path.is_absolute()
 
     assert _run_main(monkeypatch, tmp_path, outside_path) == 1
     assert not outside_path.exists()
+
+
+def test_json_output_rejects_symlink_escape(monkeypatch, tmp_path):
+    """A path through an in-root symlink to an outside directory is rejected."""
+    outside_dir = tmp_path.parent / f"{tmp_path.name}-outside"
+    outside_dir.mkdir()
+    output_link = tmp_path / "output-link"
+    output_link.symlink_to(outside_dir, target_is_directory=True)
+    escaped_output = output_link / "validation.json"
+
+    assert _run_main(monkeypatch, tmp_path, escaped_output) == 1
+    assert not (outside_dir / "validation.json").exists()
