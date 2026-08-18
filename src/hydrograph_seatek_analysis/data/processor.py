@@ -360,7 +360,9 @@ class SeatekDataProcessor:
             # ⚡ Bolt Optimization: Replace merged.loc[~mask, col] with merged[col] = np.where(mask, merged[col], na_val)
             # Use .to_numpy() on Pandas Series in np.where to bypass index alignment and __array__ coercion overhead.
             na_val = self._get_na_value(merged[sensor]) if has_hydro else np.nan
-            merged[sensor] = np.where(sensor_keep_arr, merged[sensor].to_numpy(), na_val)
+            merged[sensor] = np.where(
+                sensor_keep_arr, merged[sensor].to_numpy(), na_val
+            )
 
     def _apply_hydro_sentinels(
         self,
