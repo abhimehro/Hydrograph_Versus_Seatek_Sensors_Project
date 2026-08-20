@@ -47,7 +47,7 @@ jobs:
           mapfile -t candidates < <(
             git branch -r --no-merged main \
               | sed 's/^[[:space:]]*origin\///' \
-              | grep -Ei '^(.*\/)?(bolt|jules|sentinel|qa)' \
+              | grep -Ei '^(.*\/)?(bolt|jules|sentinel|qa|fix-|fix\/|security\/)' \
               | grep -v 'HEAD\|^main$\|^develop$' \
               || true
           )
