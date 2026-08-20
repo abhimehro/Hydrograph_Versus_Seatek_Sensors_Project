@@ -192,7 +192,7 @@ def main() -> int:
                     return 1
 
                 # Write to file
-                with open(args.output, "w") as f:
+                with open(output_path, "w") as f:
                     f.write(json_results)
                 logger.info(f"Validation results written to {args.output}")
             else:
