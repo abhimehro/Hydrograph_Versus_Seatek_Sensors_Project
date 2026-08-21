@@ -306,3 +306,9 @@ must be treated as untrusted input and validated, even if they aren't web
 endpoints. **Prevention:** Always validate output file paths using
 `is_safe_path(Path.cwd(), target_path)` from `utils.security` before opening
 them for writing.
+
+## 2025-03-01 - Validation Bypass via Untrusted Variable Reuse
+
+**Vulnerability:** In `validate_data.py`, `output_path` was validated against path traversal, but the raw `args.output` was subsequently passed to `open()`, creating a potential bypass.
+**Learning:** A common path traversal vulnerability occurs when the variable used for security validation is not the same variable passed to the file sink. If the raw input is used, it renders the previous validation ineffective.
+**Prevention:** Always use the resolved and validated variable (e.g., `output_path`) in the file sink `open(output_path, "w")` instead of raw user input.
