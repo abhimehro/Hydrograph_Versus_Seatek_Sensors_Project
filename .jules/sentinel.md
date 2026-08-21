@@ -306,3 +306,9 @@ must be treated as untrusted input and validated, even if they aren't web
 endpoints. **Prevention:** Always validate output file paths using
 `is_safe_path(Path.cwd(), target_path)` from `utils.security` before opening
 them for writing.
+
+## 2025-03-08 - Use Validated Variable in File Sinks
+
+**Vulnerability:** In `validate_data.py`, the `--output` argument was validated using `is_safe_path`, but the raw, untrusted input `args.output` was mistakenly passed to the `open()` file sink instead of the validated `output_path` object.
+**Learning:** Validating a variable but failing to use the validated object in the subsequent sink renders the validation ineffective.
+**Prevention:** Always ensure that the sanitized or validated path variable (e.g., the resolved `Path` object) is actually passed to the subsequent file operation (e.g., `open(output_path, ...)`) rather than reusing the raw untrusted input.
