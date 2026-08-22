@@ -97,7 +97,7 @@ class DataValidator:
                 "columns": list(df.columns),
                 "rows": len(df),
                 "required_columns_present": len(missing) == 0,
-                "river_miles": df["River_Mile"].tolist(),
+                "river_miles": df["River_Mile"].to_numpy().tolist(),
                 "missing_values": missing_values,  # ⚡ Bolt Optimization: Avoid Series.to_dict() overhead
             }
 

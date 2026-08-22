@@ -491,3 +491,8 @@ bypass the `__array__` coercion overhead and prevent unnecessary intermediate
 object allocations. **Action:** Replaced `np.where(mask, df[col], val)` with
 `np.where(mask, df[col].to_numpy(), val)` in data processing loops to improve
 performance.
+
+## 2025-03-01 - Avoid Pandas Series overhead when converting to Python list
+
+**Learning:** When converting a Pandas Series to a native Python list, using `series.tolist()` is slower than first extracting the underlying NumPy array and then converting it to a list using `series.to_numpy().tolist()`. Bypassing the Pandas object overhead significantly reduces the conversion time and improves performance.
+**Action:** Replace `series.tolist()` with `series.to_numpy().tolist()` when converting a Pandas Series to a Python list.
