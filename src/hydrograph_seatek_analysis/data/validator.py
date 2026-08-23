@@ -97,7 +97,9 @@ class DataValidator:
                 "columns": list(df.columns),
                 "rows": len(df),
                 "required_columns_present": len(missing) == 0,
-                "river_miles": df["River_Mile"].tolist(),
+                "river_miles": df["River_Mile"]
+                .to_numpy()
+                .tolist(),  # ⚡ Bolt Optimization: Avoid Series.tolist() overhead
                 "missing_values": missing_values,  # ⚡ Bolt Optimization: Avoid Series.to_dict() overhead
             }
 
@@ -113,6 +115,7 @@ class DataValidator:
         if len(year_arr) == 0 or np.all(np.isnan(year_arr)):
             return None
         years = np.unique(year_arr[~np.isnan(year_arr)])
+        # ⚡ Bolt Optimization: years is already a numpy array, but ensure we don't accidentally cast it back to series
         return sorted(years.astype(int).tolist())
 
     def _extract_range(
