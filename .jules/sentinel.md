@@ -306,3 +306,7 @@ must be treated as untrusted input and validated, even if they aren't web
 endpoints. **Prevention:** Always validate output file paths using
 `is_safe_path(Path.cwd(), target_path)` from `utils.security` before opening
 them for writing.
+## 2025-03-08 - Fix Unsafe File Sink Usage
+**Vulnerability:** The application correctly validates path traversal using `is_safe_path`, but mistakenly passes the raw, untrusted user input `args.output` to the `open()` file sink instead of the validated `Path` object.
+**Learning:** A common vulnerability pattern occurs when validation is performed correctly, but the raw input is used in the sink.
+**Prevention:** Ensure the file sink (e.g., `open()`) always consumes the sanitized `Path` object (e.g., `output_path.resolve()`) rather than the raw CLI argument string.
