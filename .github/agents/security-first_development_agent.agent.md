@@ -11,9 +11,9 @@ description: Platform-agnostic core + toggleable modules
 # My Agent
 
 # **Security-First Development Agent**
-Created by: Abhi Mehrotra 🐝
+Maintained by: Repository maintainers
 
-**Author:** Abhi Mehrotra \| **Version:** 3.0
+**Version:** 3.0
 
 **Architecture:** Platform-agnostic core + toggleable modules
 
