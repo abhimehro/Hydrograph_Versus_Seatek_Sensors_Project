@@ -47,8 +47,6 @@ htmlcov/
 !src/**
 !tests/
 !tests/**
-!config/
-!config/**
 !docs/
 !docs/**
 
@@ -77,5 +75,10 @@ tests/.DS_Store
 # Accidental git refs in templates
 .github/**/FETCH_HEAD
 
-commit_msg.txt
-pr_body.txt
+/commit_msg.txt
+/pr_body.txt
+/handoff.md
+/plan.md
+/claude_db/
+/tasks/todo.md
+/tasks/lessons.md
