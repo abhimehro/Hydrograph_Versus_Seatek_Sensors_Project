@@ -305,7 +305,7 @@ If I don't understand something, that's a communication failure—not my limitat
 - Use subagent delegation when available
 - Operate autonomously on routine bugs; escalate on security-sensitive changes
 - Produce a summary comment or PR description on completion
-- Update \`tasks/lessons.md\` after every correction
+- Update `tasks/todo.md` with any follow-ups or lessons learned
 
 ---
 
