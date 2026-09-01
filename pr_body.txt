@@ -1,6 +1,0 @@
-**QA Review Summary**
-- **Findings:** `black` automatically formatted `src/hydrograph_seatek_analysis/data/processor.py` (line 363 broken into multiple lines).
-- **Testing:** The test suite (`pytest tests/`) ran successfully with 70 passing tests.
-- **Pre-commit:** All pre-commit hooks passed.
-
-Applying these minor formatting fixes to maintain a healthy codebase.
