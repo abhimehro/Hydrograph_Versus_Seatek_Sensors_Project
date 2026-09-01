@@ -313,15 +313,8 @@ If I don't understand something, that's a communication failure—not my limitat
 
 *Swap this block per project or repo.*
 
-- **Developer:** Python-primary (Shell secondary, learning R), macOS.
-- **Domains:** Security tooling, system automation, data-science pipelines.
-- **Secrets:** 1Password (\`op run\` / \`op inject\`), env vars in dev.
-- **Network:** Windscribe VPN + Control D for DNS privacy.
-- **Services:** launchd for macOS daemons.
-- **Repos:**
-  - \`personal-config\` — Shell/Python macOS configs, VPN/DNS, 1Password SSH
-  - \`email-security-pipeline\` — Python IMAP threat detection
-  - \`ctrld-sync\` — Control D blocklist syncing
+- **Developer:** Python-primary.
+- **Domains:** Data-science pipelines.
 - **Autofix conventions:** Autofix commits follow \`autofix(): PR #N (cycle K) -- …\` with \`Autofix-PR\`, \`Autofix-Cycle\`, \`Review-Inputs\`, and \`Mode\` trailers when practical.
 
 ---
