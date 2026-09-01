@@ -43,18 +43,50 @@ class TestApplication(unittest.TestCase):
         ):
             self.assertFalse(app.setup())
 
+    @mock.patch("src.hydrograph_seatek_analysis.app.SeatekDataProcessor")
     @mock.patch("src.hydrograph_seatek_analysis.app.DataLoader")
-    def test_load_data_exception(self, mock_dl_class: mock.MagicMock) -> None:
+    def test_load_data_exception(
+        self,
+        mock_dl_class: mock.MagicMock,
+        mock_processor_class: mock.MagicMock,
+    ) -> None:
         """Test that load_data returns False on data loading exception."""
         app = Application(config=self.temp_config)
 
-        # We need to mock load_all_data to raise an exception
-        app.data_loader.load_all_data.side_effect = Exception(  # type: ignore
+        app.data_loader.load_summary_data.side_effect = Exception(
             "Mock loading error"
         )
 
-        # Test loading data failure
         self.assertFalse(app.load_data())
+        app.data_loader.load_summary_data.assert_called_once()
+        app.data_loader.load_all_data.assert_not_called()
+        mock_processor_class.assert_not_called()
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.SeatekDataProcessor")
+    @mock.patch("src.hydrograph_seatek_analysis.app.DataLoader")
+    def test_load_data_uses_summary_only(
+        self,
+        mock_dl_class: mock.MagicMock,
+        mock_processor_class: mock.MagicMock,
+    ) -> None:
+        """Test load_data does not require the aggregate hydrograph workbook."""
+        summary_data = mock.MagicMock()
+        processor = mock_processor_class.return_value
+        processor.river_mile_data = {54.0: mock.MagicMock()}
+        app = Application(config=self.temp_config)
+        app.data_loader.load_summary_data.return_value = summary_data
+
+        self.assertTrue(app.load_data())
+
+        app.data_loader.load_summary_data.assert_called_once()
+        app.data_loader.load_all_data.assert_not_called()
+        app.data_loader._load_hydro_data.assert_not_called()
+        mock_processor_class.assert_called_once_with(
+            data_dir=self.temp_config.processed_dir,
+            summary_data=summary_data,
+            config=self.temp_config,
+        )
+        processor.load_data.assert_called_once()
 
     def _setup_mock_processor(self, app: Application) -> mock.MagicMock:
         """Helper to set up a mock processor with basic river mile data."""

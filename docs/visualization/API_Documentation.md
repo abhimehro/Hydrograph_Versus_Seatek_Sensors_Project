@@ -101,9 +101,17 @@ class DataLoader:
     def __init__(self, config: Config):
         """Initialize the data loader with configuration."""
 
+    def load_summary_data(self) -> pd.DataFrame:
+        """
+        Load summary data for processor workflows.
+
+        Returns:
+            DataFrame containing summary data
+        """
+
     def load_all_data(self) -> Tuple[pd.DataFrame, Dict[str, pd.DataFrame]]:
         """
-        Load all required data files.
+        Load summary and hydrograph workbooks for validation workflows.
 
         Returns:
             Tuple containing summary data and hydrograph data
@@ -422,8 +430,8 @@ custom_config = Config(
 config = Config()
 data_loader = DataLoader(config)
 
-# Load data
-summary_data, hydro_data = data_loader.load_all_data()
+# Load summary data for the normal processor path
+summary_data = data_loader.load_summary_data()
 
 # Initialize processor
 processor = SeatekDataProcessor(
