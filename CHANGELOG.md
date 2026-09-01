@@ -12,7 +12,10 @@
 
 **Closed issues:**
 
+- \[repo-health\] Consolidate near-duplicate sanitize\_filename agent PRs [\#600](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/600)
 - Daily QA & Agentic Review — 2026-08-31 [\#597](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/597)
+- \[repo-automation\] Daily Status Report - 2026-08-31 [\#595](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/595)
+- \[repo-health\] \#498 still blocked; session junk remains on main [\#594](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/594)
 - Daily QA & Agentic Review — 2026-08-30 [\#591](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/591)
 - \[repo-automation\] Daily Status Report - 2026-08-30 [\#589](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/589)
 - \[repo-automation\] Daily Status Report - 2026-08-29 [\#586](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/586)
@@ -45,6 +48,7 @@
 - Daily QA & Agentic Review — 2026-08-11 [\#505](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/505)
 - \[repo-automation\] Daily Status Report - 2026-08-11 [\#503](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/503)
 - Daily QA & Agentic Review — 2026-08-10 [\#501](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/501)
+- \[repo-health\] Consolidate near-duplicate sanitize\_filename agent PRs [\#499](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/499)
 - \[repo-automation\] Daily Status Report - 2026-08-10 [\#497](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/497)
 - Daily QA & Agentic Review — 2026-08-09 [\#495](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/495)
 - \[repo-automation\] Daily Status Report - 2026-08-09 [\#493](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/493)
@@ -145,6 +149,7 @@
 - ⚡ Bolt: Optimize np.where with .to\_numpy\(\) [\#518](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/518) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump pre-commit from 4.6.1 to 4.6.2 [\#515](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/515) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump numpy from 2.5.1 to 2.5.2 [\#509](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/509) ([dependabot[bot]](https://github.com/apps/dependabot))
+- fix\(security\): reject newlines in sanitize\_filename \(salvages \#504\) [\#507](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/507) ([abhimehro](https://github.com/abhimehro))
 - 🛡️ Sentinel: \[MEDIUM\] Fix log injection vulnerability in filename sanitization [\#502](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/502) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump pandas from 2.3.3 to 3.0.5 [\#482](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/482) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pnpm/action-setup from 6.0.9 to 6.0.10 [\#481](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/481) ([dependabot[bot]](https://github.com/apps/dependabot))
