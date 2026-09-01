@@ -30,7 +30,7 @@ class DataLoader:
 
     def load_all_data(self) -> Tuple[pd.DataFrame, Dict[str, pd.DataFrame]]:
         """
-        Load all required data files.
+        Load summary and hydrograph data for validation workflows.
 
         Returns:
             Tuple containing summary data and hydrograph data
@@ -109,13 +109,13 @@ class DataLoader:
             validate_file_size(hydro_file, self.config.max_file_size_bytes)
 
             hydro_data: Dict[str, pd.DataFrame] = {}
-            excel_file = pd.ExcelFile(hydro_file)
             required_cols = {"Time (Seconds)", "Year"}
 
-            for sheet_name in excel_file.sheet_names:
-                self._process_hydro_sheet(
-                    excel_file, sheet_name, required_cols, hydro_data
-                )
+            with pd.ExcelFile(hydro_file) as excel_file:
+                for sheet_name in excel_file.sheet_names:
+                    self._process_hydro_sheet(
+                        excel_file, sheet_name, required_cols, hydro_data
+                    )
 
             if not hydro_data:
                 raise ValueError("No valid hydrograph data sheets found")
