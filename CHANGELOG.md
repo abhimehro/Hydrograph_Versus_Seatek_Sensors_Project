@@ -140,6 +140,7 @@
 **Merged pull requests:**
 
 - \[repo-health\] Align development tool pins [\#606](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/606) ([abhimehro](https://github.com/abhimehro))
+- \[repo-health\] Add summary-only loader path [\#605](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/605) ([abhimehro](https://github.com/abhimehro))
 - \[repo-health\] Remove session artifacts and obsolete config [\#604](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/604) ([abhimehro](https://github.com/abhimehro))
 - chore\(repo-health\): greetings paths and correlation doc [\#593](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/593) ([cursor[bot]](https://github.com/apps/cursor))
 - autofix\(\): apply black formatting to validator.py [\#583](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/583) ([abhimehro](https://github.com/abhimehro))
