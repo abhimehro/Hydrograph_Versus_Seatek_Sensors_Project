@@ -21,7 +21,7 @@ jobs:
 
             Please avoid including passwords, API keys, tokens, or other sensitive information in logs, screenshots, or code snippets.
 
-            If you’re not sure about any of the above, no worries — we’ll help you fill in the gaps. For tips, see CONTRIBUTING.md and CODE_OF_CONDUCT.md in this repo. Thanks again — we’ll review it as soon as we can! 🙏
+            If you’re not sure about any of the above, no worries — we’ll help you fill in the gaps. For tips, see docs/CONTRIBUTING.md and docs/CODE_OF_CONDUCT.md in this repo. Thanks again — we’ll review it as soon as we can! 🙏
           pr_message: |
             Hey — thanks for opening your first pull request! 👋 We appreciate your contribution. To help us review it quickly, please include:
 
