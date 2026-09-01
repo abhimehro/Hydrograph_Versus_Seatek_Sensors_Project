@@ -124,8 +124,12 @@ class DataLoader:
         """Initialize the data loader with configuration."""
         self.config = config
 
+    def load_summary_data(self) -> pd.DataFrame:
+        """Load summary data for the normal processor path."""
+        # Implementation...
+
     def load_all_data(self) -> Tuple[pd.DataFrame, Dict[str, pd.DataFrame]]:
-        """Load all required data files."""
+        """Load summary and hydrograph workbooks for validation workflows."""
         # Implementation...
 ```
 
@@ -135,8 +139,8 @@ class DataLoader:
 config = Config()
 data_loader = DataLoader(config)
 
-# Load all data at once
-summary_data, hydro_data = data_loader.load_all_data()
+# Load summary data for the normal processor path
+summary_data = data_loader.load_summary_data()
 
 # Get available river miles
 river_miles = DataLoader.get_available_river_miles(config.processed_dir)
