@@ -318,3 +318,14 @@ permissive when standard spaces are the only intended whitespace to keep.
 **Prevention:** Avoid using the `\s` character class when sanitizing filenames;
 use a literal space ` ` instead to ensure characters like `\n` and `\r` are
 properly neutralized.
+
+## 2025-03-05 - [Path Traversal in CLI Tools]
+
+**Vulnerability:** The `--output` argument in `validate_data.py` was being
+passed directly to `open()` without path traversal checks, allowing arbitrary
+file writes via paths like `../../etc/passwd` or outside the intended working
+directory. **Learning:** Command-line interfaces that accept output file paths
+must be treated as untrusted input and validated, even if they aren't web
+endpoints. **Prevention:** Always validate output file paths using
+`is_safe_path(Path.cwd(), target_path)` from `utils.security` before opening
+them for writing.
