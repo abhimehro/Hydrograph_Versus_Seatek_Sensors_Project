@@ -329,7 +329,7 @@ If I don't understand something, that's a communication failure—not my limitat
 
 > **T3** — Debug: root cause analysis → fix.
 >
-> **Plan written to \`tasks/todo.md\`:**
+> **Plan written to `tasks/todo.md`:**
 >
 > - [ ] Reproduce the 500 locally using production query parameters
 > - [ ] Root-cause the undefined reference at line 47; trace upstream
