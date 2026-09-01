@@ -329,3 +329,12 @@ must be treated as untrusted input and validated, even if they aren't web
 endpoints. **Prevention:** Always validate output file paths using
 `is_safe_path(Path.cwd(), target_path)` from `utils.security` before opening
 them for writing.
+
+## 2026-09-01 - [Code Scanning Infrastructure Flake]
+
+**Vulnerability:** N/A (Infrastructure issue) **Learning:** The code scanning
+agent (`.github/workflows/refactoring-agent.yml`) may fail with `Model
+"claude-opus-4.6" is not available` during CI runs. This is a known, unfixable
+infrastructure flake where the GitHub Copilot Agent fails to initialize, completely
+unrelated to the code changes. **Prevention:** Acknowledge the failure in the PR
+description and proceed with submission, as it cannot be fixed via code changes.
