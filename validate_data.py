@@ -191,10 +191,10 @@ def main() -> int:
                     )
                     return 1
 
-                # Write to file
-                with open(args.output, "w") as f:
-                    f.write(json_results)
-                logger.info(f"Validation results written to {args.output}")
+                # Write using the path object that passed the safety check.
+                with output_path.open("w", encoding="utf-8") as output_file:
+                    output_file.write(json_results)
+                logger.info("Validation results written to %s", output_path)
             else:
                 # Print to stdout
                 print(json_results)
