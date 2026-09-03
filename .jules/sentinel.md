@@ -295,7 +295,26 @@ regular file before attempting to read it. **Prevention:** Implement
 `file_path.is_file()` checks in `validate_file_size` (wrapped in a
 `try...except Exception` block to gracefully handle poorly-mocked test
 environments) before validating the file size or reading its contents.
+
 ## YYYY-MM-DD - [Path Traversal in CLI Tools]
-**Vulnerability:** The `--output` argument in `validate_data.py` was being passed directly to `open()` without path traversal checks, allowing arbitrary file writes via paths like `../../etc/passwd` or outside the intended working directory.
-**Learning:** Command-line interfaces that accept output file paths must be treated as untrusted input and validated, even if they aren't web endpoints.
-**Prevention:** Always validate output file paths using `is_safe_path(Path.cwd(), target_path)` from `utils.security` before opening them for writing.
+
+**Vulnerability:** The `--output` argument in `validate_data.py` was being
+passed directly to `open()` without path traversal checks, allowing arbitrary
+file writes via paths like `../../etc/passwd` or outside the intended working
+directory. **Learning:** Command-line interfaces that accept output file paths
+must be treated as untrusted input and validated, even if they aren't web
+endpoints. **Prevention:** Always validate output file paths using
+`is_safe_path(Path.cwd(), target_path)` from `utils.security` before opening
+them for writing.
+
+## 2026-08-11 - [Log Injection via Filename Sanitization]
+
+**Vulnerability:** The `sanitize_filename` function in
+`src/hydrograph_seatek_analysis/utils/security.py` used the regex `\s` which
+allows matching of newlines `\n` and carriage returns `\r`, potentially leaving
+them unreplaced and leading to log injection or shell parsing vulnerabilities.
+**Learning:** Using `\s` in sanitization regular expressions is overly
+permissive when standard spaces are the only intended whitespace to keep.
+**Prevention:** Avoid using the `\s` character class when sanitizing filenames;
+use a literal space ` ` instead to ensure characters like `\n` and `\r` are
+properly neutralized.

@@ -94,6 +94,22 @@ def test_load_summary_data(mock_read_excel, mock_is_symlink):
     assert callable(kwargs.get("usecols"))
 
 
+@mock.patch.object(DataLoader, "_load_hydro_data")
+@mock.patch.object(DataLoader, "_load_summary_data")
+def test_load_summary_data_public_method(mock_load_summary, mock_load_hydro):
+    """Test load_summary_data does not load hydrograph data."""
+    config = Config()
+    data_loader = DataLoader(config)
+    mock_summary_df = pd.DataFrame({"River_Mile": [54.0]})
+    mock_load_summary.return_value = mock_summary_df
+
+    result = data_loader.load_summary_data()
+
+    assert result.equals(mock_summary_df)
+    mock_load_summary.assert_called_once()
+    mock_load_hydro.assert_not_called()
+
+
 @mock.patch("pandas.ExcelFile")
 @mock.patch.object(Path, "is_symlink", return_value=False)
 @mock.patch("pandas.read_excel")
@@ -103,6 +119,7 @@ def test_load_hydro_data_skips_invalid_sheet_value_error(
     """Test _load_hydro_data skips sheets that raise a parsing ValueError."""
     mock_excel_file = mock.MagicMock()
     mock_excel_file.sheet_names = ["RM_invalid", "RM_54.0"]
+    mock_excel_file.__enter__.return_value = mock_excel_file
     mock_excel_file_cls.return_value = mock_excel_file
 
     valid_df = pd.DataFrame(
@@ -142,6 +159,67 @@ def test_load_hydro_data_skips_invalid_sheet_value_error(
     assert result["RM_54.0"].equals(expected_df)
     assert list(result["RM_54.0"].columns) == list(expected_df.columns)
     assert "Skipping sheet RM_invalid: No columns to parse from file" in caplog.text
+    mock_excel_file.__exit__.assert_called_once()
+
+
+@mock.patch("pandas.ExcelFile")
+@mock.patch.object(Path, "is_symlink", return_value=False)
+@mock.patch("pandas.read_excel")
+def test_load_hydro_data_ignores_numeric_sheet_names(
+    mock_read_excel, mock_is_symlink, mock_excel_file_cls
+):
+    """Test numeric sheet names are skipped instead of causing type errors."""
+    mock_excel_file = mock.MagicMock()
+    mock_excel_file.sheet_names = [2024, "RM_54.0"]
+    mock_excel_file.__enter__.return_value = mock_excel_file
+    mock_excel_file_cls.return_value = mock_excel_file
+
+    valid_df = pd.DataFrame(
+        {
+            "Time (Seconds)": [0, 60],
+            "Year": [1, 1],
+            "Sensor_1": [1.0, 2.0],
+        }
+    )
+    mock_read_excel.return_value = valid_df
+
+    config = Config()
+    data_loader = DataLoader(config)
+
+    with mock.patch.object(Path, "is_file", return_value=True):
+        with mock.patch.object(Path, "stat") as mock_stat:
+            mock_stat.return_value.st_size = 1000
+            result = data_loader._load_hydro_data()
+
+    assert list(result) == ["RM_54.0"]
+    mock_read_excel.assert_called_once()
+    assert mock_read_excel.call_args.kwargs["sheet_name"] == "RM_54.0"
+    mock_excel_file.__exit__.assert_called_once()
+
+
+@mock.patch("pandas.ExcelFile")
+@mock.patch.object(Path, "is_symlink", return_value=False)
+@mock.patch("pandas.read_excel")
+def test_load_hydro_data_closes_workbook_on_sheet_error(
+    mock_read_excel, mock_is_symlink, mock_excel_file_cls
+):
+    """Test unexpected sheet errors still close the workbook."""
+    mock_excel_file = mock.MagicMock()
+    mock_excel_file.sheet_names = ["RM_54.0"]
+    mock_excel_file.__enter__.return_value = mock_excel_file
+    mock_excel_file_cls.return_value = mock_excel_file
+    mock_read_excel.side_effect = RuntimeError("Test error")
+
+    config = Config()
+    data_loader = DataLoader(config)
+
+    with mock.patch.object(Path, "is_file", return_value=True):
+        with mock.patch.object(Path, "stat") as mock_stat:
+            mock_stat.return_value.st_size = 1000
+            with pytest.raises(RuntimeError, match="Test error"):
+                data_loader._load_hydro_data()
+
+    mock_excel_file.__exit__.assert_called_once()
 
 
 @mock.patch("pandas.ExcelFile")

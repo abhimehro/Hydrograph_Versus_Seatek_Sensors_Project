@@ -263,8 +263,8 @@ If you see errors about missing data files, check that you've placed the
 required data files in the correct directories:
 
 - `data/raw/Data_Summary.xlsx`
-- `data/raw/Hydrograph_Seatek_Data.xlsx`
 - `data/processed/RM_*.xlsx`
+- `data/raw/Hydrograph_Seatek_Data.xlsx` when running validation workflows
 
 ### Matplotlib/Visualization Issues
 

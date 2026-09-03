@@ -1,5 +1,3 @@
-from typing import Any
-
 """
 Main application module for Seatek and Hydrograph data processing.
 """
@@ -8,7 +6,7 @@ import argparse
 import logging
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 from .core.config import Config
 from .core.logger import configure_root_logger
@@ -76,8 +74,7 @@ class Application:
         try:
             self.logger.info("📂 Loading data")
 
-            # Load summary and hydrograph data
-            summary_data, hydro_data = self.data_loader.load_all_data()
+            summary_data = self.data_loader.load_summary_data()
 
             # Initialize processor
             self.processor = SeatekDataProcessor(
@@ -239,7 +236,7 @@ class Application:
         if not self.load_data():
             self.logger.error(
                 "❌ Failed to load data\n"
-                "   💡 Please ensure 'Data_Summary.xlsx' and 'Hydrograph_Seatek_Data.xlsx' are in the data/raw/ directory."
+                "   💡 Please ensure 'Data_Summary.xlsx' is in data/raw/ and processed RM_*.xlsx files are in data/processed/."
             )
             return False
 
