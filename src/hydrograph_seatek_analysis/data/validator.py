@@ -226,6 +226,9 @@ class DataValidator:
             logger.warning(f"Invalid river mile file name: {file_path.name}")
             river_mile = None
 
+        # SECURITY: Limit file size to prevent memory exhaustion (DoS)
+        validate_file_size(file_path, self.config.max_file_size_bytes)
+
         # Optimization: load columns dynamically and load in a single pass.
         # First column is unconditionally included as an anchor so df may include a column that is neither required nor a Sensor_ column.
         filter_cols, seen_cols = self._create_stateful_col_filter(
