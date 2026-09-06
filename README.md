@@ -10,6 +10,7 @@
 [![CodeScene Hotspot Code Health](https://codescene.io/projects/80824/status-badges/hotspot-code-health)](https://codescene.io/projects/80824)
 [![CodeScene System Mastery](https://codescene.io/projects/80824/status-badges/system-mastery)](https://codescene.io/projects/80824)
 [![CodeScene Missed Goals](https://codescene.io/projects/80824/status-badges/missed-goals)](https://codescene.io/projects/80824)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project?utm_source=oss&utm_medium=github&utm_campaign=abhimehro%2FHydrograph_Versus_Seatek_Sensors_Project&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 ## Table of Contents
 
