@@ -65,7 +65,7 @@ tests/**/*.py[cod]
 # Cleanup scripts
 *cleanup*.py
 show_structure.py
-final_organization.py.qodo
+final_organization.py
 .qodo
 docs/.DS_Store
 src/.DS_Store
