@@ -152,8 +152,8 @@ resolved environment.
 2. Run the processing script:
 
    ```bash
-   # Option 1: Run directly
-   python seatek_processor.py
+   # Option 1: Run directly (set MPLBACKEND=Agg in headless environments)
+   python3 seatek_processor.py
 
    # Option 2: If installed as package
    seatek-processor
@@ -163,19 +163,28 @@ resolved environment.
 
    ```bash
    # Option 1: Run directly
-   python validate_data.py
+   python3 validate_data.py
 
    # Option 2: Run with JSON output
-   python validate_data.py --json
+   python3 validate_data.py --json
 
    # Option 3: Save validation results to file
-   python validate_data.py --output validation_results.json
+   python3 validate_data.py --output validation_results.json
 
    # Option 4: If installed as package
    validate-data
    ```
 
 4. Find generated visualizations in the `output/charts` directory.
+
+Excel inputs under `data/raw/` and `data/processed/` are gitignored. Unit tests
+mock those files. For a local end-to-end run without writing into the repo, set
+`HYDROGRAPH_BASE_DIR` to a scratch directory that contains the same
+`data/raw/` + `data/processed/` layout, for example:
+
+```bash
+MPLBACKEND=Agg HYDROGRAPH_BASE_DIR=/tmp/hydro_demo python3 seatek_processor.py
+```
 
 ## Example Visualizations
 

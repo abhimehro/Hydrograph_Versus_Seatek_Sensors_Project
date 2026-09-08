@@ -398,13 +398,13 @@ Run tests using pytest:
 
 ```bash
 # Run all tests
-python -m pytest
+python3 -m pytest
 
 # Run specific test modules
-python -m pytest tests/test_config.py tests/test_data_processor.py
+python3 -m pytest tests/test_config.py tests/test_data_processor.py
 
 # Run with verbose output
-python -m pytest -v
+python3 -m pytest -v
 ```
 
 ## Command-Line Tools
@@ -417,7 +417,7 @@ Processes and visualizes Seatek sensor data with hydrograph measurements.
 
 ```bash
 # Run directly
-python seatek_processor.py
+python3 seatek_processor.py
 
 # If installed as package
 seatek-processor
@@ -429,16 +429,16 @@ Validates the structure and content of data files.
 
 ```bash
 # Run with default options
-python validate_data.py
+python3 validate_data.py
 
 # Output results as JSON
-python validate_data.py --json
+python3 validate_data.py --json
 
 # Save results to file
-python validate_data.py --output validation_results.json
+python3 validate_data.py --output validation_results.json
 
 # Specify custom data directory
-python validate_data.py --data-dir /path/to/data
+python3 validate_data.py --data-dir /path/to/data
 ```
 
 ## Performance Considerations
