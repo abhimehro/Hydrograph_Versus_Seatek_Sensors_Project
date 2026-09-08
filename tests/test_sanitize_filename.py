@@ -53,5 +53,5 @@ def test_sanitize_filename_removes_newlines():
 
 
 def test_sanitize_filename_unicode():
-    """Test that unicode characters are removed to prevent unicode-based path attacks."""
+    """Test that unicode characters are removed to prevent path attacks."""
     assert sanitize_filename("файл.txt") == "____.txt"
