@@ -1,5 +1,6 @@
 # Hydrograph vs Seatek Sensors Analysis Project
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b76a6d891f8c48ada4de8bd36f6ca79d)](https://app.codacy.com/gh/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project?utm_source=github.com&utm_medium=referral&utm_content=abhimehro/Hydrograph_Versus_Seatek_Sensors_Project&utm_campaign=Badge_Grade)
 [![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/80824)
 [![Python Version](https://img.shields.io/badge/python-3.12%2B-blue)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
