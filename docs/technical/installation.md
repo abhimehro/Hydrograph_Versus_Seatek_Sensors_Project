@@ -71,6 +71,9 @@ this project.
 
    ```bash
    # Create a virtual environment
+   # On Windows:
+   py -3.12 -m venv venv
+   # On macOS/Linux:
    python3 -m venv venv
 
    # Activate the virtual environment
@@ -101,8 +104,14 @@ this project.
 2. Create and activate a virtual environment:
 
    ```bash
+   # On Windows:
+   py -3.12 -m venv venv
+   # On macOS/Linux:
    python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   # On Windows:
+   venv\Scripts\activate
+   # On macOS/Linux:
+   source venv/bin/activate
    ```
 
 3. Install dependencies from requirements.txt:
@@ -130,7 +139,7 @@ seatek-processor --help
 ### Run the Data Validation Script
 
 ```bash
-python3 validate_data.py
+python validate_data.py
 ```
 
 If the installation was successful, you should see the validation results for
@@ -209,13 +218,13 @@ This will install Git hooks that run checks before each commit.
 
 ```bash
 # Run all tests
-python3 -m pytest
+python -m pytest
 
 # Run with coverage report
-python3 -m pytest --cov=src
+python -m pytest --cov=src
 
 # Run specific test modules
-python3 -m pytest tests/test_config.py
+python -m pytest tests/test_config.py
 ```
 
 ## Memory and Performance Optimization
@@ -273,7 +282,7 @@ If you encounter issues with matplotlib or visualization:
 1. Check that you have a functioning backend:
 
    ```bash
-   python3 -c "import matplotlib.pyplot as plt; plt.figure(); plt.close()"
+   python -c "import matplotlib.pyplot as plt; plt.figure(); plt.close()"
    ```
 
 2. If running on a headless server, you may need to use a non-interactive

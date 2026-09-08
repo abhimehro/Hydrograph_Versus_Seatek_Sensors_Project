@@ -295,9 +295,12 @@ def main(argv: Optional[list[str]] = None) -> int:
     args = parser.parse_args(argv)
 
     try:
+        # Create configuration before setting up paths such as logging.
+        config = Config(base_dir=Path(args.data_dir)) if args.data_dir else Config()
+
         # Configure logging
-        log_dir = Path("logs")
-        log_dir.mkdir(exist_ok=True)
+        log_dir = config.base_dir / "logs"
+        log_dir.mkdir(parents=True, exist_ok=True)
         configure_root_logger(
             level=logging.INFO, log_dir=log_dir, log_filename="sensor_visualization.log"
         )
@@ -306,7 +309,6 @@ def main(argv: Optional[list[str]] = None) -> int:
         logger.info("Starting Seatek data processing")
 
         # Create and run application
-        config = Config(base_dir=Path(args.data_dir)) if args.data_dir else Config()
         app = Application(config=config)
         success = app.run()
 

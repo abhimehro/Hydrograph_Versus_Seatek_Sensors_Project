@@ -124,8 +124,12 @@ resolved environment.
 2. Create and activate a virtual environment:
 
    ```bash
+   # On Windows:
+   py -3.12 -m venv venv
+   venv\Scripts\activate
+   # On macOS/Linux:
    python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   source venv/bin/activate
    ```
 
 3. Install the project:
@@ -153,7 +157,7 @@ resolved environment.
 
    ```bash
    # Option 1: Run directly (set MPLBACKEND=Agg in headless environments)
-   python3 seatek_processor.py
+   python seatek_processor.py
 
    # Option 2: If installed as package
    seatek-processor
@@ -163,13 +167,13 @@ resolved environment.
 
    ```bash
    # Option 1: Run directly
-   python3 validate_data.py
+   python validate_data.py
 
    # Option 2: Run with JSON output
-   python3 validate_data.py --json
+   python validate_data.py --json
 
    # Option 3: Save validation results to file
-   python3 validate_data.py --output validation_results.json
+   python validate_data.py --output validation_results.json
 
    # Option 4: If installed as package
    validate-data
@@ -183,7 +187,7 @@ mock those files. For a local end-to-end run without writing into the repo, set
 `data/raw/` + `data/processed/` layout, for example:
 
 ```bash
-MPLBACKEND=Agg HYDROGRAPH_BASE_DIR=/tmp/hydro_demo python3 seatek_processor.py
+MPLBACKEND=Agg HYDROGRAPH_BASE_DIR=/tmp/hydro_demo python seatek_processor.py
 ```
 
 ## Example Visualizations
