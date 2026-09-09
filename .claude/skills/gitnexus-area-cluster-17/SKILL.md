@@ -1,16 +1,16 @@
 ---
-name: gitnexus-area-cluster-14
-description: "Skill for the Cluster_14 area of Hydrograph_Versus_Seatek_Sensors_Project. 6 symbols across 1 files."
+name: gitnexus-area-cluster-17
+description: "Skill for the Cluster_17 area of Hydrograph_Versus_Seatek_Sensors_Project. 6 symbols across 1 files."
 ---
 
-# Cluster_14
+# Cluster_17
 
-6 symbols | 1 files | Cohesion: 77%
+6 symbols | 1 files | Cohesion: 71%
 
 ## When to Use
 
 - Understanding how main, parse_args work
-- Modifying cluster_14-related functionality
+- Modifying cluster_17-related functionality
 
 ## Key Files
 
@@ -50,7 +50,7 @@ Start here when exploring this area:
 ## How to Explore
 
 1. `context({name: "main"})` — see callers and callees
-2. `query({search_query: "cluster_14"})` — find related execution flows
+2. `query({search_query: "cluster_17"})` — find related execution flows
 3. Read key files listed above for implementation details
 4. `explain({target: "<file or symbol>"})` — persisted taint findings
    (source→sink data flows), when indexed with `--pdg`

@@ -316,5 +316,5 @@ them unreplaced and leading to log injection or shell parsing vulnerabilities.
 **Learning:** Using `\s` in sanitization regular expressions is overly
 permissive when standard spaces are the only intended whitespace to keep.
 **Prevention:** Avoid using the `\s` character class when sanitizing filenames;
-use a literal space ` ` instead to ensure characters like `\n` and `\r` are
+use a literal space `` instead to ensure characters like `\n` and `\r` are
 properly neutralized.

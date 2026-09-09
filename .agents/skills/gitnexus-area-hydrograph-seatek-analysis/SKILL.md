@@ -30,8 +30,8 @@ Start here when exploring this area:
   `src/hydrograph_seatek_analysis/utils/security.py:82`
 - **`save_chart`** (Method) —
   `src/hydrograph_seatek_analysis/visualization/chart_generator.py:301`
-- **`run`** (Method) — `src/hydrograph_seatek_analysis/app.py:224`
-- **`setup`** (Method) — `src/hydrograph_seatek_analysis/app.py:40`
+- **`run`** (Method) — `src/hydrograph_seatek_analysis/app.py:221`
+- **`setup`** (Method) — `src/hydrograph_seatek_analysis/app.py:38`
 - **`test_setup_exception`** (Method) — `tests/test_app.py:36`
 
 ## Key Symbols
@@ -40,12 +40,12 @@ Start here when exploring this area:
 | ------------------------ | -------- | ----------------------------------------------------------------- | ---- |
 | `is_safe_path`           | Function | `src/hydrograph_seatek_analysis/utils/security.py`                | 82   |
 | `save_chart`             | Method   | `src/hydrograph_seatek_analysis/visualization/chart_generator.py` | 301  |
-| `run`                    | Method   | `src/hydrograph_seatek_analysis/app.py`                           | 224  |
-| `setup`                  | Method   | `src/hydrograph_seatek_analysis/app.py`                           | 40   |
+| `run`                    | Method   | `src/hydrograph_seatek_analysis/app.py`                           | 221  |
+| `setup`                  | Method   | `src/hydrograph_seatek_analysis/app.py`                           | 38   |
 | `test_setup_exception`   | Method   | `tests/test_app.py`                                               | 36   |
 | `test_setup_success`     | Method   | `tests/test_app.py`                                               | 24   |
-| `_create_chart_metadata` | Method   | `src/hydrograph_seatek_analysis/app.py`                           | 101  |
-| `_save_generated_chart`  | Method   | `src/hydrograph_seatek_analysis/app.py`                           | 119  |
+| `_create_chart_metadata` | Method   | `src/hydrograph_seatek_analysis/app.py`                           | 98   |
+| `_save_generated_chart`  | Method   | `src/hydrograph_seatek_analysis/app.py`                           | 116  |
 
 ## Execution Flows
 
@@ -55,12 +55,12 @@ Start here when exploring this area:
 | `Main → _validate_columns`       | cross_community | 6     |
 | `Main → _setup_sensors`          | cross_community | 6     |
 | `Main → _validate_data`          | cross_community | 6     |
+| `Main → _get_merged_columns`     | cross_community | 6     |
+| `Main → _update_counts`          | cross_community | 6     |
 | `Main → _find_river_mile_files`  | cross_community | 5     |
 | `Main → _compute_validity_masks` | cross_community | 5     |
 | `Main → _extract_year_data`      | cross_community | 5     |
 | `Main → Convert_to_navd88`       | cross_community | 5     |
-| `Run → _get_merged_columns`      | cross_community | 5     |
-| `Main → Setup`                   | cross_community | 3     |
 
 ## How to Explore
 

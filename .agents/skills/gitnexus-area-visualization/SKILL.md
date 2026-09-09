@@ -47,11 +47,11 @@ Start here when exploring this area:
 
 | Flow                                     | Type            | Steps |
 | ---------------------------------------- | --------------- | ----- |
+| `Main → _update_counts`                  | cross_community | 6     |
+| `Run → _update_time_metrics`             | cross_community | 5     |
 | `Process_data → _format_hydrograph_axis` | cross_community | 4     |
-| `Process_data → _update_counts`          | cross_community | 4     |
 | `Process_data → _update_hydro_metrics`   | cross_community | 4     |
 | `Process_data → _update_sensor_metrics`  | cross_community | 4     |
-| `Process_data → _update_time_metrics`    | cross_community | 4     |
 | `Process_data → _add_sensor_data`        | cross_community | 3     |
 | `Process_data → _configure_primary_axis` | cross_community | 3     |
 

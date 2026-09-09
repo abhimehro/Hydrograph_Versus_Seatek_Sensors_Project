@@ -53,9 +53,7 @@ class TestApplication(unittest.TestCase):
         """Test that load_data returns False on data loading exception."""
         app = Application(config=self.temp_config)
 
-        app.data_loader.load_summary_data.side_effect = Exception(
-            "Mock loading error"
-        )
+        app.data_loader.load_summary_data.side_effect = Exception("Mock loading error")
 
         self.assertFalse(app.load_data())
         app.data_loader.load_summary_data.assert_called_once()
