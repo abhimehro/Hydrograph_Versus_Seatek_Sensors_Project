@@ -50,3 +50,15 @@ def test_sanitize_filename_removes_newlines():
     """Test that newlines are removed to prevent log injection."""
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
+
+
+def test_sanitize_filename_keeps_unicode_names_distinct_and_ascii():
+    """Unicode names should not collide after sanitization."""
+    first = sanitize_filename("Sensor_é")
+    second = sanitize_filename("Sensor_ä")
+
+    assert first != second
+    assert first.isascii()
+    assert second.isascii()
+    assert first.startswith("Sensor__")
+    assert second.startswith("Sensor__")
