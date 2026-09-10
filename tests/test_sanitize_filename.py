@@ -52,6 +52,6 @@ def test_sanitize_filename_removes_newlines():
     assert sanitize_filename("file\rname") == "file_name"
 
 
-def test_sanitize_filename_replaces_unicode():
+def test_sanitize_filename_replaces_unicode() -> None:
     """Test replacing unicode characters."""
     assert sanitize_filename("fileéname.txt") == "file_name.txt"
