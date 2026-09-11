@@ -66,8 +66,12 @@ def sanitize_filename(filename: str, max_length: int = 200) -> str:
     if not isinstance(filename, str):
         filename = str(filename)
 
+    # Encode non-ASCII characters to preserve uniqueness while keeping filenames ASCII.
+    sanitized = re.sub(
+        r"[^\x00-\x7F]", lambda match: f"_u{ord(match.group()):X}_", filename
+    )
     # Keep only word characters (letters, digits, underscore), dashes, dots, and literal space
-    sanitized = re.sub(r"[^\w\-\. ]", "_", filename, flags=re.ASCII)
+    sanitized = re.sub(r"[^\w\-\. ]", "_", sanitized, flags=re.ASCII)
     # Prevent directory traversal dots like ..
     sanitized = re.sub(r"\.{2,}", "_", sanitized, flags=re.ASCII)
     # Strip leading/trailing whitespaces and dots
