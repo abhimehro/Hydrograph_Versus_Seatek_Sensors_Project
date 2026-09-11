@@ -319,6 +319,12 @@ permissive when standard spaces are the only intended whitespace to keep.
 use a literal space `` instead to ensure characters like `\n` and `\r` are
 properly neutralized.
 ## 2023-10-24 - [Unicode Bypass in Regex Sanitization]
-**Vulnerability:** Filename sanitization using the \w regex matched Unicode word characters (e.g. ½), potentially allowing directory traversal bypasses or filesystem normalization vulnerabilities on downstream OS APIs.
-**Learning:** Python 3's re module evaluates \w with Unicode by default. When sanitizing untrusted inputs for OS-level interactions, assuming \w means strictly ASCII [a-zA-Z0-9_] is a dangerous misconception.
-**Prevention:** Always enforce ASCII-only matching by explicitly passing flags=re.ASCII to re functions when sanitizing untrusted data for security-critical contexts like file paths or command lines.
+**Vulnerability:** Filename sanitization using the \w regex matched Unicode word
+characters (e.g. ½), potentially allowing directory traversal bypasses or filesystem
+normalization vulnerabilities on downstream OS APIs.
+**Learning:** Python 3's re module evaluates \w with Unicode by default. When sanitizing
+untrusted inputs for OS-level interactions, assuming \w means strictly ASCII
+[a-zA-Z0-9_] is a dangerous misconception.
+**Prevention:** Always enforce ASCII-only matching by explicitly passing flags=re.ASCII to
+re functions when sanitizing untrusted data for security-critical contexts like file
+paths or command lines.
