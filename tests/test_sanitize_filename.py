@@ -1,5 +1,7 @@
 """Tests for filename sanitization."""
 
+import hashlib
+
 from src.hydrograph_seatek_analysis.utils.security import sanitize_filename
 
 
@@ -52,9 +54,15 @@ def test_sanitize_filename_removes_newlines():
     assert sanitize_filename("file\rname") == "file_name"
 
 
-def test_sanitize_filename_removes_unicode():
+def test_sanitize_filename_removes_unicode() -> None:
     """Test that Unicode homoglyphs are replaced to prevent bypass."""
     # The 'а' in this string is a Cyrillic homoglyph (U+0430), not an ASCII 'a'
     homoglyph_input = "file_nаme.txt"
     sanitized = sanitize_filename(homoglyph_input)
-    assert sanitized == "file_n_me.txt"
+    digest = hashlib.sha256(homoglyph_input.encode("utf-8")).hexdigest()[:12]
+    assert sanitized == f"file_n_me.txt_{digest}"
+
+
+def test_sanitize_filename_preserves_unicode_name_uniqueness() -> None:
+    """Distinct Unicode names must not resolve to the same path component."""
+    assert sanitize_filename("Sensor_é") != sanitize_filename("Sensor_ø")
