@@ -35,12 +35,4 @@ repos:
     args:
     - --profile
     - black
-- repo: https://github.com/nbQA-dev/nbQA
-  rev: 1.8.4
-  hooks:
-  - id: nbqa-black
-    additional_dependencies:
-    - black==26.5.1
-  - id: nbqa-isort
-    additional_dependencies:
-    - isort==5.13.2
+# No nbQA: this repo has zero notebooks.
