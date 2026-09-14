@@ -122,7 +122,7 @@ def _print_processed_validation(results: dict) -> None:
                 )
     else:
         print("  ⚠️  No processed files found in the output directory.")
-        print("     💡 Please run 'python seatek_processor.py' first to generate them.")
+        print("     💡 Please run 'python3 seatek_processor.py' first to generate them.")
 
 
 def _print_consistency_validation(results: dict) -> None:
