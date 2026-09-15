@@ -50,3 +50,21 @@ def test_sanitize_filename_removes_newlines():
     """Test that newlines are removed to prevent log injection."""
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
+
+
+def test_sanitize_filename_removes_unicode() -> None:
+    """Test that Unicode characters are neutralized without collisions."""
+    sanitized_alpha = sanitize_filename("Sensor_\u03b1")
+    sanitized_beta = sanitize_filename("Sensor_\u03b2")
+
+    assert sanitized_alpha.isascii()
+    assert sanitized_beta.isascii()
+    assert sanitized_alpha != sanitized_beta
+
+
+def test_sanitize_filename_unicode_digest_respects_length() -> None:
+    """Test that the Unicode disambiguator fits within the length limit."""
+    sanitized = sanitize_filename("Sensor_\u03b1", max_length=10)
+
+    assert sanitized.isascii()
+    assert len(sanitized) == 10
