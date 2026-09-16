@@ -51,6 +51,13 @@ def test_sanitize_filename_removes_newlines():
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
 
-def test_sanitize_filename_removes_unicode_homoglyphs():
-    """Test that Unicode characters are replaced with underscores to prevent homoglyph bypasses."""
-    assert sanitize_filename("file_name_é.txt") == "file_name__.txt"
+
+def test_sanitize_filename_removes_unicode_homoglyphs() -> None:
+    """Test that Unicode characters are replaced to prevent homoglyph bypasses."""
+    sanitized = sanitize_filename("file_name_é.txt")
+    assert sanitized.startswith("file_name__.txt_")
+
+
+def test_sanitize_filename_keeps_unicode_names_distinct() -> None:
+    """Test that distinct Unicode names produce distinct safe filenames."""
+    assert sanitize_filename("Sensor_é") != sanitize_filename("Sensor_ê")
