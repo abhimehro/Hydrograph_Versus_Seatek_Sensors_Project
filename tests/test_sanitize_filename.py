@@ -1,5 +1,7 @@
 """Tests for filename sanitization."""
 
+import pytest
+
 from src.hydrograph_seatek_analysis.utils.security import sanitize_filename
 
 
@@ -50,3 +52,17 @@ def test_sanitize_filename_removes_newlines():
     """Test that newlines are removed to prevent log injection."""
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
+
+
+@pytest.mark.parametrize(
+    ("filename", "expected"),
+    [
+        ("rеport.txt", "r_port.txt"),  # Cyrillic small e homoglyph
+        ("café.txt", "caf_.txt"),
+        ("file\u200bname.txt", "file_name.txt"),  # zero-width space
+        ("Sensor-1_温.txt", "Sensor-1__.txt"),
+    ],
+)
+def test_sanitize_filename_replaces_non_ascii_characters(filename, expected):
+    """Test that homoglyphs and invisible Unicode characters cannot pass through."""
+    assert sanitize_filename(filename) == expected
