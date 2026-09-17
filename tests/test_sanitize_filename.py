@@ -50,3 +50,21 @@ def test_sanitize_filename_removes_newlines():
     """Test that newlines are removed to prevent log injection."""
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
+
+
+def test_sanitize_filename_preserves_unicode_identity():
+    """Distinct Unicode sensor names must not overwrite one another."""
+    first = sanitize_filename("Sensor_é")
+    second = sanitize_filename("Sensor_è")
+
+    assert first != second
+    assert first.startswith("Sensor__")
+    assert second.startswith("Sensor__")
+    assert len(first) == len(second) == 21
+
+
+def test_sanitize_filename_reserves_digest_within_max_length():
+    """The uniqueness suffix must fit within the configured limit."""
+    sanitized = sanitize_filename("Sensor_é", max_length=10)
+
+    assert len(sanitized) == 10
