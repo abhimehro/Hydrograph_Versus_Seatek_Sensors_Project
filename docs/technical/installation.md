@@ -71,7 +71,10 @@ this project.
 
    ```bash
    # Create a virtual environment
-   python -m venv venv
+   # On Windows:
+   py -3.12 -m venv venv
+   # On macOS/Linux:
+   python3 -m venv venv
 
    # Activate the virtual environment
    # On Windows:
