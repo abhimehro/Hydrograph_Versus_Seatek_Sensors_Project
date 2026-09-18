@@ -52,6 +52,6 @@ def test_sanitize_filename_removes_newlines():
     assert sanitize_filename("file\rname") == "file_name"
 
 
-def test_sanitize_filename_rejects_unicode_homoglyphs():
+def test_sanitize_filename_rejects_unicode_homoglyphs() -> None:
     """Test that non-ASCII characters (like homoglyphs) are sanitized."""
     assert sanitize_filename("fıle") == "f_le"
