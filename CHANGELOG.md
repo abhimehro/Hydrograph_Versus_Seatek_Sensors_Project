@@ -161,6 +161,7 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): bump numpy from 2.5.2 to 2.5.3 [\#671](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/671) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pandas-stubs from 3.0.5.260730 to 3.0.5.260914 [\#670](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/670) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pandas-stubs from 3.0.5.260730 to 3.0.5.260914 [\#663](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/663) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump ruby/setup-ruby from 1.321.0 to 1.322.0 [\#662](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/662) ([dependabot[bot]](https://github.com/apps/dependabot))
