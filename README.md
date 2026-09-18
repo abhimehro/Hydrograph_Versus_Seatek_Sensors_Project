@@ -123,9 +123,18 @@ resolved environment.
 
 2. Create and activate a virtual environment:
 
+   **Windows (PowerShell or Command Prompt):**
+
+   ```powershell
+   py -3.12 -m venv venv
+   venv\Scripts\activate
+   ```
+
+   **macOS/Linux:**
+
    ```bash
    python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   source venv/bin/activate
    ```
 
 3. Install the project:
