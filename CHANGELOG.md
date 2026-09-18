@@ -161,6 +161,7 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): bump pandas-stubs from 3.0.5.260730 to 3.0.5.260914 [\#670](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/670) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pandas-stubs from 3.0.5.260730 to 3.0.5.260914 [\#663](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/663) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump ruby/setup-ruby from 1.321.0 to 1.322.0 [\#662](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/662) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump codescene-oss/pr-refactoring-agent from 1.1.1 to 1.1.3 [\#657](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/657) ([dependabot[bot]](https://github.com/apps/dependabot))
