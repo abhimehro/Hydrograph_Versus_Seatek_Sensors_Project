@@ -66,16 +66,8 @@ def sanitize_filename(filename: str, max_length: int = 200) -> str:
     if not isinstance(filename, str):
         filename = str(filename)
 
-    # Keep only ASCII word characters (letters, digits, underscore), dashes, dots, and literal space.
-    # Escape disallowed Unicode characters rather than replacing them all with the same value,
-    # so distinct sensor names cannot produce the same output filename.
-    def _replace_disallowed(match: re.Match[str]) -> str:
-        character = match.group(0)
-        return f"_u{ord(character):04X}_" if ord(character) > 127 else "_"
-
-    sanitized = re.sub(
-        r"[^\w\-\. ]", _replace_disallowed, filename, flags=re.ASCII
-    )
+    # Keep only word characters (letters, digits, underscore), dashes, dots, and literal space
+    sanitized = re.sub(r"[^\w\-\. ]", "_", filename, flags=re.ASCII)
     # Prevent directory traversal dots like ..
     sanitized = re.sub(r"\.{2,}", "_", sanitized, flags=re.ASCII)
     # Strip leading/trailing whitespaces and dots
