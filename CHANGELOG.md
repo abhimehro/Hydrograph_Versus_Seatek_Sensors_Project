@@ -165,6 +165,7 @@
 - chore\(deps\): bump ruby/setup-ruby from 1.321.0 to 1.322.0 [\#662](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/662) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump codescene-oss/pr-refactoring-agent from 1.1.1 to 1.1.3 [\#657](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/657) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump matplotlib from 3.11.1 to 3.11.2 [\#650](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/650) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(repo-health\): python3 docs, drop nbQA, prune junk issue templates [\#648](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/648) ([cursor[bot]](https://github.com/apps/cursor))
 - chore\(deps\): bump numpy from 2.5.2 to 2.5.3 [\#633](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/633) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pnpm/action-setup from 6.0.10 to 6.1.0 [\#626](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/626) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(repo-health\): drop tracked .qodo index and python3 docs [\#622](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/622) ([cursor[bot]](https://github.com/apps/cursor))
