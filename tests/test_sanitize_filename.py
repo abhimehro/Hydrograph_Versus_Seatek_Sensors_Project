@@ -50,3 +50,21 @@ def test_sanitize_filename_removes_newlines():
     """Test that newlines are removed to prevent log injection."""
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
+
+
+def test_sanitize_filename_preserves_unicode_name_uniqueness():
+    """Distinct Unicode names should not resolve to the same path component."""
+    first = sanitize_filename("Sensor_é")
+    second = sanitize_filename("Sensor_ø")
+
+    assert first != second
+    assert first.isascii() and second.isascii()
+    assert len(first) <= 200 and len(second) <= 200
+
+
+def test_sanitize_filename_unicode_digest_respects_max_length():
+    """Unicode names retain an ASCII digest within the requested limit."""
+    sanitized = sanitize_filename("Sensor_é", max_length=20)
+
+    assert sanitized.isascii()
+    assert len(sanitized) <= 20
