@@ -52,7 +52,7 @@ def test_sanitize_filename_removes_newlines():
     assert sanitize_filename("file\rname") == "file_name"
 
 
-def test_sanitize_filename_enforces_ascii() -> None:
+def test_sanitize_filename_enforces_ascii():
     """Test that non-ASCII word characters are removed."""
     assert sanitize_filename("test½file") == "test_file"
     assert sanitize_filename("abcæøå") == "abc___"
