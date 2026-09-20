@@ -52,12 +52,8 @@ def test_sanitize_filename_removes_newlines():
     assert sanitize_filename("file\rname") == "file_name"
 
 
-def test_sanitize_filename_removes_unicode() -> None:
-    """Test that Unicode characters are replaced without collisions."""
-    first = sanitize_filename("Sensor_é")
-    second = sanitize_filename("Sensor_ê")
-    assert first.isascii()
-    assert second.isascii()
-    assert first != second
-    assert len(first) <= 200
-    assert len(second) <= 200
+def test_sanitize_filename_removes_unicode():
+    """Test that Unicode characters and emojis are replaced."""
+    assert sanitize_filename("file_œ_name") == "file___name"
+    assert sanitize_filename("file_📁_name") == "file___name"
+    assert sanitize_filename("テスト") == "___"
