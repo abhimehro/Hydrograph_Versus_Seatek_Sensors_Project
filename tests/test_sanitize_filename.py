@@ -52,6 +52,15 @@ def test_sanitize_filename_removes_newlines():
     assert sanitize_filename("file\rname") == "file_name"
 
 
-def test_sanitize_filename_homoglyphs():
+def test_sanitize_filename_homoglyphs() -> None:
     """Test that non-ASCII unicode characters are replaced."""
     assert sanitize_filename("ﬁle_nàme.txt") == "_le_n_me.txt"
+
+
+def test_sanitize_filename_digest_disambiguates_unicode() -> None:
+    """Test that lossy sanitization can produce collision-safe names."""
+    first = sanitize_filename("Sensor_é", include_digest=True)
+    second = sanitize_filename("Sensor_è", include_digest=True)
+    assert first != second
+    assert first.startswith("Sensor__")
+    assert second.startswith("Sensor__")

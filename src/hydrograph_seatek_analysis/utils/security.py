@@ -1,9 +1,9 @@
 """Security utilities for the Seatek data processing pipeline."""
 
+import hashlib
 import logging
 import re
 from pathlib import Path
-
 import defusedxml
 
 logger = logging.getLogger(__name__)
@@ -52,7 +52,9 @@ def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
         )
 
 
-def sanitize_filename(filename: str, max_length: int = 200) -> str:
+def sanitize_filename(
+    filename: str, max_length: int = 200, include_digest: bool = False
+) -> str:
     """
     Sanitize a filename string to prevent path traversal and other vulnerabilities.
 
@@ -67,8 +69,10 @@ def sanitize_filename(filename: str, max_length: int = 200) -> str:
         filename = str(filename)
 
     # Keep only word characters (letters, digits, underscore), dashes, dots, and literal space
-    # SECURITY: Use re.ASCII so \w only matches ASCII characters, preventing Unicode homoglyph bypass
+    # SECURITY: Use re.ASCII so \w only matches ASCII characters, preventing Unicode
+    # homoglyph bypass.
     sanitized = re.sub(r"[^\w\-\. ]", "_", filename, flags=re.ASCII)
+    was_lossy = sanitized != filename
     # Prevent directory traversal dots like ..
     sanitized = re.sub(r"\.{2,}", "_", sanitized, flags=re.ASCII)
     # Strip leading/trailing whitespaces and dots
@@ -77,6 +81,10 @@ def sanitize_filename(filename: str, max_length: int = 200) -> str:
     # Ensure we never return an empty filename after sanitization
     if not sanitized:
         sanitized = "unknown"
+    if include_digest and was_lossy:
+        digest = hashlib.sha256(filename.encode("utf-8")).hexdigest()[:12]
+        suffix = f"_{digest}"
+        sanitized = f"{sanitized[: max_length - len(suffix)]}{suffix}"
     # SECURITY: Limit filename length to prevent path-length DoS or file system errors
     return (sanitized or "_")[:max_length]
 
