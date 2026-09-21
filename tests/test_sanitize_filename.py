@@ -52,7 +52,7 @@ def test_sanitize_filename_removes_newlines():
     assert sanitize_filename("file\rname") == "file_name"
 
 
-def test_sanitize_filename_replaces_non_ascii_characters() -> None:
+def test_sanitize_filename_replaces_non_ascii_characters():
     """Test that non-ASCII characters (e.g. homoglyphs) are replaced."""
     assert sanitize_filename("fileµname.txt") == "file_name.txt"
     assert sanitize_filename("hëllö.txt") == "h_ll_.txt"
