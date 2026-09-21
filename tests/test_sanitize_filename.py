@@ -50,3 +50,8 @@ def test_sanitize_filename_removes_newlines():
     """Test that newlines are removed to prevent log injection."""
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
+
+
+def test_sanitize_filename_homoglyphs():
+    """Test that non-ASCII unicode characters are replaced."""
+    assert sanitize_filename("ﬁle_nàme.txt") == "_le_n_me.txt"
