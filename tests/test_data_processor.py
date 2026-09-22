@@ -95,7 +95,10 @@ def test_convert_to_navd88():
     assert processed["Time (Minutes)"].to_numpy().tolist() == [0.0, 1.0, 2.0]
 
     # Check sensor values were transformed
-    assert processed["Sensor_1"].to_numpy().tolist() != test_data["Sensor_1"].to_numpy().tolist()
+    assert (
+        processed["Sensor_1"].to_numpy().tolist()
+        != test_data["Sensor_1"].to_numpy().tolist()
+    )
 
     # Ensure Y offset was applied
     constants = config.navd88_constants
