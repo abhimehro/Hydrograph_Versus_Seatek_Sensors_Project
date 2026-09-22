@@ -1,8 +1,9 @@
-# https://docs.devin.ai/onboard-devin/environment-yaml
+# One-time setup (e.g., install system tools, global CLIs).
 initialize: |
   python3 -m ensurepip --upgrade
   python3 -m pip install --user --upgrade pip setuptools wheel
 
+# Install project dependencies (runs during builds, surfaced to agent at session start).
 maintenance: |
   python3 -m pip install --user -r requirements-ci.txt
   python3 -m pip install --user -e .
@@ -22,3 +23,10 @@ knowledge:
     contents: |
       Use `python3` (not `python`) in this environment.
       Set `MPLBACKEND=Agg` when running chart-generation scripts headlessly.
+---
+runs-on: macos
+initialize: |
+  mkdir -p "$HOME/.venvs"
+  python3.12 -m venv "$HOME/.venvs/pre-commit"
+  "$HOME/.venvs/pre-commit/bin/python" -m pip install --upgrade pre-commit
+  "$HOME/.venvs/pre-commit/bin/pre-commit" install
