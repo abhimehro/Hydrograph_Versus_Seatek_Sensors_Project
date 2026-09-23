@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: write
     steps:
       - name: Invoke Jules
         uses: google-labs-code/jules-invoke@bff7875eaa123cac6742b7cfc51005b95ba4d566 # v1.0.0
