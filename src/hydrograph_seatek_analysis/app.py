@@ -119,7 +119,7 @@ class Application:
     ) -> bool:
         """Helper to safely save a generated chart."""
         safe_year = sanitize_filename(str(year))
-        safe_sensor = sanitize_filename(str(sensor))
+        safe_sensor = sanitize_filename(str(sensor), include_digest=True)
         safe_rm = sanitize_filename(f"{rm_data.river_mile:.1f}")
 
         output_path = (
