@@ -25,6 +25,7 @@ knowledge:
       Use `python3` (not `python`) in this environment.
       Set `MPLBACKEND=Agg` when running chart-generation scripts headlessly.
 ---
+# Multi-document YAML: verified supported by Devin parser
 runs-on: macos
 initialize: |
   mkdir -p "$HOME/.venvs"
