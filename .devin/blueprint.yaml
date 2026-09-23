@@ -30,6 +30,6 @@ runs-on: macos
 # macOS maintenance: global maintenance section merged automatically by Devin
 initialize: |
   mkdir -p "$HOME/.venvs"
-  python3.12 -m venv "$HOME/.venvs/pre-commit"
+  python3 -m venv "$HOME/.venvs/pre-commit"
   "$HOME/.venvs/pre-commit/bin/python" -m pip install --upgrade pre-commit
   "$HOME/.venvs/pre-commit/bin/pre-commit" install
