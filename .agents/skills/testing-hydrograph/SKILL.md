@@ -74,7 +74,7 @@ None.
    ```
    Expected: this may abort with pre-existing NumPy/pandas issues (missing
    `pandas-stubs`, NumPy 2.x `type` statement syntax under the
-   `python_version = "3.10"` target in `pyproject.toml`). To isolate the
+   `python_version = "3.12"` target in `pyproject.toml`). To isolate the
    migrated `security.py` module, run:
    ```bash
    PATH="$HOME/.local/bin:$PATH" mypy src/hydrograph_seatek_analysis/utils/security.py
