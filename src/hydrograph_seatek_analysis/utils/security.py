@@ -1,5 +1,6 @@
 """Security utilities for the Seatek data processing pipeline."""
 
+import hashlib
 import logging
 import re
 from pathlib import Path
@@ -67,17 +68,24 @@ def sanitize_filename(filename: str, max_length: int = 200) -> str:
         filename = str(filename)
 
     # Keep only word characters (letters, digits, underscore), dashes, dots, and literal space
-    sanitized = re.sub(r"[^\w\-\. ]", "_", filename)
+    sanitized = re.sub(r"[^\w\-\. ]", "_", filename, flags=re.ASCII)
     # Prevent directory traversal dots like ..
     sanitized = re.sub(r"\.{2,}", "_", sanitized)
     # Strip leading/trailing whitespaces and dots
     sanitized = sanitized.strip(". ")
 
+    # Preserve ASCII-only output while keeping distinct Unicode names distinct.
+    unicode_suffix = ""
+    if any(ord(character) > 127 for character in filename):
+        digest = hashlib.sha256(filename.encode("utf-8")).hexdigest()[:12]
+        unicode_suffix = f"_{digest}"
+
     # Ensure we never return an empty filename after sanitization
     if not sanitized:
         sanitized = "unknown"
     # SECURITY: Limit filename length to prevent path-length DoS or file system errors
-    return (sanitized or "_")[:max_length]
+    available_length = max(0, max_length - len(unicode_suffix))
+    return (sanitized[:available_length] + unicode_suffix)[:max_length] or "_"
 
 
 def is_safe_path(base_dir: Path, target_path: Path) -> bool:
