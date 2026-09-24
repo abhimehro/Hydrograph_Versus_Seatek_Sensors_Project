@@ -1,6 +1,4 @@
-"""
-Main application module for Seatek and Hydrograph data processing.
-"""
+"""Main application module for Seatek and Hydrograph data processing."""
 
 import argparse
 import logging
