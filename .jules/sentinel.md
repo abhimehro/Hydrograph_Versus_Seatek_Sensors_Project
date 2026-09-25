@@ -318,3 +318,8 @@ permissive when standard spaces are the only intended whitespace to keep.
 **Prevention:** Avoid using the `\s` character class when sanitizing filenames;
 use a literal space `` instead to ensure characters like `\n` and `\r` are
 properly neutralized.
+
+## 2025-03-01 - [Filename Sanitization Unicode Bypass]
+**Vulnerability:** The filename sanitization logic used `re.sub(r"[^\w\-\. ]", "_", filename)`. Without `flags=re.ASCII`, the `\w` character class in Python 3 matches all Unicode word characters, allowing non-ASCII and homograph characters to bypass the sanitization filter.
+**Learning:** Python 3's regex engine defaults to Unicode mode. When creating allow-lists for string sanitization (especially filenames or paths), omitting `re.ASCII` can lead to unintended character inclusion.
+**Prevention:** Always explicitly use `flags=re.ASCII` when defining character class allow-lists in regular expressions intended for security sanitization.
