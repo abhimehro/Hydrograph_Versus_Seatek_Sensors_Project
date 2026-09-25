@@ -38,6 +38,17 @@ def test_sanitize_filename_replaces_invalid_chars():
     assert sanitize_filename("file*name?.txt") == "file_name_.txt"
 
 
+def test_sanitize_filename_replaces_unicode_chars():
+    """Keep the filename's allowed characters limited to ASCII."""
+    assert sanitize_filename("file_ö.txt") == "file__.txt"
+    assert sanitize_filename("파일.txt") == "__.txt"
+
+
+def test_sanitize_filename_falls_back_when_empty():
+    """Return a usable name when stripping removes every character."""
+    assert sanitize_filename(" . ") == "unknown"
+
+
 def test_sanitize_filename_limits_length():
     """Test that filename length is limited to prevent DoS."""
     long_input = "A" * 300
