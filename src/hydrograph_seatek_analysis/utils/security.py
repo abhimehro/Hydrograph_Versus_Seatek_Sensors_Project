@@ -53,15 +53,22 @@ def validate_file_size(file_path: Path, max_size_bytes: int) -> None:
 
 
 def sanitize_filename(filename: str, max_length: int = 200) -> str:
-    """
-    Sanitize a filename string to prevent path traversal and other vulnerabilities.
+    """Replace disallowed filename characters and limit the result's length.
+
+    ASCII letters, digits, underscores, hyphens, periods, and spaces are kept;
+    other characters, including non-ASCII letters and path separators, become
+    underscores. Runs of periods are replaced, and periods and spaces at the
+    ends are removed.
 
     Args:
-        filename: The untrusted filename string (e.g., from an Excel column or sheet)
-        max_length: Maximum allowed length for the filename
+        filename: Untrusted filename (e.g., from an Excel column or sheet).
+            Non-string values are converted to strings.
+        max_length: Number of characters retained after cleanup. Zero returns
+            an empty string; negative values omit that many trailing characters.
 
     Returns:
-        A sanitized string safe for use as a path component.
+        The sanitized filename. If cleanup leaves nothing, ``"unknown"`` is
+        used before the length limit is applied.
     """
     if not isinstance(filename, str):
         filename = str(filename)
