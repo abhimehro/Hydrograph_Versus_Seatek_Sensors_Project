@@ -51,6 +51,7 @@ def test_sanitize_filename_removes_newlines():
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
 
+
 def test_sanitize_filename_removes_unicode_chars():
     """Test that non-ASCII Unicode characters are removed."""
     assert sanitize_filename("file\u0430name") == "file_name"
