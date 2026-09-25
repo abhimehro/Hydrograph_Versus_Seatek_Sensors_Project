@@ -137,6 +137,35 @@ class TestApplication(unittest.TestCase):
             self.assertTrue(app.process_data())
             mock_warning.assert_called_once()
 
+    def test_save_generated_chart_disambiguates_sanitized_sensor_names(self) -> None:
+        """Chart paths remain distinct when sensor names sanitize identically."""
+        app = Application(config=self.temp_config)
+        app.chart_generator = mock.MagicMock()
+        river_mile_data = mock.MagicMock(river_mile=12.3)
+
+        self.assertTrue(
+            app._save_generated_chart(
+                mock.MagicMock(), river_mile_data, 2020, "Sensor/A"
+            )
+        )
+        self.assertTrue(
+            app._save_generated_chart(
+                mock.MagicMock(), river_mile_data, 2020, "Sensor?A"
+            )
+        )
+        self.assertTrue(
+            app._save_generated_chart(
+                mock.MagicMock(), river_mile_data, 2020, "Sensor/A"
+            )
+        )
+
+        saved_paths = [
+            Path(call.args[1]) for call in app.chart_generator.save_chart.call_args_list
+        ]
+        self.assertEqual(saved_paths[0], saved_paths[2])
+        self.assertNotEqual(saved_paths[0], saved_paths[1])
+        self.assertTrue(saved_paths[0].name.startswith("Year_2020_Sensor_A_"))
+
     @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
     def test_process_data_chart_generation_failure(
         self, mock_chart_gen_class: mock.MagicMock

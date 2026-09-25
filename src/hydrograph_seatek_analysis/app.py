@@ -3,6 +3,7 @@ Main application module for Seatek and Hydrograph data processing.
 """
 
 import argparse
+import hashlib
 import logging
 import sys
 from pathlib import Path
@@ -119,13 +120,14 @@ class Application:
     ) -> bool:
         """Helper to safely save a generated chart."""
         safe_year = sanitize_filename(str(year))
-        safe_sensor = sanitize_filename(str(sensor))
+        safe_sensor = sanitize_filename(str(sensor), max_length=128)
+        sensor_discriminator = hashlib.sha256(str(sensor).encode("utf-8")).hexdigest()
         safe_rm = sanitize_filename(f"{rm_data.river_mile:.1f}")
 
         output_path = (
             self.config.output_dir
             / f"RM_{safe_rm}"
-            / f"Year_{safe_year}_{safe_sensor}.png"
+            / f"Year_{safe_year}_{safe_sensor}_{sensor_discriminator}.png"
         )
 
         # SECURITY: Verify that the generated path remains within the output directory
