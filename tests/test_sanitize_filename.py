@@ -51,6 +51,7 @@ def test_sanitize_filename_removes_newlines():
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
 
+
 def test_sanitize_filename_ascii_only():
     """Test that Unicode and homoglyph characters are rejected."""
     # The homoglyph character '한' is a word character in Unicode, but should be replaced
