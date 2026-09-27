@@ -94,7 +94,7 @@ class ChartGenerator:
         """Update time range metrics if data is available."""
         if "Time (Minutes)" in data.columns and len(data) > 0:
             time_minutes = data["Time (Minutes)"].to_numpy(dtype=np.float64)
-            if not np.all(np.isnan(time_minutes)):
+            if not np.isnan(time_minutes).all():  # ⚡ Bolt Optimization: Call .all() directly on array
                 # ⚡ Bolt Optimization: Replace df.min/max with np.nanmin/nanmax on values array to bypass pandas overhead
                 metrics.time_range_min = float(np.nanmin(time_minutes))
                 metrics.time_range_max = float(np.nanmax(time_minutes))
@@ -105,7 +105,7 @@ class ChartGenerator:
         """Update sensor min/max metrics if data is available."""
         if sensor in data.columns and len(data) > 0:
             sensor_arr = data[sensor].to_numpy(dtype=np.float64)
-            if not np.all(np.isnan(sensor_arr)):
+            if not np.isnan(sensor_arr).all():  # ⚡ Bolt Optimization: Call .all() directly on array
                 # ⚡ Bolt Optimization: Replace df.min/max with np.nanmin/nanmax on values array to bypass pandas overhead
                 metrics.sensor_min = float(np.nanmin(sensor_arr))
                 metrics.sensor_max = float(np.nanmax(sensor_arr))
@@ -114,7 +114,7 @@ class ChartGenerator:
         """Update hydrograph min/max metrics if data is available."""
         if "Hydrograph (Lagged)" in data.columns and len(data) > 0:
             hydro_arr = data["Hydrograph (Lagged)"].to_numpy(dtype=np.float64)
-            if not np.all(np.isnan(hydro_arr)):
+            if not np.isnan(hydro_arr).all():  # ⚡ Bolt Optimization: Call .all() directly on array
                 # ⚡ Bolt Optimization: Replace df.min/max with np.nanmin/nanmax on values array to bypass pandas overhead
                 metrics.hydro_min = float(np.nanmin(hydro_arr))
                 metrics.hydro_max = float(np.nanmax(hydro_arr))
@@ -227,8 +227,8 @@ class ChartGenerator:
             sensor: Name of the sensor column
         """
         # ⚡ Bolt Optimization: Avoid intermediate DataFrame allocation by omitting .dropna()
-        # Matplotlib's scatter natively handles NaN values. Use np.all(pd.isna(...)) to avoid Series overhead.
-        if not np.all(pd.isna(data[sensor].values)):
+        # Matplotlib's scatter natively handles NaN values. Use pd.isna(...).all() to avoid Series overhead.
+        if not pd.isna(data[sensor].values).all():
             ax1.scatter(
                 data["Time (Minutes)"],
                 data[sensor],
@@ -246,7 +246,7 @@ class ChartGenerator:
         # Compute maximum deviation from nearest integer to detect fractional values
         # ⚡ Bolt Optimization: Use guard conditions before NumPy nanmax to prevent warnings, and replace Pandas intermediate object allocations
         hydro_values_arr = hydro_values.to_numpy(dtype=np.float64)
-        if len(hydro_values_arr) > 0 and not np.all(np.isnan(hydro_values_arr)):
+        if len(hydro_values_arr) > 0 and not np.isnan(hydro_values_arr).all():  # ⚡ Bolt Optimization: Call .all() directly
             max_frac_deviation = float(
                 np.nanmax(np.abs(hydro_values_arr - np.round(hydro_values_arr)))
             )
@@ -274,8 +274,8 @@ class ChartGenerator:
         try:
             ax2 = ax1.twinx()
             # ⚡ Bolt Optimization: Avoid intermediate DataFrame allocation by omitting .dropna()
-            # Matplotlib's scatter natively handles NaN values. Use np.all(pd.isna(...)) to avoid Series overhead.
-            if not np.all(pd.isna(data["Hydrograph (Lagged)"].values)):
+            # Matplotlib's scatter natively handles NaN values. Use pd.isna(...).all() to avoid Series overhead.
+            if not pd.isna(data["Hydrograph (Lagged)"].values).all():
                 ax2.scatter(
                     data["Time (Minutes)"],
                     data["Hydrograph (Lagged)"],
