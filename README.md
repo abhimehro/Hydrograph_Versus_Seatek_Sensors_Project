@@ -12,6 +12,8 @@
 [![CodeScene Missed Goals](https://codescene.io/projects/80824/status-badges/missed-goals)](https://codescene.io/projects/80824)
 ![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project?utm_source=oss&utm_medium=github&utm_campaign=abhimehro%2FHydrograph_Versus_Seatek_Sensors_Project&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=abhimehro_Hydrograph_Versus_Seatek_Sensors_Project)](https://sonarcloud.io/summary/new_code?id=abhimehro_Hydrograph_Versus_Seatek_Sensors_Project)
+
 ## Table of Contents
 
 - [Introduction](#introduction)
