@@ -83,11 +83,13 @@ class ChartGenerator:
         # ⚡ Bolt Optimization: Use count_nonzero on numpy arrays to bypass pandas object overhead
         if sensor in data.columns:
             metrics.sensor_count = len(data) - int(
-                np.count_nonzero(pd.isna(data[sensor].to_numpy()))
+                np.count_nonzero(np.isnan(data[sensor].to_numpy(dtype=np.float64)))
             )
         if HYDROGRAPH_COL in data.columns:
             metrics.hydro_count = len(data) - int(
-                np.count_nonzero(pd.isna(data[HYDROGRAPH_COL].to_numpy()))
+                np.count_nonzero(
+                    np.isnan(data[HYDROGRAPH_COL].to_numpy(dtype=np.float64))
+                )
             )
 
     def _update_time_metrics(self, data: pd.DataFrame, metrics: ChartMetrics) -> None:
@@ -227,8 +229,8 @@ class ChartGenerator:
             sensor: Name of the sensor column
         """
         # ⚡ Bolt Optimization: Avoid intermediate DataFrame allocation by omitting .dropna()
-        # Matplotlib's scatter natively handles NaN values. Use np.all(pd.isna(...)) to avoid Series overhead.
-        if not np.all(pd.isna(data[sensor].values)):
+        # Matplotlib's scatter natively handles NaN values. Use np.isnan(...).all() to avoid Series overhead.
+        if not np.isnan(data[sensor].to_numpy(dtype=np.float64)).all():
             ax1.scatter(
                 data["Time (Minutes)"],
                 data[sensor],
@@ -253,7 +255,7 @@ class ChartGenerator:
         else:
             max_frac_deviation = float("nan")
 
-        if not pd.isna(max_frac_deviation) and max_frac_deviation < 1e-6:
+        if not np.isnan(max_frac_deviation) and max_frac_deviation < 1e-6:
             hydro_fmt = "{x:,.0f}"
         else:
             hydro_fmt = "{x:,.2f}"
@@ -274,8 +276,10 @@ class ChartGenerator:
         try:
             ax2 = ax1.twinx()
             # ⚡ Bolt Optimization: Avoid intermediate DataFrame allocation by omitting .dropna()
-            # Matplotlib's scatter natively handles NaN values. Use np.all(pd.isna(...)) to avoid Series overhead.
-            if not np.all(pd.isna(data["Hydrograph (Lagged)"].values)):
+            # Matplotlib's scatter natively handles NaN values. Use np.isnan(...).all() to avoid Series overhead.
+            if not np.isnan(
+                data["Hydrograph (Lagged)"].to_numpy(dtype=np.float64)
+            ).all():
                 ax2.scatter(
                     data["Time (Minutes)"],
                     data["Hydrograph (Lagged)"],
