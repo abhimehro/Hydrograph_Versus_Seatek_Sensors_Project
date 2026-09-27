@@ -112,7 +112,7 @@ class DataValidator:
         if "Year" not in df.columns or len(df) == 0:
             return None
         year_arr = np.asarray(df["Year"].to_numpy(), dtype=np.float64)
-        if len(year_arr) == 0 or np.all(np.isnan(year_arr)):
+        if len(year_arr) == 0 or np.isnan(year_arr).all():
             return None
         years = np.unique(year_arr[~np.isnan(year_arr)])
         return sorted(years.astype(int).tolist())
@@ -124,7 +124,7 @@ class DataValidator:
         if col not in df.columns or len(df) == 0:
             return None
         arr = np.asarray(df[col].to_numpy(), dtype=np.float64)
-        if len(arr) == 0 or np.all(np.isnan(arr)):
+        if len(arr) == 0 or np.isnan(arr).all():
             return None
         return [
             type_cast(np.nanmin(arr)),
