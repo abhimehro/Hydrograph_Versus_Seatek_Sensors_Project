@@ -36,7 +36,7 @@ contribution process.
 - **Testing**: Add unit tests for any added/changed functionality. Validate your
   changes before submitting:
   ```bash
-  pytest
+  python3 -m pytest tests/
   ```
 - **Documentation**: Update `README.md` and add relevant docstrings and comments
   for any new or updated features.
