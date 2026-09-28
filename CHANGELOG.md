@@ -172,6 +172,7 @@
 - ⚡ Bolt: Optimize NumPy boolean evaluations by avoiding function-dispatch overhead [\#713](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/713) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Replace np.all\(np.isnan\) and pd.isna with np.isnan\(\).all\(\) and np.isnan\(\) on NumPy arrays [\#707](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/707) ([abhimehro](https://github.com/abhimehro))
 - chore\(devin\): persist macOS pre-commit setup [\#693](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/693) ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump pandas from 3.0.5 to 3.0.6 [\#685](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/685) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump numpy from 2.5.2 to 2.5.3 [\#671](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/671) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pandas-stubs from 3.0.5.260730 to 3.0.5.260914 [\#670](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/670) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump matplotlib from 3.11.1 to 3.11.2 [\#669](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/669) ([dependabot[bot]](https://github.com/apps/dependabot))
