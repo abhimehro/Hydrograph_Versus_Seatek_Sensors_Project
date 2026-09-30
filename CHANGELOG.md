@@ -13,6 +13,8 @@
 
 **Closed issues:**
 
+- Daily QA & Agentic Review — 2026-09-29 [\#729](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/729)
+- \[repo-automation\] Daily Status Report - 2026-09-28 [\#719](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/719)
 - Daily QA & Agentic Review — 2026-09-27 [\#716](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/716)
 - Daily QA & Agentic Review — 2026-09-26 [\#710](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/710)
 - Daily QA & Agentic Review — 2026-09-25 [\#705](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/705)
@@ -169,6 +171,7 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): bump pandas from 3.0.5 to 3.0.6 [\#724](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/724) ([dependabot[bot]](https://github.com/apps/dependabot))
 - ⚡ Bolt: Optimize NumPy boolean evaluations by avoiding function-dispatch overhead [\#713](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/713) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Replace np.all\(np.isnan\) and pd.isna with np.isnan\(\).all\(\) and np.isnan\(\) on NumPy arrays [\#707](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/707) ([abhimehro](https://github.com/abhimehro))
 - chore\(devin\): persist macOS pre-commit setup [\#693](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/693) ([abhimehro](https://github.com/abhimehro))
