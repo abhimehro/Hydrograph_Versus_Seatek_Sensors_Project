@@ -50,3 +50,11 @@ def test_sanitize_filename_removes_newlines():
     """Test that newlines are removed to prevent log injection."""
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
+
+
+def test_sanitize_filename_ascii_only():
+    """Test that only ASCII characters are matched by \\w, preventing homoglyph bypass."""
+    # The character А is a Cyrillic capital letter A (U+0410).
+    # Without re.ASCII, \w would match it and keep it.
+    # With re.ASCII, \w only matches [a-zA-Z0-9_], so it should be replaced with an underscore.
+    assert sanitize_filename("fileАname.txt") == "file_name.txt"
