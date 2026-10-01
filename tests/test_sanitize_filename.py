@@ -51,11 +51,12 @@ def test_sanitize_filename_removes_newlines():
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
 
+
 def test_sanitize_filename_prevents_unicode_bypass():
-    """Test that unicode homoglyphs and special characters are stripped via ASCII flag."""
+    """Test that unicode homoglyphs are stripped via ASCII flag."""
     # The '〱' character (U+3031) matches '\w' in unicode mode, but not in ASCII mode.
     # Without re.ASCII, it would remain in the sanitized string.
     assert sanitize_filename("test〱filename") == "test_filename"
 
-    # Similarly, accented characters should be stripped to maintain strict ASCII outputs.
+    # Accented characters should be stripped to maintain strict ASCII.
     assert sanitize_filename("testéfilename") == "test_filename"
