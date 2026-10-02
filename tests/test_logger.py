@@ -11,7 +11,7 @@ from src.hydrograph_seatek_analysis.core.logger import (
 )
 
 
-def test_setup_logger_default():
+def test_setup_logger_default() -> None:
     """Test that setup_logger creates a logger with default settings."""
     logger = setup_logger("test_logger")
 
@@ -22,7 +22,7 @@ def test_setup_logger_default():
     assert not logger.propagate
 
 
-def test_setup_logger_with_file():
+def test_setup_logger_with_file() -> None:
     """Test that setup_logger creates a logger with a file handler."""
     with tempfile.TemporaryDirectory() as temp_dir:
         log_file = Path(temp_dir) / "test.log"
@@ -35,14 +35,14 @@ def test_setup_logger_with_file():
         assert logger.handlers[1].baseFilename == str(log_file)
 
 
-def test_setup_logger_custom_level():
+def test_setup_logger_custom_level() -> None:
     """Test that setup_logger respects custom log levels."""
     logger = setup_logger("test_logger", level=logging.DEBUG)
 
     assert logger.level == logging.DEBUG
 
 
-def test_configure_root_logger():
+def test_configure_root_logger() -> None:
     """Test that configure_root_logger configures the root logger."""
     with tempfile.TemporaryDirectory() as temp_dir:
         log_dir = Path(temp_dir)
