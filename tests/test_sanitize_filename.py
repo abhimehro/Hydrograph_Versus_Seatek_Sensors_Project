@@ -50,3 +50,14 @@ def test_sanitize_filename_removes_newlines():
     """Test that newlines are removed to prevent log injection."""
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
+
+def test_sanitize_filename_removes_unicode_and_homoglyphs():
+    """Test that Unicode and homoglyph characters are neutralized by ASCII-only matching."""
+    homoglyph_a = "а"  # Cyrillic small letter a (U+0430)
+    assert sanitize_filename(f"file_{homoglyph_a}.txt") == "file__.txt"
+
+    homoglyph_slash = "∕" # U+2215 division slash
+    assert sanitize_filename(f"path{homoglyph_slash}file.txt") == "path_file.txt"
+
+    emoji = "🚀"
+    assert sanitize_filename(f"file_{emoji}.txt") == "file__.txt"
