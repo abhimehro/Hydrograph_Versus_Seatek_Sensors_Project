@@ -84,3 +84,5 @@ tests/.DS_Store
 /claude_db/
 /tasks/todo.md
 /tasks/lessons.md
+# Causari local ledger — captured prompts, completions and reasoning.
+.causari/
