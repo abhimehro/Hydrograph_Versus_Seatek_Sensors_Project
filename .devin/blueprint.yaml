@@ -29,7 +29,59 @@ knowledge:
 runs-on: macos
 # macOS maintenance: global maintenance section merged automatically by Devin
 initialize: |
+  # Guard ENVRC as the very first statement: the last step of this block
+  # appends a PATH export to it, so a missing harness export must abort before
+  # any filesystem or install work rather than half-applying the setup.
+  # This block has no `set -e`, so the `|| exit 1` is what actually aborts it
+  # -- a bare `${VAR:?}` would only print and let the block run on. `exit` is
+  # the right form because blueprint steps run as a top-level script, not a
+  # sourced file (`return` would error outside a function).
+  ENVRC=${ENVRC:?ENVRC must be set by the Devin session harness} || exit 1
   mkdir -p "$HOME/.venvs"
   python3 -m venv "$HOME/.venvs/pre-commit"
   "$HOME/.venvs/pre-commit/bin/python" -m pip install --upgrade pre-commit
   "$HOME/.venvs/pre-commit/bin/pre-commit" install
+  # poetry for `poetry lock` regen on dependency bumps. Dedicated venv like
+  # pre-commit above: PEP 668 blocks `pip install --user` on this image's
+  # brew Python. PATH also gains the user scripts dirs so --user-installed
+  # CLIs (flake8/mypy/black) resolve by name (see AGENTS.md caveat).
+  python3 -m venv "$HOME/.venvs/poetry"
+  "$HOME/.venvs/poetry/bin/python" -m pip install --upgrade poetry
+  # Prepend only Poetry: keep the venv's python/python3 links behind PATH
+  # so they do not shadow the project interpreter for `python3 -m pytest`.
+  mkdir -p "$HOME/.venvs/poetry-shim"
+  ln -sf "$HOME/.venvs/poetry/bin/poetry" "$HOME/.venvs/poetry-shim/poetry"
+  # Refresh the complete Poetry PATH entry without accumulating stale entries
+  # on session starts. Preserve unrelated ENVRC lines and skip unchanged writes.
+  python3 - "$ENVRC" "$HOME/.venvs/poetry-shim" "$PATH" "$HOME/.venvs/poetry/bin:$(python3 -m site --user-base)/bin:$HOME/.local/bin" <<'PY'
+  import shlex
+  import sys
+  from pathlib import Path
+
+  envrc = Path(sys.argv[1])
+  shim, inherited_path, user_bins = sys.argv[2:]
+  user_bin_entries = user_bins.split(":")
+  managed_entries = {shim, *user_bin_entries}
+  path_entries = [entry for entry in inherited_path.split(":") if entry not in managed_entries]
+  required_path = "PATH=" + shlex.quote(":".join([shim, *path_entries, *user_bin_entries]))
+  existing = envrc.read_text() if envrc.exists() else ""
+  lines = []
+  for line in existing.splitlines(keepends=True):
+      if line.startswith("PATH="):
+          value = line[5:].rstrip("\n")
+          try:
+              parts = shlex.split(value, comments=True)
+              if len(parts) == 1:
+                  value = parts[0]
+          except ValueError:
+              pass
+          if shim in value.split(":"):
+              continue
+      lines.append(line)
+  updated = "".join(lines)
+  if updated and not updated.endswith("\n"):
+      updated += "\n"
+  updated += required_path + "\n"
+  if updated != existing:
+      envrc.write_text(updated)
+  PY
