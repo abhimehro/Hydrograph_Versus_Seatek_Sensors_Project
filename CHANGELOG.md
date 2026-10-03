@@ -176,6 +176,7 @@
 
 **Merged pull requests:**
 
+- Add poetry to macOS session setup [\#757](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/757) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump mypy to 2.4.0 and add CI pin-parity check [\#756](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/756) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps-dev\): bump virtualenv from 21.7.0 to 21.7.13 in the pip group across 1 directory [\#750](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/750) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pandas from 3.0.5 to 3.0.6 [\#724](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/724) ([dependabot[bot]](https://github.com/apps/dependabot))
