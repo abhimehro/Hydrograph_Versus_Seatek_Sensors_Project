@@ -33,7 +33,10 @@ initialize: |
   python3 -m venv "$HOME/.venvs/pre-commit"
   "$HOME/.venvs/pre-commit/bin/python" -m pip install --upgrade pre-commit
   "$HOME/.venvs/pre-commit/bin/pre-commit" install
-  # poetry for `poetry lock` regen on dependency bumps; ~/.local/bin on PATH
-  # so poetry/flake8/mypy CLIs installed via --user are reachable
-  python3 -m pip install --user poetry
-  echo "PATH=$HOME/.local/bin:$PATH" >> "$ENVRC"
+  # poetry for `poetry lock` regen on dependency bumps. Dedicated venv like
+  # pre-commit above: PEP 668 blocks `pip install --user` on this image's
+  # brew Python. PATH also gains the user scripts dirs so --user-installed
+  # CLIs (flake8/mypy/black) resolve by name (see AGENTS.md caveat).
+  python3 -m venv "$HOME/.venvs/poetry"
+  "$HOME/.venvs/poetry/bin/python" -m pip install --upgrade poetry
+  echo "PATH=$HOME/.venvs/poetry/bin:$(python3 -m site --user-base)/bin:$HOME/.local/bin:$PATH" >> "$ENVRC"
