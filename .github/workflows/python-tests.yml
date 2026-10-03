@@ -26,6 +26,9 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-ci.txt
 
+      - name: Check dependency pin parity
+        run: python3 scripts/check_requirements_parity.py
+
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade "pip>=24.0,<26.0"
