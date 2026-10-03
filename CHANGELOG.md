@@ -13,6 +13,11 @@
 
 **Closed issues:**
 
+- Daily QA & Agentic Review — 2026-10-02 [\#754](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/754)
+- Daily QA & Agentic Review — 2026-10-01 [\#748](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/748)
+- Daily QA & Agentic Review — 2026-09-30 [\#744](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/744)
+- Daily QA & Agentic Review — 2026-09-29 [\#729](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/729)
+- \[repo-automation\] Daily Status Report - 2026-09-28 [\#719](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/719)
 - Daily QA & Agentic Review — 2026-09-27 [\#716](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/716)
 - Daily QA & Agentic Review — 2026-09-26 [\#710](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/710)
 - Daily QA & Agentic Review — 2026-09-25 [\#705](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/705)
@@ -41,6 +46,7 @@
 - \[repo-automation\] Daily Status Report - 2026-09-02 [\#610](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/610)
 - Daily QA & Agentic Review — 2026-09-01 [\#608](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/608)
 - \[repo-automation\] Daily Status Report - 2026-09-01 [\#607](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/607)
+- \[repo-health\] P0: Stop runaway Sentinel path-traversal PR loop \(~30 duplicate PRs\) and land one canonical fix [\#603](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/603)
 - \[repo-health\] Consolidate near-duplicate sanitize\_filename agent PRs [\#600](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/600)
 - \[repo-health\] Unblock PR \#498 and remove session junk from main [\#599](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/599)
 - Daily QA & Agentic Review — 2026-08-31 [\#597](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/597)
@@ -169,9 +175,14 @@
 
 **Merged pull requests:**
 
+- chore\(deps-dev\): bump virtualenv from 21.7.0 to 21.7.13 in the pip group across 1 directory [\#750](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/750) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump pandas from 3.0.5 to 3.0.6 [\#724](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/724) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump ruby/setup-ruby from 1.323.0 to 1.327.0 [\#723](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/723) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump codescene-oss/pr-refactoring-agent from 1.1.3 to 1.1.4 [\#721](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/721) ([dependabot[bot]](https://github.com/apps/dependabot))
 - ⚡ Bolt: Optimize NumPy boolean evaluations by avoiding function-dispatch overhead [\#713](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/713) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Replace np.all\(np.isnan\) and pd.isna with np.isnan\(\).all\(\) and np.isnan\(\) on NumPy arrays [\#707](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/707) ([abhimehro](https://github.com/abhimehro))
 - chore\(devin\): persist macOS pre-commit setup [\#693](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/693) ([abhimehro](https://github.com/abhimehro))
+- ⚡ Bolt: Optimize Pandas Series to list conversion [\#687](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/687) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump pandas from 3.0.5 to 3.0.6 [\#685](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/685) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore: drop stale mypy excludes and fix skill Python version [\#681](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/681) ([cursor[bot]](https://github.com/apps/cursor))
 - chore\(deps\): bump numpy from 2.5.2 to 2.5.3 [\#671](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/671) ([dependabot[bot]](https://github.com/apps/dependabot))
