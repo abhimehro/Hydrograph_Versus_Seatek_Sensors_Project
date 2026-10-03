@@ -33,3 +33,7 @@ initialize: |
   python3 -m venv "$HOME/.venvs/pre-commit"
   "$HOME/.venvs/pre-commit/bin/python" -m pip install --upgrade pre-commit
   "$HOME/.venvs/pre-commit/bin/pre-commit" install
+  # poetry for `poetry lock` regen on dependency bumps; ~/.local/bin on PATH
+  # so poetry/flake8/mypy CLIs installed via --user are reachable
+  python3 -m pip install --user poetry
+  echo "PATH=$HOME/.local/bin:$PATH" >> "$ENVRC"
