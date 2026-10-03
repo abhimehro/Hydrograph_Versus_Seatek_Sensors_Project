@@ -1,24 +1,22 @@
 #!/usr/bin/env python3
-"""
-Verify that ``==`` dependency pins stay aligned across manifests.
+"""Verify that ``==`` dependency pins stay aligned across manifests."""
 
-This repo declares exact pins in five places that must not drift
-(docs/technical/installation.md):
-
-- ``pyproject.toml`` ``[tool.poetry.dependencies]``          <-> requirements.txt
-- ``pyproject.toml`` ``[tool.poetry.group.dev.dependencies]`` <-> requirements-ci.txt
-- ``poetry.lock`` ``[[package]]`` entries                     covers both
-- ``.pre-commit-config.yaml`` hook ``rev:`` pins              mirrors pyproject
-
-Dependabot bumps a dependency in only one manifest per PR, so pins drift
-silently (Lesson 0fy: a poetry-side mypy bump was green while the CI
-typecheck job still installed the old mypy from requirements-ci.txt).
-Running this check in CI before dependency installation turns that drift
-into a visible failure on the PR that introduces it.
-
-Exits 0 when every manifest agrees, 1 with a mismatch report otherwise.
-Stdlib only; requires Python 3.11+ for tomllib.
-"""
+# This repo declares exact pins in five places that must not drift
+# (docs/technical/installation.md):
+#
+# - ``pyproject.toml`` ``[tool.poetry.dependencies]``           <-> requirements.txt
+# - ``pyproject.toml`` ``[tool.poetry.group.dev.dependencies]`` <-> requirements-ci.txt
+# - ``poetry.lock`` ``[[package]]`` entries                      covers both
+# - ``.pre-commit-config.yaml`` hook ``rev:`` pins               mirrors pyproject
+#
+# Dependabot bumps a dependency in only one manifest per PR, so pins drift
+# silently (Lesson 0fy: a poetry-side mypy bump was green while the CI
+# typecheck job still installed the old mypy from requirements-ci.txt).
+# Running this check in CI before dependency installation turns that drift
+# into a visible failure on the PR that introduces it.
+#
+# Exits 0 when every manifest agrees, 1 with a mismatch report otherwise.
+# Stdlib only; requires Python 3.11+ for tomllib.
 
 from __future__ import annotations
 
@@ -48,13 +46,10 @@ def _normalize(name: str) -> str:
 
 
 def pyproject_pins(path: Path) -> dict[str, dict[str, str]]:
-    """
-    Return {section: {normalized_name: version}} for ``==`` pins only.
-
-    Sections are ``main`` plus one key per dependency group. Non-``==``
-    specs (e.g. ``python = "^3.12"``) are skipped: they declare no exact
-    pin for requirements files to mirror.
-    """
+    """Return {section: {normalized_name: version}} for ``==`` pins only."""
+    # Sections are ``main`` plus one key per dependency group. Non-``==``
+    # specs (e.g. ``python = "^3.12"``) are skipped: they declare no exact
+    # pin for requirements files to mirror.
     with path.open("rb") as handle:
         data = tomllib.load(handle)
     poetry = data.get("tool", {}).get("poetry", {})
@@ -77,12 +72,9 @@ def pyproject_pins(path: Path) -> dict[str, dict[str, str]]:
 
 
 def requirements_pins(path: Path) -> dict[str, str]:
-    """
-    Return {normalized_name: version} for ``name==version`` lines.
-
-    Comments, blank lines, options (``-r`` includes, ``-e``, index flags)
-    and non-``==`` lines are ignored.
-    """
+    """Return {normalized_name: version} for ``name==version`` lines."""
+    # Comments, blank lines, options (``-r`` includes, ``-e``, index flags)
+    # and non-``==`` lines are ignored.
     pins: dict[str, str] = {}
     for raw in path.read_text(encoding="utf-8").splitlines():
         line = raw.split("#", 1)[0].strip()
@@ -102,14 +94,12 @@ def lock_pins(path: Path) -> dict[str, str]:
 
 
 def pre_commit_revs(path: Path) -> dict[str, str]:
-    """
-    Return {tool_name: rev} for hook repos in .pre-commit-config.yaml.
-
-    Each ``- repo: <url>`` block carries one ``rev:`` line. The tool name
-    is the URL's last path segment with a ``mirrors-`` prefix stripped
-    (``pre-commit/mirrors-mypy`` -> ``mypy``). Revs are returned without
-    a leading ``v`` so ``v2.4.0`` compares equal to ``==2.4.0``.
-    """
+    """Return {tool_name: rev} for hook repos in .pre-commit-config.yaml."""
+    # Each ``- repo: <url>`` block carries one ``rev:`` line. The tool name
+    # is the URL's last path segment with a ``mirrors-`` prefix stripped
+    # (``pre-commit/mirrors-mypy`` -> ``mypy``). Revs may be optionally
+    # quoted and are returned without a leading ``v`` so ``v2.4.0``
+    # compares equal to ``==2.4.0``.
     revs: dict[str, str] = {}
     current_repo: str | None = None
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -117,11 +107,11 @@ def pre_commit_revs(path: Path) -> dict[str, str]:
         if repo_match:
             current_repo = repo_match.group(1)
             continue
-        rev_match = re.match(r"\s*rev:\s*(\S+)", line)
+        rev_match = re.match(r"""\s*rev:\s*(['"]?)([^'"\s]+)\1""", line)
         if rev_match and current_repo is not None:
             tool = current_repo.rstrip("/").rsplit("/", 1)[-1]
             tool = tool.removeprefix("mirrors-")
-            revs[_normalize(tool)] = rev_match.group(1).removeprefix("v")
+            revs[_normalize(tool)] = rev_match.group(2).removeprefix("v")
             current_repo = None
     return revs
 
@@ -160,14 +150,16 @@ def diff_pre_commit(declared: dict[str, str]) -> list[str]:
     return problems
 
 
-def collect_problems() -> tuple[list[str], int]:
-    """Gather all drift reports plus the count of pins checked."""
-    sections = pyproject_pins(PYPROJECT)
+def manifest_problems(
+    sections: dict[str, dict[str, str]], declared: dict[str, str]
+) -> list[str]:
+    """Report drift between pyproject pins and requirements/lock manifests."""
     runtime_pins = requirements_pins(REQUIREMENTS_TXT)
     ci_pins = requirements_pins(REQUIREMENTS_CI)
     locked = lock_pins(POETRY_LOCK)
-    declared = {name: ver for pins in sections.values() for name, ver in pins.items()}
-
+    # The lockfile legitimately holds transitive-only packages; compare it
+    # only on names pyproject actually declares.
+    locked_declared = {n: v for n, v in locked.items() if n in declared}
     problems = diff_pins(
         "pyproject.toml [tool.poetry.dependencies]",
         sections.get("main", {}),
@@ -180,10 +172,17 @@ def collect_problems() -> tuple[list[str], int]:
         "requirements-ci.txt",
         ci_pins,
     )
-    problems += diff_pins("pyproject.toml", declared, "poetry.lock", locked)
-    # The lockfile legitimately contains transitive-only packages; only
-    # report drift on names pyproject actually declares.
-    problems = [p for p in problems if "only in poetry.lock" not in p]
+    problems += diff_pins("pyproject.toml", declared, "poetry.lock", locked_declared)
+    return problems
+
+
+def collect_problems() -> tuple[list[str], int]:
+    """Gather all drift reports plus the count of pins checked."""
+    sections = pyproject_pins(PYPROJECT)
+    declared = {name: ver for pins in sections.values() for name, ver in pins.items()}
+    ci_pins = requirements_pins(REQUIREMENTS_CI)
+    runtime_pins = requirements_pins(REQUIREMENTS_TXT)
+    problems = manifest_problems(sections, declared)
     problems += diff_pre_commit(declared)
     return problems, len(declared) + len(ci_pins) + len(runtime_pins)
 
