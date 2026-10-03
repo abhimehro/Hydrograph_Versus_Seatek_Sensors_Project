@@ -37,11 +37,18 @@ initialize: |
   # pre-commit above: PEP 668 blocks `pip install --user` on this image's
   # brew Python. PATH also gains the user scripts dirs so --user-installed
   # CLIs (flake8/mypy/black) resolve by name (see AGENTS.md caveat).
+  # Guard ENVRC first: it is only needed by the PATH export at the end, so
+  # fail before the multi-minute venv + pip install instead of after. This
+  # block has no `set -e`, so the `|| exit 1` is what actually aborts it --
+  # a bare `${VAR:?}` would only print and let the block run on.
+  ENVRC=${ENVRC:?ENVRC must be set by the Devin session harness} || exit 1
   python3 -m venv "$HOME/.venvs/poetry"
   "$HOME/.venvs/poetry/bin/python" -m pip install --upgrade poetry
-  : "${ENVRC:?ENVRC must be set by the Devin session harness}"
   # Prepend only Poetry: keep the venv's python/python3 links behind PATH
   # so they do not shadow the project interpreter for `python3 -m pytest`.
   mkdir -p "$HOME/.venvs/poetry-shim"
   ln -sf "$HOME/.venvs/poetry/bin/poetry" "$HOME/.venvs/poetry-shim/poetry"
-  echo "PATH=$HOME/.venvs/poetry-shim:$PATH:$HOME/.venvs/poetry/bin:$(python3 -m site --user-base)/bin:$HOME/.local/bin" >> "$ENVRC"
+  # This block runs on every session start, so append the export only when
+  # ENVRC does not already carry it; a bare `>>` grew ENVRC by one PATH line
+  # per run. Fixed-string match so dots in the path are not regex wildcards.
+  grep -qF "$HOME/.venvs/poetry-shim" "$ENVRC" 2>/dev/null || echo "PATH=$HOME/.venvs/poetry-shim:$PATH:$HOME/.venvs/poetry/bin:$(python3 -m site --user-base)/bin:$HOME/.local/bin" >> "$ENVRC"
