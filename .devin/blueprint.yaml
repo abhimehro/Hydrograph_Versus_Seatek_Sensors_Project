@@ -40,6 +40,8 @@ initialize: |
   python3 -m venv "$HOME/.venvs/poetry"
   "$HOME/.venvs/poetry/bin/python" -m pip install --upgrade poetry
   : "${ENVRC:?ENVRC must be set by the Devin session harness}"
-  # Append (not prepend): the venv bin dir also holds python/python3 links,
-  # so it must not shadow the project interpreter for `python3 -m pytest`.
-  echo "PATH=$PATH:$HOME/.venvs/poetry/bin:$(python3 -m site --user-base)/bin:$HOME/.local/bin" >> "$ENVRC"
+  # Prepend only Poetry: keep the venv's python/python3 links behind PATH
+  # so they do not shadow the project interpreter for `python3 -m pytest`.
+  mkdir -p "$HOME/.venvs/poetry-shim"
+  ln -sf "$HOME/.venvs/poetry/bin/poetry" "$HOME/.venvs/poetry-shim/poetry"
+  echo "PATH=$HOME/.venvs/poetry-shim:$PATH:$HOME/.venvs/poetry/bin:$(python3 -m site --user-base)/bin:$HOME/.local/bin" >> "$ENVRC"
