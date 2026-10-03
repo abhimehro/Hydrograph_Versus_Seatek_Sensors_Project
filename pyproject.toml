@@ -62,3 +62,6 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-ra -q"
 norecursedirs = []
+
+[tool.ruff]
+target-version = "py312"

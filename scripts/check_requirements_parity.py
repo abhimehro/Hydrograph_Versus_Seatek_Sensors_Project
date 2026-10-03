@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Verify that ``==`` dependency pins stay aligned across manifests.
+"""
+Verify that ``==`` dependency pins stay aligned across manifests.
 
 This repo declares exact pins in five places that must not drift
 (docs/technical/installation.md):
@@ -35,6 +36,11 @@ PRE_COMMIT_CONFIG = REPO_ROOT / ".pre-commit-config.yaml"
 
 _PIN_RE = re.compile(r"^([A-Za-z0-9][A-Za-z0-9._-]*)\s*==\s*([^\s;#]+)")
 
+_FIX_HINT = (
+    "Fix by aligning the == pins across pyproject.toml, "
+    "requirements*.txt, and poetry.lock (poetry lock)."
+)
+
 
 def _normalize(name: str) -> str:
     """PEP 503 normalization so ``foo_bar`` and ``foo-bar`` compare equal."""
@@ -42,13 +48,15 @@ def _normalize(name: str) -> str:
 
 
 def pyproject_pins(path: Path) -> dict[str, dict[str, str]]:
-    """Return {section: {normalized_name: version}} for ``==`` pins only.
+    """
+    Return {section: {normalized_name: version}} for ``==`` pins only.
 
     Sections are ``main`` plus one key per dependency group. Non-``==``
     specs (e.g. ``python = "^3.12"``) are skipped: they declare no exact
     pin for requirements files to mirror.
     """
-    data = tomllib.loads(path.read_text())
+    with path.open("rb") as handle:
+        data = tomllib.load(handle)
     poetry = data.get("tool", {}).get("poetry", {})
     sections: dict[str, dict[str, str]] = {}
 
@@ -69,13 +77,14 @@ def pyproject_pins(path: Path) -> dict[str, dict[str, str]]:
 
 
 def requirements_pins(path: Path) -> dict[str, str]:
-    """Return {normalized_name: version} for ``name==version`` lines.
+    """
+    Return {normalized_name: version} for ``name==version`` lines.
 
     Comments, blank lines, options (``-r`` includes, ``-e``, index flags)
     and non-``==`` lines are ignored.
     """
     pins: dict[str, str] = {}
-    for raw in path.read_text().splitlines():
+    for raw in path.read_text(encoding="utf-8").splitlines():
         line = raw.split("#", 1)[0].strip()
         if not line or line.startswith("-"):
             continue
@@ -87,12 +96,14 @@ def requirements_pins(path: Path) -> dict[str, str]:
 
 def lock_pins(path: Path) -> dict[str, str]:
     """Return {normalized_name: version} for every locked package."""
-    data = tomllib.loads(path.read_text())
+    with path.open("rb") as handle:
+        data = tomllib.load(handle)
     return {_normalize(pkg["name"]): pkg["version"] for pkg in data.get("package", [])}
 
 
 def pre_commit_revs(path: Path) -> dict[str, str]:
-    """Return {tool_name: rev} for hook repos in .pre-commit-config.yaml.
+    """
+    Return {tool_name: rev} for hook repos in .pre-commit-config.yaml.
 
     Each ``- repo: <url>`` block carries one ``rev:`` line. The tool name
     is the URL's last path segment with a ``mirrors-`` prefix stripped
@@ -101,7 +112,7 @@ def pre_commit_revs(path: Path) -> dict[str, str]:
     """
     revs: dict[str, str] = {}
     current_repo: str | None = None
-    for line in path.read_text().splitlines():
+    for line in path.read_text(encoding="utf-8").splitlines():
         repo_match = re.match(r"\s*-\s*repo:\s*(\S+)", line)
         if repo_match:
             current_repo = repo_match.group(1)
@@ -136,15 +147,28 @@ def diff_pins(
     return problems
 
 
-def main() -> int:
-    """Run all parity checks and print a mismatch report."""
+def diff_pre_commit(declared: dict[str, str]) -> list[str]:
+    """Report pyproject pins whose .pre-commit-config.yaml rev disagrees."""
+    hook_revs = pre_commit_revs(PRE_COMMIT_CONFIG)
+    problems: list[str] = []
+    for tool in sorted(set(hook_revs) & set(declared)):
+        if hook_revs[tool] != declared[tool]:
+            problems.append(
+                f"{tool}: pyproject.toml has {declared[tool]}, "
+                f".pre-commit-config.yaml has {hook_revs[tool]}"
+            )
+    return problems
+
+
+def collect_problems() -> tuple[list[str], int]:
+    """Gather all drift reports plus the count of pins checked."""
     sections = pyproject_pins(PYPROJECT)
     runtime_pins = requirements_pins(REQUIREMENTS_TXT)
     ci_pins = requirements_pins(REQUIREMENTS_CI)
     locked = lock_pins(POETRY_LOCK)
+    declared = {name: ver for pins in sections.values() for name, ver in pins.items()}
 
-    problems: list[str] = []
-    problems += diff_pins(
+    problems = diff_pins(
         "pyproject.toml [tool.poetry.dependencies]",
         sections.get("main", {}),
         "requirements.txt",
@@ -156,32 +180,21 @@ def main() -> int:
         "requirements-ci.txt",
         ci_pins,
     )
-    declared = {name: ver for pins in sections.values() for name, ver in pins.items()}
     problems += diff_pins("pyproject.toml", declared, "poetry.lock", locked)
     # The lockfile legitimately contains transitive-only packages; only
     # report drift on names pyproject actually declares.
     problems = [p for p in problems if "only in poetry.lock" not in p]
+    problems += diff_pre_commit(declared)
+    return problems, len(declared) + len(ci_pins) + len(runtime_pins)
 
-    hook_revs = pre_commit_revs(PRE_COMMIT_CONFIG)
-    for tool in sorted(set(hook_revs) & set(declared)):
-        if hook_revs[tool] != declared[tool]:
-            problems.append(
-                f"{tool}: pyproject.toml has {declared[tool]}, "
-                f".pre-commit-config.yaml has {hook_revs[tool]}"
-            )
 
+def main() -> int:
+    """Run all parity checks and print a mismatch report."""
+    problems, checked = collect_problems()
     if problems:
-        print("Dependency pin drift detected:", file=sys.stderr)
-        for problem in problems:
-            print(f"  - {problem}", file=sys.stderr)
-        print(
-            "Fix by aligning the == pins across pyproject.toml, "
-            "requirements*.txt, and poetry.lock (poetry lock).",
-            file=sys.stderr,
-        )
+        lines = "\n".join(f"  - {problem}" for problem in problems)
+        print(f"Dependency pin drift detected:\n{lines}\n{_FIX_HINT}", file=sys.stderr)
         return 1
-
-    checked = len(declared) + len(ci_pins) + len(runtime_pins)
     print(f"Pin parity OK: {checked} pins aligned across 5 manifests.")
     return 0
 
