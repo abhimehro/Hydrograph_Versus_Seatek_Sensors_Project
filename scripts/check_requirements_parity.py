@@ -157,8 +157,7 @@ def manifest_problems(
     runtime_pins = requirements_pins(REQUIREMENTS_TXT)
     ci_pins = requirements_pins(REQUIREMENTS_CI)
     locked = lock_pins(POETRY_LOCK)
-    # The lockfile legitimately holds transitive-only packages; compare it
-    # only on names pyproject actually declares.
+    # Lockfile holds transitive-only packages; compare only declared names.
     locked_declared = {n: v for n, v in locked.items() if n in declared}
     problems = diff_pins(
         "pyproject.toml [tool.poetry.dependencies]",
