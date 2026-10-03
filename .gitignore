@@ -11,6 +11,8 @@ dist/
 
 # Virtual Environment
 .env
+.env.*
+!.env.pr-recap.template
 .venv/
 venv/
 ENV/
