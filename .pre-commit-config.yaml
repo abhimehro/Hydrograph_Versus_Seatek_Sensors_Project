@@ -5,7 +5,12 @@ repos:
   - id: trailing-whitespace
   - id: end-of-file-fixer
   - id: check-yaml
+    exclude: ^\.devin/blueprint\.yaml$
+  # Blueprint is intentionally multi-document; everything else stays strict.
+  - id: check-yaml
+    alias: check-yaml-blueprint
     args: [--allow-multiple-documents]
+    files: ^\.devin/blueprint\.yaml$
   - id: check-added-large-files
   - id: check-ast
   - id: check-json

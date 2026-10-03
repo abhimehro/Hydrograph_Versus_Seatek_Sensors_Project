@@ -39,4 +39,7 @@ initialize: |
   # CLIs (flake8/mypy/black) resolve by name (see AGENTS.md caveat).
   python3 -m venv "$HOME/.venvs/poetry"
   "$HOME/.venvs/poetry/bin/python" -m pip install --upgrade poetry
-  echo "PATH=$HOME/.venvs/poetry/bin:$(python3 -m site --user-base)/bin:$HOME/.local/bin:$PATH" >> "$ENVRC"
+  : "${ENVRC:?ENVRC must be set by the Devin session harness}"
+  # Append (not prepend): the venv bin dir also holds python/python3 links,
+  # so it must not shadow the project interpreter for `python3 -m pytest`.
+  echo "PATH=$PATH:$HOME/.venvs/poetry/bin:$(python3 -m site --user-base)/bin:$HOME/.local/bin" >> "$ENVRC"
