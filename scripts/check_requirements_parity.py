@@ -150,29 +150,29 @@ def diff_pre_commit(declared: dict[str, str]) -> list[str]:
     return problems
 
 
-def manifest_problems(
-    sections: dict[str, dict[str, str]], declared: dict[str, str]
-) -> list[str]:
-    """Report drift between pyproject pins and requirements/lock manifests."""
-    runtime_pins = requirements_pins(REQUIREMENTS_TXT)
-    ci_pins = requirements_pins(REQUIREMENTS_CI)
-    locked = lock_pins(POETRY_LOCK)
-    # Lockfile holds transitive-only packages; compare only declared names.
-    locked_declared = {n: v for n, v in locked.items() if n in declared}
+def requirements_problems(sections: dict[str, dict[str, str]]) -> list[str]:
+    """Report drift between pyproject sections and requirements files."""
     problems = diff_pins(
         "pyproject.toml [tool.poetry.dependencies]",
         sections.get("main", {}),
         "requirements.txt",
-        runtime_pins,
+        requirements_pins(REQUIREMENTS_TXT),
     )
     problems += diff_pins(
         "pyproject.toml [tool.poetry.group.dev.dependencies]",
         sections.get("group.dev", {}),
         "requirements-ci.txt",
-        ci_pins,
+        requirements_pins(REQUIREMENTS_CI),
     )
-    problems += diff_pins("pyproject.toml", declared, "poetry.lock", locked_declared)
     return problems
+
+
+def lock_problems(declared: dict[str, str]) -> list[str]:
+    """Report drift between pyproject pins and poetry.lock."""
+    locked = lock_pins(POETRY_LOCK)
+    # Lockfile holds transitive-only packages; compare only declared names.
+    locked_declared = {n: v for n, v in locked.items() if n in declared}
+    return diff_pins("pyproject.toml", declared, "poetry.lock", locked_declared)
 
 
 def collect_problems() -> tuple[list[str], int]:
@@ -181,8 +181,11 @@ def collect_problems() -> tuple[list[str], int]:
     declared = {name: ver for pins in sections.values() for name, ver in pins.items()}
     ci_pins = requirements_pins(REQUIREMENTS_CI)
     runtime_pins = requirements_pins(REQUIREMENTS_TXT)
-    problems = manifest_problems(sections, declared)
-    problems += diff_pre_commit(declared)
+    problems = (
+        requirements_problems(sections)
+        + lock_problems(declared)
+        + diff_pre_commit(declared)
+    )
     return problems, len(declared) + len(ci_pins) + len(runtime_pins)
 
 
