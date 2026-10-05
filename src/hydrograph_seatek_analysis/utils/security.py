@@ -57,6 +57,9 @@ def sanitize_filename(filename: str, max_length: int = 200) -> str:
     """
     Sanitize a filename string to prevent path traversal and other vulnerabilities.
 
+    Output is deliberately ASCII-only: any non-ASCII character is replaced by an
+    underscore, so do not pass user-supplied labels expecting them to survive.
+
     Args:
         filename: The untrusted filename string (e.g., from an Excel column or sheet)
         max_length: Positive maximum allowed length for the filename
@@ -74,7 +77,7 @@ def sanitize_filename(filename: str, max_length: int = 200) -> str:
     if not isinstance(filename, str):
         filename = str(filename)
 
-    # Keep only word characters (letters, digits, underscore), dashes, dots, and literal space
+    # Keep only ASCII word chars (A-Z, a-z, 0-9, _), dashes, dots, and literal space; re.ASCII keeps Unicode letters/digits out
     sanitized = re.sub(r"[^\w\-\. ]", "_", filename, flags=re.ASCII)
     # Prevent directory traversal dots like ..
     sanitized = re.sub(r"\.{2,}", "_", sanitized)
