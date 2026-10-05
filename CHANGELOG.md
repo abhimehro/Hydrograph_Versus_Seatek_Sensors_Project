@@ -13,6 +13,8 @@
 
 **Closed issues:**
 
+- Daily QA & Agentic Review — 2026-10-04 [\#765](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/765)
+- Daily QA & Agentic Review — 2026-10-03 [\#760](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/760)
 - Daily QA & Agentic Review — 2026-10-02 [\#754](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/754)
 - Daily QA & Agentic Review — 2026-10-01 [\#748](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/748)
 - Daily QA & Agentic Review — 2026-09-30 [\#744](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/issues/744)
@@ -176,12 +178,16 @@
 
 **Merged pull requests:**
 
+- Jules Daily QA & Agentic Review: Fix Flake8 D200 Violation [\#764](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/764) ([abhimehro](https://github.com/abhimehro))
 - Add poetry to macOS session setup [\#757](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/757) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump mypy to 2.4.0 and add CI pin-parity check [\#756](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/756) ([abhimehro](https://github.com/abhimehro))
+- Daily QA: Fix mypy missing return type annotations in tests [\#753](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/753) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps-dev\): bump virtualenv from 21.7.0 to 21.7.13 in the pip group across 1 directory [\#750](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/750) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump pytest-mock from 3.15.1 to 3.16.0 [\#743](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/743) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pandas from 3.0.5 to 3.0.6 [\#724](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/724) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump ruby/setup-ruby from 1.323.0 to 1.327.0 [\#723](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/723) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump codescene-oss/pr-refactoring-agent from 1.1.3 to 1.1.4 [\#721](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/721) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore: align pandas pin and CONTRIBUTING test command [\#718](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/718) ([cursor[bot]](https://github.com/apps/cursor))
 - ⚡ Bolt: Optimize NumPy boolean evaluations by avoiding function-dispatch overhead [\#713](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/713) ([abhimehro](https://github.com/abhimehro))
 - ⚡ Bolt: Replace np.all\(np.isnan\) and pd.isna with np.isnan\(\).all\(\) and np.isnan\(\) on NumPy arrays [\#707](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/707) ([abhimehro](https://github.com/abhimehro))
 - chore\(devin\): persist macOS pre-commit setup [\#693](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/693) ([abhimehro](https://github.com/abhimehro))
