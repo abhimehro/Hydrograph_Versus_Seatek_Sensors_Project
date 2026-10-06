@@ -496,3 +496,11 @@ performance.
 
 **Learning:** When converting a Pandas Series to a native Python list, calling `series.tolist()` directly is inefficient due to Pandas object conversion overhead.
 **Action:** Replaced `series.tolist()` with `series.to_numpy().tolist()` on Pandas Series objects to significantly reduce conversion overhead and improve performance. Applied this to `tests/test_data_processor.py`.
+
+## 2025-03-01 - Avoid Pandas overhead for monotonic increasing checks
+**Learning:** Checking `series.is_monotonic_increasing` on a Pandas Series is slower than extracting the numpy array and doing `np.all(arr[:-1] <= arr[1:])`. Pandas has index and metadata overhead.
+**Action:** Replace `series.is_monotonic_increasing` with numpy array comparison when performance is critical inside loops.
+
+## 2025-03-01 - Avoid Pandas Series iteration overhead when zipping
+**Learning:** Calling `zip(series1, series2)` is significantly slower than `zip(series1.to_numpy(), series2.to_numpy())` due to the overhead of accessing elements from a Pandas Series iteratively.
+**Action:** Replace `zip(df['A'], df['B'])` with `zip(df['A'].to_numpy(), df['B'].to_numpy())` to improve performance.
