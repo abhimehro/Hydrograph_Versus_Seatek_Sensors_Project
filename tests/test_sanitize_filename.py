@@ -50,3 +50,11 @@ def test_sanitize_filename_removes_newlines():
     """Test that newlines are removed to prevent log injection."""
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
+
+def test_sanitize_filename_unicode_characters():
+    """Test that unicode characters matched by \\w are removed."""
+    # '١٢٣' are Arabic-Indic digits matched by \w but not \w with ASCII flag
+    # 'ﬁ' is a Latin small ligature fi matched by \w but not \w with ASCII flag
+    unicode_input = "test_ﬁlename_١٢٣"
+    sanitized = sanitize_filename(unicode_input)
+    assert sanitized == "test__lename____"
