@@ -11,7 +11,18 @@ from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.data.validator import DataValidator
 
 
-def test_validator_initialization() -> None:
+def _create_mock_read_excel_func(df: pd.DataFrame, return_cols: list[str]) -> Any:
+    def mock_func(*args: Any, **kwargs: Any) -> Any:
+        usecols = kwargs.get("usecols")
+        if callable(usecols):
+            for col in df.columns:
+                usecols(col)
+        return df[return_cols]
+
+    return mock_func
+
+
+def test_validator_initialization() -> Any:
     """Test DataValidator initialization."""
     config = Config()
     validator = DataValidator(config)
@@ -20,7 +31,7 @@ def test_validator_initialization() -> None:
 
 @mock.patch.object(Path, "is_symlink", return_value=False)
 @mock.patch("pandas.read_excel")
-def test_validate_summary_file(mock_read_excel: Any, mock_is_symlink: Any) -> None:
+def test_validate_summary_file(mock_read_excel: Any, mock_is_symlink: Any) -> Any:
     """Test validate_summary_file with mocked Excel file."""
     mock_df = pd.DataFrame(
         {"River_Mile": [54.0, 53.0], "Y_Offset": [10.5, 11.2], "Num_Sensors": [2, 2]}
@@ -57,7 +68,7 @@ def test_validate_summary_file(mock_read_excel: Any, mock_is_symlink: Any) -> No
 @mock.patch("pandas.read_excel")
 def test_validate_summary_file_missing_columns(
     mock_read_excel: Any, mock_is_symlink: Any
-) -> None:
+) -> Any:
     """Test validate_summary_file with missing columns."""
     mock_df = pd.DataFrame(
         {
@@ -94,7 +105,7 @@ def test_validate_summary_file_missing_columns(
 @mock.patch("pandas.read_excel")
 def test_validate_hydro_file(
     mock_read_excel: Any, mock_is_symlink: Any, mock_excel_file_cls: Any
-) -> None:
+) -> Any:
     """Test validate_hydro_file with mocked Excel file."""
     # Create mock ExcelFile instance
     mock_excel_file = mock.MagicMock()
@@ -149,7 +160,7 @@ def test_validate_hydro_file(
 @mock.patch("pandas.read_excel")
 def test_validate_hydro_file_missing_columns(
     mock_read_excel: Any, mock_is_symlink: Any, mock_excel_file_cls: Any
-) -> None:
+) -> Any:
     """Test validate_hydro_file behavior when required columns are absent."""
     mock_excel_file = mock.MagicMock()
     mock_excel_file.sheet_names = ["RM_54.0"]
@@ -160,14 +171,7 @@ def test_validate_hydro_file_missing_columns(
         {"SomeOtherCol": [0, 60, 120], "YetAnotherCol": [1, 1, 1]}
     )
 
-    def mock_read_excel_hydro(*args: Any, **kwargs: Any) -> Any:
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            # Our stateful filter logic expects columns to be passed iteratively
-            for col in df_missing.columns:
-                usecols(col)
-        # Because we load at least the first column, we mock the dataframe subset
-        return df_missing[["SomeOtherCol"]]
+    mock_read_excel_hydro = _create_mock_read_excel_func(df_missing, ["SomeOtherCol"])
 
     mock_read_excel.side_effect = mock_read_excel_hydro
 
@@ -194,16 +198,11 @@ def test_validate_hydro_file_missing_columns(
 @mock.patch("pandas.read_excel")
 def test_validate_processed_files_missing_columns(
     mock_read_excel: Any, mock_is_symlink: Any
-) -> None:
+) -> Any:
     """Test validate_processed_files behavior when required and sensor columns are absent."""
     df_missing = pd.DataFrame({"RandomData": [1.0, 2.0], "MoreRandomData": [3.0, 4.0]})
 
-    def mock_read_excel_proc(*args: Any, **kwargs: Any) -> Any:
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            for col in df_missing.columns:
-                usecols(col)
-        return df_missing[["RandomData"]]
+    mock_read_excel_proc = _create_mock_read_excel_func(df_missing, ["RandomData"])
 
     mock_read_excel.side_effect = mock_read_excel_proc
 
@@ -240,7 +239,7 @@ def test_validate_processed_files_missing_columns(
 @mock.patch.object(DataValidator, "validate_processed_files")
 def test_run_validation_success(
     mock_processed: Any, mock_hydro: Any, mock_summary: Any
-) -> None:
+) -> Any:
     """Test run_validation when all files are valid and consistent."""
     mock_summary.return_value = {"river_miles": [54.0, 53.0]}
     mock_hydro.return_value = {"mock_key": "mock_value"}
@@ -266,7 +265,7 @@ def test_run_validation_success(
 @mock.patch.object(DataValidator, "validate_processed_files")
 def test_run_validation_inconsistent(
     mock_processed: Any, mock_hydro: Any, mock_summary: Any
-) -> None:
+) -> Any:
     """Test run_validation when files are valid but river miles are inconsistent."""
     mock_summary.return_value = {"river_miles": [54.0, 53.0]}
     mock_hydro.return_value = {"mock_key": "mock_value"}
@@ -288,7 +287,7 @@ def test_run_validation_inconsistent(
 @mock.patch.object(DataValidator, "validate_processed_files")
 def test_run_validation_failure(
     mock_processed: Any, mock_hydro: Any, mock_summary: Any
-) -> None:
+) -> Any:
     """Test run_validation when files are invalid."""
     mock_summary.return_value = None
     mock_hydro.return_value = None
