@@ -37,12 +37,7 @@ def test_validate_summary_file(mock_read_excel: Any, mock_is_symlink: Any) -> An
         {"River_Mile": [54.0, 53.0], "Y_Offset": [10.5, 11.2], "Num_Sensors": [2, 2]}
     )
 
-    def mock_read_excel_func(*args: Any, **kwargs: Any) -> Any:
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            for col in mock_df.columns:
-                usecols(col)
-        return mock_df
+    mock_read_excel_func = _create_mock_read_excel_func(mock_df, list(mock_df.columns))
 
     mock_read_excel.side_effect = mock_read_excel_func
 
@@ -77,12 +72,7 @@ def test_validate_summary_file_missing_columns(
         }
     )
 
-    def mock_read_excel_func(*args: Any, **kwargs: Any) -> Any:
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            for col in mock_df.columns:
-                usecols(col)
-        return mock_df
+    mock_read_excel_func = _create_mock_read_excel_func(mock_df, list(mock_df.columns))
 
     mock_read_excel.side_effect = mock_read_excel_func
 
@@ -124,11 +114,9 @@ def test_validate_hydro_file(
             if sheet == "RM_54.0"
             else df_53 if sheet == "RM_53.0" else pd.DataFrame()
         )
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            for col in df.columns:
-                usecols(col)
-        return df
+        # Avoid duplication of the callable usecols logic by delegating
+        func = _create_mock_read_excel_func(df, list(df.columns))
+        return func(*args, **kwargs)
 
     mock_read_excel.side_effect = mock_read_excel_hydro
 
