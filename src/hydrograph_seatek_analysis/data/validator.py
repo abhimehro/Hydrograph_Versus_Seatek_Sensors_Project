@@ -45,7 +45,7 @@ class DataValidator:
         """Helper to calculate missing values efficiently."""
         # ⚡ Bolt Optimization: Replace df[cols].isna().sum() with dictionary comprehension and np.count_nonzero
         # to avoid the overhead of creating an intermediate boolean DataFrame in memory and implicit type casting.
-        return {col: np.count_nonzero(pd.isna(df[col].values)) for col in columns}
+        return {col: np.count_nonzero(pd.isna(df[col].to_numpy())) for col in columns}
 
     def validate_summary_file(self) -> Optional[Dict[str, Any]]:
         """
@@ -87,7 +87,8 @@ class DataValidator:
 
             # Check for missing values
             missing_values = self._calculate_missing_values(df, required_cols)
-            if any(val > 0 for val in missing_values.values()):
+            # ⚡ Bolt Optimization: Use dict value extraction and fast iteration rather than a generator comprehension for small dicts
+            if sum(missing_values.values()) > 0:
                 logger.warning(
                     f"Missing values detected in summary data: {missing_values}"
                 )
