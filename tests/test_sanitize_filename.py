@@ -50,3 +50,11 @@ def test_sanitize_filename_removes_newlines():
     """Test that newlines are removed to prevent log injection."""
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
+
+
+def test_sanitize_filename_handles_unicode_bypass():
+    """Test that unicode characters cannot bypass the \\w class."""
+    # The é character \u00e9 matches \w if re.ASCII is not used.
+    malicious_input = "malicious_file_\u00e9.txt"
+    sanitized = sanitize_filename(malicious_input)
+    assert sanitized == "malicious_file__.txt"
