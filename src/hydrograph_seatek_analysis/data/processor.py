@@ -193,7 +193,7 @@ class SeatekDataProcessor:
 
     def _setup_offsets(self) -> None:
         """Setup Y_Offset values for each river mile from the summary data."""
-        # Optimization: Zip underlying NumPy arrays instead of Pandas Series to avoid iteration overhead
+        # Zip NumPy arrays to avoid pandas Series iteration overhead.
         self.offsets = dict(
             zip(
                 self.summary_data["River_Mile"].to_numpy(),
@@ -490,7 +490,7 @@ class SeatekDataProcessor:
             hydro_mask_arr,
         )
 
-        # Optimization: Fast NumPy monotonicity check instead of slower Pandas method
+        # Use NumPy for a faster monotonicity check.
         time_arr = merged["Time (Minutes)"].to_numpy()
         if not (time_arr[:-1] <= time_arr[1:]).all():
             merged.sort_values("Time (Minutes)", inplace=True)
