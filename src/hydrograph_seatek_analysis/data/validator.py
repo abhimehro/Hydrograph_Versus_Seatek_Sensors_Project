@@ -87,7 +87,7 @@ class DataValidator:
 
             # Check for missing values
             missing_values = self._calculate_missing_values(df, required_cols)
-            # ⚡ Bolt Optimization: Use dict value extraction and fast iteration rather than a generator comprehension for small dicts
+            # Sum missing-value counts directly from the dictionary.
             if sum(missing_values.values()) > 0:
                 logger.warning(
                     f"Missing values detected in summary data: {missing_values}"
