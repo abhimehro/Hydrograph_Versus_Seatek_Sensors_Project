@@ -194,7 +194,10 @@ class SeatekDataProcessor:
     def _setup_offsets(self) -> None:
         """Setup Y_Offset values for each river mile from the summary data."""
         self.offsets = dict(
-            zip(self.summary_data["River_Mile"], self.summary_data["Y_Offset"])
+            zip(
+                self.summary_data["River_Mile"].to_numpy(),
+                self.summary_data["Y_Offset"].to_numpy(),
+            )
         )
 
     def convert_to_navd88(
@@ -487,7 +490,8 @@ class SeatekDataProcessor:
         )
 
         # Optimization: Check if already sorted (O(N)) before doing O(N log N) sort
-        if not merged["Time (Minutes)"].is_monotonic_increasing:
+        time_arr = merged["Time (Minutes)"].to_numpy()
+        if len(time_arr) > 1 and not np.all(time_arr[:-1] <= time_arr[1:]):
             merged.sort_values("Time (Minutes)", inplace=True)
 
         metrics.valid_rows = len(merged)
