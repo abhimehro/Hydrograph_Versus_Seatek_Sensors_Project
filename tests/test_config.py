@@ -10,7 +10,7 @@ from src.hydrograph_seatek_analysis.core.config import (
 )
 
 
-def test_config_default_initialization():
+def test_config_default_initialization() -> None:
     """Test that Config can be initialized with default values."""
     config = Config()
 
@@ -21,7 +21,7 @@ def test_config_default_initialization():
     assert config.output_dir == config.base_dir / "output/charts"
 
 
-def test_config_custom_base_dir():
+def test_config_custom_base_dir() -> None:
     """Test that Config can be initialized with a custom base directory."""
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_path = Path(temp_dir)
@@ -34,7 +34,7 @@ def test_config_custom_base_dir():
         assert config.output_dir == temp_path / "output/charts"
 
 
-def test_navd_constants():
+def test_navd_constants() -> None:
     """Test that NavdConstants can be initialized with default and custom values."""
     # Default values
     constants = NavdConstants()
@@ -49,7 +49,7 @@ def test_navd_constants():
     assert custom_constants.scale_factor == 15.0
 
 
-def test_chart_settings():
+def test_chart_settings() -> None:
     """Test that ChartSettings can be initialized with default and custom values."""
     # Default values
     settings = ChartSettings()
@@ -68,7 +68,7 @@ def test_chart_settings():
     assert custom_settings.font_size == 12
 
 
-def test_config_from_dict():
+def test_config_from_dict() -> None:
     """Test that Config can be created from a dictionary."""
     config_dict = {
         "base_dir": "/tmp/test",
