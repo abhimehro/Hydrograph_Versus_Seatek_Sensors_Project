@@ -50,3 +50,9 @@ def test_sanitize_filename_removes_newlines():
     """Test that newlines are removed to prevent log injection."""
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
+
+
+def test_sanitize_filename_handles_unicode():
+    r"""Test that unicode characters are properly neutralized when using \w."""
+    # The character µ is considered a letter in unicode, but we want ASCII only
+    assert sanitize_filename("fileµname") == "file_name"
