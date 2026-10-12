@@ -26,6 +26,7 @@ class Application:
         """
         self.config = config or Config()
         self.logger = logging.getLogger(__name__)
+        self._chart_paths: set[Path] = set()
 
         # Initialize components
         self.data_loader = DataLoader(self.config)
@@ -133,6 +134,12 @@ class Application:
             )
             return False
 
+        resolved_path = output_path.resolve()
+        if resolved_path in self._chart_paths:
+            self.logger.error(f"Duplicate chart output path: {output_path}")
+            return False
+        self._chart_paths.add(resolved_path)
+
         # Construct metadata for a11y
         metadata = self._create_chart_metadata(rm_data.river_mile, year, sensor)
 
@@ -155,6 +162,7 @@ class Application:
             return False
 
         try:
+            self._chart_paths.clear()
             self.logger.info("📊 Processing data and generating visualizations")
             success_count = 0
             error_count = 0
