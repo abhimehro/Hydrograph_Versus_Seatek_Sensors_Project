@@ -1,3 +1,4 @@
+import typing
 import os
 import shutil
 import subprocess  # nosec B404
@@ -14,11 +15,13 @@ WORKFLOW_PATH = (
 )
 
 
-def load_workflow():
-    return yaml.safe_load(WORKFLOW_PATH.read_text(encoding="utf-8"))
+def load_workflow() -> dict[str, typing.Any]:
+    return typing.cast(
+        dict[str, typing.Any], yaml.safe_load(WORKFLOW_PATH.read_text(encoding="utf-8"))
+    )
 
 
-def test_refactoring_agent_enforces_concurrency_per_pr():
+def test_refactoring_agent_enforces_concurrency_per_pr() -> None:
     workflow = load_workflow()
 
     assert workflow["concurrency"] == {
@@ -27,7 +30,7 @@ def test_refactoring_agent_enforces_concurrency_per_pr():
     }
 
 
-def test_refactoring_agent_retries_failed_push_once():
+def test_refactoring_agent_retries_failed_push_once() -> None:
     steps = load_workflow()["jobs"]["refactor"]["steps"]
     steps_by_id = {step["id"]: step for step in steps if "id" in step}
     steps_by_name = {step["name"]: step for step in steps if "name" in step}
@@ -55,7 +58,9 @@ def test_refactoring_agent_retries_failed_push_once():
     )
 
 
-def test_prepare_command_extracts_first_cs_agent_line_from_multiline_comment(tmp_path):
+def test_prepare_command_extracts_first_cs_agent_line_from_multiline_comment(
+    tmp_path: typing.Any,
+) -> None:
     steps = load_workflow()["jobs"]["refactor"]["steps"]
     prepare_command_step = next(
         step for step in steps if step.get("id") == "prepare-command"
@@ -96,7 +101,9 @@ def test_prepare_command_extracts_first_cs_agent_line_from_multiline_comment(tmp
     )
 
 
-def test_prepare_command_fails_when_no_cs_agent_line_present(tmp_path):
+def test_prepare_command_fails_when_no_cs_agent_line_present(
+    tmp_path: typing.Any,
+) -> None:
     steps = load_workflow()["jobs"]["refactor"]["steps"]
     prepare_command_step = next(
         step for step in steps if step.get("id") == "prepare-command"
