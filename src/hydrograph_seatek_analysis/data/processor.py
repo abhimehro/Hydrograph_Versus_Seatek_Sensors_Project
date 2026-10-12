@@ -194,7 +194,10 @@ class SeatekDataProcessor:
     def _setup_offsets(self) -> None:
         """Setup Y_Offset values for each river mile from the summary data."""
         self.offsets = dict(
-            zip(self.summary_data["River_Mile"], self.summary_data["Y_Offset"])
+            zip(
+                self.summary_data["River_Mile"].to_numpy(),
+                self.summary_data["Y_Offset"].to_numpy(),
+            )
         )
 
     def convert_to_navd88(
