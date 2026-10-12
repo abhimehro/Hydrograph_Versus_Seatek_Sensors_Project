@@ -172,3 +172,52 @@ def test_process_data_internal_error():
     ):
         with pytest.raises(RuntimeError, match="Dataframe processing failed"):
             processor.process_data(54.0, 2023, "Sensor_1")
+
+
+def _processor_for_year(frame: pd.DataFrame) -> SeatekDataProcessor:
+    """Processor whose only loaded year is the given frame."""
+    config = Config()
+    summary_data = pd.DataFrame(
+        {"River_Mile": [54.0], "Y_Offset": [10.5], "Num_Sensors": [1]}
+    )
+    processor = SeatekDataProcessor(
+        data_dir=config.processed_dir, summary_data=summary_data, config=config
+    )
+    rm_data = mock.Mock()
+    rm_data.year_data_cache = {2023: frame}
+    processor.river_mile_data[54.0] = rm_data
+    return processor
+
+
+def test_process_data_counts_rows_the_mask_drops():
+    """invalid_rows is rows omitted from the merge, not rows conversion kept."""
+    frame = pd.DataFrame(
+        {
+            "Time (Seconds)": [0.0, 60.0],
+            "Time (Minutes)": [0.0, 1.0],
+            "Sensor_1": [1.0, float("nan")],
+        }
+    )
+    merged, metrics = _processor_for_year(frame).process_data(54.0, 2023, "Sensor_1")
+
+    assert metrics.original_rows == 2
+    assert metrics.null_values == 1
+    assert metrics.valid_rows == 1
+    assert metrics.invalid_rows == 1
+    assert len(merged) == 1
+
+
+def test_process_data_all_masked_rows_are_invalid():
+    """An empty merge reports every input row as invalid."""
+    frame = pd.DataFrame(
+        {
+            "Time (Seconds)": [0.0, 60.0],
+            "Time (Minutes)": [0.0, 1.0],
+            "Sensor_1": [float("nan"), float("nan")],
+        }
+    )
+    merged, metrics = _processor_for_year(frame).process_data(54.0, 2023, "Sensor_1")
+
+    assert metrics.valid_rows == 0
+    assert metrics.invalid_rows == 2
+    assert merged.empty
