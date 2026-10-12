@@ -1892,14 +1892,14 @@ files = [
 
 [[package]]
 name = "types-seaborn"
-version = "0.13.2.20260728"
+version = "0.13.2.20261006"
 description = "Typing stubs for seaborn"
 optional = false
 python-versions = ">=3.10"
 groups = ["dev"]
 files = [
-    {file = "types_seaborn-0.13.2.20260728-py3-none-any.whl", hash = "sha256:8022d591631ebe90ca52f93ac6fa0da5f12b9f2d8c8c2eca5c076472a37b6d50"},
-    {file = "types_seaborn-0.13.2.20260728.tar.gz", hash = "sha256:b86af2dfa1acef233c14f2bed1adbb5111173108ff3703584f5480907ce1a62c"},
+    {file = "types_seaborn-0.13.2.20261006-py3-none-any.whl", hash = "sha256:3bc4c6fdfa9f5a2d5d5d8fe99cba6b3c501fec702cfc57ba10604d2d59ac4570"},
+    {file = "types_seaborn-0.13.2.20261006.tar.gz", hash = "sha256:159c8e572dcec89263de2a84eb4071519c655383bbee66767061566880eb3a8c"},
 ]
 
 [package.dependencies]
@@ -1953,4 +1953,4 @@ python-discovery = ">=1.6"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "4f2c560bd59864e36c64c4147361a7c23a4e9c31451fbcca571d92f40ca15ded"
+content-hash = "4f8fb9a3bc5609e77ff75a7d035e59b4797882e1780a0e436af0c0628d37c282"
