@@ -190,6 +190,7 @@
 - ⚡ Bolt: Replace `.values` with `.to_numpy()` for pandas array extraction [\#803](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/803) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump types-seaborn from 0.13.2.20260728 to 0.13.2.20261006 [\#795](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/795) ([dependabot[bot]](https://github.com/apps/dependabot))
 - ⚡ Bolt: Optimize Pandas Series iteration by using to\_numpy\(\) in zip [\#790](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/790) ([abhimehro](https://github.com/abhimehro))
+- chore\(deps\): bump black from 26.5.1 to 26.10.0 [\#781](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/781) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Jules Daily QA & Agentic Review: Fix Flake8 D200 Violation [\#764](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/764) ([abhimehro](https://github.com/abhimehro))
 - Add poetry to macOS session setup [\#757](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/757) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump mypy to 2.4.0 and add CI pin-parity check [\#756](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/756) ([abhimehro](https://github.com/abhimehro))
