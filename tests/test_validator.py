@@ -112,11 +112,7 @@ def test_validate_hydro_file(
             if sheet == "RM_54.0"
             else df_53 if sheet == "RM_53.0" else pd.DataFrame()
         )
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            for col in df.columns:
-                usecols(col)
-        return df
+        return _create_mock_read_excel(df)(*args, **kwargs)
 
     mock_read_excel.side_effect = mock_read_excel_hydro
 
@@ -159,16 +155,7 @@ def test_validate_hydro_file_missing_columns(
         {"SomeOtherCol": [0, 60, 120], "YetAnotherCol": [1, 1, 1]}
     )
 
-    def mock_read_excel_hydro(*args: Any, **kwargs: Any) -> Any:
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            # Our stateful filter logic expects columns to be passed iteratively
-            for col in df_missing.columns:
-                usecols(col)
-        # Because we load at least the first column, we mock the dataframe subset
-        return df_missing[["SomeOtherCol"]]
-
-    mock_read_excel.side_effect = mock_read_excel_hydro
+    mock_read_excel.side_effect = _create_mock_read_excel(df_missing[["SomeOtherCol"]])
 
     config = Config()
     validator = DataValidator(config)
