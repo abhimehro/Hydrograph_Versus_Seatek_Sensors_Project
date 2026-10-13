@@ -1,3 +1,5 @@
+from typing import Any
+
 """Tests for the data processor module."""
 
 import tempfile
@@ -15,7 +17,7 @@ from src.hydrograph_seatek_analysis.data.processor import (
 )
 
 
-def test_processing_metrics():
+def test_processing_metrics() -> None:
     """Test ProcessingMetrics class."""
     metrics = ProcessingMetrics(
         original_rows=100, invalid_rows=10, zero_values=5, null_values=15, valid_rows=70
@@ -28,7 +30,7 @@ def test_processing_metrics():
     assert metrics.valid_rows == 70
 
 
-def test_river_mile_data_initialization():
+def test_river_mile_data_initialization() -> None:
     """Test RiverMileData initialization."""
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_path = Path(temp_dir) / "RM_42.5.xlsx"
@@ -39,7 +41,7 @@ def test_river_mile_data_initialization():
             assert river_mile_data.river_mile == 42.5
 
 
-def test_river_mile_data_extraction():
+def test_river_mile_data_extraction() -> None:
     """Test river mile extraction from filename."""
     # Test valid filename
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -54,7 +56,7 @@ def test_river_mile_data_extraction():
             RiverMileData(invalid_path)
 
 
-def test_seatek_data_processor_initialization():
+def test_seatek_data_processor_initialization() -> None:
     """Test SeatekDataProcessor initialization."""
     config = Config()
     summary_data = pd.DataFrame(
@@ -72,7 +74,7 @@ def test_seatek_data_processor_initialization():
     assert processor.offsets[53.0] == 11.2
 
 
-def test_convert_to_navd88():
+def test_convert_to_navd88() -> None:
     """Test conversion to NAVD88 elevations."""
     config = Config()
     summary_data = pd.DataFrame(
@@ -103,7 +105,7 @@ def test_convert_to_navd88():
     # Ensure Y offset was applied
     constants = config.navd88_constants
 
-    def expected_formula(x):
+    def expected_formula(x: Any) -> Any:
         return (
             -(x + constants.offset_a - constants.offset_b) * constants.scale_factor
             + 10.5
@@ -113,7 +115,7 @@ def test_convert_to_navd88():
         assert processed["Sensor_1"].iloc[i] == pytest.approx(expected_formula(val))
 
 
-def test_setup_sensors_error():
+def test_setup_sensors_error() -> None:
     """Test _setup_sensors raises ValueError when no sensor columns are present."""
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_path = Path(temp_dir) / "RM_42.5.xlsx"
@@ -133,7 +135,7 @@ def test_setup_sensors_error():
             river_mile_data._setup_sensors()
 
 
-def test_process_data_missing_river_mile():
+def test_process_data_missing_river_mile() -> None:
     """Test that process_data raises ValueError for an unknown river mile."""
     config = Config()
     summary_data = pd.DataFrame(
@@ -147,7 +149,7 @@ def test_process_data_missing_river_mile():
         processor.process_data(99.0, 2023, "Sensor_1")
 
 
-def test_process_data_internal_error():
+def test_process_data_internal_error() -> None:
     """Test that internal errors during processing propagate properly."""
     config = Config()
     summary_data = pd.DataFrame(

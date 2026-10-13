@@ -4,6 +4,8 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
+from typing import cast
+from unittest.mock import MagicMock
 
 from src.hydrograph_seatek_analysis.app import Application, main
 from src.hydrograph_seatek_analysis.core.config import Config
@@ -53,11 +55,13 @@ class TestApplication(unittest.TestCase):
         """Test that load_data returns False on data loading exception."""
         app = Application(config=self.temp_config)
 
-        app.data_loader.load_summary_data.side_effect = Exception("Mock loading error")
+        cast(MagicMock, app.data_loader).load_summary_data.side_effect = Exception(
+            "Mock loading error"
+        )
 
         self.assertFalse(app.load_data())
-        app.data_loader.load_summary_data.assert_called_once()
-        app.data_loader.load_all_data.assert_not_called()
+        cast(MagicMock, app.data_loader).load_summary_data.assert_called_once()
+        cast(MagicMock, app.data_loader).load_all_data.assert_not_called()
         mock_processor_class.assert_not_called()
 
     @mock.patch("src.hydrograph_seatek_analysis.app.SeatekDataProcessor")
@@ -72,13 +76,13 @@ class TestApplication(unittest.TestCase):
         processor = mock_processor_class.return_value
         processor.river_mile_data = {54.0: mock.MagicMock()}
         app = Application(config=self.temp_config)
-        app.data_loader.load_summary_data.return_value = summary_data
+        cast(MagicMock, app.data_loader).load_summary_data.return_value = summary_data
 
         self.assertTrue(app.load_data())
 
-        app.data_loader.load_summary_data.assert_called_once()
-        app.data_loader.load_all_data.assert_not_called()
-        app.data_loader._load_hydro_data.assert_not_called()
+        cast(MagicMock, app.data_loader).load_summary_data.assert_called_once()
+        cast(MagicMock, app.data_loader).load_all_data.assert_not_called()
+        cast(MagicMock, app.data_loader)._load_hydro_data.assert_not_called()
         mock_processor_class.assert_called_once_with(
             data_dir=self.temp_config.processed_dir,
             summary_data=summary_data,
@@ -97,14 +101,14 @@ class TestApplication(unittest.TestCase):
         return app.processor
 
     def _setup_processing_test(
-        self, mock_chart_gen_class: mock.MagicMock
-    ) -> tuple[Application, mock.MagicMock]:
+        self, mock_chart_gen_class: MagicMock
+    ) -> tuple[Application, MagicMock]:
         """Helper to set up Application, processor and chart generator mocks for processing tests."""
         app = Application(config=self.temp_config)
         self._setup_mock_processor(app)
-        app.processor.process_data.return_value = ([1], {})
+        cast(MagicMock, app.processor).process_data.return_value = ([1], {})
         app.chart_generator = mock_chart_gen_class.return_value
-        return app, app.chart_generator
+        return app, cast(MagicMock, app.chart_generator)
 
     def test_process_data_no_processor(self) -> None:
         """Test process_data when processor is not initialized."""
@@ -131,7 +135,7 @@ class TestApplication(unittest.TestCase):
         self._setup_mock_processor(app)
 
         # Return empty list
-        app.processor.process_data.return_value = ([], {})
+        cast(MagicMock, app.processor).process_data.return_value = ([], {})
 
         with mock.patch.object(app.logger, "warning") as mock_warning:
             self.assertTrue(app.process_data())
@@ -165,7 +169,9 @@ class TestApplication(unittest.TestCase):
         app = Application(config=self.temp_config)
         self._setup_mock_processor(app)
 
-        app.processor.process_data.side_effect = Exception("Test Exception")
+        cast(MagicMock, app.processor).process_data.side_effect = Exception(
+            "Test Exception"
+        )
 
         with mock.patch.object(app.logger, "error") as mock_error:
             self.assertFalse(app.process_data())
@@ -194,7 +200,11 @@ class TestMain(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.Config")
     @mock.patch("src.hydrograph_seatek_analysis.app.Path")
     def test_main_success(
-        self, mock_path, mock_config_class, mock_app_class, mock_configure_logger
+        self,
+        mock_path: MagicMock,
+        mock_config_class: MagicMock,
+        mock_app_class: MagicMock,
+        mock_configure_logger: MagicMock,
     ) -> None:
         """Test main execution returning 0 on success."""
         mock_app_instance = mock.MagicMock()
@@ -214,7 +224,11 @@ class TestMain(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.Config")
     @mock.patch("src.hydrograph_seatek_analysis.app.Path")
     def test_main_failure(
-        self, mock_path, mock_config_class, mock_app_class, mock_configure_logger
+        self,
+        mock_path: MagicMock,
+        mock_config_class: MagicMock,
+        mock_app_class: MagicMock,
+        mock_configure_logger: MagicMock,
     ) -> None:
         """Test main execution returning 1 on app failure."""
         mock_app_instance = mock.MagicMock()
@@ -230,7 +244,10 @@ class TestMain(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.Config")
     @mock.patch("src.hydrograph_seatek_analysis.app.Path")
     def test_main_exception(
-        self, mock_path, mock_config_class, mock_configure_logger
+        self,
+        mock_path: MagicMock,
+        mock_config_class: MagicMock,
+        mock_configure_logger: MagicMock,
     ) -> None:
         """Test main execution returning 1 on exception."""
         mock_configure_logger.side_effect = Exception("Test Exception")
@@ -248,7 +265,9 @@ class TestMain(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
     @mock.patch("src.hydrograph_seatek_analysis.app.Application")
     @mock.patch("src.hydrograph_seatek_analysis.app.Config")
-    def test_main_help_exits_zero(self, mock_config, mock_app, mock_logger) -> None:
+    def test_main_help_exits_zero(
+        self, mock_config: MagicMock, mock_app: MagicMock, mock_logger: MagicMock
+    ) -> None:
         """Test --help prints usage and exits 0 without running the app."""
         with self.assertRaises(SystemExit) as cm:
             main(argv=["--help"])
@@ -259,7 +278,9 @@ class TestMain(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.configure_root_logger")
     @mock.patch("src.hydrograph_seatek_analysis.app.Application")
     @mock.patch("src.hydrograph_seatek_analysis.app.Config")
-    def test_main_version_exits_zero(self, mock_config, mock_app, mock_logger) -> None:
+    def test_main_version_exits_zero(
+        self, mock_config: MagicMock, mock_app: MagicMock, mock_logger: MagicMock
+    ) -> None:
         """Test --version prints version and exits 0 without running the app."""
         with self.assertRaises(SystemExit) as cm:
             main(argv=["--version"])
@@ -272,7 +293,11 @@ class TestMain(unittest.TestCase):
     @mock.patch("src.hydrograph_seatek_analysis.app.Config")
     @mock.patch("src.hydrograph_seatek_analysis.app.Path")
     def test_main_data_dir(
-        self, mock_path, mock_config_class, mock_app_class, mock_configure_logger
+        self,
+        mock_path: MagicMock,
+        mock_config_class: MagicMock,
+        mock_app_class: MagicMock,
+        mock_configure_logger: MagicMock,
     ) -> None:
         """Test --data-dir is forwarded to Config."""
         mock_config_instance = mock.MagicMock()
