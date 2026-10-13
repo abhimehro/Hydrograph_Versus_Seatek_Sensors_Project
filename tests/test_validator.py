@@ -11,6 +11,19 @@ from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.data.validator import DataValidator
 
 
+def _create_mock_read_excel(df: Any) -> Any:
+    """Helper to create a mock read_excel function that respects usecols callback."""
+
+    def _mock_read_excel(*args: Any, **kwargs: Any) -> Any:
+        usecols = kwargs.get("usecols")
+        if callable(usecols):
+            for col in df.columns:
+                usecols(col)
+        return df
+
+    return _mock_read_excel
+
+
 def test_validator_initialization() -> None:
     """Test DataValidator initialization."""
     config = Config()
@@ -26,14 +39,7 @@ def test_validate_summary_file(mock_read_excel: Any, mock_is_symlink: Any) -> No
         {"River_Mile": [54.0, 53.0], "Y_Offset": [10.5, 11.2], "Num_Sensors": [2, 2]}
     )
 
-    def mock_read_excel_func(*args: Any, **kwargs: Any) -> Any:
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            for col in mock_df.columns:
-                usecols(col)
-        return mock_df
-
-    mock_read_excel.side_effect = mock_read_excel_func
+    mock_read_excel.side_effect = _create_mock_read_excel(mock_df)
 
     config = Config()
     validator = DataValidator(config)
@@ -66,14 +72,7 @@ def test_validate_summary_file_missing_columns(
         }
     )
 
-    def mock_read_excel_func(*args: Any, **kwargs: Any) -> Any:
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            for col in mock_df.columns:
-                usecols(col)
-        return mock_df
-
-    mock_read_excel.side_effect = mock_read_excel_func
+    mock_read_excel.side_effect = _create_mock_read_excel(mock_df)
 
     config = Config()
     validator = DataValidator(config)
@@ -198,14 +197,7 @@ def test_validate_processed_files_missing_columns(
     """Test validate_processed_files behavior when required and sensor columns are absent."""
     df_missing = pd.DataFrame({"RandomData": [1.0, 2.0], "MoreRandomData": [3.0, 4.0]})
 
-    def mock_read_excel_proc(*args: Any, **kwargs: Any) -> Any:
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            for col in df_missing.columns:
-                usecols(col)
-        return df_missing[["RandomData"]]
-
-    mock_read_excel.side_effect = mock_read_excel_proc
+    mock_read_excel.side_effect = _create_mock_read_excel(df_missing[["RandomData"]])
 
     config = Config()
     validator = DataValidator(config)
