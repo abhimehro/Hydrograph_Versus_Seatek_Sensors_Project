@@ -88,7 +88,8 @@ class DataValidator:
 
             # Check for missing values
             missing_values = self._calculate_missing_values(df, required_cols)
-            if any(val > 0 for val in missing_values.values()):
+            # ⚡ Bolt Optimization: any(missing_values.values()) is faster than any(val > 0 for val in missing_values.values()) when dealing with non-negative integers since any() natively checks truthiness.
+            if any(missing_values.values()):
                 logger.warning(
                     f"Missing values detected in summary data: {missing_values}"
                 )

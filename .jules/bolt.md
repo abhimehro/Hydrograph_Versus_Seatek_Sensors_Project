@@ -500,3 +500,7 @@ performance.
 
 **Learning:** Zipping Pandas Series (e.g., `zip(series1, series2)`) introduces significant iteration overhead due to Pandas' internal iteration mechanics. Extracting the underlying NumPy arrays first using `.to_numpy()` is substantially faster while producing the identical dictionary mapping.
 **Action:** Replace `zip(series1, series2)` with `zip(series1.to_numpy(), series2.to_numpy())` when zipping Pandas Series, particularly within initialization or data transformation loops. Applied to `src/hydrograph_seatek_analysis/data/processor.py`.
+## 2025-03-09 - Optimize any() with dictionary values
+
+**Learning:** When checking if any value in a dictionary of counts is greater than 0, `any(my_dict.values())` is significantly faster than using a generator comprehension like `any(val > 0 for val in my_dict.values())`. Since positive integers evaluate to `True` in Python (and counts cannot be negative), `any()` natively handles the truthiness check directly on the dictionary values view without the overhead of iterating and evaluating a conditional generator.
+**Action:** Replace `any(val > 0 for val in my_dict.values())` with `any(my_dict.values())` when checking for non-zero counts in a dictionary to improve performance. Applied this to `src/hydrograph_seatek_analysis/data/validator.py`.
