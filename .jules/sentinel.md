@@ -318,3 +318,8 @@ permissive when standard spaces are the only intended whitespace to keep.
 **Prevention:** Avoid using the `\s` character class when sanitizing filenames;
 use a literal space `` instead to ensure characters like `\n` and `\r` are
 properly neutralized.
+
+## 2023-11-20 - [Fix Python Regular Expression Unicode Default Matching]
+**Vulnerability:** Python's `re` module character classes (e.g., `\w`, `\s`, `\d`) match Unicode characters by default in Python 3. When strictly sanitizing file paths or identifiers for security (e.g., using `\w`), this creates a bypass vulnerability where homographs or unexpected Unicode characters could slip past sanitization checks.
+**Learning:** `\w` matched not just ASCII characters, but any Unicode character defined as a letter. When sanitizing paths in the codebase, this could be abused.
+**Prevention:** Apply `flags=re.ASCII` to `re` functions where the pattern contains character classes that match Unicode by default, to strictly enforce ASCII-only matching.
