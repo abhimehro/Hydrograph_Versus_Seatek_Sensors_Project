@@ -201,6 +201,7 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): bump numpy from 2.5.3 to 2.5.4 [\#827](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/827) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump black from 26.10.0 to 26.10.1 [\#826](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/826) ([dependabot[bot]](https://github.com/apps/dependabot))
 - ⚡ Bolt: Replace `.values` with `.to_numpy()` for pandas array extraction [\#803](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/803) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump types-seaborn from 0.13.2.20260728 to 0.13.2.20261006 [\#795](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/795) ([dependabot[bot]](https://github.com/apps/dependabot))
