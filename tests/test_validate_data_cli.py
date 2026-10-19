@@ -1,5 +1,7 @@
 """Regression tests for validate_data.py JSON output-path handling."""
 
+import typing
+
 import argparse
 import json
 from types import SimpleNamespace
@@ -7,7 +9,9 @@ from types import SimpleNamespace
 import validate_data
 
 
-def _run_main(monkeypatch, tmp_path, output_path):
+def _run_main(
+    monkeypatch: typing.Any, tmp_path: typing.Any, output_path: typing.Any
+) -> typing.Any:
     """Run the CLI main path with validation dependencies isolated."""
     monkeypatch.chdir(tmp_path)
     monkeypatch.setattr(
@@ -27,7 +31,9 @@ def _run_main(monkeypatch, tmp_path, output_path):
     return validate_data.main()
 
 
-def test_json_output_uses_validated_in_directory_path(monkeypatch, tmp_path):
+def test_json_output_uses_validated_in_directory_path(
+    monkeypatch: typing.Any, tmp_path: typing.Any
+) -> None:
     """A validated output path inside the working directory is written as JSON."""
     output_path = tmp_path / "validation.json"
 
@@ -38,7 +44,9 @@ def test_json_output_uses_validated_in_directory_path(monkeypatch, tmp_path):
     }
 
 
-def test_json_output_rejects_parent_traversal(monkeypatch, tmp_path):
+def test_json_output_rejects_parent_traversal(
+    monkeypatch: typing.Any, tmp_path: typing.Any
+) -> None:
     """A ../ traversal path exits non-zero and creates no file outside the root."""
     outside_path = tmp_path / ".." / f"{tmp_path.name}-traversal-validation.json"
 
@@ -47,8 +55,8 @@ def test_json_output_rejects_parent_traversal(monkeypatch, tmp_path):
 
 
 def test_json_output_rejects_absolute_path_outside_working_directory(
-    monkeypatch, tmp_path
-):
+    monkeypatch: typing.Any, tmp_path: typing.Any
+) -> None:
     """An absolute path outside the working directory exits non-zero without a write."""
     outside_path = tmp_path.parent / f"{tmp_path.name}-absolute-validation.json"
     assert outside_path.is_absolute()
@@ -57,7 +65,9 @@ def test_json_output_rejects_absolute_path_outside_working_directory(
     assert not outside_path.exists()
 
 
-def test_json_output_rejects_symlink_escape(monkeypatch, tmp_path):
+def test_json_output_rejects_symlink_escape(
+    monkeypatch: typing.Any, tmp_path: typing.Any
+) -> None:
     """A path through an in-root symlink to an outside directory is rejected."""
     outside_dir = tmp_path.parent / f"{tmp_path.name}-outside"
     outside_dir.mkdir()
