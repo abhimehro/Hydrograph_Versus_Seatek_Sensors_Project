@@ -1,3 +1,4 @@
+from typing import Any
 import pandas as pd
 import pytest
 from matplotlib.figure import Figure
@@ -10,12 +11,12 @@ from src.hydrograph_seatek_analysis.visualization.chart_generator import (
 
 
 @pytest.fixture
-def chart_generator():
+def chart_generator() -> Any:
     return ChartGenerator()
 
 
 @pytest.fixture
-def sample_data():
+def sample_data() -> Any:
     return pd.DataFrame(
         {
             "Time (Minutes)": [1.0, 2.0, 3.0, 4.0],
@@ -25,7 +26,7 @@ def sample_data():
     )
 
 
-def test_chart_generator_init():
+def test_chart_generator_init() -> None:
     config = Config()
     config.chart_settings.figure_size = (12, 8)
     config.chart_settings.dpi = 150
@@ -35,7 +36,7 @@ def test_chart_generator_init():
     assert cg.chart_settings.dpi == 150
 
 
-def test_create_chart_success(chart_generator, sample_data):
+def test_create_chart_success(chart_generator: Any, sample_data: Any) -> None:
     fig, metrics = chart_generator.create_chart(
         data=sample_data, river_mile=10.5, year=2023, sensor="Sensor_1"
     )
@@ -82,7 +83,7 @@ def test_create_chart_success(chart_generator, sample_data):
         },
     ],
 )
-def test_create_chart_edge_cases(chart_generator, scenario):
+def test_create_chart_edge_cases(chart_generator: Any, scenario: Any) -> None:
     fig, metrics = chart_generator.create_chart(
         data=scenario["data"], river_mile=12.0, year=2024, sensor=scenario["sensor"]
     )
@@ -93,7 +94,7 @@ def test_create_chart_edge_cases(chart_generator, scenario):
     assert len(fig.axes) == scenario["axes"]
 
 
-def test_create_chart_exception_handling(chart_generator, mocker):
+def test_create_chart_exception_handling(chart_generator: Any, mocker: Any) -> None:
     mocker.patch("matplotlib.pyplot.subplots", side_effect=Exception("Test Error"))
     fig, metrics = chart_generator.create_chart(
         data=pd.DataFrame({"Time (Minutes)": [1.0], "Sensor_1": [1.0]}),
