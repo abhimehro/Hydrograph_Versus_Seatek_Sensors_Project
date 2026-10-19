@@ -11,6 +11,11 @@ from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.data.data_loader import DataLoader
 
 
+def _setup_mock_stat(size=1000):
+    """Return a mock stat object with a specific size."""
+    return mock.Mock(st_size=size)
+
+
 def test_data_loader_initialization():
     """Test DataLoader initialization."""
     config = Config()
@@ -83,8 +88,7 @@ def test_load_summary_data(mock_read_excel, mock_is_symlink):
 
     # Mock exists check to avoid file not found error
     with mock.patch.object(Path, "is_file", return_value=True):
-        with mock.patch.object(Path, "stat") as mock_stat:
-            mock_stat.return_value.st_size = 1000
+        with mock.patch.object(Path, "stat", return_value=_setup_mock_stat()):
             result = data_loader._load_summary_data()
 
     assert result.equals(mock_df)
@@ -148,8 +152,7 @@ def test_load_hydro_data_skips_invalid_sheet_value_error(
     data_loader = DataLoader(config)
 
     with mock.patch.object(Path, "is_file", return_value=True):
-        with mock.patch.object(Path, "stat") as mock_stat:
-            mock_stat.return_value.st_size = 1000
+        with mock.patch.object(Path, "stat", return_value=_setup_mock_stat()):
             result = data_loader._load_hydro_data()
 
     expected_df = valid_df[
@@ -187,8 +190,7 @@ def test_load_hydro_data_ignores_numeric_sheet_names(
     data_loader = DataLoader(config)
 
     with mock.patch.object(Path, "is_file", return_value=True):
-        with mock.patch.object(Path, "stat") as mock_stat:
-            mock_stat.return_value.st_size = 1000
+        with mock.patch.object(Path, "stat", return_value=_setup_mock_stat()):
             result = data_loader._load_hydro_data()
 
     assert list(result) == ["RM_54.0"]
@@ -214,8 +216,7 @@ def test_load_hydro_data_closes_workbook_on_sheet_error(
     data_loader = DataLoader(config)
 
     with mock.patch.object(Path, "is_file", return_value=True):
-        with mock.patch.object(Path, "stat") as mock_stat:
-            mock_stat.return_value.st_size = 1000
+        with mock.patch.object(Path, "stat", return_value=_setup_mock_stat()):
             with pytest.raises(RuntimeError, match="Test error"):
                 data_loader._load_hydro_data()
 
@@ -237,8 +238,7 @@ def test_load_hydro_data_exception(mock_excel_file_cls, caplog):
 
     with mock.patch.object(Path, "is_symlink", return_value=False):
         with mock.patch.object(Path, "is_file", return_value=True):
-            with mock.patch.object(Path, "stat") as mock_stat:
-                mock_stat.return_value.st_size = 1000
+            with mock.patch.object(Path, "stat", return_value=_setup_mock_stat()):
                 with pytest.raises(RuntimeError, match="Test error"):
                     data_loader._load_hydro_data()
 
