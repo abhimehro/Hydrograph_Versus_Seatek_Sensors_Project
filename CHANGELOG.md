@@ -209,6 +209,7 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): bump ruby/setup-ruby from 1.329.0 to 1.334.0 [\#869](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/869) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump codescene-oss/pr-refactoring-agent from 1.1.7 to 1.1.9 [\#868](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/868) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pytest-mock from 3.16.0 to 3.17.0 [\#856](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/856) ([dependabot[bot]](https://github.com/apps/dependabot))
 - ⚡ Bolt: Optimize any\(\) check for dictionary of non-negative integers [\#848](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/848) ([abhimehro](https://github.com/abhimehro))
