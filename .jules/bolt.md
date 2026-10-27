@@ -496,3 +496,11 @@ performance.
 
 **Learning:** When converting a Pandas Series to a native Python list, calling `series.tolist()` directly is inefficient due to Pandas object conversion overhead.
 **Action:** Replaced `series.tolist()` with `series.to_numpy().tolist()` on Pandas Series objects to significantly reduce conversion overhead and improve performance. Applied this to `tests/test_data_processor.py`.
+## 2025-03-09 - Optimize Zipping Pandas Series
+
+**Learning:** Zipping Pandas Series (e.g., `zip(series1, series2)`) introduces significant iteration overhead due to Pandas' internal iteration mechanics. Extracting the underlying NumPy arrays first using `.to_numpy()` is substantially faster while producing the identical dictionary mapping.
+**Action:** Replace `zip(series1, series2)` with `zip(series1.to_numpy(), series2.to_numpy())` when zipping Pandas Series, particularly within initialization or data transformation loops. Applied to `src/hydrograph_seatek_analysis/data/processor.py`.
+## 2025-03-09 - Optimize Any with Comprehension
+
+**Learning:** When checking if any value in a dictionary of non-negative integers is greater than 0, replace generator comprehensions (e.g., `any(val > 0 for val in dict.values())`) with a direct truthiness check (`any(dict.values())`). This natively handles truthiness checks in C without the overhead of iterating a conditional generator.
+**Action:** Replaced `any(val > 0 for val in missing_values.values())` with `any(missing_values.values())` in `src/hydrograph_seatek_analysis/data/validator.py`.

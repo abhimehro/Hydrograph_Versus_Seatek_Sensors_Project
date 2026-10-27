@@ -9,6 +9,11 @@ from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.data.validator import DataValidator
 
 
+def _setup_mock_stat(size=1000):
+    """Return a mock stat object with a specific size."""
+    return mock.Mock(st_size=size)
+
+
 def test_validator_initialization():
     """Test DataValidator initialization."""
     config = Config()
@@ -39,7 +44,7 @@ def test_validate_summary_file(mock_read_excel, mock_is_symlink):
     # Mock exists check to avoid file not found error
     with (
         mock.patch.object(Path, "is_file", return_value=True),
-        mock.patch.object(Path, "stat", return_value=mock.Mock(st_size=1000)),
+        mock.patch.object(Path, "stat", return_value=_setup_mock_stat()),
     ):
         result = validator.validate_summary_file()
 
@@ -78,7 +83,7 @@ def test_validate_summary_file_missing_columns(mock_read_excel, mock_is_symlink)
     # Mock exists check to avoid file not found error
     with (
         mock.patch.object(Path, "is_file", return_value=True),
-        mock.patch.object(Path, "stat", return_value=mock.Mock(st_size=1000)),
+        mock.patch.object(Path, "stat", return_value=_setup_mock_stat()),
     ):
         result = validator.validate_summary_file()
 
@@ -121,7 +126,7 @@ def test_validate_hydro_file(mock_read_excel, mock_is_symlink, mock_excel_file_c
     # Mock exists check to avoid file not found error
     with (
         mock.patch.object(Path, "is_file", return_value=True),
-        mock.patch.object(Path, "stat", return_value=mock.Mock(st_size=1000)),
+        mock.patch.object(Path, "stat", return_value=_setup_mock_stat()),
     ):
         result = validator.validate_hydro_file()
 
@@ -170,7 +175,7 @@ def test_validate_hydro_file_missing_columns(
 
     with (
         mock.patch.object(Path, "is_file", return_value=True),
-        mock.patch.object(Path, "stat", return_value=mock.Mock(st_size=1000)),
+        mock.patch.object(Path, "stat", return_value=_setup_mock_stat()),
     ):
         result = validator.validate_hydro_file()
 
@@ -206,7 +211,7 @@ def test_validate_processed_files_missing_columns(mock_read_excel, mock_is_symli
     mock_file = mock.MagicMock()
     mock_file.name = "RM_54.0.xlsx"
     mock_file.stem = "RM_54.0"
-    mock_file.stat.return_value.st_size = 1000
+    mock_file.stat.return_value = _setup_mock_stat()
     mock_file.exists.return_value = True
     mock_file.is_symlink.return_value = False
 
