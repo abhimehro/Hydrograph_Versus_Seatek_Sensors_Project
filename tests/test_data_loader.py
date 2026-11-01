@@ -311,3 +311,16 @@ def test_get_available_river_miles_invalid_format(caplog):
         # Check that warnings were logged
         assert "Skipping invalid river mile file: RM_invalid.xlsx" in caplog.text
         assert "Skipping invalid river mile file: RM_.xlsx" in caplog.text
+
+
+def test_load_summary_data_exceeds_max_file_size():
+    """Test _load_summary_data raises ValueError when file size exceeds limit."""
+    config = Config()
+    data_loader = DataLoader(config)
+
+    mock_stat = mock.Mock(st_size=config.max_file_size_bytes + 1)
+    with mock.patch.object(Path, "is_symlink", return_value=False):
+        with mock.patch.object(Path, "is_file", return_value=True):
+            with mock.patch.object(Path, "stat", return_value=mock_stat):
+                with pytest.raises(ValueError, match="exceeds maximum size"):
+                    data_loader._load_summary_data()
