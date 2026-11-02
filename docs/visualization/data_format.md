@@ -32,15 +32,19 @@ columns above).
 
 Each river mile has its own sheet named `RM_{river_mile}` (e.g., `RM_54.0`).
 
-#### Required Columns
+#### Columns
+
+The validator requires only `Time (Seconds)` and `Year`
+(`src/hydrograph_seatek_analysis/data/validator.py`). `Sensor_*` columns and
+`Hydrograph (Lagged)` are the layout used by charts when those columns are
+present. A missing hydrograph column is treated as no hydrograph stream.
 
 ```python
 {
-    'Time (Seconds)': float,       # time since start of measurement
-    'Year': int,                   # year index within the campaign
-    'Sensor_1': float,             # readings from first sensor (mm)
-    'Sensor_2': float,             # readings from additional sensors as present
-    'Hydrograph (Lagged)': float,  # lagged hydrograph stream (GPM)
+    'Time (Seconds)': float,       # required by the validator
+    'Year': int,                   # required by the validator
+    'Sensor_1': float,             # first sensor when present (mm); further Sensor_* columns follow
+    'Hydrograph (Lagged)': float,  # lagged hydrograph stream (GPM), when present
 }
 ```
 
@@ -88,34 +92,35 @@ Example: RM_54.0, RM_53.0
 
 ## Data Quality Checks
 
-The script performs the following validations:
+`DataValidator` records whether required columns are present, plus year and
+time ranges. It does not assert value ranges.
 
 1. **Summary Sheet Validation**
 
 ```python
 required_columns = ['River_Mile', 'Y_Offset', 'Num_Sensors']
-assert all(col in df.columns for col in required_columns)
+# required_columns_present is false when any of these are missing
 ```
 
 2. **River Mile Sheet Validation**
 
-```python
-required_columns = ['Time (Seconds)', 'Year', 'Sensor_1', 'Hydrograph (Lagged)']
-assert all(col in df.columns for col in required_columns)
-```
-
-3. **Data Type Validation**
+Hydrograph workbook sheets and processed `RM_*.xlsx` files use the same hard
+requirement:
 
 ```python
-# Time must be numeric and non-negative
-assert (df['Time (Seconds)'] >= 0).all()
-
-# Year must be integer (campaign-specific range)
-assert df['Year'].between(1, 20).all()
-
-# Sensor readings must be numeric (NaN/inf excluded during processing)
-assert pd.api.types.is_numeric_dtype(df['Sensor_1'])
+required_columns = ['Time (Seconds)', 'Year']
+# Processed files also record any Sensor_* columns that are present.
+# Hydrograph (Lagged) is not part of this required set.
 ```
+
+3. **Values the processor expects**
+
+These are processing assumptions, not validator assertions:
+
+- `Time (Seconds)` is numeric. The validator does not reject negative times.
+- `Year` is the campaign index described above (1 through 20).
+- Sensor values used in charts are numeric. NaN and infinite readings are
+  dropped during processing.
 
 ## Example Data File
 
