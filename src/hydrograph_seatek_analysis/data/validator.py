@@ -116,7 +116,7 @@ class DataValidator:
         if len(year_arr) == 0 or np.isnan(year_arr).all():
             return None
         years = np.unique(year_arr[~np.isnan(year_arr)])
-        return sorted(years.astype(int).tolist())
+        return years.astype(int).tolist()
 
     def _extract_range(
         self, df: pd.DataFrame, col: str, type_cast: Callable
