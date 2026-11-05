@@ -51,6 +51,7 @@ def test_sanitize_filename_removes_newlines():
     assert sanitize_filename("file\nname") == "file_name"
     assert sanitize_filename("file\rname") == "file_name"
 
+
 def test_sanitize_filename_unicode_handling():
     """Test that unicode characters (homoglyphs) are removed when using ASCII flag."""
     # Cyrillic 'a' (U+0430) mixed with ASCII
