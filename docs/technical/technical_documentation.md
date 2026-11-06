@@ -99,7 +99,7 @@ configure_root_logger(
 logger = setup_logger(
     "data_processor",
     level=logging.DEBUG,
-    log_file="logs/processor.log"
+    file_config=FileLogConfig(path=Path("logs/processor.log")),
 )
 
 # Log messages with various levels
