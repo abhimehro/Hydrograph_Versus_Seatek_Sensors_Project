@@ -5,6 +5,7 @@ import json
 from types import SimpleNamespace
 
 import validate_data
+from src.hydrograph_seatek_analysis.core.config import Config
 
 
 def _run_main(monkeypatch, tmp_path, output_path):
@@ -67,3 +68,16 @@ def test_json_output_rejects_symlink_escape(monkeypatch, tmp_path):
 
     assert _run_main(monkeypatch, tmp_path, escaped_output) == 1
     assert not (outside_dir / "validation.json").exists()
+
+
+def test_empty_processed_message_names_input_dir(capsys):
+    """Missing RM workbooks point at data/processed, not chart output."""
+    config = Config()
+
+    validate_data._print_processed_validation({"processed": []}, config)
+    captured = capsys.readouterr().out
+
+    assert str(config.processed_dir) in captured
+    assert str(config.output_dir) in captured
+    assert "output directory" not in captured
+    assert "seatek_processor.py" in captured

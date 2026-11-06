@@ -92,7 +92,7 @@ def _print_hydrograph_validation(results: dict, config: Config) -> None:
         )
 
 
-def _print_processed_validation(results: dict) -> None:
+def _print_processed_validation(results: dict, config: Config) -> None:
     """Print processed files validation results."""
     print("\n" + " ⚙️  PROCESSED FILES ".center(51, "="))
     if results["processed"]:
@@ -121,10 +121,12 @@ def _print_processed_validation(results: dict) -> None:
                     f"    ⏱️  Time range: {file_result['time_range'][0]:,.0f} to {file_result['time_range'][1]:,.0f}"
                 )
     else:
-        print("  ⚠️  No processed files found in the output directory.")
+        # Processed RM workbooks are inputs. The processor writes charts.
+        print(f"  ⚠️  No processed files found in {config.processed_dir}.")
         print(
-            "     💡 Please run '"
-            f"{sys.executable} seatek_processor.py' first to generate them."
+            "     💡 Add RM_*.xlsx files in that directory. "
+            f"'{sys.executable} seatek_processor.py' reads them and writes "
+            f"charts to {config.output_dir}."
         )
 
 
@@ -207,7 +209,7 @@ def main() -> int:
 
             _print_summary_validation(results, config)
             _print_hydrograph_validation(results, config)
-            _print_processed_validation(results)
+            _print_processed_validation(results, config)
             _print_consistency_validation(results)
 
             # Overall verdict
