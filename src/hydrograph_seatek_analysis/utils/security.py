@@ -1,5 +1,6 @@
 """Security utilities for the Seatek data processing pipeline."""
 
+import hashlib
 import logging
 import re
 from pathlib import Path
@@ -56,18 +57,28 @@ def sanitize_filename(filename: str, max_length: int = 200) -> str:
     """
     Sanitize a filename string to prevent path traversal and other vulnerabilities.
 
+    Output is deliberately ASCII-only: any non-ASCII character is replaced by an
+    underscore, so do not pass user-supplied labels expecting them to survive.
+
     Args:
         filename: The untrusted filename string (e.g., from an Excel column or sheet)
-        max_length: Maximum allowed length for the filename
+        max_length: Positive maximum allowed length for the filename
 
     Returns:
-        A sanitized string safe for use as a path component.
+        A sanitized string safe for use as a path component. Names changed by
+        sanitization or truncation include a stable digest of the original input.
+
+    Raises:
+        ValueError: If max_length is not positive.
     """
+    if max_length < 1:
+        raise ValueError("max_length must be positive")
+
     if not isinstance(filename, str):
         filename = str(filename)
 
-    # Keep only word characters (letters, digits, underscore), dashes, dots, and literal space
-    sanitized = re.sub(r"[^\w\-\. ]", "_", filename)
+    # Keep only ASCII word chars (A-Z, a-z, 0-9, _), dashes, dots, and literal space; re.ASCII keeps Unicode letters/digits out
+    sanitized = re.sub(r"[^\w\-\. ]", "_", filename, flags=re.ASCII)
     # Prevent directory traversal dots like ..
     sanitized = re.sub(r"\.{2,}", "_", sanitized)
     # Strip leading/trailing whitespaces and dots
@@ -76,8 +87,18 @@ def sanitize_filename(filename: str, max_length: int = 200) -> str:
     # Ensure we never return an empty filename after sanitization
     if not sanitized:
         sanitized = "unknown"
+    # Preserve original identity when replacing, stripping, or truncating characters.
+    if sanitized != filename or len(sanitized) > max_length:
+        digest = hashlib.sha256(
+            filename.encode("utf-8", errors="surrogatepass")
+        ).hexdigest()[:16]
+        if max_length <= len(digest):
+            return digest[:max_length]
+        suffix = f"-{digest}"
+        sanitized = sanitized[: max_length - len(suffix)].rstrip(". ") + suffix
+
     # SECURITY: Limit filename length to prevent path-length DoS or file system errors
-    return (sanitized or "_")[:max_length]
+    return sanitized[:max_length]
 
 
 def is_safe_path(base_dir: Path, target_path: Path) -> bool:
