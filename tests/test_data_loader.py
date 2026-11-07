@@ -11,6 +11,17 @@ from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.data.data_loader import DataLoader
 
 
+def _simulate_read_excel(df_to_return):  # type: ignore
+    def _mock_read(*args, **kwargs):  # type: ignore
+        usecols = kwargs.get("usecols")
+        if callable(usecols):
+            selected_cols = [col for col in df_to_return.columns if usecols(col)]
+            return df_to_return[selected_cols]
+        return df_to_return
+
+    return _mock_read
+
+
 def _setup_mock_stat(size=1000):  # type: ignore
     """Return a mock stat object with a specific size."""
     return mock.Mock(st_size=size)
@@ -74,14 +85,7 @@ def test_load_summary_data(mock_read_excel, mock_is_symlink):  # type: ignore
         {"River_Mile": [54.0, 53.0], "Y_Offset": [10.5, 11.2], "Num_Sensors": [2, 2]}
     )
 
-    def mock_read_excel_func(*args, **kwargs):  # type: ignore
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            selected_cols = [col for col in mock_df.columns if usecols(col)]
-            return mock_df[selected_cols]
-        return mock_df
-
-    mock_read_excel.side_effect = mock_read_excel_func
+    mock_read_excel.side_effect = _simulate_read_excel(mock_df)
 
     config = Config()
     data_loader = DataLoader(config)
@@ -141,12 +145,7 @@ def test_load_hydro_data_skips_invalid_sheet_value_error(  # type: ignore
         sheet_name = kwargs.get("sheet_name")
         if sheet_name == "RM_invalid":
             raise ValueError("No columns to parse from file")
-
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            selected_cols = [col for col in valid_df.columns if usecols(col)]
-            return valid_df[selected_cols]
-        return valid_df
+        return _simulate_read_excel(valid_df)(*args, **kwargs)
 
     mock_read_excel.side_effect = mock_read_excel_func
 
