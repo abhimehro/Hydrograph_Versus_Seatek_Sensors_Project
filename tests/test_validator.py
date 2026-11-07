@@ -9,6 +9,17 @@ from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.data.validator import DataValidator
 
 
+def _create_mock_read_excel(mock_df):  # type: ignore
+    def mock_read_excel_func(*args, **kwargs):  # type: ignore
+        usecols = kwargs.get("usecols")
+        if callable(usecols):
+            for col in mock_df.columns:
+                usecols(col)
+        return mock_df
+
+    return mock_read_excel_func
+
+
 def _setup_mock_stat(size=1000):  # type: ignore
     """Return a mock stat object with a specific size."""
     return mock.Mock(st_size=size)
@@ -29,14 +40,7 @@ def test_validate_summary_file(mock_read_excel, mock_is_symlink):  # type: ignor
         {"River_Mile": [54.0, 53.0], "Y_Offset": [10.5, 11.2], "Num_Sensors": [2, 2]}
     )
 
-    def mock_read_excel_func(*args, **kwargs):  # type: ignore
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            for col in mock_df.columns:
-                usecols(col)
-        return mock_df
-
-    mock_read_excel.side_effect = mock_read_excel_func
+    mock_read_excel.side_effect = _create_mock_read_excel(mock_df)
 
     config = Config()
     validator = DataValidator(config)
@@ -67,14 +71,7 @@ def test_validate_summary_file_missing_columns(mock_read_excel, mock_is_symlink)
         }
     )
 
-    def mock_read_excel_func(*args, **kwargs):  # type: ignore
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            for col in mock_df.columns:
-                usecols(col)
-        return mock_df
-
-    mock_read_excel.side_effect = mock_read_excel_func
+    mock_read_excel.side_effect = _create_mock_read_excel(mock_df)
 
     config = Config()
     validator = DataValidator(config)
