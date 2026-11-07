@@ -25,6 +25,18 @@ def _setup_mock_stat(size=1000):  # type: ignore
     return mock.Mock(st_size=size)
 
 
+def _simulate_read_excel(df_to_return, cols_to_iterate=None):  # type: ignore
+    def _mock_read(*args, **kwargs):  # type: ignore
+        usecols = kwargs.get("usecols")
+        cols = cols_to_iterate if cols_to_iterate is not None else df_to_return.columns
+        if callable(usecols):
+            for col in cols:
+                usecols(col)
+        return df_to_return
+
+    return _mock_read
+
+
 def test_validator_initialization():  # type: ignore
     """Test DataValidator initialization."""
     config = Config()
@@ -109,11 +121,7 @@ def test_validate_hydro_file(mock_read_excel, mock_is_symlink, mock_excel_file_c
             if sheet == "RM_54.0"
             else df_53 if sheet == "RM_53.0" else pd.DataFrame()
         )
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            for col in df.columns:
-                usecols(col)
-        return df
+        return _simulate_read_excel(df)(*args, **kwargs)
 
     mock_read_excel.side_effect = mock_read_excel_hydro
 
@@ -156,16 +164,9 @@ def test_validate_hydro_file_missing_columns(  # type: ignore
         {"SomeOtherCol": [0, 60, 120], "YetAnotherCol": [1, 1, 1]}
     )
 
-    def mock_read_excel_hydro(*args, **kwargs):  # type: ignore
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            # Our stateful filter logic expects columns to be passed iteratively
-            for col in df_missing.columns:
-                usecols(col)
-        # Because we load at least the first column, we mock the dataframe subset
-        return df_missing[["SomeOtherCol"]]
-
-    mock_read_excel.side_effect = mock_read_excel_hydro
+    mock_read_excel.side_effect = _simulate_read_excel(
+        df_missing[["SomeOtherCol"]], df_missing.columns
+    )
 
     config = Config()
     validator = DataValidator(config)
@@ -192,14 +193,9 @@ def test_validate_processed_files_missing_columns(mock_read_excel, mock_is_symli
     """Test validate_processed_files behavior when required and sensor columns are absent."""
     df_missing = pd.DataFrame({"RandomData": [1.0, 2.0], "MoreRandomData": [3.0, 4.0]})
 
-    def mock_read_excel_proc(*args, **kwargs):  # type: ignore
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            for col in df_missing.columns:
-                usecols(col)
-        return df_missing[["RandomData"]]
-
-    mock_read_excel.side_effect = mock_read_excel_proc
+    mock_read_excel.side_effect = _simulate_read_excel(
+        df_missing[["RandomData"]], df_missing.columns
+    )
 
     config = Config()
     validator = DataValidator(config)
