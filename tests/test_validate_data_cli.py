@@ -7,7 +7,7 @@ from types import SimpleNamespace
 import validate_data
 
 
-def _run_main(monkeypatch, tmp_path, output_path):
+def _run_main(monkeypatch, tmp_path, output_path):  # type: ignore
     """Run the CLI main path with validation dependencies isolated."""
     monkeypatch.chdir(tmp_path)
     monkeypatch.setattr(
@@ -27,7 +27,9 @@ def _run_main(monkeypatch, tmp_path, output_path):
     return validate_data.main()
 
 
-def test_json_output_uses_validated_in_directory_path(monkeypatch, tmp_path):
+def test_json_output_uses_validated_in_directory_path(  # type: ignore
+    monkeypatch, tmp_path
+):  # type: ignore
     """A validated output path inside the working directory is written as JSON."""
     output_path = tmp_path / "validation.json"
 
@@ -38,7 +40,7 @@ def test_json_output_uses_validated_in_directory_path(monkeypatch, tmp_path):
     }
 
 
-def test_json_output_rejects_parent_traversal(monkeypatch, tmp_path):
+def test_json_output_rejects_parent_traversal(monkeypatch, tmp_path):  # type: ignore
     """A ../ traversal path exits non-zero and creates no file outside the root."""
     outside_path = tmp_path / ".." / f"{tmp_path.name}-traversal-validation.json"
 
@@ -46,7 +48,7 @@ def test_json_output_rejects_parent_traversal(monkeypatch, tmp_path):
     assert not outside_path.resolve().exists()
 
 
-def test_json_output_rejects_absolute_path_outside_working_directory(
+def test_json_output_rejects_absolute_path_outside_working_directory(  # type: ignore
     monkeypatch, tmp_path
 ):
     """An absolute path outside the working directory exits non-zero without a write."""
@@ -57,7 +59,7 @@ def test_json_output_rejects_absolute_path_outside_working_directory(
     assert not outside_path.exists()
 
 
-def test_json_output_rejects_symlink_escape(monkeypatch, tmp_path):
+def test_json_output_rejects_symlink_escape(monkeypatch, tmp_path):  # type: ignore
     """A path through an in-root symlink to an outside directory is rejected."""
     outside_dir = tmp_path.parent / f"{tmp_path.name}-outside"
     outside_dir.mkdir()
