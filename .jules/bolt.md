@@ -509,3 +509,7 @@ performance.
 
 **Learning:** `np.unique()` inherently returns a sorted array. Avoid wrapping its output in `sorted()` (e.g., `sorted(np.unique(arr).tolist())`) as this introduces redundant O(N log N) sorting overhead.
 **Action:** Replaced `sorted(np.unique(arr).tolist())` with `cast(List[int], np.unique(arr).tolist())` in `src/hydrograph_seatek_analysis/data/validator.py` to eliminate unnecessary sorting overhead.
+
+## 2023-11-20 - [Performance Optimization for re.sub Unicode matching]
+**Learning:** In Python 3, the `re` module character classes like `\w` match Unicode by default. When strictly sanitizing file paths or identifiers for security (e.g., using `\w`), applying `flags=re.ASCII` prevents Unicode or homograph bypasses and can improve performance by avoiding Unicode matching overhead.
+**Action:** Replaced `re.sub(r"[^\w\-\. ]", "_", filename)` with `re.sub(r"[^\w\-\. ]", "_", filename, flags=re.ASCII)` in `src/hydrograph_seatek_analysis/utils/security.py`.
