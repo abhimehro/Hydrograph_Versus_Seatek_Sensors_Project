@@ -53,11 +53,11 @@ class TestApplication(unittest.TestCase):
         """Test that load_data returns False on data loading exception."""
         app = Application(config=self.temp_config)
 
-        app.data_loader.load_summary_data.side_effect = Exception("Mock loading error")
+        app.data_loader.load_summary_data.side_effect = Exception("Mock loading error")  # type: ignore
 
         self.assertFalse(app.load_data())
-        app.data_loader.load_summary_data.assert_called_once()
-        app.data_loader.load_all_data.assert_not_called()
+        app.data_loader.load_summary_data.assert_called_once()  # type: ignore
+        app.data_loader.load_all_data.assert_not_called()  # type: ignore
         mock_processor_class.assert_not_called()
 
     @mock.patch("src.hydrograph_seatek_analysis.app.SeatekDataProcessor")
@@ -72,13 +72,13 @@ class TestApplication(unittest.TestCase):
         processor = mock_processor_class.return_value
         processor.river_mile_data = {54.0: mock.MagicMock()}
         app = Application(config=self.temp_config)
-        app.data_loader.load_summary_data.return_value = summary_data
+        app.data_loader.load_summary_data.return_value = summary_data  # type: ignore
 
         self.assertTrue(app.load_data())
 
-        app.data_loader.load_summary_data.assert_called_once()
-        app.data_loader.load_all_data.assert_not_called()
-        app.data_loader._load_hydro_data.assert_not_called()
+        app.data_loader.load_summary_data.assert_called_once()  # type: ignore
+        app.data_loader.load_all_data.assert_not_called()  # type: ignore
+        app.data_loader._load_hydro_data.assert_not_called()  # type: ignore
         mock_processor_class.assert_called_once_with(
             data_dir=self.temp_config.processed_dir,
             summary_data=summary_data,
@@ -98,13 +98,13 @@ class TestApplication(unittest.TestCase):
 
     def _setup_processing_test(
         self, mock_chart_gen_class: mock.MagicMock
-    ) -> tuple[Application, mock.MagicMock]:
+    ) -> tuple[Application, mock.MagicMock]:  # type: ignore
         """Helper to set up Application, processor and chart generator mocks for processing tests."""
         app = Application(config=self.temp_config)
         self._setup_mock_processor(app)
-        app.processor.process_data.return_value = ([1], {})
+        app.processor.process_data.return_value = ([1], {})  # type: ignore
         app.chart_generator = mock_chart_gen_class.return_value
-        return app, app.chart_generator
+        return app, app.chart_generator  # type: ignore
 
     def test_process_data_no_processor(self) -> None:
         """Test process_data when processor is not initialized."""
@@ -131,7 +131,7 @@ class TestApplication(unittest.TestCase):
         self._setup_mock_processor(app)
 
         # Return empty list
-        app.processor.process_data.return_value = ([], {})
+        app.processor.process_data.return_value = ([], {})  # type: ignore
 
         with mock.patch.object(app.logger, "warning") as mock_warning:
             self.assertTrue(app.process_data())
@@ -165,7 +165,7 @@ class TestApplication(unittest.TestCase):
         app = Application(config=self.temp_config)
         self._setup_mock_processor(app)
 
-        app.processor.process_data.side_effect = Exception("Test Exception")
+        app.processor.process_data.side_effect = Exception("Test Exception")  # type: ignore
 
         with mock.patch.object(app.logger, "error") as mock_error:
             self.assertFalse(app.process_data())
