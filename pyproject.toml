@@ -30,7 +30,7 @@ pre-commit = "==4.7.0"
 bandit = "==1.9.4"
 pytest-mock = "==3.17.0"
 pandas-stubs = "==3.1.0.261029"
-types-seaborn = "==0.13.2.20261006"
+types-seaborn = "==0.13.2.20261113"
 types-defusedxml = "==0.7.0.20260504"
 
 [tool.poetry.group.docs.dependencies]
