@@ -429,7 +429,8 @@ class SeatekDataProcessor:
           "Hydrograph (Lagged)" is nonzero and non-null.
         • Independently filter the sensor stream: keep only rows where the
           sensor value is nonzero and non-null.
-        • Update processing metrics (based on the sensor column).
+        • Update processing metrics. invalid_rows counts input rows omitted
+          from the merged frame (conversion itself does not drop rows).
         • (Optionally) – if sensor data are entirely missing but hydrograph
           data exist, force hydrograph values to 0.
         • Merge the two streams using an outer join on "Time (Seconds)"
@@ -478,7 +479,9 @@ class SeatekDataProcessor:
         if not keep_any:
             merged = self._create_empty_merged(has_hydro, sensor_any, hydro_any, sensor)
             metrics.valid_rows = 0
-            metrics.invalid_rows = metrics.original_rows - len(processed)
+            # NOTE: convert_to_navd88 keeps every row, so len(processed) is not
+            # the number of rows the validity mask removed.
+            metrics.invalid_rows = metrics.original_rows - len(merged)
             metrics.log_metrics()
             return merged, metrics
 
@@ -494,7 +497,7 @@ class SeatekDataProcessor:
             merged.sort_values("Time (Minutes)", inplace=True)
 
         metrics.valid_rows = len(merged)
-        metrics.invalid_rows = metrics.original_rows - len(processed)
+        metrics.invalid_rows = metrics.original_rows - len(merged)
         metrics.log_metrics()
 
         return merged, metrics
