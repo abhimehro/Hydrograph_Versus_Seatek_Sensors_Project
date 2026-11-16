@@ -504,3 +504,8 @@ performance.
 
 **Learning:** When checking if any value in a dictionary of non-negative integers is greater than 0, replace generator comprehensions (e.g., `any(val > 0 for val in dict.values())`) with a direct truthiness check (`any(dict.values())`). This natively handles truthiness checks in C without the overhead of iterating a conditional generator.
 **Action:** Replaced `any(val > 0 for val in missing_values.values())` with `any(missing_values.values())` in `src/hydrograph_seatek_analysis/data/validator.py`.
+
+## 2025-03-09 - Avoid Redundant sorting on np.unique output
+
+**Learning:** `np.unique()` inherently returns a sorted array. Avoid wrapping its output in `sorted()` (e.g., `sorted(np.unique(arr).tolist())`) as this introduces redundant O(N log N) sorting overhead.
+**Action:** Replaced `sorted(np.unique(arr).tolist())` with `cast(List[int], np.unique(arr).tolist())` in `src/hydrograph_seatek_analysis/data/validator.py` to eliminate unnecessary sorting overhead.

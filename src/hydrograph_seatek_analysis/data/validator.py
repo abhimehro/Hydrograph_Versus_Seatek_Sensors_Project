@@ -5,7 +5,7 @@ Data validation utilities for Seatek sensor data.
 """
 
 import logging
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple, cast
 
 import numpy as np
 import pandas as pd
@@ -116,7 +116,7 @@ class DataValidator:
         if len(year_arr) == 0 or np.isnan(year_arr).all():
             return None
         years = np.unique(year_arr[~np.isnan(year_arr)])
-        return sorted(years.astype(int).tolist())
+        return cast(List[int], years.astype(int).tolist())
 
     def _extract_range(
         self, df: pd.DataFrame, col: str, type_cast: Callable
