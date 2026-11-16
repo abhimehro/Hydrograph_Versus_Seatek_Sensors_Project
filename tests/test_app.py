@@ -5,8 +5,11 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
+from matplotlib.figure import Figure
+
 from src.hydrograph_seatek_analysis.app import Application, main
 from src.hydrograph_seatek_analysis.core.config import Config
+from src.hydrograph_seatek_analysis.utils.security import sanitize_filename
 
 
 class TestApplication(unittest.TestCase):
@@ -112,6 +115,92 @@ class TestApplication(unittest.TestCase):
         with mock.patch.object(app.logger, "error") as mock_logger:
             self.assertFalse(app.process_data())
             mock_logger.assert_called_once()
+
+    def test_save_generated_charts_preserves_colliding_sensors(self) -> None:
+        """Distinct sensor names produce separate PNGs without replacing earlier ones."""
+        app = Application(config=self.temp_config)
+        self.temp_config.chart_settings.dpi = 30
+        rm_data = mock.Mock(river_mile=12.3)
+        fig = Figure(figsize=(1, 1))
+        fig.subplots().plot([0, 1])
+        originals = {}
+        for sensor in (
+            "Sensor/1",
+            "Sensor?1",
+            "Sensor_1",
+            "Sensor_é",
+            "Sensor_ø",
+            "Sensor_" + "A" * 300 + "x",
+            "Sensor_" + "A" * 300 + "y",
+        ):
+            self.assertTrue(app._save_generated_chart(fig, rm_data, 2020, sensor))
+            path = (
+                self.temp_config.output_dir
+                / "RM_12.3"
+                / f"Year_2020_{sanitize_filename(sensor)}.png"
+            )
+            originals[path] = path.read_bytes()
+            for previous_path, content in originals.items():
+                self.assertEqual(previous_path.read_bytes(), content)
+        self.assertEqual(len(list(self.temp_config.output_dir.rglob("*.png"))), 7)
+
+    def test_save_generated_chart_rejects_residual_collision(self) -> None:
+        """A literal name matching a hashed name cannot reach savefig twice."""
+        app = Application(config=self.temp_config)
+        rm_data = mock.Mock(river_mile=12.3)
+        first = mock.Mock()
+        second = mock.Mock()
+        with mock.patch("matplotlib.pyplot.close"):
+            self.assertTrue(app._save_generated_chart(first, rm_data, 2020, "Sensor/1"))
+            self.assertFalse(
+                app._save_generated_chart(
+                    second, rm_data, 2020, sanitize_filename("Sensor/1")
+                )
+            )
+        first.savefig.assert_called_once()
+        second.savefig.assert_not_called()
+
+    def test_save_generated_chart_rejects_resolved_collision(self) -> None:
+        """An in-directory symlink cannot alias an earlier chart and overwrite it."""
+        app = Application(config=self.temp_config)
+        rm_data = mock.Mock(river_mile=12.3)
+        fig = Figure(figsize=(1, 1))
+        self.assertTrue(app._save_generated_chart(fig, rm_data, 2020, "Sensor_1"))
+        directory = self.temp_config.output_dir / "RM_12.3"
+        original = directory / "Year_2020_Sensor_1.png"
+        content = original.read_bytes()
+        (directory / "Year_2020_Sensor_2.png").symlink_to(original)
+        second = mock.Mock()
+        self.assertFalse(app._save_generated_chart(second, rm_data, 2020, "Sensor_2"))
+        second.savefig.assert_not_called()
+        self.assertEqual(original.read_bytes(), content)
+
+    def test_save_generated_chart_preserves_safe_path_check(self) -> None:
+        """An output directory symlink escaping the chart root is still rejected."""
+        app = Application(config=self.temp_config)
+        outside = self.temp_path / "outside"
+        outside.mkdir()
+        (self.temp_config.output_dir / "RM_12.3").symlink_to(outside)
+        fig = mock.Mock()
+        self.assertFalse(
+            app._save_generated_chart(fig, mock.Mock(river_mile=12.3), 2020, "Sensor/1")
+        )
+        fig.savefig.assert_not_called()
+        self.assertEqual(list(outside.iterdir()), [])
+
+    @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
+    def test_process_data_collision_guard_resets_each_run(self, mock_chart_gen_class):
+        """Duplicates fail within a run, and a new run can refresh its charts."""
+        app, chart_gen = self._setup_processing_test(mock_chart_gen_class)
+        rm_data = next(iter(app.processor.river_mile_data.values()))
+        rm_data.sensors = ["Sensor_1", "Sensor_1"]
+        chart_gen.create_chart.return_value = (mock.Mock(), {})
+        chart_gen.save_chart.return_value = True
+        self.assertFalse(app.process_data())
+        chart_gen.save_chart.assert_called_once()
+        rm_data.sensors = ["Sensor_1"]
+        self.assertTrue(app.process_data())
+        self.assertEqual(chart_gen.save_chart.call_count, 2)
 
     @mock.patch("src.hydrograph_seatek_analysis.app.ChartGenerator")
     def test_process_data_success(self, mock_chart_gen_class: mock.MagicMock) -> None:
