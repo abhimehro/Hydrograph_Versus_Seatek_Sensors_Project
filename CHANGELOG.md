@@ -262,6 +262,7 @@
 
 **Merged pull requests:**
 
+- chore\(deps\): bump types-seaborn from 0.13.2.20261006 to 0.13.2.20261113 [\#955](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/955) ([dependabot[bot]](https://github.com/apps/dependabot))
 - chore\(deps\): bump pandas from 3.1.0 to 3.1.1 [\#954](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/954) ([dependabot[bot]](https://github.com/apps/dependabot))
 - ⚡ Bolt: \[performance improvement\] [\#899](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/899) ([abhimehro](https://github.com/abhimehro))
 - chore\(deps\): bump pandas-stubs from 3.0.5.260914 to 3.1.0.261029 [\#892](https://github.com/abhimehro/Hydrograph_Versus_Seatek_Sensors_Project/pull/892) ([dependabot[bot]](https://github.com/apps/dependabot))
