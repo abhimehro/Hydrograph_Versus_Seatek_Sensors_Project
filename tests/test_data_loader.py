@@ -11,19 +11,30 @@ from src.hydrograph_seatek_analysis.core.config import Config
 from src.hydrograph_seatek_analysis.data.data_loader import DataLoader
 
 
-def _setup_mock_stat(size=1000):
+def _simulate_read_excel(df_to_return):  # type: ignore
+    def _mock_read(*args, **kwargs):  # type: ignore
+        usecols = kwargs.get("usecols")
+        if callable(usecols):
+            selected_cols = [col for col in df_to_return.columns if usecols(col)]
+            return df_to_return[selected_cols]
+        return df_to_return
+
+    return _mock_read
+
+
+def _setup_mock_stat(size=1000):  # type: ignore
     """Return a mock stat object with a specific size."""
     return mock.Mock(st_size=size)
 
 
-def test_data_loader_initialization():
+def test_data_loader_initialization():  # type: ignore
     """Test DataLoader initialization."""
     config = Config()
     data_loader = DataLoader(config)
     assert data_loader.config == config
 
 
-def test_validate_columns_success():
+def test_validate_columns_success():  # type: ignore
     """Test _validate_columns with valid columns."""
     data_loader = DataLoader(Config())
     df = pd.DataFrame(columns=["Time (Seconds)", "Year", "Value"])
@@ -32,7 +43,7 @@ def test_validate_columns_success():
     data_loader._validate_columns(df, ["Time (Seconds)", "Year"], "test")
 
 
-def test_validate_columns_failure():
+def test_validate_columns_failure():  # type: ignore
     """Test _validate_columns with missing columns."""
     data_loader = DataLoader(Config())
     df = pd.DataFrame(columns=["Time (Seconds)", "Value"])
@@ -44,7 +55,7 @@ def test_validate_columns_failure():
     assert "Year" in str(exc_info.value)
 
 
-def test_get_available_river_miles():
+def test_get_available_river_miles():  # type: ignore
     """Test get_available_river_miles function."""
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_path = Path(temp_dir)
@@ -58,7 +69,7 @@ def test_get_available_river_miles():
         assert result == [53.0, 54.0]  # Should be sorted
 
 
-def test_get_available_river_miles_empty():
+def test_get_available_river_miles_empty():  # type: ignore
     """Test get_available_river_miles with no files."""
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_path = Path(temp_dir)
@@ -68,20 +79,13 @@ def test_get_available_river_miles_empty():
 
 @mock.patch.object(Path, "is_symlink", return_value=False)
 @mock.patch("pandas.read_excel")
-def test_load_summary_data(mock_read_excel, mock_is_symlink):
+def test_load_summary_data(mock_read_excel, mock_is_symlink):  # type: ignore
     """Test _load_summary_data with mocked Excel file."""
     mock_df = pd.DataFrame(
         {"River_Mile": [54.0, 53.0], "Y_Offset": [10.5, 11.2], "Num_Sensors": [2, 2]}
     )
 
-    def mock_read_excel_func(*args, **kwargs):
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            selected_cols = [col for col in mock_df.columns if usecols(col)]
-            return mock_df[selected_cols]
-        return mock_df
-
-    mock_read_excel.side_effect = mock_read_excel_func
+    mock_read_excel.side_effect = _simulate_read_excel(mock_df)
 
     config = Config()
     data_loader = DataLoader(config)
@@ -100,7 +104,9 @@ def test_load_summary_data(mock_read_excel, mock_is_symlink):
 
 @mock.patch.object(DataLoader, "_load_hydro_data")
 @mock.patch.object(DataLoader, "_load_summary_data")
-def test_load_summary_data_public_method(mock_load_summary, mock_load_hydro):
+def test_load_summary_data_public_method(  # type: ignore
+    mock_load_summary, mock_load_hydro
+):  # type: ignore
     """Test load_summary_data does not load hydrograph data."""
     config = Config()
     data_loader = DataLoader(config)
@@ -117,7 +123,7 @@ def test_load_summary_data_public_method(mock_load_summary, mock_load_hydro):
 @mock.patch("pandas.ExcelFile")
 @mock.patch.object(Path, "is_symlink", return_value=False)
 @mock.patch("pandas.read_excel")
-def test_load_hydro_data_skips_invalid_sheet_value_error(
+def test_load_hydro_data_skips_invalid_sheet_value_error(  # type: ignore
     mock_read_excel, mock_is_symlink, mock_excel_file_cls, caplog
 ):
     """Test _load_hydro_data skips sheets that raise a parsing ValueError."""
@@ -135,16 +141,11 @@ def test_load_hydro_data_skips_invalid_sheet_value_error(
         }
     )
 
-    def mock_read_excel_func(*args, **kwargs):
+    def mock_read_excel_func(*args, **kwargs):  # type: ignore
         sheet_name = kwargs.get("sheet_name")
         if sheet_name == "RM_invalid":
             raise ValueError("No columns to parse from file")
-
-        usecols = kwargs.get("usecols")
-        if callable(usecols):
-            selected_cols = [col for col in valid_df.columns if usecols(col)]
-            return valid_df[selected_cols]
-        return valid_df
+        return _simulate_read_excel(valid_df)(*args, **kwargs)
 
     mock_read_excel.side_effect = mock_read_excel_func
 
@@ -168,7 +169,7 @@ def test_load_hydro_data_skips_invalid_sheet_value_error(
 @mock.patch("pandas.ExcelFile")
 @mock.patch.object(Path, "is_symlink", return_value=False)
 @mock.patch("pandas.read_excel")
-def test_load_hydro_data_ignores_numeric_sheet_names(
+def test_load_hydro_data_ignores_numeric_sheet_names(  # type: ignore
     mock_read_excel, mock_is_symlink, mock_excel_file_cls
 ):
     """Test numeric sheet names are skipped instead of causing type errors."""
@@ -202,7 +203,7 @@ def test_load_hydro_data_ignores_numeric_sheet_names(
 @mock.patch("pandas.ExcelFile")
 @mock.patch.object(Path, "is_symlink", return_value=False)
 @mock.patch("pandas.read_excel")
-def test_load_hydro_data_closes_workbook_on_sheet_error(
+def test_load_hydro_data_closes_workbook_on_sheet_error(  # type: ignore
     mock_read_excel, mock_is_symlink, mock_excel_file_cls
 ):
     """Test unexpected sheet errors still close the workbook."""
@@ -224,7 +225,7 @@ def test_load_hydro_data_closes_workbook_on_sheet_error(
 
 
 @mock.patch("pandas.ExcelFile")
-def test_load_hydro_data_exception(mock_excel_file_cls, caplog):
+def test_load_hydro_data_exception(mock_excel_file_cls, caplog):  # type: ignore
     """Test _load_hydro_data with an exception during ExcelFile initialization.
 
     Salvaged from PR #145. Asserts that _load_hydro_data correctly propagates
@@ -247,7 +248,7 @@ def test_load_hydro_data_exception(mock_excel_file_cls, caplog):
 
 @mock.patch.object(DataLoader, "_load_hydro_data")
 @mock.patch.object(DataLoader, "_load_summary_data")
-def test_load_all_data_success(mock_load_summary, mock_load_hydro):
+def test_load_all_data_success(mock_load_summary, mock_load_hydro):  # type: ignore
     """Test successful loading of all data."""
     config = Config()
     data_loader = DataLoader(config)
@@ -270,7 +271,7 @@ def test_load_all_data_success(mock_load_summary, mock_load_hydro):
 
 @mock.patch.object(DataLoader, "_load_hydro_data")
 @mock.patch.object(DataLoader, "_load_summary_data")
-def test_load_all_data_exception(mock_load_summary, mock_load_hydro):
+def test_load_all_data_exception(mock_load_summary, mock_load_hydro):  # type: ignore
     """Test exception handling during load_all_data."""
     config = Config()
     data_loader = DataLoader(config)
@@ -284,7 +285,7 @@ def test_load_all_data_exception(mock_load_summary, mock_load_hydro):
     mock_load_hydro.assert_not_called()
 
 
-def test_get_available_river_miles_dir_not_found():
+def test_get_available_river_miles_dir_not_found():  # type: ignore
     """Test get_available_river_miles raises FileNotFoundError if dir doesn't exist."""
     with pytest.raises(FileNotFoundError, match="Processed data directory not found"):
         DataLoader.get_available_river_miles(
@@ -292,7 +293,7 @@ def test_get_available_river_miles_dir_not_found():
         )
 
 
-def test_get_available_river_miles_invalid_format(caplog):
+def test_get_available_river_miles_invalid_format(caplog):  # type: ignore
     """Test get_available_river_miles with invalid river mile file formats."""
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_path = Path(temp_dir)
